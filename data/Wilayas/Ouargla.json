@@ -1,0 +1,233 @@
+{
+  "id": 30,
+  "name": "Ouargla",
+  "postalCode": "30000",
+  "dairas": [
+    {
+      "name": "El Borma",
+      "communes": [
+        {
+          "name": "El Borma",
+          "codeONS": "3021",
+          "postalCode": "30025"
+        }
+      ]
+    },
+    {
+      "name": "El Hadjira",
+      "communes": [
+        {
+          "name": "El Hadjira",
+          "codeONS": "3014",
+          "postalCode": "30006",
+          "otherPosts": [
+            { "name": "Lagraf", "postalCode": "30053" },
+            { "name": "Rachedi", "postalCode": "30055" }
+          ]
+        },
+        {
+          "name": "El Allia",
+          "codeONS": "3020",
+          "postalCode": "30023",
+          "otherPosts": [{ "name": "Taibine", "postalCode": "30056" }]
+        }
+      ]
+    },
+    {
+      "name": "Hassi Messaoud",
+      "communes": [
+        {
+          "name": "Hassi Messaoud",
+          "codeONS": "3004",
+          "postalCode": "30001",
+          "otherPosts": [
+            {
+              "name": "Hassi Messaoud - Emir Abdelkader",
+              "postalCode": "30007"
+            },
+            { "name": "Hassi Messaoud - Amirouche", "postalCode": "30008" },
+            { "name": "Hassi Messaoud - Toumiat", "postalCode": "30057" },
+            { "name": "Haoud el Hamra", "postalCode": "30027" },
+            { "name": "Irara", "postalCode": "30028" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Megarine",
+      "communes": [
+        {
+          "name": "Megarine",
+          "codeONS": "3019",
+          "postalCode": "30009",
+          "otherPosts": [
+            { "name": "El Ksour", "postalCode": "30048" },
+            { "name": "Ghamra", "postalCode": "30050" }
+          ]
+        },
+        {
+          "name": "Sidi Slimane",
+          "codeONS": "3010",
+          "postalCode": "30037",
+          "otherPosts": [
+            { "name": "Moggar", "postalCode": "30030" },
+            { "name": "El Harihira", "postalCode": "30046" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "N'Goussa",
+      "communes": [
+        {
+          "name": "N'Goussa",
+          "codeONS": "3003",
+          "postalCode": "30031",
+          "otherPosts": [
+            { "name": "El Bour", "postalCode": "30026" },
+            { "name": "El Khoubna", "postalCode": "30047" },
+            { "name": "Frane", "postalCode": "30049" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Ouargla",
+      "communes": [
+        {
+          "name": "Ouargla",
+          "codeONS": "3001",
+          "postalCode": "30000",
+          "otherPosts": [
+            { "name": "Ouargla - 1er Mai", "postalCode": "30011" },
+            { "name": "Ouargla - Ben M'hidi", "postalCode": "30012" },
+            { "name": "Ouargla - Gharbouz", "postalCode": "30032" },
+            { "name": "Ouargla - Sidi Boughoufala", "postalCode": "30033" },
+            { "name": "Ouargla - El Wahat", "postalCode": "30061" },
+            { "name": "Ouargla Gare Routiere", "postalCode": "30062" },
+            { "name": "Ouargla Universite", "postalCode": "30063" },
+            { "name": "Said Otba", "postalCode": "30014" },
+            { "name": "Sidi Amrane", "postalCode": "30034" },
+            { "name": "Bamendil", "postalCode": "30041" },
+            { "name": "Bouameur", "postalCode": "30042" },
+            { "name": "Mekhadma", "postalCode": "30059" }
+          ]
+        },
+        {
+          "name": "Rouissat",
+          "codeONS": "30051",
+          "postalCode": "30013"
+        }
+      ]
+    },
+    {
+      "name": "Sidi Khouiled",
+      "communes": [
+        {
+          "name": "Ain Beida",
+          "codeONS": "3002",
+          "postalCode": "30019",
+          "otherPosts": [{ "name": "Chott", "postalCode": "30021" }]
+        },
+        {
+          "name": "Hassi Ben Abdellah",
+          "codeONS": "3012",
+          "postalCode": "30052"
+        },
+        {
+          "name": "Sidi Khouiled",
+          "codeONS": "3011",
+          "postalCode": "30035",
+          "otherPosts": [{ "name": "Ain Moussa", "postalCode": "30040" }]
+        }
+      ]
+    },
+    {
+      "name": "Taibet",
+      "communes": [
+        {
+          "name": "Benaceur",
+          "codeONS": "3017",
+          "postalCode": "30020"
+        },
+        {
+          "name": "M'Naguer",
+          "codeONS": "3018",
+          "postalCode": "30029",
+          "otherPosts": [{ "name": "Mouih Ben Ali", "postalCode": "30054" }]
+        },
+        {
+          "name": "Taibet",
+          "codeONS": "3015",
+          "postalCode": "30015"
+        }
+      ]
+    },
+    {
+      "name": "Tamacine",
+      "communes": [
+        {
+          "name": "Blidet Amor",
+          "codeONS": "3006",
+          "postalCode": "30005",
+          "otherPosts": [{ "name": "Goug", "postalCode": "30051" }]
+        },
+        {
+          "name": "Tamacine",
+          "codeONS": "3016",
+          "postalCode": "30003",
+          "otherPosts": [{ "name": "El Bhour", "postalCode": "30024" }]
+        }
+      ]
+    },
+    {
+      "name": "Touggourt",
+      "communes": [
+        {
+          "name": "Nezla",
+          "codeONS": "3008",
+          "postalCode": "30010",
+          "otherPosts": [
+            { "name": "Ain Sahra", "postalCode": "30004" },
+            { "name": "Sidi Madhi", "postalCode": "30036" }
+          ]
+        },
+        {
+          "name": "Tebesbest",
+          "codeONS": "3007",
+          "postalCode": "30016",
+          "otherPosts": [
+            { "name": "Tebesbest - Hay Ayad", "postalCode": "30058" }
+          ]
+        },
+        {
+          "name": "Touggourt",
+          "codeONS": "3013",
+          "postalCode": "30002F",
+          "otherPosts": [
+            { "name": "Touggourt - Emir Abdelkader", "postalCode": "30017" }
+          ]
+        },
+        {
+          "name": "Zaouia El Abidia",
+          "codeONS": "3009",
+          "postalCode": "30018",
+          "otherPosts": [
+            {
+              "name": "Zaouia El Abidia - 5 Juillet",
+              "postalCode": "30039"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "address": [
+    { "name": "Cite En Nasr Mars 62", "postalCode": "30022" },
+    { "name": "Sokra", "postalCode": "30038" },
+    { "name": "Chegga", "postalCode": "30043" },
+    { "name": "Dliliai", "postalCode": "30044" },
+    { "name": "El Hadjeb", "postalCode": "30045" },
+    { "name": "Hai el Mostakbel", "postalCode": "30060" }
+  ]
+}

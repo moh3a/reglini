@@ -1,0 +1,198 @@
+{
+  "id": 38,
+  "name": "Tissemsilt",
+  "postalCode": "38000",
+  "dairas": [
+    {
+      "name": "Ammari",
+      "communes": [
+        {
+          "name": "Ammari",
+          "codeONS": "3813",
+          "postalCode": "38012"
+        },
+        {
+          "name": "Maacem",
+          "codeONS": "3817",
+          "postalCode": "38023"
+        },
+        {
+          "name": "Sidi Abed",
+          "codeONS": "3818",
+          "postalCode": "38025"
+        }
+      ]
+    },
+    {
+      "name": "Bordj Bou Naama",
+      "communes": [
+        {
+          "name": "Bordj Bou Naama",
+          "codeONS": "3802",
+          "postalCode": "38001"
+        },
+        {
+          "name": "Beni Chaib",
+          "codeONS": "3805",
+          "postalCode": "38019"
+        },
+        {
+          "name": "Beni Lahcene",
+          "codeONS": "3822",
+          "postalCode": "38020"
+        },
+        {
+          "name": "Sidi Slimane",
+          "codeONS": "3820",
+          "postalCode": "38028"
+        }
+      ]
+    },
+    {
+      "name": "Bordj El Emir Abdelkader",
+      "communes": [
+        {
+          "name": "Bordj El Emir Abdelkader",
+          "codeONS": "3809",
+          "postalCode": "38004",
+          "otherPosts": [
+            {
+              "name": "Bordj Emir Abdelkader - Sahari Belkacem",
+              "postalCode": "38041"
+            }
+          ]
+        },
+        {
+          "name": "Youssoufia",
+          "codeONS": "3814",
+          "postalCode": "38031"
+        }
+      ]
+    },
+    {
+      "name": "Khemisti",
+      "communes": [
+        {
+          "name": "Khemisti",
+          "codeONS": "3811",
+          "postalCode": "38006",
+          "otherPosts": [
+            { "name": "Khemisti - Boubtana Ben Amer", "postalCode": "38037" },
+            { "name": "Khemisti - Benghoucha Mohamed", "postalCode": "38039" },
+            { "name": "Ain Ferradja", "postalCode": "38016" },
+            { "name": "Ain Guerguour", "postalCode": "38017" }
+          ]
+        },
+        {
+          "name": "Layoune",
+          "codeONS": "3810",
+          "postalCode": "38007",
+          "otherPosts": [
+            { "name": "Doui Hasni", "postalCode": "38021" },
+            { "name": "Meguisba", "postalCode": "38024" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Lardjem",
+      "communes": [
+        {
+          "name": "Lardjem",
+          "codeONS": "3802",
+          "postalCode": "38002"
+        },
+        {
+          "name": "Melaab ",
+          "codeONS": "3807",
+          "postalCode": "38013"
+        },
+        {
+          "name": "Sidi Lantri",
+          "codeONS": "3808",
+          "postalCode": "38027"
+        },
+        {
+          "name": "Tamalaht",
+          "codeONS": "3819",
+          "postalCode": "38029"
+        }
+      ]
+    },
+    {
+      "name": "Lazharia",
+      "communes": [
+        {
+          "name": "Lazharia",
+          "codeONS": "3804",
+          "postalCode": "38008"
+        },
+        {
+          "name": "Boucaid",
+          "codeONS": "3821",
+          "postalCode": "38005"
+        },
+        {
+          "name": "Larbaa",
+          "codeONS": "3816",
+          "postalCode": "38022"
+        }
+      ]
+    },
+    {
+      "name": "Theniet El Had",
+      "communes": [
+        {
+          "name": "Theniet El Had",
+          "codeONS": "3803",
+          "postalCode": "38003",
+          "otherPosts": [
+            { "name": "Theniet el Had - El Meddad", "postalCode": "38032" }
+          ]
+        },
+        {
+          "name": "Sidi Boutouchent",
+          "codeONS": "3815",
+          "postalCode": "38026"
+        }
+      ]
+    },
+    {
+      "name": "Tissemsilt",
+      "communes": [
+        {
+          "name": "Tissemsilt",
+          "codeONS": "3801",
+          "postalCode": "38000",
+          "otherPosts": [
+            { "name": "Tissemsilt - Bencherki", "postalCode": "38009" },
+            { "name": "Tissemsilt - Benhamouda", "postalCode": "38010" },
+            { "name": "Tissemsilt - El Merdja", "postalCode": "38011" },
+            { "name": "Tissemsilt - El Hidhab", "postalCode": "38034" },
+            { "name": "Tissemsilt - Naanaa Ahmed", "postalCode": "38035" },
+            { "name": "Tissemsilt - Belaid Benazzouz", "postalCode": "38036" },
+            {
+              "name": "Tissemsilt - Centre Universitaire El Wancharissi",
+              "postalCode": "38038"
+            },
+            { "name": "Tissemsilt Gare Routiere", "postalCode": "38042" },
+            { "name": "Ain el Kerma", "postalCode": "38015" },
+            { "name": "Beni Maida", "postalCode": "38033" }
+          ]
+        },
+        {
+          "name": "Ouled Bessem",
+          "codeONS": "3812",
+          "postalCode": "38014",
+          "otherPosts": [
+            { "name": "Ouled Bessem - 1er Novembre", "postalCode": "38040" }
+          ]
+        }
+      ]
+    }
+  ],
+  "address": [
+    { "name": "Amrouna", "postalCode": "38018" },
+    { "name": "Tamezlait", "postalCode": "38030" }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "SupportPage": {
+    "getInTouch": "Entrez en contact",
+    "yourFeedback": "Vos commentaires sont les bienvenus.",
+    "address": "Alger, DZ",
+    "haveAQuestion": "Vous avez une question? Nous y avons peut-être déjà répondu.",
+    "checkFaq": "Consultez les questions fréquemment posées",
+    "emailSubject": "Sujet de l'email",
+    "emailTitle": "Titre de l'e-mail",
+    "message": "Message",
+    "send": "Envoyez le message"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "SupportPage": {
+    "getInTouch": "Get in touch",
+    "yourFeedback": "Your feedback is the most welcome.",
+    "address": "Algiers, DZ",
+    "haveAQuestion": "You have a question? We may have answered it already.",
+    "checkFaq": "Checkout the frequently asked questions",
+    "emailSubject": "Email Subject",
+    "emailTitle": "Email Title",
+    "message": "Message",
+    "send": "Send Message"
+  }
+}

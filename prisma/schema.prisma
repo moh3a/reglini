@@ -1,0 +1,250 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id                     String         @id @default(cuid())
+  email                  String         @unique
+  password               String?
+  name                   String?
+  role                   ROLES          @default(BASIC)
+  account                ACCOUNT_TYPE
+  provider               AUTH_PROVIDER?
+  verified               Boolean        @default(false)
+  verifyCredentialsToken String?
+  resetPasswordToken     String?
+  resetPasswordExpire    DateTime?
+  profile                Profile?
+  address                Address?
+  carts                  Cart[]
+  wishlist               Wishlist[]
+  orders                 Order[]
+  feedbacks              Feedback[]
+
+  @@index([email, account])
+}
+
+model Profile {
+  id          String  @id @default(cuid())
+  userId      String  @unique
+  user        User    @relation(fields: userId, references: [id])
+  realName    String?
+  picture     String?
+  phoneNumber String?
+
+  @@index([realName])
+}
+
+enum ACCOUNT_TYPE {
+  OAUTH
+  CREDENTIALS
+}
+
+enum AUTH_PROVIDER {
+  FACEBOOK
+  GOOGLE
+}
+
+enum ROLES {
+  BASIC
+  ADMIN
+}
+
+model Address {
+  id         String  @id @default(cuid())
+  userId     String  @unique
+  user       User    @relation(fields: userId, references: [id])
+  postalCode String?
+  wilaya     String?
+  daira      String?
+  commune    String?
+  streetName String?
+}
+
+model Cart {
+  id            String   @id
+  userId        String
+  user          User     @relation(fields: userId, references: [id])
+  date          DateTime @default(now()) @db.Date
+  name          String
+  imageUrl      String
+  price         Float
+  sku           String?
+  quantity      Float?
+  originalPrice Float?
+  totalPrice    Float?
+  shippingPrice Float?
+  carrierId     String?
+  // properties // ! todo
+
+  @@index([userId])
+}
+
+model Wishlist {
+  id       String   @id
+  userId   String
+  user     User     @relation(fields: userId, references: [id])
+  date     DateTime @default(now()) @db.Date
+  name     String
+  imageUrl String
+  price    Float
+
+  @@index([userId])
+}
+
+model Product {
+  id            String  @unique
+  name          String
+  imageUrl      String
+  sku           String?
+  quantity      Int?
+  price         Float
+  originalPrice Float?
+  totalPrice    Float?
+  shippingPrice Float?
+  carrierId     String?
+  orderMemo     String? @default("Please do not put invoices or any other document inside the package. Instead send them to this email address support@reglini-dz.com. Thank you very much.")
+  // properties // ! todo
+  order         Order?
+}
+
+model Order {
+  id              String          @unique
+  userId          String
+  user            User            @relation(fields: userId, references: [id])
+  productId       String          @unique
+  product         Product         @relation(fields: [productId], references: [id])
+  details         Json?
+  currency        String?
+  shippingAddress Shipping?
+  payment         Payment?
+  tracking        Tracking?
+  received        PackageReceipt?
+
+  @@index([userId])
+}
+
+model Shipping {
+  id           String  @id @default(cuid())
+  orderId      String  @unique
+  order        Order   @relation(fields: orderId, references: [id])
+  name         String
+  mobilePhone  String
+  phoneCountry String?
+  countryCode  String
+  zipCode      String?
+  province     String?
+  city         String
+  addressLine1 String?
+}
+
+model Payment {
+  id                 String          @id @default(cuid())
+  orderId            String          @unique
+  order              Order           @relation(fields: orderId, references: [id])
+  hasTimedOut        Boolean         @default(false)
+  isPaymentConfirmed Boolean         @default(false)
+  wasDeclined        Boolean?
+  receipt            String?
+  paymentMethod      PAYMENT_METHOD?
+  date               DateTime        @default(now()) @db.Date
+}
+
+enum PAYMENT_METHOD {
+  CCP
+  CIB
+}
+
+model Tracking {
+  id               String  @id @default(cuid())
+  orderId          String  @unique
+  order            Order   @relation(fields: orderId, references: [id])
+  hasTracking      Boolean @default(false)
+  official_website String?
+  details          Json?
+}
+
+model PackageReceipt {
+  id             String   @id @default(cuid())
+  orderId        String   @unique
+  order          Order    @relation(fields: orderId, references: [id])
+  wasReceived    Boolean  @default(false)
+  packagePicture String?
+  date           DateTime @default(now()) @db.Date
+}
+
+model Feedback {
+  id      String  @id @default(cuid())
+  userId  String
+  user    User    @relation(fields: userId, references: [id])
+  rating  Float?
+  message String?
+
+  @@index([userId])
+}
+
+model Currency {
+  id                String      @id @default(cuid())
+  exchange          CURRENCIES?
+  date              DateTime    @default(now()) @db.Date
+  parallel_sale     Float?
+  parallel_purchase Float?
+  official_rate     Float?
+
+  @@index([exchange])
+}
+
+enum CURRENCIES {
+  EUR
+  USD
+  GBP
+}
+
+model Wilaya {
+  id       Int     @id
+  name     String  @unique
+  zip_code String  @unique
+  posts    Post[]
+  dairas   Daira[]
+}
+
+model Daira {
+  id       String    @id @default(cuid())
+  name     String    @unique
+  wilayaId Int
+  wilaya   Wilaya    @relation(fields: wilayaId, references: [id])
+  communes Commune[]
+
+  @@index([wilayaId])
+}
+
+model Commune {
+  id       String  @id
+  name     String
+  code_ons String? @unique
+  dairaId  String?
+  daira    Daira?  @relation(fields: [dairaId], references: [id])
+  posts    Post[]
+
+  @@index([dairaId])
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  post      String
+  zip_code  String   @unique
+  communeId String?
+  commune   Commune? @relation(fields: [communeId], references: [id])
+  wilayaId  Int
+  wilaya    Wilaya   @relation(fields: wilayaId, references: [id])
+
+  @@index([wilayaId])
+  @@index([communeId])
+}

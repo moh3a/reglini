@@ -1,0 +1,79 @@
+import {
+  ArrowLeftOnRectangleIcon,
+  UserPlusIcon,
+} from "@heroicons/react/24/outline";
+import { GetStaticProps } from "next";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
+import Button from "@components/shared/Button";
+import Logo from "@components/shared/Logo";
+
+const AuthPage = () => {
+  const { status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status !== "unauthenticated") router.replace("/");
+  }, [router, status]);
+
+  return (
+    <div className="w-full flex justify-center items-center">
+      <div className="flex-1 flex justify-center items-center">
+        <Logo height={200} width={200} />
+      </div>
+      <div className="flex-1 flex justify-center items-center">
+        <div>
+          <div>
+            <Link href="/auth/login">
+              <Button
+                variant="outline"
+                icon={
+                  <ArrowLeftOnRectangleIcon
+                    className="inline w-5 h-5 mr-1"
+                    aria-hidden="true"
+                  />
+                }
+              >
+                Login
+              </Button>
+            </Link>
+          </div>
+          <div>
+            <Link href="/auth/register">
+              <Button
+                variant="outline"
+                icon={
+                  <UserPlusIcon
+                    className="inline w-5 h-5 mr-1"
+                    aria-hidden="true"
+                  />
+                }
+              >
+                Register
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  const messages = (await import(`../../../locales/${locale}/AuthPage.json`)).default;
+  return {
+    props: {
+      messages,
+    },
+  };
+};
+
+import Layout from "@components/layout/Layout";
+import Link from "next/link";
+AuthPage.getLayout = function getLayout(page: any) {
+  return <Layout>{page}</Layout>;
+};
+
+export default AuthPage;

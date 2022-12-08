@@ -1,0 +1,155 @@
+{
+  "id": 45,
+  "name": "Naama",
+  "postalCode": "45000",
+  "dairas": [
+    {
+      "name": "Naama",
+      "communes": [
+        {
+          "name": "Naama",
+          "codeONS": "4501",
+          "postalCode": "45000",
+          "otherPosts": [
+            { "name": "Naama - Maarouf Faradji", "postalCode": "45006" },
+            { "name": "Naama - El Ksour", "postalCode": "45020" },
+            { "name": "Naama - Universite", "postalCode": "45044" },
+            { "name": "Naama - Gare Routiere", "postalCode": "45048" },
+            { "name": "Naama - Kebir Laaredj", "postalCode": "45049" },
+            { "name": "Horchaia", "postalCode": "45027" },
+            { "name": "Touadjeur", "postalCode": "45032" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Ain Sefra",
+      "communes": [
+        {
+          "name": "Ain Sefra",
+          "codeONS": "4503",
+          "postalCode": "45001",
+          "otherPosts": [
+            { "name": "Ain Sefra - Boumrifeg", "postalCode": "45003" },
+            { "name": "Ain Sefra - Mouileh", "postalCode": "45009" },
+            { "name": "Ain Sefra - Saada", "postalCode": "45010" },
+            { "name": "Ain Sefra - Ksar Sidi Boutkhil", "postalCode": "45011" },
+            { "name": "Ain Sefra - Nouvelle", "postalCode": "45033" },
+            { "name": "Ain Sefra - Roucham Maamar", "postalCode": "45040" },
+            { "name": "Ain Sefra - Gare Routiere", "postalCode": "45045" },
+            { "name": "Ain Sefra - Saddok Ali", "postalCode": "45047" },
+            { "name": "Tirkount", "postalCode": "45031" }
+          ]
+        },
+        {
+          "name": "Tiout",
+          "codeONS": "4505",
+          "postalCode": "45030"
+        }
+      ]
+    },
+    {
+      "name": "Assela",
+      "communes": [
+        {
+          "name": "Assela",
+          "codeONS": "4507",
+          "postalCode": "45012",
+          "otherPosts": [
+            { "name": "Ain Ouarka", "postalCode": "45022" },
+            { "name": "Hassi Labiadh", "postalCode": "45026" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Makman Ben Amer",
+      "communes": [
+        {
+          "name": "Makman Ben Amer",
+          "codeONS": "4510",
+          "postalCode": "45005"
+        },
+        {
+          "name": "Kasdir",
+          "codeONS": "4511",
+          "postalCode": "45024",
+          "otherPosts": [{ "name": "Abdelmoula", "postalCode": "45007" }]
+        }
+      ]
+    },
+    {
+      "name": "Mecheria",
+      "communes": [
+        {
+          "name": "Mecheria",
+          "codeONS": "4502",
+          "postalCode": "45002",
+          "otherPosts": [
+            { "name": "Mecheria - Bachiri Mohamed", "postalCode": "45015" },
+            { "name": "Mecheria - Badaoui", "postalCode": "45016" },
+            { "name": "Mecheria - Dahmani", "postalCode": "45017" },
+            { "name": "Mecheria - Freres Rahmani", "postalCode": "45018" },
+            { "name": "Mecheria - Amrani", "postalCode": "45034" },
+            { "name": "Mecheria - El Wiam", "postalCode": "45035" },
+            { "name": "Mecheria - Nouvelle", "postalCode": "45037" },
+            { "name": "Mecheria - Miloudi Laid", "postalCode": "45039" },
+            { "name": "Mecheria - Gare Routiere", "postalCode": "45050" }
+          ]
+        },
+        {
+          "name": "El Biodh",
+          "codeONS": "4512",
+          "postalCode": "45004",
+          "otherPosts": [
+            { "name": "El Biodh - 1er Novembre", "postalCode": "45038" }
+          ]
+        },
+        {
+          "name": "Ain Ben Khelil",
+          "codeONS": "4509",
+          "postalCode": "45008",
+          "otherPosts": [
+            {
+              "name": "Ain Ben Khelil - Kenenda Boufeldja",
+              "postalCode": "45046"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Moghrar",
+      "communes": [
+        {
+          "name": "Moghrar",
+          "codeONS": "4506",
+          "postalCode": "45019"
+        },
+        {
+          "name": "Djeniene Bourezg",
+          "codeONS": "4508",
+          "postalCode": "45013"
+        }
+      ]
+    },
+    {
+      "name": "Sfissifa",
+      "communes": [
+        {
+          "name": "Sfissifa",
+          "codeONS": "4515",
+          "postalCode": "45021",
+          "otherPosts": [{ "name": "Oulekak", "postalCode": "45029" }]
+        }
+      ]
+    }
+  ],
+  "address": [
+    { "name": "Kalaat Cheikh Bouamama", "postalCode": "45014" },
+    { "name": "Ben Handjir", "postalCode": "45023" },
+    { "name": "Hadjrat el Meguil", "postalCode": "45025" },
+    { "name": "Mekter Forthassa", "postalCode": "45028" },
+    { "name": "Sidi Moussa", "postalCode": "45036" }
+  ]
+}
