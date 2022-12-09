@@ -5,6 +5,7 @@ import { authRouter } from "./auth";
 import { currencyRouter } from "./currency";
 import { accountRouter } from "./account";
 import { addressRouter } from "./address";
+import { aliexpressRouter } from "./aliexpress";
 
 export const appRouter = router({
   hello: procedure
@@ -22,6 +23,7 @@ export const appRouter = router({
   currency: currencyRouter,
   account: accountRouter,
   address: addressRouter,
+  aliexpress: aliexpressRouter,
 });
 
 export type AppRouter = typeof appRouter;

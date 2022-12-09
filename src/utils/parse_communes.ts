@@ -1,5 +1,9 @@
+/**
+ * UNCOMMENT EVERYTHING FOR THIS TO WORK
+ */
+
 import prisma from "../../config/prisma";
-import Wilayas from "../../data/Wilayas";
+// import Wilayas from "../../data/Wilayas";
 
 export interface Commune {
   post: string;
@@ -13,71 +17,71 @@ export interface Commune {
   wilaya_zip_code: string;
 }
 
-const parsed_data = Wilayas.map((wilaya) => {
-  let d: Commune[][] = [];
-  const communes: Commune[] | undefined = wilaya.dairas
-    ?.map((daira, daira_index) => {
-      return daira.communes
-        ?.map((commune, commune_index) => {
-          const post = {
-            post: commune.name,
-            commune_id:
-              wilaya.id +
-              "" +
-              daira_index +
-              "" +
-              commune_index +
-              "" +
-              commune.postalCode,
-            commune: commune.name,
-            zip_code: commune.postalCode,
-            code_ons: commune.codeONS,
-            daira: daira.name,
-            wilaya: wilaya.name,
-            wilaya_id: wilaya.id,
-            wilaya_zip_code: wilaya.postalCode,
-          };
-          const otherPosts = commune.otherPosts?.map((post) => {
-            return {
-              post: post.name,
-              zip_code: post.postalCode,
-              commune_id:
-                wilaya.id +
-                "" +
-                daira_index +
-                "" +
-                commune_index +
-                "" +
-                commune.postalCode,
-              commune: commune.name,
-              code_ons: commune.codeONS,
-              daira: daira.name,
-              wilaya: wilaya.name,
-              wilaya_id: wilaya.id,
-              wilaya_zip_code: wilaya.postalCode,
-            };
-          });
-          if (otherPosts && otherPosts.length > 0) return [post, ...otherPosts];
-          else return [post];
-        })
-        .flat();
-    })
-    .flat();
-  if (communes && communes.length > 0) d.push(communes);
+// const parsed_data = Wilayas.map((wilaya) => {
+//   let d: Commune[][] = [];
+//   const communes: Commune[] | undefined = wilaya.dairas
+//     ?.map((daira, daira_index) => {
+//       return daira.communes
+//         ?.map((commune, commune_index) => {
+//           const post = {
+//             post: commune.name,
+//             commune_id:
+//               wilaya.id +
+//               "" +
+//               daira_index +
+//               "" +
+//               commune_index +
+//               "" +
+//               commune.postalCode,
+//             commune: commune.name,
+//             zip_code: commune.postalCode,
+//             code_ons: commune.codeONS,
+//             daira: daira.name,
+//             wilaya: wilaya.name,
+//             wilaya_id: wilaya.id,
+//             wilaya_zip_code: wilaya.postalCode,
+//           };
+//           const otherPosts = commune.otherPosts?.map((post) => {
+//             return {
+//               post: post.name,
+//               zip_code: post.postalCode,
+//               commune_id:
+//                 wilaya.id +
+//                 "" +
+//                 daira_index +
+//                 "" +
+//                 commune_index +
+//                 "" +
+//                 commune.postalCode,
+//               commune: commune.name,
+//               code_ons: commune.codeONS,
+//               daira: daira.name,
+//               wilaya: wilaya.name,
+//               wilaya_id: wilaya.id,
+//               wilaya_zip_code: wilaya.postalCode,
+//             };
+//           });
+//           if (otherPosts && otherPosts.length > 0) return [post, ...otherPosts];
+//           else return [post];
+//         })
+//         .flat();
+//     })
+//     .flat();
+//   if (communes && communes.length > 0) d.push(communes);
 
-  const cities = wilaya.address?.map((city) => {
-    return {
-      post: city.name,
-      zip_code: city.postalCode,
-      wilaya: wilaya.name,
-      wilaya_id: wilaya.id,
-      wilaya_zip_code: wilaya.postalCode,
-    };
-  });
-  if (cities && cities.length > 0) d.push(cities);
+//   const cities = wilaya.address?.map((city) => {
+//     return {
+//       post: city.name,
+//       zip_code: city.postalCode,
+//       wilaya: wilaya.name,
+//       wilaya_id: wilaya.id,
+//       wilaya_zip_code: wilaya.postalCode,
+//     };
+//   });
+//   if (cities && cities.length > 0) d.push(cities);
 
-  return d.flat();
-}).flat();
+//   return d.flat();
+// }).flat();
 
 const insertable_data = (commune: Commune) => {
   return {
@@ -156,4 +160,4 @@ const insert = async (data: Commune[]) => {
   }
 };
 
-insert(parsed_data);
+// insert(parsed_data);

@@ -60,8 +60,6 @@ const SearchInput = ({
         placeholder={placeholder}
         className={className ? className : TEXT_INPUT}
         tabIndex={tabIndex}
-        maxLength={16}
-        minLength={6}
         autoComplete={autocomplete ? "on" : "off"}
       />
       <button

@@ -16,7 +16,7 @@
     "incremental": true,
     "paths": {
       "@config/*": ["./config/*"],
-      "@data/*": ["./data/*"],
+      "@lib/*": ["./lib/*"],
       "@components/*": ["./src/components/*"],
       "@utils/*": ["./src/utils/*"],
       "@pages/*": ["./src/pages/*"]

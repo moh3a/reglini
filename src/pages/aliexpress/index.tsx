@@ -16,7 +16,7 @@ const AliexpressPage = () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const messages = (await import(`../../locales/${locale}/AliexpressPage.json`))
+  const messages = (await import(`../../../locales/${locale}/AliexpressPage.json`))
     .default;
   return {
     props: {

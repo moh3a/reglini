@@ -1,78 +1,67 @@
-var StringDecoder = require("string_decoder").StringDecoder;
-var FormData = require("form-data");
-var Stream = require("stream");
-var mime = require("mime");
-var path = require("path");
-var URL = require("url");
-var fs = require("fs");
+import { StringDecoder } from "string_decoder";
+import Stream from "stream";
+import mime from "mime";
+import path from "path";
+import URL from "url";
+import fs from "fs";
+const FormData = require("form-data");
 
-/**
- * Define form mime type
- */
+import QueryString from "node:querystring";
+import zlib from "node:zlib";
+
 mime.define({
   "application/x-www-form-urlencoded": ["form", "urlencoded", "form-data"],
 });
 
-/**
- * Initialize our Rest Container
- */
-var RestClient = function (method, uri, headers, body, callback) {
-  var restClient = function (uri, headers, body, callback) {
-    var $this = {
-      /**
-       * Stream Multipart form-data request
-       *
-       * @type {Boolean}
-       */
-      _stream: false,
+interface $this {
+  _stream: boolean;
+  _multipart: { name: any; value: any; options: any; attachment: any }[];
+  _form: any[];
+  options: {
+    url: string;
+    method?: string;
+    headers: any;
+    body: any;
+    json: any;
+  };
+  hasHeader: (name: string) => any;
+  field: (name: any, value: any, options: any) => any;
+  attach: (name: any, path: any, options: any) => any;
+  rawField: (name: any, value: any, options: any) => any;
+  header: (field: any, value: any) => any;
+  type: (type: string) => any;
+  send: (data: any) => any;
+  end: (callback: any) => any;
+  headers?: any;
+  set?: any;
+  complete?: any;
+  as?: any;
+}
 
-      /**
-       * Container to hold multipart form data for processing upon request.
-       *
-       * @type {Array}
-       * @private
-       */
-      _multipart: [],
-
-      /**
-       * Container to hold form data for processing upon request.
-       *
-       * @type {Array}
-       * @private
-       */
-      _form: [],
-
-      /**
-       * Request option container for details about the request.
-       *
-       * @type {Object}
-       */
+let RestClient = (
+  method?: string,
+  uri?: string,
+  headers?: any,
+  body?: any,
+  callback?: (err: any, res: any) => void
+) => {
+  let restClient = (uri: any, headers: any, body: any, callback: any) => {
+    let $this: $this = {
+      _stream: false, // Stream Multipart form-data request
+      _multipart: [], // Container to hold multipart form data for processing upon request.
+      _form: [], // Container to hold form data for processing upon request.
+      // Request option container for details about the request.
       options: {
-        /**
-         * Url obtained from request method arguments.
-         *
-         * @type {String}
-         */
-        url: uri,
-
-        /**
-         * Method obtained from request method arguments.
-         *
-         * @type {String}
-         */
-        method: method,
-
-        /**
-         * List of headers with case-sensitive fields.
-         *
-         * @type {Object}
-         */
-        headers: {},
+        url: uri, // Url obtained from request method arguments.
+        method: method, // Method obtained from request method arguments.
+        headers: {}, //List of headers with case-sensitive fields.
+        body: {},
+        json: {},
       },
 
-      hasHeader: function (name) {
-        var headers;
-        var lowercaseHeaders;
+      hasHeader: (name: string) => {
+        let headers;
+        let lowercaseHeaders;
 
         name = name.toLowerCase();
         headers = Object.keys($this.options.headers);
@@ -80,7 +69,7 @@ var RestClient = function (method, uri, headers, body, callback) {
           return header.toLowerCase();
         });
 
-        for (var i = 0; i < lowercaseHeaders.length; i++) {
+        for (let i = 0; i < lowercaseHeaders.length; i++) {
           if (lowercaseHeaders[i] === name) {
             return headers[i];
           }
@@ -89,17 +78,17 @@ var RestClient = function (method, uri, headers, body, callback) {
         return false;
       },
 
-      field: function (name, value, options) {
+      field: (name, value, options) => {
         return handleField(name, value, options);
       },
 
-      attach: function (name, path, options) {
+      attach: (name, path, options) => {
         options = options || {};
         options.attachment = true;
         return handleField(name, path, options);
       },
 
-      rawField: function (name, value, options) {
+      rawField: (name, value, options) => {
         $this._multipart.push({
           name: name,
           value: value,
@@ -108,7 +97,7 @@ var RestClient = function (method, uri, headers, body, callback) {
         });
       },
 
-      header: function (field, value) {
+      header: (field, value) => {
         if (is(field).a(Object)) {
           for (var key in field) {
             if (field.hasOwnProperty(key)) {
@@ -119,21 +108,21 @@ var RestClient = function (method, uri, headers, body, callback) {
           return $this;
         }
 
-        var existingHeaderName = $this.hasHeader(field);
+        let existingHeaderName = $this.hasHeader(field);
         $this.options.headers[existingHeaderName || field] = value;
 
         return $this;
       },
 
-      type: function (type) {
+      type: (type) => {
         $this.header(
           "Content-Type",
-          does(type).contain("/") ? type : mime.lookup(type)
+          does(type).contain("/") ? type : mime.getType(type)
         );
         return $this;
       },
 
-      send: function (data) {
+      send: (data) => {
         var type = $this.options.headers[$this.hasHeader("content-type")];
 
         if (
@@ -143,7 +132,7 @@ var RestClient = function (method, uri, headers, body, callback) {
           if (!type) {
             $this.type("form");
             type = $this.options.headers[$this.hasHeader("content-type")];
-            $this.options.body = RestClient.serializers.form(data);
+            $this.options.body = serializers.form(data);
           } else if (~type.indexOf("json")) {
             $this.options.json = true;
 
@@ -157,7 +146,7 @@ var RestClient = function (method, uri, headers, body, callback) {
               $this.options.body = data;
             }
           } else {
-            $this.options.body = RestClient.Request.serialize(data, type);
+            $this.options.body = Request.serialize(data, type);
           }
         } else if (is(data).a(String)) {
           if (!type) {
@@ -179,14 +168,18 @@ var RestClient = function (method, uri, headers, body, callback) {
         return $this;
       },
 
-      end: function (callback) {
-        var Request;
-        var header;
-        var parts;
-        var form;
+      end: (callback) => {
+        let Request;
+        let header;
+        let parts;
+        let form;
 
-        function handleRequestResponse(error, response, body) {
-          var result = {};
+        const handleRequestResponse = (
+          error: any,
+          response: any,
+          body?: any
+        ) => {
+          let result: any = {};
           // Handle pure error
           if (error && !response) {
             result.error = error;
@@ -199,49 +192,43 @@ var RestClient = function (method, uri, headers, body, callback) {
           }
 
           if (!response) {
-            console.log(
-              "This is odd, report this action / request to: http://github.com/mashape/RestClient-nodejs"
-            );
-
             result.error = {
               message: "No response found.",
             };
-
             if (callback) {
               callback(result);
             }
-
             return;
           }
 
-          // Create response reference
           result = response;
 
           body = body || response.body;
           result.raw_body = body;
           result.headers = response.headers;
+          let data;
 
           if (body) {
-            type = RestClient.type(result.headers["content-type"], true);
-            if (type) data = RestClient.Response.parse(body, type);
+            let stype = type(result.headers["content-type"], true);
+            if (stype) data = Response.parse(body, stype);
             else data = body;
           }
           result.body = data;
           callback && callback(result);
-        }
+        };
 
-        function handleGZIPResponse(response) {
+        const handleGZIPResponse = (response: any) => {
           if (/^(deflate|gzip)$/.test(response.headers["content-encoding"])) {
-            var unzip = zlib.createUnzip();
-            var stream = new Stream();
-            var _on = response.on;
-            var decoder;
+            let unzip = zlib.createUnzip();
+            let stream = new Stream();
+            let _on = response.on;
+            let decoder: any;
 
             // Keeping node happy
-            stream.req = response.req;
+            (stream as any).req = response.req;
 
             // Make sure we emit prior to processing
-            unzip.on("error", function (error) {
+            unzip.on("error", (error: any) => {
               // Catch the parser error when there is no content
               if (
                 error.errno === zlib.Z_BUF_ERROR ||
@@ -258,14 +245,14 @@ var RestClient = function (method, uri, headers, body, callback) {
             response.pipe(unzip);
 
             // Ensure encoding is captured
-            response.setEncoding = function (type) {
+            response.setEncoding = (type: any) => {
               decoder = new StringDecoder(type);
             };
 
             // Capture decompression and decode with captured encoding
-            unzip.on("data", function (buffer) {
+            unzip.on("data", (buffer: any) => {
               if (!decoder) return stream.emit("data", buffer);
-              var string = decoder.write(buffer);
+              let string = decoder.write(buffer);
               if (string.length) stream.emit("data", string);
             });
 
@@ -274,7 +261,7 @@ var RestClient = function (method, uri, headers, body, callback) {
               stream.emit("end");
             });
 
-            response.on = function (type, next) {
+            response.on = (type: any, next: any) => {
               if (type === "data" || type === "end") {
                 stream.on(type, next);
               } else if (type === "error") {
@@ -284,18 +271,18 @@ var RestClient = function (method, uri, headers, body, callback) {
               }
             };
           }
-        }
+        };
 
-        function handleFormData(form) {
-          for (var i = 0; i < $this._multipart.length; i++) {
-            var item = $this._multipart[i];
+        const handleFormData = (form: any) => {
+          for (let i = 0; i < $this._multipart.length; i++) {
+            let item: any = $this._multipart[i];
 
             if (item.attachment && is(item.value).a(String)) {
               if (
                 does(item.value).contain("http://") ||
                 does(item.value).contain("https://")
               ) {
-                item.value = RestClient.request(item.value);
+                item.value = request(item.value);
               } else {
                 item.value = fs.createReadStream(path.resolve(item.value));
               }
@@ -304,7 +291,7 @@ var RestClient = function (method, uri, headers, body, callback) {
           }
 
           return form;
-        }
+        };
 
         if (
           $this._multipart.length &&
@@ -332,8 +319,8 @@ var RestClient = function (method, uri, headers, body, callback) {
               method: $this.options.method,
               headers: $this.options.headers,
             },
-            function (error, response) {
-              var decoder = new StringDecoder("utf8");
+            (error: any, response: any) => {
+              let decoder = new StringDecoder("utf8");
 
               if (error) {
                 return handleRequestResponse(error, response);
@@ -350,7 +337,7 @@ var RestClient = function (method, uri, headers, body, callback) {
               handleGZIPResponse(response);
 
               // Fallback
-              response.on("data", function (chunk) {
+              response.on("data", (chunk: any) => {
                 if (typeof chunk === "string") response.body += chunk;
                 else response.body += decoder.write(chunk);
               });
@@ -363,7 +350,7 @@ var RestClient = function (method, uri, headers, body, callback) {
           );
         }
 
-        Request = RestClient.request($this.options, handleRequestResponse);
+        Request = request($this.options, handleRequestResponse);
         Request.on("response", handleGZIPResponse);
 
         if ($this._multipart.length && $this._stream) {
@@ -374,50 +361,22 @@ var RestClient = function (method, uri, headers, body, callback) {
       },
     };
 
-    /**
-     * Alias for _.header_
-     * @type {Function}
-     */
-    $this.headers = $this.header;
-
-    /**
-     * Alias for _.header_
-     *
-     * @type {Function}
-     */
-    $this.set = $this.header;
-
-    /**
-     * Alias for _.end_
-     *
-     * @type {Function}
-     */
-    $this.complete = $this.end;
-
-    /**
-     * Aliases for _.end_
-     *
-     * @type {Object}
-     */
-
+    $this.headers = $this.header; // Alias for _.header_
+    $this.set = $this.header; // Alias for _.header_
+    $this.complete = $this.end; // Alias for _.end_
     $this.as = {
+      // Aliases for _.end_
       json: $this.end,
       binary: $this.end,
       string: $this.end,
     };
 
-    /**
-     * Handles Multipart Field Processing
-     *
-     * @param {String} name
-     * @param {Mixed} value
-     * @param {Object} options
-     */
-    function handleField(name, value, options) {
-      var serialized;
-      var length;
-      var key;
-      var i;
+    // Handles Multipart Field Processing
+    const handleField = (name: any, value: any, options: any) => {
+      let serialized;
+      let length;
+      let key;
+      let i;
 
       options = options || { attachment: false };
 
@@ -441,26 +400,22 @@ var RestClient = function (method, uri, headers, body, callback) {
       }
 
       return $this;
-    }
+    };
 
-    /**
-     * Handles Multipart Value Processing
-     *
-     * @param {Mixed} value
-     */
-    function handleFieldValue(value) {
+    // Handles Multipart Value Processing
+    const handleFieldValue = (value: any) => {
       if (!(value instanceof Buffer || typeof value === "string")) {
         if (is(value).a(Object)) {
           if (value instanceof Stream.Readable) {
             return value;
           } else {
-            return RestClient.serializers.json(value);
+            return serializers.json(value);
           }
         } else {
           return value.toString();
         }
       } else return value;
-    }
+    };
 
     if (headers && typeof headers === "function") {
       callback = headers;
@@ -482,106 +437,84 @@ var RestClient = function (method, uri, headers, body, callback) {
 /**
  * Expose the underlying layer.
  */
-RestClient.request = require("request");
-RestClient.pipe = RestClient.request.pipe;
+const request = require("request");
+const pipe = request.pipe;
 
-RestClient.type = function (type, parse) {
+let type = (type: any, parse: any) => {
   if (typeof type !== "string") return false;
-  return parse ? type.split(/ *; */).shift() : RestClient.types[type] || type;
+  return parse ? type.split(/ *; */).shift() : type;
 };
 
-RestClient.trim = "".trim
-  ? function (s) {
-      return s.trim();
-    }
-  : function (s) {
-      return s.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
-    };
+const trim = (s: string) => {
+  return s.trim();
+};
 
-RestClient.parsers = {
-  string: function (data) {
-    var obj = {};
-    var pairs = data.split("&");
-    var parts;
-    var pair;
-
-    for (var i = 0, len = pairs.length; i < len; ++i) {
+const parsers = {
+  string: (data: any) => {
+    let obj: any = {};
+    let pairs = data.split("&");
+    let parts;
+    let pair;
+    for (let i = 0, len = pairs.length; i < len; ++i) {
       pair = pairs[i];
       parts = pair.split("=");
       obj[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
     }
-
     return obj;
   },
-
-  json: function (data) {
+  json: (data: any) => {
     try {
       data = JSON.parse(data);
     } catch (e) {}
-
     return data;
   },
 };
 
-/**
- * Serialization methods for different data types.
- *
- * @type {Object}
- */
-RestClient.serializers = {
-  form: function (obj) {
+// Serialization methods for different data types.
+const serializers = {
+  form: function (obj: any) {
     return QueryString.stringify(obj);
   },
-
-  json: function (obj) {
+  json: function (obj: any) {
     return JSON.stringify(obj);
   },
 };
 
-/**
- * RestClient Request Utility Methods
- *
- * @type {Object}
- */
-RestClient.Request = {
-  serialize: function (string, type) {
-    var serializer = RestClient.firstMatch(type, RestClient.enum.serialize);
+// RestClient Request Utility Methods
+const Request = {
+  serialize: (string: any, type: any) => {
+    var serializer = firstMatch(type, ENUM.serialize);
     return serializer ? serializer(string) : string;
   },
 };
 
-RestClient.Response = {
-  parse: function (string, type) {
-    var parser = RestClient.firstMatch(type, RestClient.enum.parse);
+const Response = {
+  parse: (string: any, type: any) => {
+    var parser = firstMatch(type, ENUM.parse);
     return parser ? parser(string) : string;
   },
 };
 
-/**
- * Enum Structures
- *
- * @type {Object}
- */
-RestClient.enum = {
+const ENUM = {
   serialize: {
-    "application/x-www-form-urlencoded": RestClient.serializers.form,
-    "application/json": RestClient.serializers.json,
-    "text/javascript": RestClient.serializers.json,
+    "application/x-www-form-urlencoded": serializers.form,
+    "application/json": serializers.json,
+    "text/javascript": serializers.json,
   },
 
   parse: {
-    "application/x-www-form-urlencoded": RestClient.parsers.string,
-    "application/json": RestClient.parsers.json,
-    "text/javascript": RestClient.parsers.json,
+    "application/x-www-form-urlencoded": parsers.string,
+    "application/json": parsers.json,
+    "text/javascript": parsers.json,
   },
 
   methods: ["GET", "HEAD", "PUT", "POST", "PATCH", "DELETE", "OPTIONS"],
 };
 
-RestClient.matches = function matches(string, map) {
-  var results = [];
+const matches = function matches(string: any, map: any) {
+  let results = [];
 
-  for (var key in map) {
+  for (let key in map) {
     if (typeof map.length !== "undefined") {
       key = map[key];
     }
@@ -594,67 +527,61 @@ RestClient.matches = function matches(string, map) {
   return results;
 };
 
-RestClient.firstMatch = function firstMatch(string, map) {
-  return RestClient.matches(string, map)[0];
+const firstMatch = function firstMatch(string: any, map: any) {
+  return matches(string, map)[0];
 };
 
 /**
  * Generate sugar for request library.
- *
+
  * This allows us to mock super-agent chaining style while using request library under the hood.
  */
-function setupMethod(method) {
-  RestClient[method] = RestClient(method);
-}
+const setupMethod = (method: string) => {
+  [method] = RestClient(method);
+};
 
-for (var i = 0; i < RestClient.enum.methods.length; i++) {
-  var method = RestClient.enum.methods[i].toLowerCase();
+for (let i = 0; i < ENUM.methods.length; i++) {
+  let method = ENUM.methods[i].toLowerCase();
   setupMethod(method);
 }
 
-function is(value) {
+const is = (value: any) => {
   return {
-    a: function (check) {
+    a: (check: any) => {
       if (check.prototype) check = check.prototype.constructor.name;
-      var type = Object.prototype.toString
+      let type = Object.prototype.toString
         .call(value)
         .slice(8, -1)
         .toLowerCase();
       return value != null && type === check.toLowerCase();
     },
   };
-}
+};
 
-/**
- * Simple Utility Methods for checking information about a value.
- *
- * @param  {Mixed}  value  Could be anything.
- * @return {Object}
- */
-function does(value) {
-  var arrayIndexOf = Array.indexOf
-    ? function (arr, obj, from) {
+//Simple Utility Methods for checking information about a value.
+const does = (value: any) => {
+  // @ts-ignore
+  let arrayIndexOf = Array.indexOf
+    ? (arr: Array<any>, obj: any, from?: number) => {
         return arr.indexOf(obj, from);
       }
-    : function (arr, obj, from) {
-        var l = arr.length;
-        var i = from ? parseInt(1 * from + (from < 0 ? l : 0), 10) : 0;
+    : (arr: Array<any>, obj: any, from?: number) => {
+        let l = arr.length;
+        // @ts-ignore
+        let i = from ? parseInt(1 * from + (from < 0 ? l : 0), 10) : 0;
         i = i < 0 ? 0 : i;
         for (; i < l; i++) if (i in arr && arr[i] === obj) return i;
         return -1;
       };
 
   return {
-    contain: function (field) {
+    contain: (field: any) => {
       if (is(value).a(String)) return value.indexOf(field) > -1;
       if (is(value).a(Object)) return value.hasOwnProperty(field);
       if (is(value).a(Array)) return !!~arrayIndexOf(value, field);
       return false;
     },
   };
-}
+};
 
-/**
- * Expose the RestClient Container
- */
-module.exports = exports = RestClient;
+export default RestClient;
