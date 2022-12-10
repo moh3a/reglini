@@ -1,4 +1,3 @@
-import { ZAPIEX } from "@config/zapiex";
 import { z } from "zod";
 import { router, procedure } from "../trpc";
 
@@ -15,7 +14,5 @@ export const aliexpressRouter = router({
       // } catch (err) {
       //   console.log(err);
       // }
-      const data = await ZAPIEX.getProductById(input.id, input.locale);
-      return data;
     }),
 });

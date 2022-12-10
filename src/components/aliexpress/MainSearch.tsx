@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import slugify from "slugify";
 
 import SearchInput from "@components/shared/SearchInput";
-import Title from "@components/shared/Title";
+import AliExpressLogo from "@components/shared/AliExpressLogo";
 
 const MainSearch = () => {
   const [url, setUrl] = useState("");
@@ -16,20 +16,25 @@ const MainSearch = () => {
       const secondSplit = firstSplit[1].split(".html");
       router.push(`/aliexpress/product/${secondSplit[0]}`);
     } else {
-      const slug = slugify(url);
-      router.push(`/aliexpress/search/${slug}`);
+      // const slug = slugify(url);
+      router.push(`/aliexpress?q=${url}`);
     }
   };
 
   return (
     <section>
-      {/* <div className="flex justify-center items-center">
-        <AliExpressLogo />
-      </div> */}
       <p className="text-center text-sm font-bold font-mono my-2">
         Here starts everything
       </p>
-      <Title title="Aliexpress between your hands" />
+      <div className="flex justify-center items-center">
+        <AliExpressLogo width={400} />
+      </div>
+      <h1 className="select-none font-extrabold text-4xl font-mono w-full text-center">
+        <span className="uppercase bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-aliexpress">
+          between your hands
+        </span>
+      </h1>
+
       <form
         onSubmit={submitHandler}
         className="flex justify-center items-center w-full"

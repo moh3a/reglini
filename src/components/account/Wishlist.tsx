@@ -30,8 +30,8 @@ const Wishlist = () => {
               className={`max-w-xs mx-auto overflow-hidden bg-black/5 dark:bg-black/50 ${ROUNDED} ${SHADOW} ${PADDING} `}
             >
               <div>
-                <h1 className="h-10 w-10">
-                  <AliExpressLogo />
+                <h1>
+                  <AliExpressLogo width={100} />
                 </h1>
                 <p className={`text-sm`}>{item.name}</p>
                 <p className={`text-xs font-extrabold text-aliexpress`}>

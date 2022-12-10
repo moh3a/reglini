@@ -1,3 +1,4 @@
+import { PADDING, ROUNDED } from "@config/design";
 import {
   CheckBadgeIcon,
   ExclamationCircleIcon,
@@ -12,21 +13,21 @@ interface BannerProps {
 const Banner = ({ type, message }: BannerProps) => {
   return (
     <div
-      className={`w-full z-40 my-3 text-sm text-left text-white ${
+      className={`${ROUNDED} ${PADDING} shadow-md w-full z-40 my-3 text-sm text-left text-white font-mono font-bold ${
         type === "success"
-          ? "bg-success"
+          ? "bg-success shadow-success/50"
           : type === "warning"
-          ? "bg-warning"
+          ? "bg-warning shadow-warning/50"
           : type === "error"
-          ? "bg-danger"
-          : "bg-grim"
-      } h-12 flex items-center p-5`}
+          ? "bg-danger shadow-danger/50"
+          : "bg-grim shadow-black/50"
+      } h-12 flex items-center`}
       role="alert"
     >
-      {type === "warning" && (
+      {type === "success" && (
         <CheckBadgeIcon className="h-6 w-6 inline mr-2" aria-hidden="true" />
       )}
-      {type === "success" && (
+      {type === "warning" && (
         <ExclamationCircleIcon
           className="h-6 w-6 inline mr-2"
           aria-hidden="true"

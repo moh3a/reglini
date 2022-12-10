@@ -10,9 +10,9 @@ export interface ISession {
   };
 }
 
-export interface IEmailOptions {
+export interface EmailOptions {
   from?: string;
-  to?: string | null;
+  to?: string;
   subject: string;
   text: string;
 }

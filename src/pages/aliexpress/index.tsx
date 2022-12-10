@@ -3,6 +3,7 @@ import Head from "next/head";
 
 import { APP_NAME } from "@config/general";
 import MainSearch from "@components/aliexpress/MainSearch";
+import ProductsList from "@components/aliexpress/ProductsList";
 
 const AliexpressPage = () => {
   return (
@@ -11,13 +12,15 @@ const AliexpressPage = () => {
         <title>{`Search Aliexpress | ${APP_NAME}`}</title>
       </Head>
       <MainSearch />
+      <ProductsList />
     </>
   );
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const messages = (await import(`../../../locales/${locale}/AliexpressPage.json`))
-    .default;
+  const messages = (
+    await import(`../../../locales/${locale}/AliexpressPage.json`)
+  ).default;
   return {
     props: {
       messages,

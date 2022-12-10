@@ -1,3 +1,5 @@
+- zapiex: add pagination to search
 - account details: edit address
 - update account
+- aliexpress api
 - fix locale

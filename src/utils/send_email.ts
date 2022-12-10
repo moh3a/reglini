@@ -1,19 +1,19 @@
-import { IEmailOptions } from "../types";
+import { EmailOptions } from "../types";
+import {createTransport, SendMailOptions} from "nodemailer";
 
 // USING SMTP RELAY
 
-const nodemailer = require("nodemailer");
-const SendEmail = ({ from, to, subject, text }: IEmailOptions) => {
+const SendEmail = ({ from, to, subject, text }: EmailOptions) => {
   const date = new Date().toISOString();
 
-  const transporter = nodemailer.createTransport({
+  const transporter = createTransport({
     service: process.env.SENDGRID_SMTP_SERVICE,
     auth: {
       user: process.env.SENDGRID_SMTP_USERNAME,
       pass: process.env.SENDGRID_SMTP_PASSWORD,
     },
   });
-  const mailOptions = {
+  const mailOptions: SendMailOptions = {
     from,
     to,
     subject,
@@ -66,4 +66,5 @@ const SendEmail = ({ from, to, subject, text }: IEmailOptions) => {
     }
   });
 };
+
 export default SendEmail;

@@ -2,6 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Dispatch, Fragment, ReactNode, SetStateAction } from "react";
 
 interface ModalProps {
+  type?: "error" | "warning" | "success";
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
@@ -9,6 +10,7 @@ interface ModalProps {
 }
 
 export default function Modal({
+  type,
   isOpen,
   setIsOpen,
   children,
@@ -45,7 +47,13 @@ export default function Modal({
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel
-                className={`w-full max-w-md lg:max-w-6xl transform rounded-2xl bg-white dark:bg-grim bg-opacity-95 p-6 text-left align-middle shadow-xl transition-all`}
+                className={`w-full max-w-md lg:max-w-6xl transform rounded-2xl ${
+                  !type && "bg-white dark:bg-grim"
+                } ${type === "error" && "text-white bg-danger"} ${
+                  type === "warning" && "text-white bg-warning"
+                } ${
+                  type === "success" && "text-white bg-success"
+                } bg-opacity-95 p-6 text-left align-middle shadow-xl transition-all`}
               >
                 <Dialog.Title as="h3" className="text-lg leading-6">
                   {title}

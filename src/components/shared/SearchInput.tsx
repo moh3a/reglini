@@ -58,7 +58,7 @@ const SearchInput = ({
         style={{ width }}
         readOnly={readOnly}
         placeholder={placeholder}
-        className={className ? className : TEXT_INPUT}
+        className={className ? className : TEXT_INPUT + " pr-8"}
         tabIndex={tabIndex}
         autoComplete={autocomplete ? "on" : "off"}
       />
