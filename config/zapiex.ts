@@ -306,6 +306,46 @@ export interface ZAE_Product {
       bulkPrice: { value: number; display: string };
     };
   };
+  priceSummary: {
+    web: {
+      originalPrice: {
+        min: { value: number; display: string };
+        max: { value: number; display: string };
+      };
+      hasDiscount: boolean;
+      discountPercentage: number;
+      discountedPrice: {
+        min: { value: number; display: string };
+        max: { value: number; display: string };
+      };
+      hasBulkPrice: boolean;
+      bulkMinQuantity: number;
+      bulkDiscountPercentage: number;
+      bulkPrice: {
+        min: { value: number; display: string };
+        max: { value: number; display: string };
+      };
+    };
+    app: {
+      originalPrice: {
+        min: { value: number; display: string };
+        max: { value: number; display: string };
+      };
+      hasDiscount: boolean;
+      discountPercentage: number;
+      discountedPrice: {
+        min: { value: number; display: string };
+        max: { value: number; display: string };
+      };
+      hasBulkPrice: boolean;
+      bulkMinQuantity: number;
+      bulkDiscountPercentage: number;
+      bulkPrice: {
+        min: { value: number; display: string };
+        max: { value: number; display: string };
+      };
+    };
+  };
   hasAttributes: boolean;
   attributes: [
     {

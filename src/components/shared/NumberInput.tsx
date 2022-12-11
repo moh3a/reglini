@@ -17,6 +17,10 @@ interface NumberInputProps {
   className?: string;
   required?: boolean;
   width?: any;
+  min?: number;
+  max?: number;
+  step?: number;
+  disabled?: boolean;
 }
 
 const NumberInput = ({
@@ -35,6 +39,10 @@ const NumberInput = ({
   size,
   required,
   width,
+  disabled,
+  max,
+  min,
+  step,
 }: NumberInputProps) => {
   return (
     <input
@@ -54,6 +62,10 @@ const NumberInput = ({
       onBlur={onBlur}
       onFocus={onFocus}
       onKeyUp={onKeyUp}
+      step={step}
+      min={min}
+      max={max}
+      disabled={disabled}
       readOnly={readOnly}
       placeholder={placeholder}
       className={className ? className : TEXT_INPUT}

@@ -21,12 +21,24 @@ a {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
+div::-webkit-scrollbar {
+  width: 12px; /* width of the entire scrollbar */
+  height: 12px;
+}
+
+div::-webkit-scrollbar-track {
+  background: white; /* color of the tracking area */
+}
+
+div::-webkit-scrollbar-thumb {
+  background-color: rgb(117, 123, 136); /* color of the scroll thumb */
+  border-radius: 25px; /* roundness of the scroll thumb */
+  border: 2px solid white; /* creates padding around scroll thumb */
+}
+
+@media (max-width: 1024px) {
+  div::-webkit-scrollbar {
+    width: 2px; /* width of the entire scrollbar */
+    height: 12px;
   }
 }
