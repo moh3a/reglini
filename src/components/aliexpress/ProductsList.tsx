@@ -20,9 +20,9 @@ const ProductsList = () => {
   }>();
 
   const searchProducts = trpc.zapiex.search.useQuery({
-    text: q?.toString(),
+    text: q as string,
     locale: router.locale,
-    page: parseInt(p?.toString() ?? "1"),
+    page: parseInt((p as string) ?? "1"),
   });
 
   return (

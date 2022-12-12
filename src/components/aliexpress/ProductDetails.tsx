@@ -1,23 +1,21 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { HeartIcon } from "@heroicons/react/24/solid";
+import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 
 import { ZAE_Product } from "@config/zapiex";
 import Modal from "@components/shared/Modal";
 import Loading from "@components/shared/Loading";
+import Button from "@components/shared/Button";
 import ProductImage from "./details/ProductImage";
 import ProductReviews from "./details/ProductReviews";
 import ProductProperty from "./details/ProductProperty";
 import ProductQuantity from "./details/ProductQuantity";
 import ProductPrice from "./details/ProductPrice";
-import { trpc } from "@utils/trpc";
 import ProductShipping from "./details/ProductShipping";
-import Button from "@components/shared/Button";
-import {
-  CursorArrowRaysIcon,
-  ShoppingBagIcon,
-} from "@heroicons/react/24/outline";
-import { HeartIcon } from "@heroicons/react/24/solid";
+import BuyProduct from "./details/BuyProduct";
 import ProductFeatures from "./ProductFeatures";
+import { trpc } from "@utils/trpc";
 
 export interface SelectedVariation {
   imageUrl: string;
@@ -31,12 +29,22 @@ export interface SelectedVariation {
 
 const ProductDetails = ({ id }: { id: string }) => {
   const router = useRouter();
-  const product = trpc.zapiex.product.useQuery({
-    id,
-    locale: router.locale?.toUpperCase(),
-  });
+  const product = trpc.zapiex.product.useQuery(
+    {
+      id,
+      locale: router.locale?.toUpperCase(),
+    },
+    {
+      onSettled(data, error) {
+        if (data && data.data) {
+          setShowImage(data.data.productImages[0]);
+          setSelectedShipping(data.data.shipping.carriers[0]);
+        }
+      },
+    }
+  );
   const [message, setMessage] = useState<{
-    type?: "success" | "warning";
+    type?: "success" | "warning" | "error";
     text?: string;
   }>();
   const [isOpen, setIsOpen] = useState(false);
@@ -44,17 +52,12 @@ const ProductDetails = ({ id }: { id: string }) => {
   const [showImage, setShowImage] = useState("");
   const [selectedShipping, setSelectedShipping] =
     useState<ZAE_Product["shipping"]["carriers"]["0"]>();
-  useEffect(() => {
-    if (product.data && product.data.data) {
-      setShowImage(product.data?.data?.productImages[0]);
-      setSelectedShipping(product.data?.data?.shipping.carriers[0]);
-    }
-  }, [product.data]);
 
   const [quantity, setQuantity] = useState(1);
   const [properties, setProperties] = useState([{ name: "", value: "" }]);
   const [variation, setVariation] =
     useState<({ name: string; value: string } | undefined)[]>();
+
   useEffect(() => {
     if (product.data && product.data.data) {
       if (product.data.data.hasProperties && properties) {
@@ -66,17 +69,10 @@ const ProductDetails = ({ id }: { id: string }) => {
       } else if (!product.data.data.hasProperties) {
       }
     }
-  }, [product, properties]);
+  }, [product.data, properties]);
 
-  const [selectedVariation, setSelectedVariation] = useState<{
-    imageUrl: string;
-    price: {};
-    properties: any[];
-    sku: string;
-    thumbnailImageUrl: string;
-    quantity?: number;
-    stock?: number;
-  }>();
+  const [selectedVariation, setSelectedVariation] =
+    useState<SelectedVariation>();
 
   useEffect(() => {
     if (product.data && product.data.data) {
@@ -117,7 +113,7 @@ const ProductDetails = ({ id }: { id: string }) => {
         setSelectedVariation({ ...theOne, quantity });
       }
     }
-  }, [product, variation, quantity]);
+  }, [product.data, variation, quantity]);
 
   return (
     <>
@@ -188,18 +184,12 @@ const ProductDetails = ({ id }: { id: string }) => {
                     setSelectedShipping={setSelectedShipping}
                   />
                   <div className="mt-4 flex justify-end space-x-2">
-                    <Button
-                      icon={
-                        <CursorArrowRaysIcon
-                          className="h-5 w-5 inline mr-1"
-                          aria-hidden="true"
-                        />
-                      }
-                      onClick={() => console.log("buy product")}
-                      variant="solid"
-                    >
-                      Buy
-                    </Button>
+                    <BuyProduct
+                      product={product.data.data}
+                      selectedShipping={selectedShipping}
+                      selectedVariation={selectedVariation}
+                      setMessage={setMessage}
+                    />
                     <Button
                       icon={
                         <ShoppingBagIcon

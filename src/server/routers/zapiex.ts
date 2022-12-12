@@ -23,7 +23,7 @@ export const zapiexRouter = router({
     .query(async ({ ctx, input }) => {
       try {
         const data = await ctx.zapiex.searchProducts(
-          input.text ?? "new",
+          input.text && input.text.length > 0 ? input.text : "new",
           input.locale,
           input.page
         );

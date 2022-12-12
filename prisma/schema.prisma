@@ -57,6 +57,11 @@ enum ROLES {
   ADMIN
 }
 
+model Config {
+  id         String @id @default(cuid())
+  commission Float
+}
+
 model Address {
   id         String  @id @default(cuid())
   userId     String  @unique

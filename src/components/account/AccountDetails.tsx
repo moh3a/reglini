@@ -7,9 +7,9 @@ import {
 } from "@heroicons/react/24/outline";
 
 import { trpc } from "@utils/trpc";
-import Edit from "./EditAccount";
-import EditAddress from "./EditAddress";
-import EditProfilePicture from "./EditProfilePicture";
+import Edit from "./details/EditAccount";
+import EditAddress from "./details/EditAddress";
+import EditProfilePicture from "./details/EditProfilePicture";
 import Loading from "../shared/Loading";
 import Link from "next/link";
 import Button from "@components/shared/Button";

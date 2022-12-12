@@ -10,6 +10,20 @@ export interface ISession {
   };
 }
 
+export interface AENOProduct {
+  productId: string;
+  name: string;
+  price: number;
+  originalPrice: number;
+  imageUrl: string;
+  properties: any;
+  quantity: number;
+  sku: string;
+  carrierId: string;
+  shippingPrice: number;
+  totalPrice: number;
+}
+
 export interface EmailOptions {
   from?: string;
   to?: string;

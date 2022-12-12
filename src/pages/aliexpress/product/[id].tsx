@@ -1,4 +1,3 @@
-import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
@@ -17,17 +16,6 @@ const AliexpressProductPage = () => {
       {id && <ProductDetails id={id as string} />}
     </>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  const messages = (
-    await import(`../../../../locales/${locale}/AliexpressPage.json`)
-  ).default;
-  return {
-    props: {
-      messages,
-    },
-  };
 };
 
 import Layout from "@components/layout/Layout";
