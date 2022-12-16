@@ -1,19 +1,29 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from "react";
+import {
+  CursorArrowRaysIcon,
+  CheckBadgeIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 
 import { PADDING, ROUNDED, SHADOW, TEXT_GRADIENT } from "@config/design";
 import Title from "@components/shared/Title";
 import Loading from "@components/shared/Loading";
+import Button from "@components/shared/Button";
 import Edit from "../details/EditAccount";
 import EditAddress from "../details/EditAddress";
 import { trpc } from "@utils/trpc";
 import { AENOProduct } from "../../../types";
-import Button from "@components/shared/Button";
-import { CursorArrowRaysIcon } from "@heroicons/react/24/outline";
+import Banner from "@components/shared/Banner";
 
 const CreateOrder = () => {
   const profile = trpc.account.profile.useQuery();
   const [products, setProducts] = useState<AENOProduct[] | undefined>();
+  const [message, setMessage] = useState<{
+    type?: "success" | "error";
+    text?: string;
+  }>({ type: undefined, text: undefined });
+  const [valid, setValid] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -21,12 +31,35 @@ const CreateOrder = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (profile.data && profile.data.user) {
+      if (products && products.length > 0) {
+        setValid(true);
+      } else setValid(false);
+    } else setValid(false);
+  }, [products, profile.data]);
+
+  const createOrderHandler = () => {
+    if (profile.data && profile.data.user) {
+      if (
+        profile.data.user.profile?.phoneNumber &&
+        profile.data.user.profile?.realName &&
+        profile.data.user.address?.postalCode
+      ) {
+        console.log("create order now");
+      } else {
+        setMessage({ type: "error", text: "Fill the required fields." });
+        setTimeout(() => {
+          setMessage({ type: undefined, text: undefined });
+        }, 3000);
+      }
+    }
+  };
+
   return (
     <div className="mb-10">
       <Title title="Place a new order" />
-      <dl
-        className={`max-w-2xl m-auto truncate ${PADDING} ${SHADOW} ${ROUNDED} `}
-      >
+      <dl className={`max-w-2xl m-auto ${PADDING} ${SHADOW} ${ROUNDED} `}>
         {profile.isLoading && (
           <div className="w-full flex justify-center items-center">
             <Loading size="medium" />
@@ -112,6 +145,7 @@ const CreateOrder = () => {
               </dd>
             ))}
         </div>
+        {message.type && <Banner type={message.type} message={message.text} />}
         <div className="flex justify-end px-4 py-5">
           <Button
             icon={
@@ -120,8 +154,60 @@ const CreateOrder = () => {
                 aria-hidden="true"
               />
             }
+            disabled={!valid}
+            tooltip={
+              <ul>
+                {profile.data && profile.data.user && (
+                  <>
+                    <li>
+                      {profile.data.user.profile?.phoneNumber ? (
+                        <CheckBadgeIcon
+                          className="h-5 w-5 text-success inline mr-1"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <XMarkIcon
+                          className="h-5 w-5 text-danger inline mr-1"
+                          aria-hidden="true"
+                        />
+                      )}
+                      Add a phone number.
+                    </li>
+                    <li>
+                      {profile.data.user.profile?.realName ? (
+                        <CheckBadgeIcon
+                          className="h-5 w-5 text-success inline mr-1"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <XMarkIcon
+                          className="h-5 w-5 text-danger inline mr-1"
+                          aria-hidden="true"
+                        />
+                      )}
+                      Add your real identity name.
+                    </li>
+                    <li>
+                      {profile.data.user.address?.postalCode ? (
+                        <CheckBadgeIcon
+                          className="h-5 w-5 text-success inline mr-1"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <XMarkIcon
+                          className="h-5 w-5 text-danger inline mr-1"
+                          aria-hidden="true"
+                        />
+                      )}
+                      Add a shipping address.
+                    </li>
+                  </>
+                )}
+              </ul>
+            }
             variant="solid"
             type="button"
+            onClick={createOrderHandler}
           >
             Place your order
           </Button>

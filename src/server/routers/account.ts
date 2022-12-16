@@ -78,6 +78,42 @@ export const accountRouter = router({
         error: "You must be logged in.",
       };
   }),
+  addToWishlist: procedure
+    .input(
+      z.object({
+        id: z.string(),
+        imageUrl: z.string(),
+        name: z.string(),
+        price: z.number(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.session && ctx.session.user) {
+        try {
+          await ctx.prisma.wishlist.upsert({
+            where: { id: input.id },
+            update: input,
+            create: {
+              ...input,
+              user: { connect: { email: ctx.session.user.email! } },
+            },
+          });
+          return {
+            success: true,
+            error: null,
+          };
+        } catch (error) {
+          return {
+            success: false,
+            error: JSON.stringify(error),
+          };
+        }
+      } else
+        return {
+          success: false,
+          error: "You must be logged in.",
+        };
+    }),
   verification: procedure
     .input(z.object({ token: z.string() }))
     .query(async ({ ctx, input }) => {

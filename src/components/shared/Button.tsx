@@ -1,5 +1,5 @@
-import React from "react";
 import { BUTTON_VARIANTS, PADDING, ROUNDED, SHADOW } from "@config/design";
+import { ReactNode, useState } from "react";
 
 interface ButtonProps {
   variant?: "solid" | "outline";
@@ -7,8 +7,9 @@ interface ButtonProps {
   tabIndex?: number;
   border?: string;
   color?: string;
-  children?: React.ReactNode;
-  icon?: React.ReactNode;
+  children?: ReactNode;
+  icon?: ReactNode;
+  tooltip?: ReactNode;
   height?: string;
   onClick?: () => void;
   radius?: string;
@@ -33,35 +34,50 @@ const Button = ({
   onClick,
   disabled,
   withShadow,
+  tooltip,
 }: ButtonProps) => {
+  const [isShown, setIsShown] = useState(false);
+
   return (
-    <button
-      type={type}
-      className={
-        (variant === "solid"
-          ? BUTTON_VARIANTS.solid
-          : variant === "outline"
-          ? BUTTON_VARIANTS.outline
-          : className) +
-        (withShadow ? " " + SHADOW : "") +
-        (className ? className : ` ${PADDING} ${ROUNDED} `)
-      }
-      onClick={onClick}
-      tabIndex={tabIndex}
-      disabled={disabled}
-      style={{
-        backgroundColor: color,
-        border,
-        borderRadius: radius,
-        height,
-        width,
-      }}
-    >
-      {icon}
-      <span className={icon ? "text-grim dark:text-white" : ""}>
-        {children}
-      </span>
-    </button>
+    <div className="inline relative">
+      {tooltip && isShown && (
+        <div
+          className={`absolute bottom-10 z-100 max-w-lg backdrop-blur-md bg-black/5 dark:bg-black/50 ${PADDING} ${ROUNDED} `}
+        >
+          {tooltip}
+        </div>
+      )}
+      <button
+        type={type}
+        className={
+          (variant === "solid"
+            ? BUTTON_VARIANTS.solid
+            : variant === "outline"
+            ? BUTTON_VARIANTS.outline
+            : className) +
+          (withShadow ? " " + SHADOW : "") +
+          (className ? className : ` ${PADDING} ${ROUNDED} `) +
+          " disabled:bg-gray-500 disabled:text-gray-300 disabled:cursor-not-allowed"
+        }
+        onMouseEnter={() => tooltip && setIsShown(true)}
+        onMouseLeave={() => tooltip && setIsShown(false)}
+        onClick={onClick}
+        tabIndex={tabIndex}
+        disabled={disabled}
+        style={{
+          backgroundColor: color,
+          border,
+          borderRadius: radius,
+          height,
+          width,
+        }}
+      >
+        {icon}
+        <span className={icon ? "text-grim dark:text-white" : ""}>
+          {children}
+        </span>
+      </button>
+    </div>
   );
 };
 

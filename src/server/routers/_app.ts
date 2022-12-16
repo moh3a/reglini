@@ -5,6 +5,7 @@ import SendEmail from "@utils/send_email";
 import { authRouter } from "./auth";
 import { currencyRouter } from "./currency";
 import { accountRouter } from "./account";
+import { wishlistRouter } from "./wishlist";
 import { addressRouter } from "./address";
 import { aliexpressRouter } from "./aliexpress";
 import { zapiexRouter } from "./zapiex";
@@ -53,6 +54,7 @@ export const appRouter = router({
   auth: authRouter,
   currency: currencyRouter,
   account: accountRouter,
+  wishlist: wishlistRouter,
   address: addressRouter,
   aliexpress: aliexpressRouter,
   zapiex: zapiexRouter,

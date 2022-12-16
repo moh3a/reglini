@@ -1,15 +1,44 @@
 /* eslint-disable @next/next/no-img-element */
+import { useState } from "react";
+import Link from "next/link";
+import { TrashIcon } from "@heroicons/react/24/outline";
+
+import { PADDING, ROUNDED, SHADOW } from "@config/design";
 import AliExpressLogo from "@components/shared/AliExpressLogo";
 import Button from "@components/shared/Button";
 import Loading from "@components/shared/Loading";
 import Title from "@components/shared/Title";
-import { PADDING, ROUNDED, SHADOW } from "@config/design";
-import { TrashIcon } from "@heroicons/react/24/outline";
+import Banner from "@components/shared/Banner";
 import { trpc } from "@utils/trpc";
-import Link from "next/link";
 
 const Wishlist = () => {
-  const wishlist = trpc.account.wishlist.useQuery();
+  const [message, setMessage] = useState<{
+    type?: "success" | "error";
+    text?: string;
+  }>({ type: undefined, text: undefined });
+  const wishlist = trpc.wishlist.get.useQuery();
+  const deleteMutation = trpc.wishlist.delete.useMutation();
+  const utils = trpc.useContext();
+
+  const deleteHandler = async (id: string) => {
+    await deleteMutation.mutateAsync(
+      { id },
+      {
+        onSettled(data, error) {
+          if (error) setMessage({ type: "error", text: error.message });
+          if (data) {
+            if (data.success)
+              setMessage({ type: "success", text: data.message });
+            else setMessage({ type: "error", text: data.error });
+            utils.wishlist.invalidate();
+          }
+          setTimeout(() => {
+            setMessage({ type: undefined, text: undefined });
+          }, 5000);
+        },
+      }
+    );
+  };
 
   return (
     <div className="mb-10">
@@ -22,6 +51,7 @@ const Wishlist = () => {
       {wishlist.data?.wishlist && wishlist.data?.wishlist.length === 0 && (
         <p className="font-bold font-mono text-sm text-center">Such empty!</p>
       )}
+      {message.type && <Banner type={message?.type} message={message?.text} />}
       <div className="my-8 grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
         {wishlist.data?.wishlist &&
           wishlist.data?.wishlist.map((item) => (
@@ -51,7 +81,7 @@ const Wishlist = () => {
                 <div className="space-x-1">
                   <Button
                     variant="solid"
-                    onClick={() => console.log("to delete")}
+                    onClick={() => deleteHandler(item.id)}
                   >
                     <TrashIcon className="h-4 w-4" />
                   </Button>
