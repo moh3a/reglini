@@ -2,7 +2,8 @@
   - fix naviating from product to aliexpress search page
   - fix pagination
   - fix account badge in navbar
-- button actions: cart, new order...
+- button actions: new order...
+- add properties to cart and buy product
 - account details: edit address
 - update account
 - aliexpress api

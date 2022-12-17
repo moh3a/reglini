@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { HeartIcon } from "@heroicons/react/24/solid";
+import { useSession } from "next-auth/react";
 
 import Loading from "@components/shared/Loading";
 import Modal from "@components/shared/Modal";
@@ -24,6 +25,41 @@ const ProductsList = () => {
     locale: router.locale,
     page: parseInt((p as string) ?? "1"),
   });
+
+  const { status } = useSession();
+  const wishlistMutation = trpc.wishlist.add.useMutation();
+
+  const wishlistHandler = async (product: any) => {
+    if (status === "unauthenticated") {
+      setTimeout(() => {
+        setMessage({ type: undefined, text: undefined });
+      }, 3000);
+      setMessage({
+        type: "error",
+        text: "You should be logged in to do this action.",
+      });
+    }
+    if (status === "authenticated") {
+      await wishlistMutation.mutateAsync(
+        {
+          id: product.productId,
+          name: product.title,
+          price: product.productMinPrice.value,
+          imageUrl: product.imageUrl,
+        },
+        {
+          onSettled(data, error) {
+            if (error) setMessage({ type: "error", text: error.message });
+            if (data) {
+              if (!data.success)
+                setMessage({ type: "error", text: data.error });
+              else setMessage({ type: "success", text: data.message });
+            }
+          },
+        }
+      );
+    }
+  };
 
   return (
     <div className="my-8 mx-2">
@@ -73,7 +109,7 @@ const ProductsList = () => {
                   </div>
                   <div>
                     <button
-                      onClick={() => console.log("add to wishlist")}
+                      onClick={() => wishlistHandler(product)}
                       className={`group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                     >
                       <HeartIcon

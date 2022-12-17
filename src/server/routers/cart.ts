@@ -3,16 +3,16 @@ import { z } from "zod";
 
 import { router, procedure } from "../trpc";
 
-export const wishlistRouter = router({
+export const cartRouter = router({
   get: procedure.query(async ({ ctx }) => {
     if (ctx.session && ctx.session.user) {
       try {
-        const wishlist = await ctx.prisma.wishlist.findMany({
+        const cart = await ctx.prisma.cart.findMany({
           where: { user: USER_FROM_TRPC_CTX(ctx.session) },
         });
         return {
           success: true,
-          wishlist,
+          cart,
         };
       } catch (error) {
         return {
@@ -33,12 +33,18 @@ export const wishlistRouter = router({
         imageUrl: z.string(),
         name: z.string(),
         price: z.number(),
+        carrierId: z.string(),
+        originalPrice: z.number().nullish(),
+        quantity: z.number(),
+        shippingPrice: z.number().nullish(),
+        sku: z.string(),
+        totalPrice: z.number().nullish(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       if (ctx.session && ctx.session.user) {
         try {
-          await ctx.prisma.wishlist.upsert({
+          await ctx.prisma.cart.upsert({
             where: { id: input.id },
             update: input,
             create: {
@@ -48,7 +54,7 @@ export const wishlistRouter = router({
           });
           return {
             success: true,
-            message: "Item successfully added to your wishlist.",
+            message: "Item successfully added to your cart.",
           };
         } catch (error) {
           return {
@@ -76,7 +82,7 @@ export const wishlistRouter = router({
           });
           return {
             success: true,
-            message: "Item successfully deleted from your wishlist.",
+            message: "Item successfully deleted from your cart.",
           };
         } catch (error) {
           return {

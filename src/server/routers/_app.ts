@@ -9,6 +9,7 @@ import { wishlistRouter } from "./wishlist";
 import { addressRouter } from "./address";
 import { aliexpressRouter } from "./aliexpress";
 import { zapiexRouter } from "./zapiex";
+import { cartRouter } from "./cart";
 
 export const appRouter = router({
   email: procedure
@@ -55,6 +56,7 @@ export const appRouter = router({
   currency: currencyRouter,
   account: accountRouter,
   wishlist: wishlistRouter,
+  cart: cartRouter,
   address: addressRouter,
   aliexpress: aliexpressRouter,
   zapiex: zapiexRouter,

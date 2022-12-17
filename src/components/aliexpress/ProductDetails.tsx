@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { HeartIcon } from "@heroicons/react/24/solid";
-import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 
 import { ZAE_Product } from "@config/zapiex";
 import Modal from "@components/shared/Modal";
 import Loading from "@components/shared/Loading";
-import Button from "@components/shared/Button";
 import ProductImage from "./details/ProductImage";
 import ProductReviews from "./details/ProductReviews";
 import ProductProperty from "./details/ProductProperty";
@@ -16,6 +13,8 @@ import ProductShipping from "./details/ProductShipping";
 import BuyProduct from "./details/BuyProduct";
 import ProductFeatures from "./ProductFeatures";
 import { trpc } from "@utils/trpc";
+import AddToCart from "./details/AddToCart";
+import AddToWishlist from "./details/AddToWishlist";
 
 export interface SelectedVariation {
   imageUrl: string;
@@ -190,30 +189,16 @@ const ProductDetails = ({ id }: { id: string }) => {
                       selectedVariation={selectedVariation}
                       setMessage={setMessage}
                     />
-                    <Button
-                      icon={
-                        <ShoppingBagIcon
-                          className="h-5 w-5 inline mr-1"
-                          aria-hidden="true"
-                        />
-                      }
-                      onClick={() => console.log("add to cart")}
-                      variant="outline"
-                    >
-                      Cart
-                    </Button>
-                    <Button
-                      icon={
-                        <HeartIcon
-                          className="h-5 w-5 inline mr-1"
-                          aria-hidden="true"
-                        />
-                      }
-                      onClick={() => console.log("add to wishlist")}
-                      variant="outline"
-                    >
-                      Wishlist
-                    </Button>
+                    <AddToCart
+                      product={product.data.data}
+                      setMessage={setMessage}
+                      selectedShipping={selectedShipping}
+                      selectedVariation={selectedVariation}
+                    />
+                    <AddToWishlist
+                      product={product.data.data}
+                      setMessage={setMessage}
+                    />
                   </div>
                 </div>
               </div>
