@@ -1,5 +1,6 @@
 import axios from "axios";
 import { config } from "dotenv";
+import { AEProduct } from "../src/types";
 config();
 
 const parseLocale = (locale?: string | null) => {
@@ -67,13 +68,7 @@ export const ZAE_SearchProduct = async (
 };
 
 export const ZAE_CreateOrder = async (
-  products: {
-    productId: string;
-    sku: string;
-    quantity: number;
-    carrierId: string;
-    orderMemo: string;
-  }[],
+  products: AEProduct[],
   shippingAddress: ZAE_ShippingAddres
 ) => {
   const { data } = await axios({
@@ -534,8 +529,9 @@ export interface ZAE_ShippingAddres {
   city: string;
   zipCode: string;
   addressLine1: string;
-  addressLine2: string;
+  addressLine2?: string;
   mobilePhone: string;
+  phoneCountry: "+213";
 }
 
 export interface ZAE_Order {

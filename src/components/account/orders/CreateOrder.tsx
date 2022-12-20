@@ -18,6 +18,7 @@ import Banner from "@components/shared/Banner";
 
 const CreateOrder = () => {
   const profile = trpc.account.profile.useQuery();
+  const createOrderMutation = trpc.order.create.useMutation();
   const [products, setProducts] = useState<AENOProduct[] | undefined>();
   const [message, setMessage] = useState<{
     type?: "success" | "error";
@@ -39,14 +40,26 @@ const CreateOrder = () => {
     } else setValid(false);
   }, [products, profile.data]);
 
-  const createOrderHandler = () => {
-    if (profile.data && profile.data.user) {
+  const createOrderHandler = async () => {
+    if (profile.data && profile.data.user && products) {
       if (
         profile.data.user.profile?.phoneNumber &&
         profile.data.user.profile?.realName &&
         profile.data.user.address?.postalCode
       ) {
-        console.log("create order now");
+        await createOrderMutation.mutateAsync({
+          products,
+          shippingAddress: {
+            countryCode: "DZ",
+            name: profile.data.user.profile?.realName,
+            phoneCountry: "+213",
+            mobilePhone: profile.data.user.profile?.phoneNumber,
+            city: profile.data.user.address?.commune ?? "",
+            addressLine1: profile.data.user.address?.streetName ?? "",
+            province: profile.data.user.address?.wilaya ?? "",
+            zipCode: profile.data.user.address?.postalCode,
+          },
+        });
       } else {
         setMessage({ type: "error", text: "Fill the required fields." });
         setTimeout(() => {
