@@ -14,11 +14,15 @@ export const orderRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       if (ctx.session && ctx.session.user) {
-        const result = await ctx.zapiex.createOrder(
-          input.products,
-          input.shippingAddress
-        );
-        console.log(result);
+        try {
+          const result = await ctx.zapiex.createOrder(
+            input.products,
+            input.shippingAddress
+          );
+          console.log(result);
+        } catch (error) {
+          return { success: false, error: JSON.stringify(error) };
+        }
       } else
         return {
           success: false,

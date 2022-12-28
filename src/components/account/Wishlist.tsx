@@ -3,7 +3,12 @@ import { useState } from "react";
 import Link from "next/link";
 import { TrashIcon } from "@heroicons/react/24/outline";
 
-import { PADDING, ROUNDED, SHADOW } from "@config/design";
+import {
+  BG_TRANSPARENT_BACKDROP,
+  PADDING,
+  ROUNDED,
+  SHADOW,
+} from "@config/design";
 import AliExpressLogo from "@components/shared/AliExpressLogo";
 import Button from "@components/shared/Button";
 import Loading from "@components/shared/Loading";
@@ -57,7 +62,7 @@ const Wishlist = () => {
           wishlist.data?.wishlist.map((item) => (
             <div
               key={item.id}
-              className={`max-w-xs mx-auto overflow-hidden bg-black/5 dark:bg-black/50 ${ROUNDED} ${SHADOW} ${PADDING} `}
+              className={`max-w-xs mx-auto overflow-hidden ${BG_TRANSPARENT_BACKDROP} ${ROUNDED} ${SHADOW} ${PADDING} `}
             >
               <div>
                 <h1>

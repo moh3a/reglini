@@ -4,7 +4,12 @@ import { HomeIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { PADDING, ROUNDED, SHADOW } from "@config/design";
+import {
+  BG_TRANSPARENT_BACKDROP,
+  PADDING,
+  ROUNDED,
+  SHADOW,
+} from "@config/design";
 import Button from "@components/shared/Button";
 import Title from "@components/shared/Title";
 import { trpc } from "@utils/trpc";
@@ -95,7 +100,7 @@ const DeleteAccount = () => {
               leaveTo="opacity-0 scale-95"
             >
               <div
-                className={`inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-center align-middle transition-all transform backdrop-blur-md bg-black/5 dark:bg-black/50 ${SHADOW} ${PADDING} ${ROUNDED}`}
+                className={`inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-center align-middle transition-all transform ${BG_TRANSPARENT_BACKDROP} ${SHADOW} ${PADDING} ${ROUNDED}`}
               >
                 <form onSubmit={deleteAccountHandler} className="py-5">
                   <Dialog.Title as="h2">

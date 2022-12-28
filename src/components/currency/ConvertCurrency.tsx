@@ -3,7 +3,13 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
 import { CURRENCIES } from "@prisma/client";
 
-import { PADDING, ROUNDED, SHADOW, TEXT_GRADIENT } from "@config/design";
+import {
+  BG_TRANSPARENT_BACKDROP,
+  PADDING,
+  ROUNDED,
+  SHADOW,
+  TEXT_GRADIENT,
+} from "@config/design";
 import Loading from "@components/shared/Loading";
 import NumberInput from "@components/shared/NumberInput";
 import { trpc } from "@utils/trpc";
@@ -110,7 +116,7 @@ const ConvertCurrency = () => {
             >
               <div className="relative">
                 <Listbox.Button
-                  className={`cursor-pointer border-0 border-b border-grim dark:border-aliexpress text-sm ${SHADOW} ${ROUNDED} ${PADDING} bg-black/5 dark:bg-black/50`}
+                  className={`cursor-pointer border-0 border-b border-grim dark:border-aliexpress text-sm ${SHADOW} ${ROUNDED} ${PADDING} ${BG_TRANSPARENT_BACKDROP}`}
                 >
                   <span className="block truncate pr-4">
                     {selectedDevise.exchange}
@@ -126,7 +132,7 @@ const ConvertCurrency = () => {
                   leaveTo="opacity-0"
                 >
                   <Listbox.Options
-                    className={`absolute py-1 mt-1 overflow-auto text-base max-h-60 sm:text-sm ${SHADOW} ${ROUNDED} bg-black/5 dark:bg-black/50`}
+                    className={`absolute py-1 mt-1 overflow-auto text-base max-h-60 sm:text-sm ${SHADOW} ${ROUNDED} ${BG_TRANSPARENT_BACKDROP}`}
                   >
                     {currenciesQuery.data.currencies.map((currency) => (
                       <Listbox.Option

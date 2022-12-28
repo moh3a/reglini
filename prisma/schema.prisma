@@ -105,7 +105,8 @@ model Wishlist {
 }
 
 model Product {
-  id            String  @unique
+  id            String  @id @default(cuid())
+  productId     String
   name          String
   imageUrl      String
   sku           String?

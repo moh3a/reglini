@@ -1,4 +1,10 @@
-import { BUTTON_VARIANTS, PADDING, ROUNDED, SHADOW } from "@config/design";
+import {
+  BG_TRANSPARENT_BACKDROP,
+  BUTTON_VARIANTS,
+  PADDING,
+  ROUNDED,
+  SHADOW,
+} from "@config/design";
 import { ReactNode, useState } from "react";
 
 interface ButtonProps {
@@ -42,7 +48,7 @@ const Button = ({
     <div className="inline relative">
       {tooltip && isShown && (
         <div
-          className={`absolute bottom-10 z-100 max-w-lg backdrop-blur-md bg-black/5 dark:bg-black/50 ${PADDING} ${ROUNDED} `}
+          className={`absolute bottom-10 z-100 max-w-lg ${BG_TRANSPARENT_BACKDROP} ${PADDING} ${ROUNDED} `}
         >
           {tooltip}
         </div>

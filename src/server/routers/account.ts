@@ -31,6 +31,53 @@ export const accountRouter = router({
         error: "You must be logged in.",
       };
   }),
+  edit: procedure
+    .input(
+      z.object({
+        field: z.enum(["name", "realName", "phoneNumber"]),
+        value: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.session && ctx.session.user) {
+        try {
+          if (input.field === "name") {
+            const user = await ctx.prisma.user.update({
+              where: { email: ctx.session.user.email! },
+              data: {
+                name: input.value,
+              },
+            });
+            if (user)
+              return { success: true, message: "Successfully updated." };
+            else return { success: false, error: "An error occured." };
+          } else {
+            const user = await ctx.prisma.user.update({
+              where: { email: ctx.session.user.email! },
+              data: {
+                profile: {
+                  update: {
+                    [input.field]: input.value,
+                  },
+                },
+              },
+            });
+            if (user)
+              return { success: true, message: "Successfully updated." };
+            else return { success: false, error: "An error occured." };
+          }
+        } catch (error) {
+          return {
+            success: false,
+            error: JSON.stringify(error),
+          };
+        }
+      } else
+        return {
+          success: false,
+          error: "You must be logged in.",
+        };
+    }),
   verification: procedure
     .input(z.object({ token: z.string() }))
     .query(async ({ ctx, input }) => {

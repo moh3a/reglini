@@ -1,10 +1,9 @@
 - bugs:
   - fix naviating from product to aliexpress search page
   - fix pagination
-  - fix account badge in navbar
-- button actions: new order...
+- account details: edit address, upload profile picture
+- create order
 - add properties to cart and buy product
-- account details: edit address
-- update account
+- complete email verification
 - aliexpress api
 - fix locale

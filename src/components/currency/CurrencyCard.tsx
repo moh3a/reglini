@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Fragment } from "react";
 import { Currency } from "@prisma/client";
-import { SHADOW } from "@config/design";
+import { BG_TRANSPARENT_BACKDROP, SHADOW } from "@config/design";
 
 const CurrencyCard = ({
   currency,
@@ -13,7 +13,7 @@ const CurrencyCard = ({
   return (
     <Fragment key={currency.id}>
       <div
-        className={` ${SHADOW} rounded-2xl p-4 mx-2 my-4 bg-black/5 dark:bg-black/50`}
+        className={` ${SHADOW} rounded-2xl p-4 mx-2 my-4 ${BG_TRANSPARENT_BACKDROP}`}
       >
         <div className="flex items-center">
           {currency.exchange === "EUR" && (

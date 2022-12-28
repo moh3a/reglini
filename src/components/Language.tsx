@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import Link from "next/link";
 import Button from "./shared/Button";
+import { BG_TRANSPARENT_BACKDROP, ROUNDED, SHADOW } from "@config/design";
 
 const Badge = ({ text }: { text: string }) => {
   return (
@@ -41,7 +42,9 @@ const Language = () => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="origin-top-right absolute right-0 mt-2 rounded-md shadow-md shadow-aliexpress/40 ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items
+          className={`origin-top-right absolute right-0 mt-2 ${ROUNDED} ${SHADOW} ${BG_TRANSPARENT_BACKDROP} ring-1 ring-black ring-opacity-5 focus:outline-none`}
+        >
           <div className="p-1 ">
             {LANGUAGES.map((language) => (
               <Menu.Item key={language.name}>
@@ -52,7 +55,7 @@ const Language = () => {
                       active || router.locale === language.locale
                         ? "bg-gray-100 dark:bg-black/[0.3]"
                         : "",
-                      "rounded-md w-full px-4 py-2 text-sm flex"
+                      `${ROUNDED} w-full px-4 py-2 text-sm flex`
                     )}
                     locale={language.locale}
                     passHref

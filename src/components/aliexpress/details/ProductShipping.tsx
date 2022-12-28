@@ -3,7 +3,12 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
 
 import { ZAE_Product } from "@config/zapiex";
-import { ROUNDED, SHADOW, TEXT_INPUT } from "@config/design";
+import {
+  BG_TRANSPARENT_BACKDROP,
+  ROUNDED,
+  SHADOW,
+  TEXT_INPUT,
+} from "@config/design";
 
 interface ProductShipping {
   product: ZAE_Product;
@@ -47,7 +52,7 @@ const ProductShipping = ({ product, setSelectedShipping }: any) => {
                   leaveTo="opacity-0"
                 >
                   <Listbox.Options
-                    className={`absolute w-full py-1 mt-1 backdrop-blur-md bg-black/5 dark:bg-black/50 ${ROUNDED} ${SHADOW} max-h-60 overflow-auto focus:outline-none text-sm z-100`}
+                    className={`absolute w-full py-1 mt-1 ${BG_TRANSPARENT_BACKDROP} ${ROUNDED} ${SHADOW} max-h-60 overflow-auto focus:outline-none text-sm z-100`}
                   >
                     {product.shipping.carriers.map(
                       (carrier: any, carrierIdx: number) => (

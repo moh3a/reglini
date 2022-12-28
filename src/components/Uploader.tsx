@@ -1,3 +1,4 @@
+import { BG_TRANSPARENT_BACKDROP } from "@config/design";
 import { FolderOpenIcon } from "@heroicons/react/24/outline";
 import { ChangeEvent, useRef } from "react";
 
@@ -32,7 +33,7 @@ const FileUpload = ({ onChange, uploadFileName }: FileUploadProps) => {
   return (
     <form ref={formRef}>
       <button
-        className={`bg-black/5 dark:bg-black/50 p-2 font-bold rounded-full`}
+        className={`${BG_TRANSPARENT_BACKDROP} p-2 font-bold rounded-full`}
         type="button"
         onClick={onClickHandler}
       >

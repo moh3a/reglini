@@ -7,37 +7,66 @@ import {
 
 import Button from "@components/shared/Button";
 import TextInput from "@components/shared/Input";
+import Banner from "@components/shared/Banner";
+import { trpc } from "@utils/trpc";
 
-const Edit = ({
-  field,
-  value,
-  type,
-  editHandler,
-}: {
-  field: string;
+interface EditAccountProps {
+  title: string;
+  field: "name" | "realName" | "phoneNumber";
   value: any;
   type: HTMLInputTypeAttribute;
   editHandler?: (args?: any) => void;
-}) => {
+}
+
+const Edit = ({ title, field, value, type, editHandler }: EditAccountProps) => {
   const [edit, setEdit] = useState(false);
   const [state, setState] = useState(value);
+  const [message, setMessage] = useState<{
+    type?: "error" | "success";
+    text?: string;
+  }>({ type: undefined, text: undefined });
+  const editMutation = trpc.account.edit.useMutation();
+  const utils = trpc.useContext();
 
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
     if (editHandler) {
       editHandler();
     } else {
-      console.log(state);
+      if (state !== value) {
+        await editMutation.mutateAsync(
+          { field, value: state },
+          {
+            onSettled(data, error) {
+              if (error) setMessage({ type: "error", text: error.message });
+              if (data) {
+                if (data.success) {
+                  setMessage({ type: "success", text: data.message });
+                  utils.account.profile.invalidate();
+                } else setMessage({ type: "error", text: data.error });
+              }
+              setTimeout(
+                () => setMessage({ type: undefined, text: undefined }),
+                3000
+              );
+            },
+          }
+        );
+      }
     }
   };
 
   return (
     <>
+      {message.type && <Banner type={message.type} message={message.text} />}
       {edit ? (
         <form onSubmit={submitHandler}>
           <div>
-            <label className="block" htmlFor={field}>
-              {field}
+            <label
+              className="block font-bold font-mono text-sm"
+              htmlFor={field}
+            >
+              {title}
             </label>
             {type === "text" && (
               <TextInput id={field} value={state} setValue={setState} />
@@ -65,7 +94,7 @@ const Edit = ({
               }
               type="submit"
             >
-              save {field}
+              save {title}
             </Button>
           </div>
         </form>
@@ -79,7 +108,7 @@ const Edit = ({
             }
             onClick={() => setEdit(true)}
           >
-            edit {field}
+            edit {title}
           </Button>
         </>
       )}

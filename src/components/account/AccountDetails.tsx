@@ -49,7 +49,8 @@ const AccountDetails = () => {
             </dt>
             <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
               <Edit
-                field="username"
+                title="username"
+                field="name"
                 type="text"
                 value={profile.data.user.name}
               />
@@ -87,7 +88,8 @@ const AccountDetails = () => {
             </dt>
             <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
               <Edit
-                field="full name"
+                title="legal name"
+                field="realName"
                 type="text"
                 value={profile.data.user.profile?.realName}
               />
@@ -99,7 +101,8 @@ const AccountDetails = () => {
             </dt>
             <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
               <Edit
-                field="phone number"
+                title="phone number"
+                field="phoneNumber"
                 type="text"
                 value={profile.data.user.profile?.phoneNumber}
               />

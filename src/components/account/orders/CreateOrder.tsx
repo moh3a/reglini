@@ -86,7 +86,8 @@ const CreateOrder = () => {
               </dt>
               <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
                 <Edit
-                  field="full name"
+                  title="legal name"
+                  field="realName"
                   type="text"
                   value={profile.data.user.profile?.realName}
                 />
@@ -98,7 +99,8 @@ const CreateOrder = () => {
               </dt>
               <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
                 <Edit
-                  field="phone number"
+                  title="phone number"
+                  field="phoneNumber"
                   type="text"
                   value={profile.data.user.profile?.phoneNumber}
                 />
