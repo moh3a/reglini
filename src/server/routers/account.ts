@@ -1,5 +1,6 @@
 import { ACCOUNT_TYPE } from "@prisma/client";
 import { USER_FROM_TRPC_CTX } from "@utils/index";
+import { createHash } from "crypto";
 import { z } from "zod";
 
 import { router, procedure } from "../trpc";
@@ -83,14 +84,28 @@ export const accountRouter = router({
     .query(async ({ ctx, input }) => {
       if (ctx.session && ctx.session.user) {
         try {
+          const verifyCredentialsToken = createHash("sha256")
+            .update(input.token)
+            .digest("hex");
+
           const user = await ctx.prisma.user.findFirst({
             where: {
               email: ctx.session.user.email!,
               account: ACCOUNT_TYPE.CREDENTIALS,
-              verifyCredentialsToken: input.token,
+              verifyCredentialsToken: verifyCredentialsToken,
+              verified: false,
             },
           });
           if (user) {
+            await ctx.prisma.user.update({
+              where: {
+                email: ctx.session.user.email!,
+              },
+              data: {
+                verifyCredentialsToken: undefined,
+                verified: true,
+              },
+            });
             return {
               success: true,
               message: "Account successfully verified!",

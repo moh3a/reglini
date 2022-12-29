@@ -3,7 +3,8 @@
   - fix pagination
 - account details: edit address
 - create order
-- add properties to cart and buy product
-- complete email verification
+- add properties to:
+  - add to cart
+  - buy product
 - aliexpress api
 - fix locale
