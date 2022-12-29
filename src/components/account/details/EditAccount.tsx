@@ -12,7 +12,7 @@ import { trpc } from "@utils/trpc";
 
 interface EditAccountProps {
   title: string;
-  field: "name" | "realName" | "phoneNumber";
+  field: "name" | "realName" | "phoneNumber" | 'picture';
   value: any;
   type: HTMLInputTypeAttribute;
   editHandler?: (args?: any) => void;

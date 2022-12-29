@@ -6,8 +6,12 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 
+import { BG_TRANSPARENT_BACKDROP, SHADOW } from "@config/design";
 import Button from "@components/shared/Button";
-import { SHADOW } from "@config/design";
+import Banner from "@components/shared/Banner";
+import { trpc } from "@utils/trpc";
+import Loading from "@components/shared/Loading";
+import axios, { AxiosRequestConfig } from "axios";
 
 /* eslint-disable @next/next/no-img-element */
 const EditProfilePicture = ({
@@ -22,10 +26,12 @@ const EditProfilePicture = ({
     "generate" | "upload" | undefined
   >();
   const [newValue, setNewValue] = useState("");
-
-  const submitHandler = async (event: FormEvent) => {
-    event.preventDefault();
-  };
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [message, setMessage] = useState<{
+    type?: "error" | "success";
+    text?: string;
+  }>({ type: undefined, text: undefined });
 
   // RANDOM STRING FOR DICEBEAR AVATAR
   const generateRandomString = (length: number) => {
@@ -48,30 +54,87 @@ const EditProfilePicture = ({
       setImage(i);
       setNewValue(URL.createObjectURL(i));
     }
-    // if (!event.target.files?.length) {
-    //   return;
-    // } else {
-    //   const formData = new FormData();
-    //   Array.from(event.target.files).forEach((file) => {
-    //     formData.append(event.target.name, file);
-    //   });
-    // const config: AxiosRequestConfig = {
-    //   headers: { "content-type": "multipart/form-data" },
-    //   onUploadProgress: (event) => {
-    //     setProgress(Math.round((event.loaded * 100) / (event.total ?? 1)));
-    //   },
-    // };
-    // const { data } = await axios.post("/api/uploads", formData, config);
-    // if (data.success) {
-    //   setTimeout(() => {
-    //     setProgress(0);
-    //   }, 1000);
-    // }
-    // }
+  };
+
+  const editMutation = trpc.account.edit.useMutation();
+  const utils = trpc.useContext();
+  const submitHandler = async (event: FormEvent) => {
+    event.preventDefault();
+    if (newPicType === "generate" && newValue) {
+      setLoading(true);
+      await editMutation.mutateAsync(
+        { field: "picture", value: newValue },
+        {
+          onSettled(data, error) {
+            if (error) setMessage({ type: "error", text: error.message });
+            if (data) {
+              if (data.success) {
+                setMessage({ type: "success", text: data.message });
+                utils.account.profile.invalidate();
+              } else setMessage({ type: "error", text: data.error });
+            }
+            setTimeout(() => {
+              setMessage({ type: undefined, text: undefined });
+            }, 3000);
+          },
+        }
+      );
+    } else if (newPicType === "upload" && newValue && image) {
+      const formData = new FormData();
+      formData.append("file", image);
+      const config: AxiosRequestConfig = {
+        headers: { "content-type": "multipart/form-data" },
+        onUploadProgress: (event) => {
+          setProgress(Math.round((event.loaded * 100) / (event.total ?? 1)));
+        },
+      };
+      const { data } = await axios.post("/api/uploads", formData, config);
+      if (data.success) {
+        setProgress(0);
+        setLoading(true);
+        await editMutation.mutateAsync(
+          { field: "picture", value: data.url },
+          {
+            onSettled(data, error) {
+              if (error) setMessage({ type: "error", text: error.message });
+              if (data) {
+                if (data.success) {
+                  setMessage({ type: "success", text: data.message });
+                  utils.account.profile.invalidate();
+                } else setMessage({ type: "error", text: data.error });
+              }
+              setTimeout(() => {
+                setMessage({ type: undefined, text: undefined });
+              }, 3000);
+            },
+          }
+        );
+      } else {
+        setMessage({ type: "error", text: data.message });
+      }
+    }
+    setEdit(false);
+    setLoading(false);
   };
 
   return (
     <>
+      {message.type && <Banner type={message.type} message={message.text} />}
+      {loading && (
+        <span className="font-mono text-sm">
+          <Loading size="small" /> loading...
+        </span>
+      )}
+      {progress !== 0 && (
+        <div
+          className={` ${BG_TRANSPARENT_BACKDROP} mx-auto max-w-md rounded-full h-2.5 mt-4 `}
+        >
+          <div
+            className="bg-aliexpress h-2.5 rounded-full"
+            style={{ width: progress + "%" }}
+          />
+        </div>
+      )}
       {edit ? (
         <form onSubmit={submitHandler}>
           <div className="flex justify-between items-center">
@@ -98,6 +161,7 @@ const EditProfilePicture = ({
                     setNewValue("");
                   }}
                   variant="solid"
+                  type="button"
                   icon={
                     newPicType === "upload" && (
                       <CheckBadgeIcon
@@ -130,6 +194,7 @@ const EditProfilePicture = ({
                     );
                   }}
                   variant="solid"
+                  type="button"
                   icon={
                     newPicType === "generate" && (
                       <CheckBadgeIcon
@@ -151,6 +216,7 @@ const EditProfilePicture = ({
                 <XMarkIcon className="inline h-5 w-5 mr-2" aria-hidden="true" />
               }
               onClick={() => setEdit(false)}
+              type="button"
             >
               cancel
             </Button>

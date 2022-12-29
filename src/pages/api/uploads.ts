@@ -25,17 +25,22 @@ const handler = nc({
   },
 });
 
-handler.use(upload.array("upload_profile_picture"));
+handler.use(upload.single("file"));
 
-handler.post((req, res) => {
-  const destinations = (req as any).files?.map(
-    (file: any) => file.destination + "/" + file.filename
-  );
-  res.status(200).json({
-    success: true,
-    message: "Fichiers téléchargés avec succées.",
-    destinations,
-  });
+handler.post((req: any, res) => {
+  if (req.file) {
+    res.status(200).json({
+      success: true,
+      message: "Fichier téléchargé avec succées.",
+      // url: req.file.destination + "/" + req.file.filename,
+      url: "/uploads/" + req.file.filename,
+    });
+  } else {
+    res.status(200).json({
+      success: false,
+      message: "Une erreur s'est produite.",
+    });
+  }
 });
 
 export default handler;

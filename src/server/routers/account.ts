@@ -34,7 +34,7 @@ export const accountRouter = router({
   edit: procedure
     .input(
       z.object({
-        field: z.enum(["name", "realName", "phoneNumber"]),
+        field: z.enum(["name", "realName", "phoneNumber", "picture"]),
         value: z.string(),
       })
     )

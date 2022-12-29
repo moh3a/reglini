@@ -1,7 +1,7 @@
 - bugs:
   - fix naviating from product to aliexpress search page
   - fix pagination
-- account details: edit address, upload profile picture
+- account details: edit address
 - create order
 - add properties to cart and buy product
 - complete email verification
