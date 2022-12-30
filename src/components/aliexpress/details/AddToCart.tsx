@@ -63,7 +63,7 @@ const AddToCart = ({
               price,
               originalPrice: price,
               imageUrl: selectedVariation.imageUrl,
-              //   properties: selectedVariation.properties,
+              properties: selectedVariation.properties,
               quantity: selectedVariation.quantity ?? 1,
               sku: selectedVariation.sku,
               carrierId: selectedShipping.company.id,

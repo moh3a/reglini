@@ -1,3 +1,4 @@
+- finish cart
 - bugs:
   - fix naviating from product to aliexpress search page
   - fix pagination

@@ -10,6 +10,7 @@ import Slideover from "./Slideover";
 import Logo from "../shared/Logo";
 import Language from "../Language";
 import Button from "../shared/Button";
+import Cart from "@components/account/Cart";
 
 const Navbar = () => {
   const [sideOpen, setSideOpen] = useState(false);
@@ -39,8 +40,11 @@ const Navbar = () => {
           <div className="hidden lg:block relative top-1">
             <DarkMode />
           </div>
-          <div className="hidden lg:block mx-4">
+          <div className="hidden lg:block ml-4">
             <Language />
+          </div>
+          <div className="mr-4">
+            <Cart />
           </div>
           {!router.asPath.includes("/auth") && <AccountBadge />}
         </div>

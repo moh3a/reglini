@@ -18,11 +18,25 @@ export interface AEProduct {
   orderMemo?: string;
 }
 
+export interface AEProductProperties {
+  id?: string;
+  name?: string;
+  values: [
+    {
+      id?: string;
+      name?: string;
+      hasImage?: boolean;
+      imageUrl?: string;
+      thumbnailImageUrl?: string;
+    }
+  ];
+}
+
 export interface AENOProduct extends AEProduct {
   name: string;
   originalPrice: number;
   imageUrl: string;
-  properties: any;
+  properties: AEProductProperties[];
   price: number;
   shippingPrice: number;
   totalPrice: number;

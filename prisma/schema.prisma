@@ -106,7 +106,7 @@ model Wishlist {
 
 model Product {
   id            String  @id @default(cuid())
-  productId     String
+  productId     String?
   name          String
   imageUrl      String
   sku           String?
@@ -117,7 +117,7 @@ model Product {
   shippingPrice Float?
   carrierId     String?
   orderMemo     String? @default("Please do not put invoices or any other document inside the package. Instead send them to this email address support@reglini-dz.com. Thank you very much.")
-  // properties // ! todo
+  properties    Json?
   order         Order?
 }
 

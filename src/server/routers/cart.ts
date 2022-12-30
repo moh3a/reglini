@@ -1,3 +1,4 @@
+import { AEProductProperties } from "@reglini-types/index";
 import { USER_FROM_TRPC_CTX } from "@utils/index";
 import { z } from "zod";
 
@@ -39,6 +40,7 @@ export const cartRouter = router({
         shippingPrice: z.number().nullish(),
         sku: z.string(),
         totalPrice: z.number().nullish(),
+        properties: z.custom<AEProductProperties[]>(),
       })
     )
     .mutation(async ({ ctx, input }) => {

@@ -45,13 +45,13 @@ const AccountBadge = () => {
     <Menu as="div" className="relative inline-block text-left">
       <Menu.Button as={Fragment}>
         <div
-          className={`cursor-pointer flex justify-center items-center ${SHADOW} w-10 h-10 rounded-full truncate`}
+          className={`cursor-pointer flex justify-center items-center ${SHADOW} w-8 h-8 rounded-full truncate`}
         >
           {status === "authenticated" ? (
             <img
               src={session?.user?.image!}
               alt={session?.user?.name!}
-              className="w-10 h-10 rounded-full"
+              className="w-8 h-8 rounded-full"
             />
           ) : (
             <Loading size="large" />
