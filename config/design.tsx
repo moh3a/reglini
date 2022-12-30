@@ -11,4 +11,4 @@ export const BUTTON_VARIANTS = {
   outline: ` font-bold text-center transition duration-500 ease-in-out transform hover:underline hover:decoration-aliexpress hover:text-aliexpress disabled:cursor-not-allowed disabled:border-0 disabled:bg-gray-500 `,
 };
 
-export const TEXT_INPUT = ` border-0 border-b border-grim dark:border-aliexpress caret-grim dark:caret-white focus:outline focus:border-none focus:ring-0 focus:outline-aliexpress bg-black/5 dark:bg-black/50 ${ROUNDED} ${PADDING} `;
+export const TEXT_INPUT = ` border-0 border-b border-grim dark:border-aliexpress caret-grim dark:caret-white focus:outline focus:border-none focus:ring-0 focus:outline-aliexpress ${BG_TRANSPARENT_BACKDROP} ${ROUNDED} ${PADDING} `;

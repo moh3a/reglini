@@ -1,7 +1,6 @@
 - bugs:
   - fix naviating from product to aliexpress search page
   - fix pagination
-- account details: edit address
 - create order
 - add properties to:
   - add to cart

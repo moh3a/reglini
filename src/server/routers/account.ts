@@ -79,6 +79,40 @@ export const accountRouter = router({
           error: "You must be logged in.",
         };
     }),
+  address: procedure
+    .input(
+      z.object({
+        wilaya: z.string(),
+        daira: z.string(),
+        commune: z.string(),
+        postalCode: z.string(),
+        streetName: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.session && ctx.session.user) {
+        const user = await ctx.prisma.user.update({
+          where: { email: ctx.session.user.email! },
+          data: {
+            address: {
+              update: {
+                commune: input.commune,
+                daira: input.daira,
+                postalCode: input.postalCode,
+                streetName: input.streetName,
+                wilaya: input.wilaya,
+              },
+            },
+          },
+        });
+        if (user) return { success: true, message: "Successfully updated." };
+        else return { success: false, error: "An error occured." };
+      } else
+        return {
+          success: false,
+          message: "You must be logged in.",
+        };
+    }),
   verification: procedure
     .input(z.object({ token: z.string() }))
     .query(async ({ ctx, input }) => {
