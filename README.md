@@ -1,6 +1,3 @@
-- bugs:
-  - fix naviating from product to aliexpress search page
-  - fix pagination
-- create order
 - aliexpress api
+- order: create, get, pay, tracking, delete, confirm receipt
 - fix locale

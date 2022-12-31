@@ -7,7 +7,6 @@ import { useSession } from "next-auth/react";
 
 import Loading from "@components/shared/Loading";
 import Modal from "@components/shared/Modal";
-import Pagination from "@components/shared/Pagination";
 import { trpc } from "@utils/trpc";
 
 const ProductsList = () => {
@@ -122,11 +121,11 @@ const ProductsList = () => {
               </div>
             ))}
           </div>
-          <Pagination
+          {/* <Pagination
             current={parseInt(p?.toString() ?? "1")}
             unitsPerPage={searchProducts.data.data.resultsPerPage}
             totalUnits={searchProducts.data.data.totalCount}
-          />
+          /> */}
         </>
       )}
     </div>

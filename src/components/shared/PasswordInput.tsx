@@ -63,7 +63,7 @@ const PasswordInput = ({
         minLength={6}
       />
       <div
-        className="absolute top-0 right-2 cursor-pointer"
+        className="absolute -top-0.5 right-2 cursor-pointer"
         onClick={() => setHidden(!hidden)}
       >
         {hidden ? (

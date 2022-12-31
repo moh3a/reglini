@@ -28,7 +28,7 @@ export default function ForgotPasswordModal() {
         await forgotPasswordMutation.mutateAsync(
           { email },
           {
-            onSettled(data, error, variables, context) {
+            onSettled(data, error) {
               if (error) setMessage({ type: "error", text: error.message });
               else if (data) {
                 if (data.success) {

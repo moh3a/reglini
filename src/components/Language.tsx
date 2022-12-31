@@ -1,12 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { Fragment } from "react";
-import { Menu, Transition } from "@headlessui/react";
-import { LanguageIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
-import Link from "next/link";
-import Button from "./shared/Button";
+import { Menu, Transition } from "@headlessui/react";
+import { LanguageIcon } from "@heroicons/react/24/outline";
+
 import { BG_TRANSPARENT_BACKDROP, ROUNDED, SHADOW } from "@config/design";
+import Button from "./shared/Button";
 
 const Badge = ({ text }: { text: string }) => {
   return (
@@ -53,7 +54,7 @@ const Language = () => {
                     href={router.asPath}
                     className={classNames(
                       active || router.locale === language.locale
-                        ? "bg-gray-100 dark:bg-black/[0.3]"
+                        ? "bg-black/10 dark:bg-black/90"
                         : "",
                       `${ROUNDED} w-full px-4 py-2 text-sm flex`
                     )}

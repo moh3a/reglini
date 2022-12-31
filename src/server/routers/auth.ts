@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { router, procedure } from "../trpc";
 import SendEmail from "@utils/send_email";
+import { genSaltSync, hashSync } from "bcrypt";
 
 export const authRouter = router({
   checkEmail: procedure
@@ -63,5 +64,44 @@ export const authRouter = router({
         }
       } else
         return { success: false, message: "No user with this email address." };
+    }),
+  resetPassword: procedure
+    .input(z.object({ token: z.string(), password: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const resetPasswordToken = createHash("sha256")
+        .update(input.token)
+        .digest("hex");
+      const user = await ctx.prisma.user.findFirst({
+        where: {
+          resetPasswordToken,
+          resetPasswordExpire: {
+            gt: new Date().toISOString(),
+          },
+        },
+      });
+      if (user) {
+        try {
+          const salt = genSaltSync();
+          let password = hashSync(input.password, salt);
+          await ctx.prisma.user.update({
+            where: { id: user.id },
+            data: {
+              resetPasswordExpire: undefined,
+              resetPasswordToken: undefined,
+              password,
+            },
+          });
+          return {
+            success: true,
+            message: "Successfully reset your password.",
+          };
+        } catch (error) {
+          return { success: false, message: JSON.stringify(error) };
+        }
+      } else
+        return {
+          success: false,
+          message: "Invalid reset token.",
+        };
     }),
 });

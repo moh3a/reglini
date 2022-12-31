@@ -11,6 +11,7 @@ import Logo from "../shared/Logo";
 import Language from "../Language";
 import Button from "../shared/Button";
 import Cart from "@components/account/Cart";
+import SearchButton from "@components/aliexpress/SearchButton";
 
 const Navbar = () => {
   const [sideOpen, setSideOpen] = useState(false);
@@ -42,6 +43,9 @@ const Navbar = () => {
           </div>
           <div className="hidden lg:block ml-4">
             <Language />
+          </div>
+          <div>
+            <SearchButton />
           </div>
           <div className="mr-4">
             <Cart />

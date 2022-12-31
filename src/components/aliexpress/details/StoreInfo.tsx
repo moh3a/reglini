@@ -8,7 +8,8 @@ const StoreInfo = ({ product }: { product: ZAE_Product }) => {
     <>
       {product.sellerDetails && (
         <Link
-          href={`https://aliexpress.com/store/${product.sellerDetails.sellerDetailsUrl}`}
+          href={product.sellerDetails.sellerDetailsUrl}
+          // href={`https://aliexpress.com/store/${product.sellerDetails.sellerDetailsUrl}`}
           target="_blank"
           rel="noreferrer"
         >
