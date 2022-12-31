@@ -1,172 +1,158 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { TrashIcon } from "@heroicons/react/24/outline";
 
-const CartItem = ({
-  item,
-}: {
-  item: {
-    productId: string;
-    name: string;
-    price: number;
-    originalPrice: number;
-    imageUrl: string;
-    properties: [
-      {
-        sku_property_id: number;
-        sku_image: string;
-        property_value_id_long: number;
-        property_value_definition_name: string;
-        sku_property_value: string;
-        sku_property_name: string;
-      }
-    ];
-    quantity: number;
-    sku: string;
-    carrierId: string;
-    shippingPrice: number;
-    totalPrice: number;
+import NumberInput from "@components/shared/NumberInput";
+import Button from "@components/shared/Button";
+import Banner from "@components/shared/Banner";
+import { AENOProduct } from "@reglini-types/index";
+import { trpc } from "@utils/trpc";
+
+const CartItem = ({ item }: { item: AENOProduct }) => {
+  const [message, setMessage] = useState<{
+    type?: "error" | "success";
+    text?: string;
+  }>({ type: undefined, text: undefined });
+
+  const utils = trpc.useContext();
+  const deleteItemMutation = trpc.cart.delete.useMutation();
+  const deleteHanlder = async () => {
+    if (item.id) {
+      await deleteItemMutation.mutateAsync(
+        { id: item.id },
+        {
+          onSettled(data, error) {
+            if (error) setMessage({ type: "error", text: error.message });
+            if (data) {
+              if (data.success) {
+                setMessage({ type: "success", text: data.message });
+                utils.cart.invalidate();
+              } else setMessage({ type: "error", text: data.error });
+            }
+            setTimeout(
+              () => setMessage({ type: undefined, text: undefined }),
+              3000
+            );
+          },
+        }
+      );
+    }
   };
-}) => {
-  const router = useRouter();
-  const [quantity, setQuantity] = useState(item.quantity);
+
+  const quantityUpdateMutation = trpc.cart.updateQuantity.useMutation();
+  const quantityHandler = async (event: ChangeEvent<HTMLInputElement>) => {
+    await quantityUpdateMutation.mutateAsync(
+      { id: item.id, quantity: parseInt(event.target.value ?? 1) },
+      {
+        onSettled(data, error) {
+          if (error) setMessage({ type: "error", text: error.message });
+          if (data) {
+            if (data.success) {
+              setMessage({ type: "success", text: data.message });
+              utils.cart.invalidate();
+            } else setMessage({ type: "error", text: data.error });
+          }
+          setTimeout(
+            () => setMessage({ type: undefined, text: undefined }),
+            3000
+          );
+        },
+      }
+    );
+  };
 
   return (
-    <li className={`py-6 flex ${router.locale === "ar" && "flex-row-reverse"}`}>
-      <div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
-        <img
-          className="w-full h-full object-center object-cover"
-          src={item.imageUrl ? item.imageUrl : "/placeholder.png"}
-          alt={item.name ? item.name : ""}
-        />
-      </div>
+    <>
+      {message.type && <Banner type={message.type} message={message.text} />}
+      <li className={`py-6 flex`}>
+        <div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
+          <img
+            className="w-full h-full object-center object-cover"
+            src={item.imageUrl ? item.imageUrl : "/placeholder.png"}
+            alt={item.name ? item.name : ""}
+          />
+        </div>
 
-      <div
-        className={`${
-          router.locale === "ar" ? "mr-3" : "ml-3"
-        }  flex-1 flex flex-col`}
-      >
-        <div>
+        <div className={`ml-2 flex-col`}>
           <div
-            className={`flex flex-col ${
-              router.locale === "ar" && "text-right"
-            } justify-between text-base font-medium text-gray-800 dark:text-gray-100`}
+            className={`flex flex-col justify-between text-base font-medium`}
           >
             <h1>
-              <Link href={`/aliexpress/product/${item.productId}`}>
-                <a target="_blank">{item.name}</a>
+              <Link
+                href={`/aliexpress/product/${item.productId ?? item.id}`}
+                target="_blank"
+              >
+                {item.name}
               </Link>
             </h1>
-            <p
-              className={`ml-4 text-red-600 ${
-                router.locale === "ar" && "flex flex-row-reverse"
-              }`}
-            >
-              <span>{item.price}</span> <span>DZD</span>
+            <p className={`text-aliexpress font-bold font-mono`}>
+              {item.price} DZD
             </p>
           </div>
-        </div>
-        <div className="flex flex-wrap items-end justify-between text-xs  my-2">
-          {item.properties.map((property: any) => (
-            <div
-              key={
-                property.sku_property_id
-                  ? property.sku_property_id
-                  : property.id
-              }
-              className={`hover:underline ${
-                router.locale === "ar" && "flex flex-row-reverse"
-              }`}
-            >
-              {property.sku_property_id ? (
-                <>
-                  <span>{property.sku_property_name}</span>
-                  <span>:</span>
-                  <span className="font-bold text-gray-500">
-                    {" "}
-                    {property.property_value_definition_name
-                      ? property.property_value_definition_name
-                      : property.property_value_id_long}
-                  </span>
-                </>
-              ) : (
-                <>
-                  <span>{property.name}</span>
-                  <span>:</span>
-                  <span className="font-bold text-gray-500">
-                    {" "}
-                    {property.value.name}
-                  </span>
-                </>
-              )}
-            </div>
-          ))}
-        </div>
-        <div className={`text-xs text-gray-700 dark:text-gray-200 my-2`}>
-          <p
-            className={`${
-              router.locale === "ar" &&
-              "flex flex-row-reverse text-right w-full"
-            }`}
-          >
-            <span>Shipping Carrier</span>
-            <span>:</span>{" "}
-            <span className="px-2 font-bold">{item.carrierId}</span>
-          </p>
-          <p
-            className={`${
-              router.locale === "ar" &&
-              "flex flex-row-reverse text-right w-full"
-            }`}
-          >
-            <span>Shipping Price</span>
-            <span>:</span>
-            <span
-              className={`px-2 ${
-                router.locale === "ar" && "flex flex-row-reverse"
-              }`}
-            >
-              <span>{item.shippingPrice}</span>
-              <span>DZD</span>
-            </span>
-          </p>
-        </div>
-        <div
-          className={`flex-1 flex items-end justify-between text-sm ${
-            router.locale === "ar" && "flex flex-row-reverse"
-          }`}
-        >
-          <p
-            className={`text-gray-600 dark:text-gray-200 ${
-              router.locale === "ar" && "flex flex-row-reverse"
-            }`}
-          >
-            <span>Qty</span>{" "}
-            <input
-              type="number"
-              min="1"
-              onKeyDown={(e) => e.preventDefault()}
-              step="1"
-              id="quantity"
-              name="quantity"
-              value={quantity}
-              //   onChange={quantityHandler}
-              className="p-1 mr-4 text-center w-20 rounded-full focus:ring-2 text-black focus:ring-red-500 focus:border-red-500"
-            />
-          </p>
 
-          <div className="flex">
-            <button
-              type="button"
-              className="font-medium text-red-600 hover:text-red-500"
-            >
-              remove
-            </button>
+          <div className="flex flex-wrap items-end justify-between text-xs my-2">
+            {item.properties?.map((property: any) => (
+              <div
+                key={
+                  property.sku_property_id
+                    ? property.sku_property_id
+                    : property.id
+                }
+                className={`hover:underline`}
+              >
+                {property.sku_property_id ? (
+                  <>
+                    {property.sku_property_name}:
+                    <span className="font-bold text-gray-500">
+                      {property.property_value_definition_name
+                        ? property.property_value_definition_name
+                        : property.property_value_id_long}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    {property.name}:
+                    <span className="font-bold text-gray-500">
+                      {property.value.name}
+                    </span>
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className={`text-xs my-2`}>
+            <p>
+              Shipping Carrier:{" "}
+              <span className="px-2 font-bold">{item.carrierId}</span>
+            </p>
+            <p>
+              Shipping Price:
+              <span className={`px-2 font-bold font-mono`}>
+                {item.shippingPrice} DZD
+              </span>
+            </p>
+          </div>
+          <div className={`flex items-center space-x-1 text-sm `}>
+            <p>Qty</p>
+            <NumberInput
+              value={item.quantity ?? 1}
+              min={1}
+              step={1}
+              onKeyDown={(e) => e.preventDefault()}
+              onChange={quantityHandler}
+              max={100}
+            />
+            <Button variant="outline" onClick={deleteHanlder}>
+              <TrashIcon
+                className="h-6 w-6 inline text-aliexpress"
+                aria-hidden="true"
+              />
+            </Button>
           </div>
         </div>
-      </div>
-    </li>
+      </li>
+    </>
   );
 };
 export default CartItem;

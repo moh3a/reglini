@@ -134,7 +134,7 @@ const CreateOrder = () => {
                   <div>
                     <img
                       src={product.imageUrl}
-                      alt={product.name}
+                      alt={product.name ?? "product image"}
                       width={200}
                       className={`${ROUNDED} ${SHADOW}`}
                     />

@@ -167,7 +167,7 @@ export interface ZAE_Product {
   hasPurchaseLimit: boolean;
   maxPurchaseLimit: number;
   processingTimeInDays: number;
-  productImages: [string];
+  productImages: string[];
   productCategory: {
     id: string;
     name: string;
@@ -194,164 +194,28 @@ export interface ZAE_Product {
       openingDate: string;
     };
     detailedRatings: {
-      itemAsDescribed: {
-        totalCount: number;
-        rating: {
-          value: number;
-          percentage: number;
-        };
-        otherSellersDifference: number;
-      };
-      communication: {
-        totalCount: number;
-        rating: {
-          value: number;
-          percentage: number;
-        };
-        otherSellersDifference: number;
-      };
-      shippingSpeed: {
-        totalCount: number;
-        rating: {
-          value: number;
-          percentage: number;
-        };
-        otherSellersDifference: number;
-      };
+      itemAsDescribed: ZAE_SellerRatings;
+      communication: ZAE_SellerRatings;
+      shippingSpeed: ZAE_SellerRatings;
     };
     ratingsHistory: {
-      total: {
-        positive: {
-          count: number;
-          percentage: number;
-        };
-        neutral: {
-          count: number;
-          percentage: number;
-        };
-        negative: {
-          count: number;
-          percentage: number;
-        };
-      };
-      lastMonth: {
-        positive: {
-          count: number;
-          percentage: number;
-        };
-        neutral: {
-          count: number;
-          percentage: number;
-        };
-        negative: {
-          count: number;
-          percentage: number;
-        };
-      };
-      lastThreeMonths: {
-        positive: {
-          count: number;
-          percentage: number;
-        };
-        neutral: {
-          count: number;
-          percentage: number;
-        };
-        negative: {
-          count: number;
-          percentage: number;
-        };
-      };
-      lastSixMonths: {
-        positive: {
-          count: number;
-          percentage: number;
-        };
-        neutral: {
-          count: number;
-          percentage: number;
-        };
-        negative: {
-          count: number;
-          percentage: number;
-        };
-      };
+      total: ZAE_ProductRatings;
+      lastMonth: ZAE_ProductRatings;
+      lastThreeMonths: ZAE_ProductRatings;
+      lastSixMonths: ZAE_ProductRatings;
     };
   };
   hasSinglePrice: boolean;
   price: {
-    web: {
-      originalPrice: { value: number; display: string };
-      hasDiscount: boolean;
-      discountPercentage: number;
-      discountedPrice: { value: number; display: string };
-      hasBulkPrice: boolean;
-      bulkMinQuantity: number;
-      bulkDiscountPercentage: number;
-      bulkPrice: { value: number; display: string };
-    };
-    app: {
-      originalPrice: { value: number; display: string };
-      hasDiscount: boolean;
-      discountPercentage: number;
-      discountedPrice: { value: number; display: string };
-      hasBulkPrice: boolean;
-      bulkMinQuantity: number;
-      bulkDiscountPercentage: number;
-      bulkPrice: { value: number; display: string };
-    };
+    web: ZAE_ProductPrice;
+    app: ZAE_ProductPrice;
   };
   priceSummary: {
-    web: {
-      originalPrice: {
-        min: { value: number; display: string };
-        max: { value: number; display: string };
-      };
-      hasDiscount: boolean;
-      discountPercentage: number;
-      discountedPrice: {
-        min: { value: number; display: string };
-        max: { value: number; display: string };
-      };
-      hasBulkPrice: boolean;
-      bulkMinQuantity: number;
-      bulkDiscountPercentage: number;
-      bulkPrice: {
-        min: { value: number; display: string };
-        max: { value: number; display: string };
-      };
-    };
-    app: {
-      originalPrice: {
-        min: { value: number; display: string };
-        max: { value: number; display: string };
-      };
-      hasDiscount: boolean;
-      discountPercentage: number;
-      discountedPrice: {
-        min: { value: number; display: string };
-        max: { value: number; display: string };
-      };
-      hasBulkPrice: boolean;
-      bulkMinQuantity: number;
-      bulkDiscountPercentage: number;
-      bulkPrice: {
-        min: { value: number; display: string };
-        max: { value: number; display: string };
-      };
-    };
+    web: ZAE_ProductPriceSummary;
+    app: ZAE_ProductPriceSummary;
   };
   hasAttributes: boolean;
-  attributes: [
-    {
-      id: string;
-      name: string;
-      value: {
-        id: string;
-        name: string;
-      };
-    }
-  ];
+  attributes: ZAE_ProductAttribute[];
   hasReviewsRatings: boolean;
   reviewsRatings: {
     totalCount: number;
@@ -390,21 +254,7 @@ export interface ZAE_Product {
     };
   };
   hasProperties: true;
-  properties: [
-    {
-      id: string;
-      name: string;
-      values: [
-        {
-          id: string;
-          name: string;
-          hasImage: boolean;
-          imageUrl?: string;
-          thumbnailImageUrl?: string;
-        }
-      ];
-    }
-  ];
+  properties: ZAE_ProductProperties[];
   hasVariations: boolean;
   variations: [
     {
@@ -423,26 +273,8 @@ export interface ZAE_Product {
         }
       ];
       price: {
-        web: {
-          originalPrice: { value: number; display: string };
-          hasDiscount: boolean;
-          discountPercentage: number;
-          discountedPrice: { value: number; display: string };
-          hasBulkPrice: boolean;
-          bulkMinQuantity: number;
-          bulkDiscountPercentage: number;
-          bulkPrice: { value: number; display: string };
-        };
-        app: {
-          originalPrice: { value: number; display: string };
-          hasDiscount: boolean;
-          discountPercentage: number;
-          discountedPrice: { value: number; display: string };
-          hasBulkPrice: boolean;
-          bulkMinQuantity: number;
-          bulkDiscountPercentage: number;
-          bulkPrice: { value: number; display: string };
-        };
+        web: ZAE_ProductPrice;
+        app: ZAE_ProductPrice;
       };
     }
   ];
@@ -450,27 +282,106 @@ export interface ZAE_Product {
     shipFrom: string;
     isAvailableForSelectedCountries: boolean;
     currency: string;
-    carriers: [
-      {
-        company: {
-          id: string;
-          name: string;
-        };
-        hasTracking: boolean;
-        price: {
-          value: number;
-        };
-        hasDiscount: boolean;
-        discountPercentage: number;
-        estimatedDeliveryDate: string;
-        deliveryTimeInDays: {
-          min: number;
-          max: number;
-        };
-      }
-    ];
+    carriers: ZAE_ProductShippingCarrier[];
   };
   htmlDescription: string;
+}
+
+export interface ZAE_ProductPrice {
+  originalPrice: { value: number; display: string };
+  hasDiscount: boolean;
+  discountPercentage: number;
+  discountedPrice: { value: number; display: string };
+  hasBulkPrice: boolean;
+  bulkMinQuantity: number;
+  bulkDiscountPercentage: number;
+  bulkPrice: { value: number; display: string };
+}
+
+export interface ZAE_ProductPriceSummary {
+  originalPrice: {
+    min: { value: number; display: string };
+    max: { value: number; display: string };
+  };
+  hasDiscount: boolean;
+  discountPercentage: number;
+  discountedPrice: {
+    min: { value: number; display: string };
+    max: { value: number; display: string };
+  };
+  hasBulkPrice: boolean;
+  bulkMinQuantity: number;
+  bulkDiscountPercentage: number;
+  bulkPrice: {
+    min: { value: number; display: string };
+    max: { value: number; display: string };
+  };
+}
+
+export interface ZAE_SellerRatings {
+  totalCount: number;
+  rating: {
+    value: number;
+    percentage: number;
+  };
+  otherSellersDifference: number;
+}
+
+export interface ZAE_ProductRatings {
+  positive: {
+    count: number;
+    percentage: number;
+  };
+  neutral: {
+    count: number;
+    percentage: number;
+  };
+  negative: {
+    count: number;
+    percentage: number;
+  };
+}
+
+export interface ZAE_ProductAttribute {
+  id: string;
+  name: string;
+  value: {
+    id: string;
+    name: string;
+    imageUrl?: string;
+  };
+}
+
+export interface ZAE_ProductShippingCarrier {
+  company: {
+    id: string;
+    name: string;
+  };
+  hasTracking: boolean;
+  price: {
+    value: number;
+  };
+  hasDiscount: boolean;
+  discountPercentage: number;
+  estimatedDeliveryDate: string;
+  deliveryTimeInDays: {
+    min: number;
+    max: number;
+  };
+}
+
+export interface ZAE_ProductProperties {
+  id?: string;
+  name?: string;
+  values: [
+    {
+      id?: string;
+      name?: string;
+      hasImage?: boolean;
+      imageUrl?: string;
+      thumbnailImageUrl?: string;
+    }
+  ];
 }
 
 export interface ZAE_Search {
@@ -494,19 +405,7 @@ export interface ZAE_Search {
     }
   ];
   availableShipFromCountries: [string];
-  refiningAttributes: [
-    {
-      id: string;
-      name: string;
-      values: [
-        {
-          id: string;
-          name: string;
-          imageUrl: string;
-        }
-      ];
-    }
-  ];
+  refiningAttributes: ZAE_ProductAttribute[];
   refiningSearchCategories: [
     {
       id: string;

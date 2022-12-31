@@ -30,6 +30,7 @@ const AddToCart = ({
 }: AddToCartProps) => {
   const { status } = useSession();
   const cartMutation = trpc.cart.add.useMutation();
+  const utils = trpc.useContext();
 
   const cartHandler = async () => {
     if (selectedVariation && selectedShipping) {
@@ -77,7 +78,10 @@ const AddToCart = ({
                 if (data) {
                   if (!data.success)
                     setMessage({ type: "error", text: data.error });
-                  else setMessage({ type: "success", text: data.message });
+                  else {
+                    setMessage({ type: "success", text: data.message });
+                    utils.cart.invalidate();
+                  }
                 }
               },
             }

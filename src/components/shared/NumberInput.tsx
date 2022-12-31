@@ -1,4 +1,9 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  KeyboardEventHandler,
+  SetStateAction,
+} from "react";
 import { TEXT_INPUT } from "@config/design";
 
 interface NumberInputProps {
@@ -13,6 +18,7 @@ interface NumberInputProps {
   onFocus?: () => void;
   onBlur?: () => void;
   onKeyUp?: () => void;
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
   tabIndex?: number;
   className?: string;
   required?: boolean;
@@ -29,6 +35,7 @@ const NumberInput = ({
   onFocus,
   onChange,
   onKeyUp,
+  onKeyDown,
   placeholder,
   readOnly,
   setValue,
@@ -62,6 +69,7 @@ const NumberInput = ({
       onBlur={onBlur}
       onFocus={onFocus}
       onKeyUp={onKeyUp}
+      onKeyDown={onKeyDown}
       step={step}
       min={min}
       max={max}

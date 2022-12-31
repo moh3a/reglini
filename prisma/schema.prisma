@@ -74,10 +74,11 @@ model Address {
 }
 
 model Cart {
-  id            String   @id
+  id            String   @id @default(cuid())
   userId        String
   user          User     @relation(fields: userId, references: [id])
   date          DateTime @default(now()) @db.Date
+  productId     String? // ! remove optional ?
   name          String
   imageUrl      String
   price         Float
@@ -87,7 +88,7 @@ model Cart {
   totalPrice    Float?
   shippingPrice Float?
   carrierId     String?
-  // properties // ! todo
+  properties    Json?
 
   @@index([userId])
 }
@@ -106,7 +107,7 @@ model Wishlist {
 
 model Product {
   id            String  @id @default(cuid())
-  productId     String?
+  productId     String? // ! remove optional ?
   name          String
   imageUrl      String
   sku           String?

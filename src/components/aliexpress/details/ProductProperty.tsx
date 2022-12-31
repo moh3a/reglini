@@ -5,21 +5,10 @@ import {
   CheckCircleIcon,
   ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
+import { ZAE_ProductProperties } from "@config/zapiex";
 
 interface ProductPropertyProps {
-  property: {
-    id: string;
-    name: string;
-    values: [
-      {
-        id: string;
-        name: string;
-        hasImage: boolean;
-        imageUrl?: string | undefined;
-        thumbnailImageUrl?: string | undefined;
-      }
-    ];
-  };
+  property: ZAE_ProductProperties;
   setShowImage: Dispatch<SetStateAction<string>>;
   setProperties: Dispatch<
     SetStateAction<

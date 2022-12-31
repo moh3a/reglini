@@ -1,24 +1,48 @@
 import { Fragment, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 
 import CartItem from "./CartItem";
 import Button from "@components/shared/Button";
+import Loading from "@components/shared/Loading";
+import { trpc } from "@utils/trpc";
 
 export default function Cart() {
-  const router = useRouter();
   const [openCart, setOpenCart] = useState(false);
-  const [items, setItems] = useState<any[]>([]);
+  const { status } = useSession();
+  const [subtotal, setSubtotal] = useState(0);
+
+  const cartQuery = trpc.cart.get.useQuery(undefined, {
+    onSettled(data) {
+      if (data && data.cart) {
+        let subs = 0;
+        data.cart.forEach((item) => {
+          if (item.totalPrice) subs += item.totalPrice * (item.quantity ?? 1);
+        });
+        setSubtotal(subs);
+      }
+    },
+  });
 
   return (
     <>
-      <Button variant="outline" onClick={() => setOpenCart(true)}>
+      <Button
+        variant="outline"
+        onClick={() => {
+          if (status === "authenticated") setOpenCart(true);
+        }}
+      >
         <span className="sr-only">items in cart, view bag</span>
         <ShoppingBagIcon className="h-5 w-5 inline" aria-hidden="true" />
         <span className="absolute text-xs w-5 h-5 p-0.5 rounded-full bg-aliexpress text-white top-0 right-0">
-          1
+          {(status === "loading" || cartQuery.isLoading) && (
+            <Loading size="small" />
+          )}
+          {status === "authenticated" && cartQuery.data && cartQuery.data?.cart
+            ? cartQuery.data?.cart.length
+            : 0}
         </span>
       </Button>
 
@@ -77,12 +101,17 @@ export default function Cart() {
                             role="list"
                             className="-my-6 divide-y divide-gray-200"
                           >
-                            {items && items.length > 0 ? (
-                              items.map((item: any) => {
-                                return (
-                                  <CartItem key={item.productId} item={item} />
-                                );
-                              })
+                            {cartQuery.isLoading && (
+                              <div className="w-full flex justify-center items-center">
+                                <Loading size="medium" />
+                              </div>
+                            )}
+                            {cartQuery.data &&
+                            cartQuery.data.cart &&
+                            cartQuery.data.cart.length > 0 ? (
+                              cartQuery.data.cart.map((item) => (
+                                <CartItem key={item.id} item={item} />
+                              ))
                             ) : (
                               <li className={`py-6 flex`}>
                                 Your cart is empty.
@@ -98,7 +127,7 @@ export default function Cart() {
                         className={`flex justify-between text-base font-medium font-mono`}
                       >
                         <p>Subtotal</p>
-                        <p>0 DZD</p>
+                        <p>{subtotal} DZD</p>
                       </div>
                       <p
                         className={`mt-0.5 mb-5 text-sm font-mono text-center`}
