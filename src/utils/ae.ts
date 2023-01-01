@@ -88,17 +88,36 @@ export const AE_DS_getTrackingInfo = async (
   });
 };
 
-// export const AE_DS_createOrder = async () => {
-//   return await execute<
-//     DS_OrderAPI_Place_Order_Params,
-//     DS_OrderAPI_Place_Order_Result
-//   >("ds", "aliexpress.trade.buy.placeorder", {
-//     param_place_order_request4_open_api_d_t_o: {
-//       product_items: {},
-//       logistics_address: {},
-//     },
-//   });
-// };
+export const AE_DS_createOrder = async (
+  logistics_address: {
+    address: string;
+    city?: string;
+    contact_person?: string;
+    country?: string;
+    full_name?: string;
+    mobile_no?: string;
+    phone_country?: string;
+    province?: string;
+    zip?: string;
+  },
+  product_items: {
+    product_count: number;
+    product_id: number;
+    sku_attr?: string;
+    logistics_service_name?: string;
+    order_memo?: string;
+  }
+) => {
+  return await execute<
+    DS_OrderAPI_Place_Order_Params,
+    DS_OrderAPI_Place_Order_Result
+  >("ds", "aliexpress.trade.buy.placeorder", {
+    param_place_order_request4_open_api_d_t_o: JSON.stringify({
+      product_items,
+      logistics_address,
+    }),
+  });
+};
 
 export const AE_DS_getOrder = async (order_id: number) => {
   return await execute<
@@ -150,4 +169,20 @@ export const AE_Affiliate_getProductDetails = async (
     target_currency: "EUR",
     target_language: locale?.toUpperCase(),
   });
+};
+
+export const ALIEXPRESS = {
+  ds: {
+    searchProducts: AE_DS_searchProducts,
+    productDetails: AE_DS_getProductDetail,
+    shipping: AE_DS_getShippingInfo,
+    tracking: AE_DS_getTrackingInfo,
+    createOrder: AE_DS_createOrder,
+    getOrder: AE_DS_getOrder,
+    cancelOrder: AE_DS_cancelOrder,
+  },
+  affiliate: {
+    hotproducts: AE_Affiliate_Hotproducts,
+    productDetails: AE_Affiliate_getProductDetails,
+  },
 };

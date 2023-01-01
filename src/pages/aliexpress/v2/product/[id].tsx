@@ -9,7 +9,7 @@ const AliexpressProductPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const getProductId = trpc.aliexpress.product.useQuery({
-    id: (id ?? "").toString(),
+    id: parseInt(id as string),
     locale: router.locale,
   });
 
@@ -19,7 +19,7 @@ const AliexpressProductPage = () => {
         <title>{`Product | Aliexpress | ${APP_NAME}`}</title>
       </Head>
       <Title title="aliexpress api v2 - coming soon" />
-      {id && <div>{JSON.stringify(getProductId)} </div>}
+      {id && <div>{JSON.stringify(getProductId.data)} </div>}
     </>
   );
 };

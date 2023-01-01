@@ -255,47 +255,34 @@ export interface DS_ProductAPI_Product_Detail_Result {
  *
  */
 
+/**
+ * Place order params
+ * @link https://developers.aliexpress.com/en/doc.htm?docId=35446&docType=2
+ *
+ * logistics_address
+ * @description Logistics address information
+ * @param {String} address Address information
+ * @param {String} city
+ * @param {String} contact_person 	Contact
+ * @param {String} country
+ * @param {String} full_name Receiver's full name
+ * @param {String} mobile_no telephone number
+ * @param {String} phone_country Country code where the phone is located
+ * @param {String} province
+ * @param {String} zip 	Postal code
+ *
+ * product_items
+ * @description Product attribute
+ * @param {Number} product_count Number of Products
+ * @param {Number} product_id Product id
+ * @param {String} sku_attr Product sku
+ * @param {String} logistics_service_name 	Logistics service name
+ * @param {String} order_memo User Comments
+ *
+ * JSON.stringify the whole thing
+ */
 export interface DS_OrderAPI_Place_Order_Params {
-  param_place_order_request4_open_api_d_t_o: {
-    /**
-     * @description Logistics address information
-     * @param {String} address Address information
-     * @param {String} city
-     * @param {String} contact_person 	Contact
-     * @param {String} country
-     * @param {String} full_name Receiver's full name
-     * @param {String} mobile_no telephone number
-     * @param {String} phone_country Country code where the phone is located
-     * @param {String} province
-     * @param {String} zip 	Postal code
-     */
-    logistics_address: {
-      address: string;
-      city?: string;
-      contact_person?: string;
-      country?: string;
-      full_name?: string;
-      mobile_no?: string;
-      phone_country?: string;
-      province?: string;
-      zip?: string;
-    };
-    /**
-     * @description Product attribute
-     * @param {Number} product_count Number of Products
-     * @param {Number} product_id Product id
-     * @param {String} sku_attr Product sku
-     * @param {String} logistics_service_name 	Logistics service name
-     * @param {String} order_memo User Comments
-     */
-    product_items: {
-      product_count: number;
-      product_id: number;
-      sku_attr?: string;
-      logistics_service_name?: string;
-      order_memo?: string;
-    };
-  };
+  param_place_order_request4_open_api_d_t_o: string;
 }
 
 export interface DS_OrderAPI_Place_Order_Result {

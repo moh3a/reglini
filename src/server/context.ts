@@ -4,8 +4,8 @@ import { getSession } from "next-auth/react";
 
 import prisma from "@config/prisma";
 import { ISession } from "../types";
-// import { Aliexpress } from "@config/ae";
 import { ZAPIEX } from "@utils/zapiex";
+import { ALIEXPRESS } from "@utils/ae";
 
 export const createContext = async ({
   req,
@@ -17,7 +17,7 @@ export const createContext = async ({
     res,
     prisma,
     session: session as ISession | null,
-    // aliexpress: Aliexpress,
+    aliexpress: ALIEXPRESS,
     zapiex: ZAPIEX,
   };
 };

@@ -1,4 +1,4 @@
-- aliexpress api: finish create order method
 - currency and commission
+- styling aliexpress v2
 - order: create, get, pay, tracking, delete, confirm receipt
 - fix locale

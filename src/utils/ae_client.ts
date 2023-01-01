@@ -41,7 +41,6 @@ export const call = async <T extends PublicParams, K extends object>(
       basestring +=
         symbol + sorted[i] + "=" + params[sorted[i] as keyof typeof params];
   }
-  console.log(basestring);
   const { data } = await axios.post(basestring, undefined, {
     headers: {
       "content-type": "application/json",
