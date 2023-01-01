@@ -1,3 +1,4 @@
-- aliexpress api
+- now aliexpress api works - finish up
+- currency and commission
 - order: create, get, pay, tracking, delete, confirm receipt
 - fix locale

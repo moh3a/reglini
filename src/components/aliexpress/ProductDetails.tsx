@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-import { ZAE_Product } from "@config/zapiex";
+import { ZAE_Product } from "@reglini-types/zapiex";
 import Modal from "@components/shared/Modal";
 import Loading from "@components/shared/Loading";
 import ProductImage from "./details/ProductImage";
@@ -12,9 +12,9 @@ import ProductPrice from "./details/ProductPrice";
 import ProductShipping from "./details/ProductShipping";
 import BuyProduct from "./details/BuyProduct";
 import ProductFeatures from "./ProductFeatures";
-import { trpc } from "@utils/trpc";
 import AddToCart from "./details/AddToCart";
 import AddToWishlist from "./details/AddToWishlist";
+import { trpc } from "@utils/trpc";
 
 export interface SelectedVariation {
   imageUrl: string;

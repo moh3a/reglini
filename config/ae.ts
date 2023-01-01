@@ -2,97 +2,84 @@ import { config } from "dotenv";
 config();
 
 import { promisify } from "util";
-// import TopClient from "@lib/AE_SDK/TopClient";
-import { TopClient } from "@lib/api/topClient.js";
+import { AE_getShippingInfo } from "@utils/ae";
 
 export type AE_Function_Return_Type<T> = {
   response: T | null | undefined;
   error: IAEError | null | undefined;
 };
 
-export const AE_Affiliate_Client = new TopClient({
-  appkey: process.env.ALIEXPRESS_AFFILIATE_APP_KEY ?? "",
-  appsecret: process.env.ALIEXPRESS_AFFILIATE_APP_SECRET ?? "",
-  REST_URL: process.env.ALIEXPRESS_API_URL,
-});
+// export const AE_findProductDetailsById = async (
+//   id: string,
+//   locale?: string | null
+// ): Promise<IDropshipperProductDetails> => {
+//   const AE_DS_Client_Execute = promisify<
+//     string,
+//     any,
+//     IDropshipperProductDetails
+//   >(AE_DS_Client.execute);
+//   const data = await AE_DS_Client_Execute(
+//     "aliexpress.postproduct.redefining.findaeproductbyidfordropshipper",
+//     {
+//       session: process.env.ALIEXPRESS_DS_ACCESS_TOKEN,
+//       local_country: "DZ",
+//       local_language: locale,
+//       product_id: id,
+//     }
+//   );
+//   return data;
+// };
 
-export const AE_DS_Client = new TopClient({
-  appkey: process.env.ALIEXPRESS_DS_APP_KEY ?? "",
-  appsecret: process.env.ALIEXPRESS_DS_APP_SECRET ?? "",
-  REST_URL: process.env.ALIEXPRESS_API_URL,
-});
+// export const AE_getShippingInfo = async (
+//   id: string
+// ): Promise<AE_Function_Return_Type<IShippingInformation>> => {
+//   let error: IAEError | null | undefined = undefined;
+//   let response: IShippingInformation | null | undefined = undefined;
 
-export const AE_findProductDetailsById = async (
-  id: string,
-  locale?: string | null
-): Promise<IDropshipperProductDetails> => {
-  const AE_DS_Client_Execute = promisify<
-    string,
-    any,
-    IDropshipperProductDetails
-  >(AE_DS_Client.execute);
-  const data = await AE_DS_Client_Execute(
-    "aliexpress.postproduct.redefining.findaeproductbyidfordropshipper",
-    {
-      session: process.env.ALIEXPRESS_DS_ACCESS_TOKEN,
-      local_country: "DZ",
-      local_language: locale,
-      product_id: id,
-    }
-  );
-  return data;
-};
+//   AE_DS_Client.execute(
+//     "aliexpress.logistics.buyer.freight.calculate",
+//     {
+//       session: process.env.ALIEXPRESS_DS_ACCESS_TOKEN,
+//       param_aeop_freight_calculate_for_buyer_d_t_o: `{"country_code": "DZ","product_id": "${id}","product_num": 1,"send_goods_country_code": "CN","price_currency": "USD"}`,
+//     },
+//     (cberror: IAEError, cbresponse: IShippingInformation) => {
+//       error = cberror ?? null;
+//       response = cbresponse ?? null;
+//     }
+//   );
+//   return { response, error };
+// };
 
-export const AE_getShippingInfo = async (
-  id: string
-): Promise<AE_Function_Return_Type<IShippingInformation>> => {
-  let error: IAEError | null | undefined = undefined;
-  let response: IShippingInformation | null | undefined = undefined;
+// export const AE_findProductById = async (
+//   id: string,
+//   locale?: string | null
+// ): Promise<AE_Function_Return_Type<IAEAffiliateProductDetailsResponse>> => {
+//   let error: IAEError | null | undefined = undefined;
+//   let response: IAEAffiliateProductDetailsResponse | null | undefined =
+//     undefined;
 
-  AE_DS_Client.execute(
-    "aliexpress.logistics.buyer.freight.calculate",
-    {
-      session: process.env.ALIEXPRESS_DS_ACCESS_TOKEN,
-      param_aeop_freight_calculate_for_buyer_d_t_o: `{"country_code": "DZ","product_id": "${id}","product_num": 1,"send_goods_country_code": "CN","price_currency": "USD"}`,
-    },
-    (cberror: IAEError, cbresponse: IShippingInformation) => {
-      error = cberror ?? null;
-      response = cbresponse ?? null;
-    }
-  );
-  return { response, error };
-};
+//   AE_Affiliate_Client.execute(
+//     "aliexpress.affiliate.productdetail.get",
+//     {
+//       fields: "commission_rate,sale_price",
+//       product_ids: id,
+//       target_currency: "USD",
+//       target_language: locale ? locale.toUpperCase() : "FR",
+//       tracking_id: "reglinidz",
+//       country: "DZ",
+//     },
+//     (cberror: IAEError, cbresponse: IAEAffiliateProductDetailsResponse) => {
+//       error = cberror ?? null;
+//       response = cbresponse ?? null;
+//     }
+//   );
+//   return { response, error };
+// };
 
-export const AE_findProductById = async (
-  id: string,
-  locale?: string | null
-): Promise<AE_Function_Return_Type<IAEAffiliateProductDetailsResponse>> => {
-  let error: IAEError | null | undefined = undefined;
-  let response: IAEAffiliateProductDetailsResponse | null | undefined =
-    undefined;
-
-  AE_Affiliate_Client.execute(
-    "aliexpress.affiliate.productdetail.get",
-    {
-      fields: "commission_rate,sale_price",
-      product_ids: id,
-      target_currency: "USD",
-      target_language: locale ? locale.toUpperCase() : "FR",
-      tracking_id: "reglinidz",
-      country: "DZ",
-    },
-    (cberror: IAEError, cbresponse: IAEAffiliateProductDetailsResponse) => {
-      error = cberror ?? null;
-      response = cbresponse ?? null;
-    }
-  );
-  return { response, error };
-};
-
-export const Aliexpress = {
-  ds: { shipping: AE_getShippingInfo, productById: AE_findProductDetailsById },
-  affiliate: { productById: AE_findProductById },
-};
+// export const Aliexpress = {
+//   ds: { shipping: AE_getShippingInfo, productById: AE_findProductDetailsById },
+//   affiliate: { productById: AE_findProductById },
+// };
 
 export interface IDropshipperProductDetails {
   result: {

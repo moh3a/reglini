@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
 import Button from "@components/shared/Button";
-import { ZAE_Product } from "@config/zapiex";
+import { ZAE_Product } from "@reglini-types/zapiex";
 import { SelectedVariation } from "../ProductDetails";
 
 interface BuyProductProps {

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { ZAE_ShippingAddres } from "@config/zapiex";
 import { AEProduct } from "@reglini-types/index";
+import { ZAE_ShippingAddres } from "@reglini-types/zapiex";
 import { router, procedure } from "../trpc";
 
 export const orderRouter = router({

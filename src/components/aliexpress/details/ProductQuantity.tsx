@@ -5,7 +5,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 import NumberInput from "@components/shared/NumberInput";
-import { ZAE_Product } from "@config/zapiex";
+import { ZAE_Product } from "@reglini-types/zapiex";
 import { SelectedVariation } from "../ProductDetails";
 
 interface ProductQuantityProps {

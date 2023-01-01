@@ -5,10 +5,7 @@ export const aliexpressRouter = router({
   product: procedure
     .input(z.object({ id: z.string(), locale: z.string().nullish() }))
     .query(async ({ ctx, input }) => {
-      //   const response = await ctx.aliexpress.ds.productById(
-      //     input.id,
-      //     input.locale
-      //   );
-      //   return response;
+      // const response = await ctx.aliexpress.ds.shipping(parseInt(input.id), 1);
+      // return response;
     }),
 });

@@ -1,6 +1,5 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
-import slugify from "slugify";
 
 import SearchInput from "@components/shared/SearchInput";
 import AliExpressLogo from "@components/shared/AliExpressLogo";
@@ -16,7 +15,6 @@ const MainSearch = () => {
       const secondSplit = firstSplit[1].split(".html");
       router.push(`/aliexpress/product/${secondSplit[0]}`);
     } else {
-      // const slug = slugify(url);
       router.push(`/aliexpress?q=${url}`);
     }
   };

@@ -1,5 +1,5 @@
 import { PADDING, ROUNDED, SHADOW } from "@config/design";
-import { ZAE_Product } from "@config/zapiex";
+import { ZAE_Product } from "@reglini-types/zapiex";
 import { SelectedVariation } from "../ProductDetails";
 
 interface ProductPriceProps {

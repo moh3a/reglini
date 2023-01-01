@@ -1,4 +1,4 @@
-import { ZAE_Product } from "@config/zapiex";
+import { ZAE_Product } from "@reglini-types/zapiex";
 
 const ProductReviews = ({ product }: { product: ZAE_Product }) => {
   return (

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 import { PADDING, ROUNDED, SHADOW } from "@config/design";
-import { ZAE_Product } from "@config/zapiex";
+import { ZAE_Product } from "@reglini-types/zapiex";
 import StoreInfo from "./details/StoreInfo";
 
 const Item = ({ title, children }: any) => {

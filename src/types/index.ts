@@ -1,5 +1,3 @@
-import { ZAE_ProductProperties } from "@config/zapiex";
-
 export interface ISession {
   expires: string;
   user?: {
@@ -10,34 +8,6 @@ export interface ISession {
     provider?: "google" | "facebook" | null;
     access_token?: string | null;
   };
-}
-
-export interface AEProduct {
-  productId: string | null;
-  quantity: number | null;
-  sku: string | null;
-  carrierId: string | null;
-  orderMemo?: string | null;
-}
-
-export interface AEProductProperties {
-  sku_property_id?: number;
-  sku_image?: string;
-  property_value_id_long?: number;
-  property_value_definition_name?: string;
-  sku_property_value?: string;
-  sku_property_name?: string;
-}
-
-export interface AENOProduct extends AEProduct {
-  id: string;
-  name: string | null;
-  originalPrice: number | null;
-  imageUrl: string | null;
-  properties: any; // AEProductProperties[] | ZAE_ProductProperties[] | null;
-  price: number | null;
-  shippingPrice: number | null;
-  totalPrice: number | null;
 }
 
 export interface EmailOptions {
@@ -186,4 +156,32 @@ export interface MDBUser {
       };
     }
   ];
+}
+
+export interface AEProduct {
+  productId: string | null;
+  quantity: number | null;
+  sku: string | null;
+  carrierId: string | null;
+  orderMemo?: string | null;
+}
+
+export interface AEProductProperties {
+  sku_property_id?: number;
+  sku_image?: string;
+  property_value_id_long?: number;
+  property_value_definition_name?: string;
+  sku_property_value?: string;
+  sku_property_name?: string;
+}
+
+export interface AENOProduct extends AEProduct {
+  id: string;
+  name: string | null;
+  originalPrice: number | null;
+  imageUrl: string | null;
+  properties: any; // AEProductProperties[] | ZAE_ProductProperties[] | null;
+  price: number | null;
+  shippingPrice: number | null;
+  totalPrice: number | null;
 }

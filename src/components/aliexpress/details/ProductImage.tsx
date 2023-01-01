@@ -2,7 +2,7 @@
 import { Dispatch, SetStateAction } from "react";
 
 import { ROUNDED, SHADOW } from "@config/design";
-import { ZAE_Product } from "@config/zapiex";
+import { ZAE_Product } from "@reglini-types/zapiex";
 
 interface ProductImageProps {
   product: ZAE_Product;

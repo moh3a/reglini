@@ -2,7 +2,7 @@ import { Fragment, useState, useEffect, Dispatch, SetStateAction } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
 
-import { ZAE_Product } from "@config/zapiex";
+import { ZAE_Product } from "@reglini-types/zapiex";
 import {
   BG_TRANSPARENT_BACKDROP,
   ROUNDED,

@@ -16,7 +16,6 @@
     "incremental": true,
     "paths": {
       "@config/*": ["./config/*"],
-      "@lib/*": ["./lib/*"],
       "@components/*": ["./src/components/*"],
       "@utils/*": ["./src/utils/*"],
       "@reglini-types/*": ["./src/types/*"],

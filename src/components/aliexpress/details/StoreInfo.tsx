@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
-import { ZAE_Product } from "@config/zapiex";
 import Link from "next/link";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+
+import { ZAE_Product } from "@reglini-types/zapiex";
 
 const StoreInfo = ({ product }: { product: ZAE_Product }) => {
   return (

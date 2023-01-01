@@ -5,7 +5,7 @@ import {
   CheckCircleIcon,
   ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
-import { ZAE_ProductProperties } from "@config/zapiex";
+import { ZAE_ProductProperties } from "@reglini-types/zapiex";
 
 interface ProductPropertyProps {
   property: ZAE_ProductProperties;

@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import { useSession } from "next-auth/react";
 import { HeartIcon } from "@heroicons/react/24/solid";
 
-import { ZAE_Product } from "@config/zapiex";
+import { ZAE_Product } from "@reglini-types/zapiex";
 import Button from "@components/shared/Button";
 import { trpc } from "@utils/trpc";
 
