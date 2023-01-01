@@ -1,4 +1,4 @@
-- now aliexpress api works - finish up
+- aliexpress api: finish create order method
 - currency and commission
 - order: create, get, pay, tracking, delete, confirm receipt
 - fix locale

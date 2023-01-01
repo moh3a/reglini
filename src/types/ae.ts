@@ -3,12 +3,16 @@ export type AE_API_NAMES = DS_API_NAMES | AFFILIATE_API_NAMES;
 export type DS_API_NAMES =
   | "aliexpress.ds.recommend.feed.get"
   | "aliexpress.ds.product.get"
+  | "aliexpress.postproduct.redefining.findaeproductbyidfordropshipper"
   | "aliexpress.trade.buy.placeorder"
   | "aliexpress.ds.trade.order.get"
   | "aliexpress.logistics.buyer.freight.calculate"
-  | "aliexpress.logistics.ds.trackinginfo.query";
+  | "aliexpress.logistics.ds.trackinginfo.query"
+  | "aliexpress.miniapp.order.cancel";
 
-export type AFFILIATE_API_NAMES = "hello.world";
+export type AFFILIATE_API_NAMES =
+  | "aliexpress.affiliate.productdetail.get"
+  | "aliexpress.affiliate.hotproduct.query";
 
 /**
  * Public parameters
@@ -34,6 +38,20 @@ export interface PublicParams {
   sign_method: "hmac" | "md5";
   sign?: string;
 }
+
+export interface AE_Error_Response {
+  msg: string;
+  code: number;
+  sub_msg: string;
+  sub_code: string;
+}
+
+/**
+ *
+ * PRODUCT API
+ * RECOMMENDED PRODUCTS
+ *
+ */
 
 /**
  * Parameters to get the recommended products information feed
@@ -65,6 +83,56 @@ export interface DS_ProductAPI_Recommended_Products_Params {
   feed_name: string;
 }
 
+export interface DS_ProductAPI_Recommended_Products_Result {
+  result: {
+    total_record_count: number;
+    current_record_count: number;
+    is_finished: boolean;
+    total_page_no: number;
+    current_page_no: number;
+    products: {
+      integer: [
+        {
+          lastest_volume: number;
+          seller_id: number;
+          target_sale_price: string;
+          evaluate_rate: string;
+          target_original_price: string;
+          shop_id: number;
+          second_level_category_name: string;
+          first_level_category_id: number;
+          product_video_url: string;
+          product_id: number;
+          sale_price: string;
+          target_sale_price_currency: string;
+          second_level_category_id: number;
+          shop_url: string;
+          product_detail_url: string;
+          product_title: string;
+          first_level_category_name: string;
+          product_main_image_url: string;
+          platform_product_type: string;
+          target_original_price_currency: string;
+          ship_to_days: string;
+          sale_price_currency: string;
+          original_price: string;
+          original_price_currency: string;
+          discount: string;
+        }
+      ];
+    };
+  };
+  rsp_msg: string;
+  rsp_code: string;
+}
+
+/**
+ *
+ * PRODUCT API
+ * PRODUCT DETAILS
+ *
+ */
+
 /**
  * Product details
  * @param {String} ship_to_country Country
@@ -73,11 +141,119 @@ export interface DS_ProductAPI_Recommended_Products_Params {
  * @param {String} target_language Target language
  */
 export interface DS_ProductAPI_Product_Detail_Params {
-  ship_to_country?: string;
   product_id: number;
-  target_currency?: string;
-  target_language?: string;
+  local_country?: string;
+  local_language?: string;
 }
+
+export interface DS_ProductAPI_Product_Detail_Result {
+  result: {
+    aeop_ae_product_s_k_us: {
+      aeop_ae_product_sku: [
+        {
+          sku_stock: boolean;
+          sku_price: string;
+          sku_code: string;
+          ipm_sku_stock: number;
+          id: string;
+          currency_code: string;
+          aeop_s_k_u_propertys: {
+            aeop_sku_property: [
+              {
+                sku_property_id: number;
+                sku_image: string;
+                property_value_id_long: number;
+                property_value_definition_name: string;
+                sku_property_value: string;
+                sku_property_name: string;
+              }
+            ];
+          };
+          barcode: string;
+          offer_sale_price: string;
+          offer_bulk_sale_price: string;
+          sku_bulk_order: number;
+          s_k_u_available_stock: number;
+        }
+      ];
+    };
+    detail: string;
+    is_success: boolean;
+    product_unit: number;
+    ws_offline_date: string;
+    ws_display: string;
+    category_id: number;
+    aeop_a_e_multimedia: {
+      aeop_a_e_videos: {
+        aeop_ae_video: [
+          {
+            poster_url: string;
+            media_type: string;
+            media_status: string;
+            media_id: number;
+            ali_member_id: number;
+          }
+        ];
+      };
+    };
+    owner_member_id: string;
+    product_status_type: string;
+    aeop_ae_product_propertys: {
+      aeop_ae_product_property: [
+        {
+          attr_value_unit: string;
+          attr_value_start: string;
+          attr_value_id: number;
+          attr_value_end: string;
+          attr_value: string;
+          attr_name_id: number;
+          attr_name: string;
+        }
+      ];
+    };
+    gross_weight: string;
+    delivery_time: number;
+    ws_valid_num: number;
+    gmt_modified: string;
+    error_message: string;
+    package_type: boolean;
+    aeop_national_quote_configuration: {
+      configuration_type: string;
+      configuration_data: string;
+    };
+    subject: string;
+    base_unit: number;
+    package_length: number;
+    mobile_detail: string;
+    package_height: number;
+    package_width: number;
+    currency_code: string;
+    gmt_create: string;
+    image_u_r_ls: string;
+    product_id: number;
+    error_code: number;
+    product_price: string;
+    item_offer_site_sale_price: string;
+    total_available_stock: number;
+    store_info: {
+      communication_rating: string;
+      item_as_descriped_rating: string;
+      shipping_speed_rating: string;
+      store_id: number;
+      store_name: string;
+    };
+    evaluation_count: number;
+    avg_evaluation_rating: string;
+    order_count: number;
+  };
+}
+
+/**
+ *
+ * ORDER API
+ * NEW ORDER
+ *
+ */
 
 export interface DS_OrderAPI_Place_Order_Params {
   param_place_order_request4_open_api_d_t_o: {
@@ -122,9 +298,89 @@ export interface DS_OrderAPI_Place_Order_Params {
   };
 }
 
+export interface DS_OrderAPI_Place_Order_Result {
+  result: {
+    error_code: string;
+    error_msg: string;
+    order_list: {
+      number: number[];
+    };
+    is_success: boolean;
+  };
+}
+
+/**
+ *
+ * ORDER API
+ * GET ORDER
+ *
+ */
+
 export interface DS_OrderAPI_Get_Order_Params {
   order_id: number;
 }
+
+export interface DS_OrderAPI_Get_Order_Result {
+  result: {
+    gmt_create: string;
+    order_status: string;
+    logistics_status: string;
+    order_amount: {
+      amount: string;
+      currency_code: string;
+    };
+    child_order_list: {
+      aeop_child_order_info: [
+        {
+          product_id: number;
+          product_price: {
+            amount: string;
+            currency_code: string;
+          };
+          product_name: string;
+          product_count: number;
+        }
+      ];
+    };
+    logistics_info_list: {
+      ae_order_logistics_info: [
+        {
+          logistics_no: string;
+          logistics_service: string;
+        }
+      ];
+    };
+    store_info: {
+      store_id: number;
+      store_name: string;
+      store_url: string;
+    };
+  };
+  rsp_msg: string;
+  rsp_code: string;
+}
+
+/**
+ *
+ * ORDER API
+ * CANCEL ORDER
+ *
+ */
+
+export interface DS_OrderAPI_Cancel_Order_Params {
+  trade_order_id: number;
+}
+
+export interface DS_OrderAPI_Cancel_Order_Result {
+  trade_order_id: number;
+}
+
+/**
+ *
+ * SHIPPING API
+ * SHIPPING INFO
+ *
+ */
 
 export interface DS_ShippingAPI_Shipping_Info_Params {
   /**
@@ -144,6 +400,32 @@ export interface DS_ShippingAPI_Shipping_Info_Params {
   param_aeop_freight_calculate_for_buyer_d_t_o: string;
 }
 
+export interface DS_ShippingAPI_Shipping_Info_Result {
+  aeop_freight_calculate_result_for_buyer_d_t_o_list: {
+    aeop_freight_calculate_result_for_buyer_dto: [
+      {
+        error_code: number;
+        estimated_delivery_time: string;
+        freight: {
+          amount: number;
+          cent: number;
+          currency_code: string;
+        };
+        service_name: string;
+      }
+    ];
+  };
+  error_desc: string;
+  success: boolean;
+}
+
+/**
+ *
+ * SHIPPING API
+ * TRACKING INFO
+ *
+ */
+
 /**
  * Dropshipper query logistics tracking information
  *
@@ -159,4 +441,187 @@ export interface DS_ShippingAPI_Tracking_Info_Params {
   out_ref: string;
   service_name: string;
   to_area: string;
+}
+
+export interface DS_ShippingAPI_Tracking_Info_Result {
+  details: {
+    details: [
+      {
+        event_desc: string;
+        signed_name: string;
+        status: string;
+        address: string;
+        event_date: string;
+      }
+    ];
+  };
+  official_website: string;
+  error_desc: string;
+  result_success: boolean;
+}
+
+/**
+ * AFFILIATE API
+ * PRODUCT DETAILS
+ */
+export interface Affiliate_Product_Details_Params {
+  app_signature?: string;
+  fields?: string;
+  product_ids: string;
+  target_currency?: string;
+  target_language?: string;
+  tracking_id?: string;
+  country?: string;
+}
+
+export interface Affiliate_Product_Details_Result {
+  resp_result: {
+    resp_code: number;
+    resp_msg: string;
+    result: {
+      current_record_count: number;
+      products: {
+        product: [
+          {
+            app_sale_price?: string;
+            app_sale_price_currency?: string;
+            commission_rate?: string;
+            discount?: string;
+            evaluate_rate?: string;
+            first_level_category_id?: number;
+            first_level_category_name?: string;
+            lastest_volume?: number;
+            hot_product_commission_rate?: string;
+            original_price?: string;
+            original_price_currency?: string;
+            platform_product_type?: "TMALL" | "ALL" | "PLAZA";
+            product_detail_url?: string;
+            product_id?: number;
+            product_main_image_url?: string;
+            product_small_image_urls?: {
+              string: [string];
+            };
+            product_title?: string;
+            product_video_url?: string;
+            promotion_link?: string;
+            sale_price?: string;
+            sale_price_currency?: string;
+            second_level_category_id?: number;
+            second_level_category_name?: string;
+            shop_id?: number;
+            shop_url?: string;
+            target_app_sale_price?: string;
+            target_app_sale_price_currency?: string;
+            target_original_price?: string;
+            target_original_price_currency?: string;
+            target_sale_price?: string;
+            target_sale_price_currency?: string;
+            relevant_market_commission_rate?: string;
+            promo_code_info?: {
+              promo_code?: string;
+              code_campaigntype?: string;
+              code_value?: string;
+              code_availabletime_start?: string;
+              code_availabletime_end?: string;
+              code_mini_spend?: string;
+              code_quantity?: string;
+              code_promotionurl?: string;
+            };
+            ship_to_days?: string;
+          }
+        ];
+      };
+    };
+  };
+}
+
+/**
+ * AFFILIATE API
+ * HOTPRODUCTS
+ */
+
+export interface Affiliate_Hotproducts_Params {
+  app_signature?: string;
+  category_ids?: string;
+  /**
+   * @param {String} fields Respond parameter list, eg: commission_rate,sale_price,app_sale_price,shop_id
+   */
+  fields?: string;
+  /**
+   * @param {String} keywords Filter products by keywords
+   */
+  keywords?: string;
+  max_sale_price?: string;
+  min_sale_price?: string;
+  page_no?: string;
+  page_size?: string;
+  platform_product_type?: string;
+  sort?: string;
+  target_currency?: string;
+  target_language?: string;
+  tracking_id?: string;
+  delivery_days?: string;
+  ship_to_country?: string;
+}
+
+export interface Affiliate_Hotproducts_Result {
+  resp_code: number;
+  resp_msg: string;
+  result: {
+    current_page_no: number;
+    current_record_count: number;
+    products: {
+      product: [
+        {
+          app_sale_price?: string;
+          app_sale_price_currency?: string;
+          commission_rate?: string;
+          discount?: string;
+          evaluate_rate?: string;
+          first_level_category_id?: number;
+          first_level_category_name?: string;
+          lastest_volume?: number;
+          hot_product_commission_rate?: string;
+          original_price?: string;
+          original_price_currency?: string;
+          platform_product_type?: "TMALL" | "ALL" | "PLAZA";
+          product_detail_url?: string;
+          product_id?: number;
+          product_main_image_url?: string;
+          product_small_image_urls?: {
+            string: [string];
+          };
+          product_title?: string;
+          product_video_url?: string;
+          promotion_link?: string;
+          sale_price?: string;
+          sale_price_currency?: string;
+          second_level_category_id?: number;
+          second_level_category_name?: string;
+          shop_id?: number;
+          shop_url?: string;
+          target_app_sale_price?: string;
+          target_app_sale_price_currency?: string;
+          target_original_price?: string;
+          target_original_price_currency?: string;
+          target_sale_price?: string;
+          target_sale_price_currency?: string;
+          relevant_market_commission_rate?: string;
+          promo_code_info?: {
+            promo_code?: string;
+            code_campaigntype?: string;
+            code_value?: string;
+            code_availabletime_start?: string;
+            code_availabletime_end?: string;
+            code_mini_spend?: string;
+            code_quantity?: string;
+            code_promotionurl?: string;
+          };
+          ship_to_days?: string;
+        }
+      ];
+    };
+    total_page_no: number;
+    total_record_count: number;
+  };
 }
