@@ -12,7 +12,8 @@ export type DS_API_NAMES =
 
 export type AFFILIATE_API_NAMES =
   | "aliexpress.affiliate.productdetail.get"
-  | "aliexpress.affiliate.hotproduct.query";
+  | "aliexpress.affiliate.hotproduct.query"
+  | "aliexpress.affiliate.category.get";
 
 /**
  * Public parameters
@@ -610,5 +611,25 @@ export interface Affiliate_Hotproducts_Result {
     };
     total_page_no: number;
     total_record_count: number;
+  };
+}
+
+/**
+ * AFFILIATE API
+ * CATEGORIES
+ */
+
+export interface Affiliate_Categories_Result {
+  resp_result: {
+    resp_code: number;
+    resp_msg: string;
+    result: {
+      categories: {
+        category_id: number;
+        category_name: string;
+        parent_category_id: number;
+      }[];
+      total_result_count: number;
+    };
   };
 }

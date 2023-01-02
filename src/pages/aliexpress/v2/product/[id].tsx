@@ -8,8 +8,13 @@ import Title from "@components/shared/Title";
 const AliexpressProductPage = () => {
   const router = useRouter();
   const { id } = router.query;
-  const getProductId = trpc.aliexpress.product.useQuery({
+  const productDsQuery = trpc.aliexpress.ds.product.useQuery({
     id: parseInt(id as string),
+    locale: router.locale,
+  });
+
+  const productAffiliateQuery = trpc.aliexpress.affiliate.product.useQuery({
+    id: id as string,
     locale: router.locale,
   });
 
@@ -19,7 +24,10 @@ const AliexpressProductPage = () => {
         <title>{`Product | Aliexpress | ${APP_NAME}`}</title>
       </Head>
       <Title title="aliexpress api v2 - coming soon" />
-      {id && <div>{JSON.stringify(getProductId.data)} </div>}
+      <Title title="aliexpress api - ds" />
+      {id && <div>{JSON.stringify(productDsQuery.data?.result)} </div>}
+      <Title title="aliexpress api - affiliate" />
+      {id && <div>{JSON.stringify(productAffiliateQuery.data)}</div>}
     </>
   );
 };

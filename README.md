@@ -1,4 +1,10 @@
 - currency and commission
 - styling aliexpress v2
+  - affiliate:
+    - product -> ok
+    - search -> ok
+  - ds:
+    - product -> ok
+    - search -> NG
 - order: create, get, pay, tracking, delete, confirm receipt
 - fix locale

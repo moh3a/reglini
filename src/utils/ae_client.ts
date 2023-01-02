@@ -109,11 +109,11 @@ export const execute = async <T, K extends object>(
       type === "affiliate"
         ? process.env.ALIEXPRESS_AFFILIATE_APP_KEY ?? ""
         : process.env.ALIEXPRESS_DS_APP_KEY ?? "",
-    method,
     session:
       type === "affiliate"
-        ? undefined
+        ? process.env.ALIEXPRESS_AFFILIATE_ACCESS_TOKEN ?? ""
         : process.env.ALIEXPRESS_DS_ACCESS_TOKEN ?? "",
+    method,
     v: "2.0",
     format: "json",
     simplify: true,

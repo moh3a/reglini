@@ -1,4 +1,5 @@
 import {
+  Affiliate_Categories_Result,
   Affiliate_Hotproducts_Params,
   Affiliate_Hotproducts_Result,
   Affiliate_Product_Details_Params,
@@ -136,6 +137,7 @@ export const AE_DS_cancelOrder = async (order_id: number) => {
 };
 
 export const AE_Affiliate_Hotproducts = async (
+  category_ids: string,
   search?: string,
   page_size?: number,
   page_no?: number,
@@ -145,6 +147,9 @@ export const AE_Affiliate_Hotproducts = async (
     Affiliate_Hotproducts_Params,
     Affiliate_Hotproducts_Result
   >("affiliate", "aliexpress.affiliate.hotproduct.query", {
+    platform_product_type: "ALL",
+    category_ids,
+    fields: "app_sale_price,shop_id",
     tracking_id: "reglinidz",
     keywords: search ?? undefined,
     page_size: page_size?.toString(),
@@ -153,6 +158,19 @@ export const AE_Affiliate_Hotproducts = async (
     target_currency: "EUR",
     ship_to_country: "DZ",
   });
+};
+
+export const AE_Affiliate_getCategories = async () => {
+  const result = await execute<{}, Affiliate_Categories_Result>(
+    "affiliate",
+    "aliexpress.affiliate.category.get",
+    {}
+  );
+  let categories = "";
+  result.resp_result.result.categories.forEach((category) => {
+    if (!category.parent_category_id) categories += category.category_id + ",";
+  });
+  return categories;
 };
 
 export const AE_Affiliate_getProductDetails = async (
@@ -164,6 +182,7 @@ export const AE_Affiliate_getProductDetails = async (
     Affiliate_Product_Details_Result
   >("affiliate", "aliexpress.affiliate.productdetail.get", {
     product_ids,
+    fields: "commission_rate,sale_price",
     country: "DZ",
     tracking_id: "reglinidz",
     target_currency: "EUR",
@@ -184,5 +203,6 @@ export const ALIEXPRESS = {
   affiliate: {
     hotproducts: AE_Affiliate_Hotproducts,
     productDetails: AE_Affiliate_getProductDetails,
+    categories: AE_Affiliate_getCategories,
   },
 };
