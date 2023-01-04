@@ -1,10 +1,11 @@
+- styling aliexpress v2: buy, cart and product features
+  - zapiex api result pages are routed as /aliexpress/v1/
+  - ae api result pages are routed as /aliexpress/
+  - unified ae search
+  - main ae route displays affiliate hotproduct results
+  - search displays zapiex search results
+  - product is automatically displayed through ae results, else use zapiex
 - currency and commission
-- styling aliexpress v2
-  - affiliate:
-    - product -> ok
-    - search -> ok
-  - ds:
-    - product -> ok
-    - search -> NG
+- aliexpress v2 ds search -> NG
 - order: create, get, pay, tracking, delete, confirm receipt
 - fix locale

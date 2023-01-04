@@ -5,11 +5,11 @@ import {
 } from "@heroicons/react/24/outline";
 
 import NumberInput from "@components/shared/NumberInput";
-import { ZAE_Product } from "@reglini-types/zapiex";
 import { SelectedVariation } from "../ProductDetails";
+import { DS_ProductAPI_Product_Details } from "@reglini-types/ae";
 
 interface ProductQuantityProps {
-  product: ZAE_Product;
+  product: DS_ProductAPI_Product_Details;
   quantity: number;
   setQuantity: Dispatch<SetStateAction<number>>;
   selectedVariation?: SelectedVariation;
@@ -22,15 +22,16 @@ const ProductQuantity = ({
   selectedVariation,
 }: ProductQuantityProps) => {
   const stock =
-    selectedVariation && selectedVariation.sku
-      ? selectedVariation.stock
-      : product.totalStock;
+    selectedVariation &&
+    typeof selectedVariation.s_k_u_available_stock !== "undefined"
+      ? selectedVariation.s_k_u_available_stock
+      : product.total_available_stock;
 
   return (
     <div className={`mt-4`}>
       <div>Quantity</div>
       <div className={`flex`}>
-        {stock && stock > 0 && (
+        {stock > 0 && (
           <NumberInput
             value={stock < 1 ? 0 : Math.round(quantity)}
             onChange={(e) => setQuantity(parseInt(e.target.value))}
@@ -41,14 +42,14 @@ const ProductQuantity = ({
           />
         )}
         <span className="relative top-1 ml-2">
-          {stock && stock > 0 ? (
+          {stock > 0 ? (
             <>
               <CheckCircleIcon
                 className="h-5 w-5 inline text-success mr-1"
                 aria-hidden="true"
               />
               <span>
-                {stock} {product.unitNamePlural} available
+                {stock} {product.base_unit} available
               </span>
             </>
           ) : (

@@ -32,7 +32,7 @@ export const AE_DS_searchProducts = async (
     DS_ProductAPI_Recommended_Products_Result
   >("ds", "aliexpress.ds.recommend.feed.get", {
     feed_name: search,
-    target_currency: "EUR",
+    target_currency: "USD",
     target_language: locale?.toUpperCase() as any,
     country: "DZ",
     sort: "DSRratingDesc",
@@ -155,7 +155,7 @@ export const AE_Affiliate_Hotproducts = async (
     page_size: page_size?.toString(),
     page_no: page_no?.toString(),
     target_language: locale?.toUpperCase(),
-    target_currency: "EUR",
+    target_currency: "USD",
     ship_to_country: "DZ",
   });
 };
@@ -173,6 +173,17 @@ export const AE_Affiliate_getCategories = async () => {
   return categories;
 };
 
+export const AE_Affiliate_getCategoryById = async (category_id: number) => {
+  const result = await execute<{}, Affiliate_Categories_Result>(
+    "affiliate",
+    "aliexpress.affiliate.category.get",
+    {}
+  );
+  return result.resp_result.result.categories.find(
+    (category) => category.category_id === category_id
+  );
+};
+
 export const AE_Affiliate_getProductDetails = async (
   product_ids: string,
   locale?: string
@@ -185,7 +196,7 @@ export const AE_Affiliate_getProductDetails = async (
     fields: "commission_rate,sale_price",
     country: "DZ",
     tracking_id: "reglinidz",
-    target_currency: "EUR",
+    target_currency: "USD",
     target_language: locale?.toUpperCase(),
   });
 };
@@ -204,5 +215,6 @@ export const ALIEXPRESS = {
     hotproducts: AE_Affiliate_Hotproducts,
     productDetails: AE_Affiliate_getProductDetails,
     categories: AE_Affiliate_getCategories,
+    categoryById: AE_Affiliate_getCategoryById,
   },
 };

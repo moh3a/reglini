@@ -175,6 +175,19 @@ export interface AEProductProperties {
   sku_property_name?: string;
 }
 
+export interface AEProductPrice {
+  hasDiscount: boolean;
+  discount: number;
+  discountedPrice: {
+    min: number;
+    max: number;
+  };
+  originalPrice: {
+    min: number;
+    max: number;
+  };
+}
+
 export interface AENOProduct extends AEProduct {
   id: string;
   name: string | null;

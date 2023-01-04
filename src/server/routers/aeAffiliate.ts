@@ -23,7 +23,8 @@ export const aeAffiliateRouter = router({
       })
     )
     .query(async ({ ctx, input }) => {
-      const categories = await ctx.aliexpress.affiliate.categories();
+      const categories =
+        (await ctx.aliexpress.affiliate.categories()) as string;
       const response = await ctx.aliexpress.affiliate.hotproducts(
         input.category ?? categories,
         input.search,
@@ -32,5 +33,10 @@ export const aeAffiliateRouter = router({
         input.locale ?? "FR"
       );
       return response;
+    }),
+  category: procedure
+    .input(z.object({ category_id: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.aliexpress.affiliate.categoryById(input.category_id);
     }),
 });
