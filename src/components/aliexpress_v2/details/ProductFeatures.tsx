@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from "react";
+import parse from "html-react-parser";
 
 import { PADDING, ROUNDED, SHADOW } from "@config/design";
-import { ZAE_Product } from "@reglini-types/zapiex";
-import StoreInfo from "./details/StoreInfo";
+import StoreInfo from "./StoreInfo";
+import { DS_ProductAPI_Product_Details } from "@reglini-types/ae";
 
 const Item = ({ title, children }: any) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,26 +48,34 @@ const Item = ({ title, children }: any) => {
   );
 };
 
-export default function ProductFeatures({ product }: { product: ZAE_Product }) {
+export default function ProductFeatures({
+  product,
+}: {
+  product: DS_ProductAPI_Product_Details;
+}) {
   const [attributes, setAttributes] = useState([
     { id: "", name: "", value: [""] },
   ]);
 
   useEffect(() => {
     let att: any[] = [];
-    if (product.hasAttributes) {
-      product.attributes.map((attribute: any) => {
-        const index = att.findIndex((x: any) => x.id === attribute.id);
-        if (index === -1) {
-          att.push({
-            id: attribute.id,
-            name: attribute.name,
-            value: [attribute.value.name],
-          });
-        } else {
-          att[index].value.push(attribute.value.name);
+    if (product.aeop_ae_product_propertys.aeop_ae_product_property) {
+      product.aeop_ae_product_propertys.aeop_ae_product_property.map(
+        (attribute) => {
+          const index = att.findIndex(
+            (x: any) => x.id === attribute.attr_name_id.toString()
+          );
+          if (index === -1) {
+            att.push({
+              id: attribute.attr_name_id.toString(),
+              name: attribute.attr_name,
+              value: [attribute.attr_value],
+            });
+          } else {
+            att[index].value.push(attribute.attr_value);
+          }
         }
-      });
+      );
       setAttributes(att);
     }
   }, [product]);
@@ -100,11 +109,9 @@ export default function ProductFeatures({ product }: { product: ZAE_Product }) {
             <StoreInfo product={product} />
           </Item>
 
-          {product.htmlDescription && (
+          {product.detail && (
             <Item title="Seller's Product Description">
-              <div
-                dangerouslySetInnerHTML={{ __html: product.htmlDescription }}
-              />
+              {parse(product.detail)}
             </Item>
           )}
         </div>

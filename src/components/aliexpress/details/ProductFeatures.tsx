@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 
 import { PADDING, ROUNDED, SHADOW } from "@config/design";
 import { ZAE_Product } from "@reglini-types/zapiex";
-import StoreInfo from "./details/StoreInfo";
-import { DS_ProductAPI_Product_Details } from "@reglini-types/ae";
+import StoreInfo from "./StoreInfo";
 
 const Item = ({ title, children }: any) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,11 +47,7 @@ const Item = ({ title, children }: any) => {
   );
 };
 
-export default function ProductFeatures({
-  product,
-}: {
-  product: DS_ProductAPI_Product_Details;
-}) {
+export default function ProductFeatures({ product }: { product: ZAE_Product }) {
   const [attributes, setAttributes] = useState([
     { id: "", name: "", value: [""] },
   ]);

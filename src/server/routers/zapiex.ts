@@ -3,7 +3,7 @@ import { router, procedure } from "../trpc";
 
 export const zapiexRouter = router({
   product: procedure
-    .input(z.object({ id: z.string(), locale: z.string().nullish() }))
+    .input(z.object({ id: z.string(), locale: z.string().optional() }))
     .query(async ({ ctx, input }) => {
       try {
         const data = await ctx.zapiex.getProductById(input.id, input.locale);
@@ -15,9 +15,9 @@ export const zapiexRouter = router({
   search: procedure
     .input(
       z.object({
-        text: z.string().nullish(),
-        locale: z.string().nullish(),
-        page: z.number().nullish(),
+        text: z.string().optional(),
+        locale: z.string().optional(),
+        page: z.number().optional(),
       })
     )
     .query(async ({ ctx, input }) => {

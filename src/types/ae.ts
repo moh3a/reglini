@@ -578,13 +578,13 @@ export interface Affiliate_Hotproducts_Params {
 }
 
 export interface Affiliate_Hotproducts_Result {
-  resp_code: number;
-  resp_msg: string;
-  result: {
-    current_page_no: number;
-    current_record_count: number;
-    products: {
-      product: [
+  resp_result: {
+    resp_code: number;
+    resp_msg: string;
+    result: {
+      current_page_no: number;
+      current_record_count: number;
+      products: [
         {
           app_sale_price?: string;
           app_sale_price_currency?: string;
@@ -633,9 +633,10 @@ export interface Affiliate_Hotproducts_Result {
           ship_to_days?: string;
         }
       ];
+
+      total_page_no: number;
+      total_record_count: number;
     };
-    total_page_no: number;
-    total_record_count: number;
   };
 }
 

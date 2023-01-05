@@ -138,7 +138,6 @@ export const AE_DS_cancelOrder = async (order_id: number) => {
 
 export const AE_Affiliate_Hotproducts = async (
   category_ids: string,
-  search?: string,
   page_size?: number,
   page_no?: number,
   locale?: string
@@ -151,7 +150,6 @@ export const AE_Affiliate_Hotproducts = async (
     category_ids,
     fields: "app_sale_price,shop_id",
     tracking_id: "reglinidz",
-    keywords: search ?? undefined,
     page_size: page_size?.toString(),
     page_no: page_no?.toString(),
     target_language: locale?.toUpperCase(),
@@ -167,8 +165,11 @@ export const AE_Affiliate_getCategories = async () => {
     {}
   );
   let categories = "";
-  result.resp_result.result.categories.forEach((category) => {
-    if (!category.parent_category_id) categories += category.category_id + ",";
+  result.resp_result.result.categories.forEach((category, index) => {
+    let separation = "";
+    if (index !== 0) separation = ",";
+    if (!category.parent_category_id)
+      categories += separation + category.category_id;
   });
   return categories;
 };

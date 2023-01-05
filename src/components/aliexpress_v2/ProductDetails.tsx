@@ -10,7 +10,7 @@ import ProductQuantity from "./details/ProductQuantity";
 import ProductPrice from "./details/ProductPrice";
 import ProductShipping from "./details/ProductShipping";
 import BuyProduct from "./details/BuyProduct";
-import ProductFeatures from "./ProductFeatures";
+import ProductFeatures from "./details/ProductFeatures";
 import AddToCart from "./details/AddToCart";
 import AddToWishlist from "./details/AddToWishlist";
 import { trpc } from "@utils/trpc";
@@ -55,7 +55,8 @@ const ProductDetails = ({ id }: { id: number }) => {
       locale: router.locale?.toUpperCase(),
     },
     {
-      onSettled(data) {
+      onSettled(data, error) {
+        if (error) router.push(`/aliexpress/v1/product/${id}`);
         if (data && data.result) {
           setShowImage(data.result.image_u_r_ls.split(";")[0]);
         }
@@ -260,12 +261,14 @@ const ProductDetails = ({ id }: { id: number }) => {
                   <div className="mt-4 flex justify-end space-x-2">
                     <BuyProduct
                       product={product.data.result}
+                      discount={product.data.price.discount}
                       selectedShipping={selectedShipping}
                       selectedVariation={selectedVariation}
                       setMessage={setMessage}
                     />
                     <AddToCart
                       product={product.data.result}
+                      discount={product.data.price.discount}
                       setMessage={setMessage}
                       selectedShipping={selectedShipping}
                       selectedVariation={selectedVariation}

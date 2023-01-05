@@ -1,4 +1,3 @@
-import { AEProductProperties } from "@reglini-types/index";
 import { USER_FROM_TRPC_CTX } from "@utils/index";
 import { z } from "zod";
 
@@ -30,24 +29,30 @@ export const cartRouter = router({
   add: procedure
     .input(
       z.object({
-        id: z.string(),
+        productId: z.string(),
         imageUrl: z.string(),
         name: z.string(),
         price: z.number(),
         carrierId: z.string(),
-        originalPrice: z.number().nullish(),
+        originalPrice: z.number().optional(),
         quantity: z.number(),
-        shippingPrice: z.number().nullish(),
+        shippingPrice: z.number().optional(),
         sku: z.string(),
-        totalPrice: z.number().nullish(),
+        totalPrice: z.number().optional(),
         properties: z.any(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       if (ctx.session && ctx.session.user) {
         try {
+          const item = await ctx.prisma.cart.findFirst({
+            where: {
+              user: { email: ctx.session.user.email! },
+              productId: input.productId,
+            },
+          });
           await ctx.prisma.cart.upsert({
-            where: { id: input.id },
+            where: { id: item?.id },
             update: input,
             create: {
               ...input,

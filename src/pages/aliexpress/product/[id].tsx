@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 
 import { APP_NAME } from "@config/general";
-import ProductDetails from "@components/aliexpress/ProductDetails";
+import ProductDetails from "@components/aliexpress_v2/ProductDetails";
 
 const AliexpressProductPage = () => {
   const router = useRouter();
@@ -13,7 +13,7 @@ const AliexpressProductPage = () => {
       <Head>
         <title>{`Product | Aliexpress | ${APP_NAME}`}</title>
       </Head>
-      {id && <ProductDetails id={id as string} />}
+      {id && <ProductDetails id={parseInt(id.toString())} />}
     </>
   );
 };

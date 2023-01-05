@@ -59,7 +59,7 @@ const AddToCart = ({
         } else if (selectedVariation.sku || selectedVariation.price.app) {
           await cartMutation.mutateAsync(
             {
-              id: product.productId,
+              productId: product.productId, 
               name: product.title,
               price,
               originalPrice: price,

@@ -5,8 +5,9 @@ import SearchInput from "@components/shared/SearchInput";
 import AliExpressLogo from "@components/shared/AliExpressLogo";
 
 const MainSearch = () => {
-  const [url, setUrl] = useState("");
   const router = useRouter();
+  const { q } = router.query;
+  const [url, setUrl] = useState((q as string) ?? "");
 
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();

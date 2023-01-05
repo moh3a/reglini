@@ -12,6 +12,7 @@ import {
 
 interface AddToCartProps {
   product: DS_ProductAPI_Product_Details;
+  discount: number;
   setMessage: Dispatch<
     SetStateAction<
       | {
@@ -22,11 +23,12 @@ interface AddToCartProps {
     >
   >;
   selectedVariation?: SelectedVariation;
-  selectedShipping?: DS_ShippingAPI_Shipping_Info_Result["aeop_freight_calculate_result_for_buyer_d_t_o_list"]["aeop_freight_calculate_result_for_buyer_dto"][0];
+  selectedShipping?: DS_ShippingAPI_Shipping_Info_Result["result"]["aeop_freight_calculate_result_for_buyer_d_t_o_list"][0];
 }
 
 const AddToCart = ({
   product,
+  discount,
   setMessage,
   selectedVariation,
   selectedShipping,
@@ -36,14 +38,12 @@ const AddToCart = ({
   const utils = trpc.useContext();
 
   const cartHandler = async () => {
+    const discountRate = discount < 95 ? discount / 100 : 0;
     if (selectedVariation && selectedShipping) {
-      let price, shippingPrice: any;
-      if (selectedVariation.sku || selectedVariation.price.app) {
-        price = selectedVariation.price.app.hasDiscount
-          ? selectedVariation.price.app.discountedPrice.value
-          : selectedVariation.price.app.originalPrice.value;
-        shippingPrice = selectedShipping.price.value;
-      }
+      const price = discountRate
+        ? parseFloat(selectedVariation.offer_sale_price)
+        : parseFloat(selectedVariation.sku_price);
+      const shippingPrice = selectedShipping.freight.amount;
       if (status === "unauthenticated") {
         setTimeout(() => {
           setMessage({ type: undefined, text: undefined });
@@ -54,29 +54,35 @@ const AddToCart = ({
         });
       }
       if (status === "authenticated") {
-        if (!selectedVariation.sku && !selectedVariation.price.app) {
+        if (
+          !selectedVariation.sku_price &&
+          !selectedVariation.offer_sale_price
+        ) {
           setTimeout(() => {
             setMessage({ type: undefined, text: undefined });
           }, 3000);
           setMessage({ type: "error", text: "Please select the properties." });
-        } else if (selectedVariation.sku || selectedVariation.price.app) {
+        } else if (
+          selectedVariation.sku_price ||
+          selectedVariation.offer_sale_price
+        ) {
           await cartMutation.mutateAsync(
             {
-              id: product.productId,
-              name: product.title,
+              productId: product.product_id.toString(),
+              name: product.subject,
               price,
               originalPrice: price,
               imageUrl: selectedVariation.imageUrl,
-              properties: selectedVariation.properties,
+              properties: selectedVariation.aeop_s_k_u_propertys,
               quantity: selectedVariation.quantity ?? 1,
-              sku: selectedVariation.sku,
-              carrierId: selectedShipping.company.id,
+              sku: selectedVariation.sku_code,
+              carrierId: selectedShipping.service_name,
               shippingPrice: shippingPrice,
               totalPrice:
                 (price + shippingPrice) * (selectedVariation.quantity ?? 1),
             },
             {
-              onSettled(data, error, variables, context) {
+              onSettled(data, error) {
                 if (error) setMessage({ type: "error", text: error.message });
                 if (data) {
                   if (!data.success)

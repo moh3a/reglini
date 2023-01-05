@@ -2,15 +2,14 @@
 import Link from "next/link";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 
-import { ZAE_Product } from "@reglini-types/zapiex";
+import { DS_ProductAPI_Product_Details } from "@reglini-types/ae";
 
-const StoreInfo = ({ product }: { product: ZAE_Product }) => {
+const StoreInfo = ({ product }: { product: DS_ProductAPI_Product_Details }) => {
   return (
     <>
-      {product.sellerDetails && (
+      {product.store_info && (
         <Link
-          href={product.sellerDetails.sellerDetailsUrl}
-          // href={`https://aliexpress.com/store/${product.sellerDetails.sellerDetailsUrl}`}
+          href={`https://aliexpress.com/store/${product.store_info.store_id}`}
           target="_blank"
           rel="noreferrer"
         >
@@ -26,28 +25,17 @@ const StoreInfo = ({ product }: { product: ZAE_Product }) => {
               aria-hidden="true"
             />
           </h3>
-          <p className="font-bold text-lg">{product.seller.storeName}</p>
+          <p className="font-bold text-lg">{product.store_info.store_name}</p>
           <div className="text-xs">
             <p>
-              Communication Rating:{" "}
-              {
-                product.sellerDetails.detailedRatings.communication.rating
-                  .percentage
-              }
+              Communication Rating: {product.store_info.communication_rating}
             </p>
             <p>
               Items as Described Rating:{" "}
-              {
-                product.sellerDetails.detailedRatings.itemAsDescribed.rating
-                  .percentage
-              }
+              {product.store_info.item_as_descriped_rating}
             </p>
             <p>
-              Shipping Speed Rating:{" "}
-              {
-                product.sellerDetails.detailedRatings.shippingSpeed.rating
-                  .percentage
-              }
+              Shipping Speed Rating:{product.store_info.shipping_speed_rating}
             </p>
           </div>
         </Link>

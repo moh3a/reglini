@@ -11,7 +11,7 @@ import ProductQuantity from "./details/ProductQuantity";
 import ProductPrice from "./details/ProductPrice";
 import ProductShipping from "./details/ProductShipping";
 import BuyProduct from "./details/BuyProduct";
-import ProductFeatures from "./ProductFeatures";
+import ProductFeatures from "./details/ProductFeatures";
 import AddToCart from "./details/AddToCart";
 import AddToWishlist from "./details/AddToWishlist";
 import { trpc } from "@utils/trpc";

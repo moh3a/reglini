@@ -6,7 +6,7 @@ import { AEProductPrice } from "@reglini-types/index";
 
 export const aeDsRouter = router({
   product: procedure
-    .input(z.object({ id: z.number(), locale: z.string().nullish() }))
+    .input(z.object({ id: z.number(), locale: z.string().optional() }))
     .query(async ({ ctx, input }) => {
       let properties: ZAE_ProductProperties[] = [];
       let price: AEProductPrice = {
@@ -66,9 +66,13 @@ export const aeDsRouter = router({
 
       // PRICE
       let max = 0;
+      let min = 1000000000;
       response.result.aeop_ae_product_s_k_us.forEach((sku) => {
         if (max < parseFloat(sku.sku_price)) {
           max = parseFloat(sku.sku_price);
+        }
+        if (min > parseFloat(sku.sku_price)) {
+          min = parseFloat(sku.sku_price);
         }
       });
 
@@ -89,17 +93,17 @@ export const aeDsRouter = router({
         price.discount = discount;
 
         price.discountedPrice = {
-          min: parseFloat(response.result.item_offer_site_sale_price),
+          min: Math.ceil((min - min * (discount / 100)) * 100) / 100,
           max: Math.ceil((max - max * (discount / 100)) * 100) / 100,
         };
         price.originalPrice = {
-          min: parseFloat(response.result.item_offer_site_sale_price),
+          min,
           max,
         };
       } else {
         price.hasDiscount = false;
         price.originalPrice = {
-          min: parseFloat(response.result.item_offer_site_sale_price),
+          min,
           max,
         };
       }
