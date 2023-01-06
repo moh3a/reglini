@@ -105,28 +105,24 @@ export interface ZAE_Product {
   hasProperties: true;
   properties: ZAE_ProductProperties[];
   hasVariations: boolean;
-  variations: [
-    {
-      sku: string;
-      stock: number;
-      imageUrl: string;
-      thumbnailImageUrl: string;
-      properties: [
-        {
-          id: string;
-          name: string;
-          value: {
-            id: string;
-            name: string;
-          };
-        }
-      ];
-      price: {
-        web: ZAE_ProductPrice;
-        app: ZAE_ProductPrice;
+  variations: {
+    sku: string;
+    stock: number;
+    imageUrl: string;
+    thumbnailImageUrl: string;
+    properties: {
+      id: string;
+      name: string;
+      value: {
+        id: string;
+        name: string;
       };
-    }
-  ];
+    }[];
+    price: {
+      web: ZAE_ProductPrice;
+      app: ZAE_ProductPrice;
+    };
+  }[];
   shipping: {
     shipFrom: string;
     isAvailableForSelectedCountries: boolean;

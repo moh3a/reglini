@@ -1,5 +1,7 @@
 import { PADDING, ROUNDED, SHADOW } from "@config/design";
 import { ZAE_Product } from "@reglini-types/zapiex";
+import { GetPrice } from "@utils/index";
+import { useFinance } from "@utils/store";
 import { SelectedVariation } from "../ProductDetails";
 
 interface ProductPriceProps {
@@ -8,17 +10,25 @@ interface ProductPriceProps {
 }
 
 const ProductPrice = ({ product, selectedVariation }: ProductPriceProps) => {
-  "€";
-
+  const { euro, commission } = useFinance();
   return (
     <div className="flex justify-center mt-2 title-font font-medium text-xl">
-      {selectedVariation && selectedVariation.sku ? (
+      {selectedVariation &&
+      selectedVariation.sku &&
+      selectedVariation.price.app ? (
         <>
-          {selectedVariation.price.app.hasDiscount ? (
+          {selectedVariation.price.app?.hasDiscount ? (
             <div
               className={`bg-aliexpress hover:bg-red-500 text-center font-bold text-white ${PADDING} ${ROUNDED} ${SHADOW}`}
             >
-              <div>{selectedVariation.price.app.discountedPrice.value} €</div>
+              <div>
+                {GetPrice(
+                  euro ?? 0,
+                  commission ?? 0,
+                  selectedVariation.price.app.discountedPrice.value
+                )}{" "}
+                DZD
+              </div>
               <div className="text-xs lg:text-sm">
                 <span className="line-through mr-4">
                   {selectedVariation.price.app.originalPrice.value}
@@ -27,7 +37,14 @@ const ProductPrice = ({ product, selectedVariation }: ProductPriceProps) => {
               </div>
             </div>
           ) : (
-            <>{selectedVariation.price.app.originalPrice.value} €</>
+            <>
+              {GetPrice(
+                euro ?? 0,
+                commission ?? 0,
+                selectedVariation.price.app?.originalPrice.value
+              )}{" "}
+              DZD
+            </>
           )}
         </>
       ) : product.hasSinglePrice ? (
@@ -36,16 +53,35 @@ const ProductPrice = ({ product, selectedVariation }: ProductPriceProps) => {
             <div
               className={`bg-aliexpress hover:bg-red-500 text-center font-bold text-white ${PADDING} ${ROUNDED} ${SHADOW}`}
             >
-              <div>{product.price.app.discountedPrice.value} €</div>
+              <div>
+                {GetPrice(
+                  euro ?? 0,
+                  commission ?? 0,
+                  product.price.app.discountedPrice.value
+                )}{" "}
+                DZD
+              </div>
               <div className="text-xs lg:text-sm">
                 <span className="line-through mr-4">
-                  {product.price.app.originalPrice.value} €
+                  {GetPrice(
+                    euro ?? 0,
+                    commission ?? 0,
+                    product.price.app.originalPrice.value
+                  )}{" "}
+                  DZD
                 </span>{" "}
                 {product.price.app.discountPercentage}% off
               </div>
             </div>
           ) : (
-            <>{product.price.app.originalPrice.value} €</>
+            <>
+              {GetPrice(
+                euro ?? 0,
+                commission ?? 0,
+                product.price.app.originalPrice.value
+              )}{" "}
+              DZD
+            </>
           )}
         </>
       ) : (
@@ -55,21 +91,51 @@ const ProductPrice = ({ product, selectedVariation }: ProductPriceProps) => {
               className={`bg-aliexpress hover:bg-red-500 text-center font-bold text-white ${PADDING} ${ROUNDED} ${SHADOW}`}
             >
               <div>
-                {product.priceSummary.app.discountedPrice.min.value} € -{" "}
-                {product.priceSummary.app.discountedPrice.max.value} €
+                {GetPrice(
+                  euro ?? 0,
+                  commission ?? 0,
+                  product.priceSummary.app.discountedPrice.min.value
+                )}{" "}
+                DZD -{" "}
+                {GetPrice(
+                  euro ?? 0,
+                  commission ?? 0,
+                  product.priceSummary.app.discountedPrice.max.value
+                )}{" "}
+                DZD
               </div>
               <div className="text-xs lg:text-sm">
                 <span className="line-through mr-4">
-                  {product.priceSummary.app.originalPrice.min.value} € -{" "}
-                  {product.priceSummary.app.originalPrice.max.value} €
+                  {GetPrice(
+                    euro ?? 0,
+                    commission ?? 0,
+                    product.priceSummary.app.originalPrice.min.value
+                  )}{" "}
+                  DZD -{" "}
+                  {GetPrice(
+                    euro ?? 0,
+                    commission ?? 0,
+                    product.priceSummary.app.originalPrice.max.value
+                  )}{" "}
+                  DZD
                 </span>{" "}
                 {product.priceSummary.app.discountPercentage}% off
               </div>
             </div>
           ) : (
             <>
-              {product.priceSummary.app.originalPrice.min.value} € -{" "}
-              {product.priceSummary.app.originalPrice.max.value} €
+              {GetPrice(
+                euro ?? 0,
+                commission ?? 0,
+                product.priceSummary.app.originalPrice.min.value
+              )}{" "}
+              DZD -{" "}
+              {GetPrice(
+                euro ?? 0,
+                commission ?? 0,
+                product.priceSummary.app.originalPrice.max.value
+              )}{" "}
+              DZD
             </>
           )}
         </>

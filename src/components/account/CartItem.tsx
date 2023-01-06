@@ -87,7 +87,7 @@ const CartItem = ({ item }: { item: AENOProduct }) => {
               </Link>
             </h1>
             <p className={`text-aliexpress font-bold font-mono`}>
-              {item.price} €
+              {item.price} DZD
             </p>
           </div>
 
@@ -129,7 +129,7 @@ const CartItem = ({ item }: { item: AENOProduct }) => {
             <p>
               Shipping Price:
               <span className={`px-2 font-bold font-mono`}>
-                {item.shippingPrice} €
+                {item.shippingPrice} DZD
               </span>
             </p>
           </div>

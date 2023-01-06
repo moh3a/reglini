@@ -91,6 +91,10 @@ const ProductDetails = ({ id }: { id: number }) => {
     text?: string;
   }>();
   const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    if (message?.type) setIsOpen(true);
+    else setIsOpen(false);
+  }, [message?.type]);
 
   const [showImage, setShowImage] = useState("");
   const [selectedShipping, setSelectedShipping] =
@@ -153,9 +157,8 @@ const ProductDetails = ({ id }: { id: number }) => {
           });
           if (!checking.includes(false)) {
             varia.aeop_s_k_u_propertys.find((sku) => {
-              if (sku.sku_image) {
-                imageUrl = sku.sku_image;
-              }
+              imageUrl =
+                sku.sku_image ?? product.data.result.image_u_r_ls.split(";")[0];
             });
             theOne = {
               ...varia,
@@ -178,16 +181,15 @@ const ProductDetails = ({ id }: { id: number }) => {
       {product.data && product.data.result && (
         <>
           <section className="body-font">
-            {message?.type && (
-              <Modal
-                type={message.type}
-                title={message.type.toUpperCase()}
-                isOpen={isOpen}
-                setIsOpen={setIsOpen}
-              >
-                {message.text}
-              </Modal>
-            )}
+            <Modal
+              type={message?.type}
+              title={message?.type?.toUpperCase()}
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+            >
+              {message?.text}
+            </Modal>
+
             <div className="container px-5 py-10 mx-auto">
               <div className={`lg:w-4/5 mx-auto flex flex-wrap`}>
                 <ProductImage

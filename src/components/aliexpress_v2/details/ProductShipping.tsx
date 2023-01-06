@@ -9,6 +9,8 @@ import {
   TEXT_INPUT,
 } from "@config/design";
 import { DS_ShippingAPI_Shipping_Info_Result } from "@reglini-types/ae";
+import { GetPrice } from "@utils/index";
+import { useFinance } from "@utils/store";
 
 interface ProductShipping {
   shipping: DS_ShippingAPI_Shipping_Info_Result;
@@ -24,6 +26,7 @@ const ProductShipping = ({
   shipping,
   setSelectedShipping,
 }: ProductShipping) => {
+  const { usd, commission } = useFinance();
   const [selected, setSelected] = useState(
     shipping.result.aeop_freight_calculate_result_for_buyer_d_t_o_list[0]
   );
@@ -87,7 +90,12 @@ const ProductShipping = ({
                               </span>
 
                               <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-                                {carrier.freight.amount} $
+                                {GetPrice(
+                                  usd ?? 0,
+                                  commission ?? 0,
+                                  carrier.freight.amount
+                                )}{" "}
+                                DZD
                               </span>
                               {selected ? (
                                 <span
@@ -112,7 +120,7 @@ const ProductShipping = ({
           <p className="relative text-xs pl-2 z-0">
             <span>Delivered in {selected.estimated_delivery_time} days</span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-              {selected.freight.amount} $
+              {GetPrice(usd ?? 0, commission ?? 0, selected.freight.amount)} DZD
             </span>
           </p>
         </>

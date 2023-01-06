@@ -51,7 +51,7 @@ export const cartRouter = router({
               productId: input.productId,
             },
           });
-          await ctx.prisma.cart.upsert({
+          const updated = await ctx.prisma.cart.upsert({
             where: { id: item?.id },
             update: input,
             create: {
@@ -59,10 +59,12 @@ export const cartRouter = router({
               user: { connect: { email: ctx.session.user.email! } },
             },
           });
-          return {
-            success: true,
-            message: "Item successfully added to your cart.",
-          };
+          if (updated)
+            return {
+              success: true,
+              message: "Item successfully added to your cart.",
+            };
+          else return { success: false, error: "Could not add item to cart." };
         } catch (error) {
           return {
             success: false,

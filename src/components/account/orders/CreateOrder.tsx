@@ -143,17 +143,17 @@ const CreateOrder = () => {
                 <div className="flex flex-col whitespace-normal">
                   <p className="font-bold">{product.name}</p>
                   <p className="text-sm font-mono">
-                    Product price: {product.price} €
+                    Product price: {product.price} DZD
                   </p>
                   <p className="text-sm font-mono">
-                    Shipping price: {product.shippingPrice} €
+                    Shipping price: {product.shippingPrice} DZD
                   </p>
                   <p className="text-sm font-mono">
                     Quantity: {product.quantity}
                   </p>
                   <p className={`text-sm font-mono`}>
                     <span className={TEXT_GRADIENT + " font-extrabold"}>
-                      Total: {product.totalPrice} €
+                      Total: {product.totalPrice} DZD
                     </span>
                   </p>
                 </div>

@@ -5,6 +5,8 @@ import { HeartIcon } from "@heroicons/react/24/solid";
 import Button from "@components/shared/Button";
 import { trpc } from "@utils/trpc";
 import { DS_ProductAPI_Product_Details } from "@reglini-types/ae";
+import { GetPrice } from "@utils/index";
+import { useFinance } from "@utils/store";
 
 interface AddToWishlistProps {
   product: DS_ProductAPI_Product_Details;
@@ -20,6 +22,7 @@ interface AddToWishlistProps {
 }
 
 const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
+  const { usd, commission } = useFinance();
   const { status } = useSession();
   const wishlistMutation = trpc.wishlist.add.useMutation();
 
@@ -38,7 +41,11 @@ const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
         {
           id: product.product_id.toString(),
           name: product.subject,
-          price: parseFloat(product.item_offer_site_sale_price),
+          price: GetPrice(
+            usd ?? 0,
+            commission ?? 0,
+            parseFloat(product.item_offer_site_sale_price)
+          ),
           imageUrl: product.image_u_r_ls.split(";")[0],
         },
         {

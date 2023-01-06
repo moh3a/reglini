@@ -9,6 +9,8 @@ import {
   SHADOW,
   TEXT_INPUT,
 } from "@config/design";
+import { GetPrice } from "@utils/index";
+import { useFinance } from "@utils/store";
 
 interface ProductShipping {
   product: ZAE_Product;
@@ -18,6 +20,7 @@ interface ProductShipping {
 }
 
 const ProductShipping = ({ product, setSelectedShipping }: any) => {
+  const { commission, euro } = useFinance();
   const [selected, setSelected] = useState(product.shipping.carriers[0]);
   useEffect(() => {
     if (selected) setSelectedShipping(selected);
@@ -88,7 +91,12 @@ const ProductShipping = ({ product, setSelectedShipping }: any) => {
                                 </span>
                               )}
                               <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-                                {carrier.price.value} €
+                                {GetPrice(
+                                  euro ?? 0,
+                                  commission ?? 0,
+                                  carrier.price.value
+                                )}{" "}
+                                DZD
                               </span>
                               {selected ? (
                                 <span
@@ -116,7 +124,7 @@ const ProductShipping = ({ product, setSelectedShipping }: any) => {
               {selected.deliveryTimeInDays.max} days
             </span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-              {selected.price.value} €
+              {GetPrice(euro ?? 0, commission ?? 0, selected.price.value)} DZD
             </span>
           </p>
         </>

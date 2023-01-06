@@ -1,3 +1,2 @@
-- currency and commission
 - order: create, get, pay, tracking, delete, confirm receipt
 - fix locale

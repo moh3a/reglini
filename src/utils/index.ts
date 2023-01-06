@@ -16,3 +16,17 @@ export const USER_FROM_TRPC_CTX = (session: ISession | null) => {
         : undefined,
   };
 };
+
+export const GetPrice = (
+  currency: number,
+  commission: number,
+  amount: number
+) => {
+  if (currency && commission) {
+    return (
+      Math.ceil((amount * currency + amount * currency * commission) / 10) * 10
+    );
+  } else {
+    return 0;
+  }
+};

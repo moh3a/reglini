@@ -127,7 +127,7 @@ export default function Cart() {
                         className={`flex justify-between text-base font-medium font-mono`}
                       >
                         <p>Subtotal</p>
-                        <p>{subtotal} €</p>
+                        <p>{subtotal} DZD</p>
                       </div>
                       <p
                         className={`mt-0.5 mb-5 text-sm font-mono text-center`}

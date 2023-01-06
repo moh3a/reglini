@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { HeartIcon } from "@heroicons/react/24/solid";
@@ -8,8 +8,11 @@ import { useSession } from "next-auth/react";
 import Loading from "@components/shared/Loading";
 import Modal from "@components/shared/Modal";
 import { trpc } from "@utils/trpc";
+import { GetPrice } from "@utils/index";
+import { useFinance } from "@utils/store";
 
 const ProductsList = () => {
+  const { euro, usd, commission } = useFinance();
   const router = useRouter();
   const { q, p } = router.query;
 
@@ -18,6 +21,10 @@ const ProductsList = () => {
     type?: "success" | "error";
     text?: string;
   }>();
+  useEffect(() => {
+    if (message?.type) setIsOpen(true);
+    else setIsOpen(false);
+  }, [message?.type]);
 
   const searchZapiexProducts = trpc.zapiex.search.useQuery({
     text: q as string,
@@ -46,15 +53,27 @@ const ProductsList = () => {
       ? {
           id: product.productId,
           name: product.title,
-          price: product.productMinPrice.value,
+          price: GetPrice(
+            euro ?? 0,
+            commission ?? 0,
+            product.productMinPrice.value
+          ),
           imageUrl: product.imageUrl,
         }
       : {
           id: product.product_id.toString(),
           name: product.product_title,
           price: product.target_app_sale_price
-            ? Number(product.target_app_sale_price)
-            : Number(product.target_original_price),
+            ? GetPrice(
+                usd ?? 0,
+                commission ?? 0,
+                Number(product.target_app_sale_price)
+              )
+            : GetPrice(
+                usd ?? 0,
+                commission ?? 0,
+                Number(product.target_original_price)
+              ),
           imageUrl: product.product_main_image_url,
         };
     if (status === "authenticated") {
@@ -72,15 +91,14 @@ const ProductsList = () => {
 
   return (
     <div className="my-8 mx-2">
-      {message?.type && (
-        <Modal
-          title={message.type.toUpperCase()}
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-        >
-          {message.text}
-        </Modal>
-      )}
+      <Modal
+        type={message?.type}
+        title={message?.type?.toUpperCase()}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      >
+        {message?.text}
+      </Modal>
 
       {q ? (
         <>
@@ -113,10 +131,14 @@ const ProductsList = () => {
 
                         <p className={`font-mono`}>
                           <span>
-                            {product.productMinPrice.value +
-                              product.shippingMinPrice.value}
+                            {GetPrice(
+                              euro ?? 0,
+                              commission ?? 0,
+                              product.productMinPrice.value +
+                                product.shippingMinPrice.value
+                            )}
                           </span>{" "}
-                          <span>€</span>
+                          <span>DZD</span>
                         </p>
                       </div>
                       <div>
@@ -183,8 +205,14 @@ const ProductsList = () => {
                             </h2>
 
                             <p className={`font-mono`}>
-                              <span>{product.target_app_sale_price}</span>{" "}
-                              <span>$</span>
+                              <span>
+                                {GetPrice(
+                                  usd ?? 0,
+                                  commission ?? 0,
+                                  Number(product.target_app_sale_price ?? 0)
+                                )}
+                              </span>{" "}
+                              <span>DZD</span>
                             </p>
                           </div>
                           <div>

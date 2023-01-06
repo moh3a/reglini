@@ -5,6 +5,8 @@ import { HeartIcon } from "@heroicons/react/24/solid";
 import { ZAE_Product } from "@reglini-types/zapiex";
 import Button from "@components/shared/Button";
 import { trpc } from "@utils/trpc";
+import { GetPrice } from "@utils/index";
+import { useFinance } from "@utils/store";
 
 interface AddToWishlistProps {
   product: ZAE_Product;
@@ -20,6 +22,7 @@ interface AddToWishlistProps {
 }
 
 const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
+  const { commission, euro } = useFinance();
   const { status } = useSession();
   const wishlistMutation = trpc.wishlist.add.useMutation();
 
@@ -38,7 +41,11 @@ const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
         {
           id: product.productId,
           name: product.title,
-          price: product.price.app.originalPrice.value,
+          price: GetPrice(
+            euro ?? 0,
+            commission ?? 0,
+            product.price.app.originalPrice.value
+          ),
           imageUrl: product.productImages[0],
         },
         {

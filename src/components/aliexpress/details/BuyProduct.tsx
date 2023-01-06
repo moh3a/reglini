@@ -6,6 +6,8 @@ import { useRouter } from "next/router";
 import Button from "@components/shared/Button";
 import { ZAE_Product } from "@reglini-types/zapiex";
 import { SelectedVariation } from "../ProductDetails";
+import { GetPrice } from "@utils/index";
+import { useFinance } from "@utils/store";
 
 interface BuyProductProps {
   product: ZAE_Product;
@@ -28,18 +30,27 @@ const BuyProduct = ({
   selectedVariation,
   selectedShipping,
 }: BuyProductProps) => {
+  const { commission, euro } = useFinance();
   const { status } = useSession();
   const router = useRouter();
 
   const buyHandler = () => {
     if (selectedVariation && selectedShipping) {
-      let price, shippingPrice: any;
-      if (selectedVariation.sku || selectedVariation.price.app) {
-        price = selectedVariation.price.app.hasDiscount
+      const price = GetPrice(
+        euro ?? 0,
+        commission ?? 0,
+        selectedVariation.price.app.hasDiscount
           ? selectedVariation.price.app.discountedPrice.value
-          : selectedVariation.price.app.originalPrice.value;
-        shippingPrice = selectedShipping.price.value;
-      }
+          : selectedVariation.price.app.originalPrice.value
+      );
+      const originalPrice = selectedVariation.price.app.hasDiscount
+        ? selectedVariation.price.app.discountedPrice.value
+        : selectedVariation.price.app.originalPrice.value;
+      const shippingPrice = GetPrice(
+        euro ?? 0,
+        commission ?? 0,
+        selectedShipping.price.value
+      );
       if (status === "unauthenticated") {
         setTimeout(() => {
           setMessage({ type: undefined, text: undefined });
@@ -63,15 +74,15 @@ const BuyProduct = ({
                 productId: product.productId,
                 name: product.title,
                 price,
-                originalPrice: price,
+                originalPrice,
                 imageUrl: selectedVariation.imageUrl,
                 properties: selectedVariation.properties,
                 quantity: selectedVariation.quantity,
                 sku: selectedVariation.sku,
                 carrierId: selectedShipping.company.id,
-                shippingPrice: shippingPrice,
+                shippingPrice,
                 totalPrice:
-                  (price + shippingPrice) * (selectedVariation.quantity ?? 1),
+                  price * (selectedVariation.quantity ?? 1) + shippingPrice,
               },
             ])
           );

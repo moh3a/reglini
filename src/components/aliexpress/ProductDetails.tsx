@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-import { ZAE_Product } from "@reglini-types/zapiex";
+import {
+  ZAE_Product,
+  ZAE_ProductPrice,
+  ZAE_ProductProperties,
+} from "@reglini-types/zapiex";
 import Modal from "@components/shared/Modal";
 import Loading from "@components/shared/Loading";
 import ProductImage from "./details/ProductImage";
@@ -17,13 +21,23 @@ import AddToWishlist from "./details/AddToWishlist";
 import { trpc } from "@utils/trpc";
 
 export interface SelectedVariation {
-  imageUrl: string;
-  price: any;
-  properties: any[];
   sku: string;
+  stock?: number;
+  imageUrl: string;
   thumbnailImageUrl: string;
-  quantity?: number | undefined;
-  stock?: number | undefined;
+  properties: {
+    id: string;
+    name: string;
+    value: {
+      id: string;
+      name: string;
+    };
+  }[];
+  price: {
+    web: ZAE_ProductPrice;
+    app: ZAE_ProductPrice;
+  };
+  quantity?: number;
 }
 
 const ProductDetails = ({ id }: { id: string }) => {
@@ -34,7 +48,7 @@ const ProductDetails = ({ id }: { id: string }) => {
       locale: router.locale?.toUpperCase(),
     },
     {
-      onSettled(data, error) {
+      onSettled(data) {
         if (data && data.data) {
           setShowImage(data.data.productImages[0]);
           setSelectedShipping(data.data.shipping.carriers[0]);
@@ -47,6 +61,10 @@ const ProductDetails = ({ id }: { id: string }) => {
     text?: string;
   }>();
   const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    if (message?.type) setIsOpen(true);
+    else setIsOpen(false);
+  }, [message?.type]);
 
   const [showImage, setShowImage] = useState("");
   const [selectedShipping, setSelectedShipping] =
@@ -76,18 +94,18 @@ const ProductDetails = ({ id }: { id: string }) => {
   useEffect(() => {
     if (product.data && product.data.data) {
       if (product.data.data.hasVariations && variation) {
-        let theOne = {
+        let theOne: Omit<SelectedVariation, "quantity"> = {
           imageUrl: "",
-          price: {},
-          properties: [{}],
+          price: {} as any,
+          properties: [],
           sku: "",
           thumbnailImageUrl: "",
         };
         if (product.data.data.variations.length > 1) {
-          product.data.data.variations.map((varia: any) => {
+          product.data.data.variations.map((varia) => {
             let checking: boolean[] = [];
             varia.properties.map(() => checking.push(false));
-            varia.properties.map((prop: any, i: number = 0) => {
+            varia.properties.map((prop, i) => {
               const index =
                 variation[0] === undefined
                   ? -2
@@ -104,6 +122,8 @@ const ProductDetails = ({ id }: { id: string }) => {
               }
               i++;
             });
+            varia.imageUrl =
+              varia.imageUrl ?? product.data.data?.productImages[0];
             if (!checking.includes(false)) theOne = varia;
           });
         } else {

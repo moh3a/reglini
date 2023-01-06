@@ -6,6 +6,8 @@ import { ZAE_Product } from "@reglini-types/zapiex";
 import { SelectedVariation } from "../ProductDetails";
 import Button from "@components/shared/Button";
 import { trpc } from "@utils/trpc";
+import { GetPrice } from "@utils/index";
+import { useFinance } from "@utils/store";
 
 interface AddToCartProps {
   product: ZAE_Product;
@@ -28,19 +30,29 @@ const AddToCart = ({
   selectedVariation,
   selectedShipping,
 }: AddToCartProps) => {
+  const { euro, commission } = useFinance();
   const { status } = useSession();
   const cartMutation = trpc.cart.add.useMutation();
   const utils = trpc.useContext();
 
   const cartHandler = async () => {
     if (selectedVariation && selectedShipping) {
-      let price, shippingPrice: any;
-      if (selectedVariation.sku || selectedVariation.price.app) {
-        price = selectedVariation.price.app.hasDiscount
+      const price = GetPrice(
+        euro ?? 0,
+        commission ?? 0,
+        selectedVariation.price.app.hasDiscount
           ? selectedVariation.price.app.discountedPrice.value
-          : selectedVariation.price.app.originalPrice.value;
-        shippingPrice = selectedShipping.price.value;
-      }
+          : selectedVariation.price.app.originalPrice.value
+      );
+      const originalPrice = selectedVariation.price.app.hasDiscount
+        ? selectedVariation.price.app.discountedPrice.value
+        : selectedVariation.price.app.originalPrice.value;
+      const shippingPrice = GetPrice(
+        euro ?? 0,
+        commission ?? 0,
+        selectedShipping.price.value
+      );
+
       if (status === "unauthenticated") {
         setTimeout(() => {
           setMessage({ type: undefined, text: undefined });
@@ -59,21 +71,21 @@ const AddToCart = ({
         } else if (selectedVariation.sku || selectedVariation.price.app) {
           await cartMutation.mutateAsync(
             {
-              productId: product.productId, 
+              productId: product.productId,
               name: product.title,
               price,
-              originalPrice: price,
+              originalPrice,
               imageUrl: selectedVariation.imageUrl,
               properties: selectedVariation.properties,
               quantity: selectedVariation.quantity ?? 1,
               sku: selectedVariation.sku,
               carrierId: selectedShipping.company.id,
-              shippingPrice: shippingPrice,
+              shippingPrice,
               totalPrice:
-                (price + shippingPrice) * (selectedVariation.quantity ?? 1),
+                price * (selectedVariation.quantity ?? 1) + shippingPrice,
             },
             {
-              onSettled(data, error, variables, context) {
+              onSettled(data, error) {
                 if (error) setMessage({ type: "error", text: error.message });
                 if (data) {
                   if (!data.success)

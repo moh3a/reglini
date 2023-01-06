@@ -9,6 +9,8 @@ import {
   DS_ProductAPI_Product_Details,
   DS_ShippingAPI_Shipping_Info_Result,
 } from "@reglini-types/ae";
+import { GetPrice } from "@utils/index";
+import { useFinance } from "@utils/store";
 
 interface BuyProductProps {
   product: DS_ProductAPI_Product_Details;
@@ -33,16 +35,28 @@ const BuyProduct = ({
   selectedVariation,
   selectedShipping,
 }: BuyProductProps) => {
+  const { usd, commission } = useFinance();
   const { status } = useSession();
   const router = useRouter();
 
   const buyHandler = () => {
     const discountRate = discount < 95 ? discount / 100 : 0;
     if (selectedVariation && selectedShipping) {
-      const price = discountRate
+      const price = GetPrice(
+        usd ?? 0,
+        commission ?? 0,
+        discountRate
+          ? parseFloat(selectedVariation.offer_sale_price)
+          : parseFloat(selectedVariation.sku_price)
+      );
+      const originalPrice = discountRate
         ? parseFloat(selectedVariation.offer_sale_price)
         : parseFloat(selectedVariation.sku_price);
-      const shippingPrice = selectedShipping.freight.amount;
+      const shippingPrice = GetPrice(
+        usd ?? 0,
+        commission ?? 0,
+        selectedShipping.freight.amount
+      );
       if (status === "unauthenticated") {
         setTimeout(() => {
           setMessage({ type: undefined, text: undefined });
@@ -72,15 +86,15 @@ const BuyProduct = ({
                 productId: product.product_id.toString(),
                 name: product.subject,
                 price,
-                originalPrice: price,
+                originalPrice,
                 imageUrl: selectedVariation.imageUrl,
                 properties: selectedVariation.aeop_s_k_u_propertys,
                 quantity: selectedVariation.quantity ?? 1,
                 sku: selectedVariation.sku_code,
                 carrierId: selectedShipping.service_name,
-                shippingPrice: shippingPrice,
+                shippingPrice,
                 totalPrice:
-                  (price + shippingPrice) * (selectedVariation.quantity ?? 1),
+                  price * (selectedVariation.quantity ?? 1) + shippingPrice,
               },
             ])
           );

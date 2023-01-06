@@ -65,14 +65,26 @@ export const aeDsRouter = router({
       }
 
       // PRICE
-      let max = 0;
-      let min = 1000000000;
+      let discountedPrice = {
+        min: 1000000000,
+        max: 0,
+      };
+      let originalPrice = {
+        min: 1000000000,
+        max: 0,
+      };
       response.result.aeop_ae_product_s_k_us.forEach((sku) => {
-        if (max < parseFloat(sku.sku_price)) {
-          max = parseFloat(sku.sku_price);
+        if (originalPrice.max < parseFloat(sku.sku_price)) {
+          originalPrice.max = parseFloat(sku.sku_price);
         }
-        if (min > parseFloat(sku.sku_price)) {
-          min = parseFloat(sku.sku_price);
+        if (originalPrice.min > parseFloat(sku.sku_price)) {
+          originalPrice.min = parseFloat(sku.sku_price);
+        }
+        if (discountedPrice.max < parseFloat(sku.offer_sale_price)) {
+          discountedPrice.max = parseFloat(sku.offer_sale_price);
+        }
+        if (discountedPrice.min > parseFloat(sku.offer_sale_price)) {
+          discountedPrice.min = parseFloat(sku.offer_sale_price);
         }
       });
 
@@ -80,7 +92,7 @@ export const aeDsRouter = router({
         parseFloat(response.result.aeop_ae_product_s_k_us[0].sku_price) >
         parseFloat(response.result.aeop_ae_product_s_k_us[0].offer_sale_price)
       ) {
-        let discount = Math.ceil(
+        let discount = Math.floor(
           ((parseFloat(response.result.aeop_ae_product_s_k_us[0].sku_price) -
             parseFloat(
               response.result.aeop_ae_product_s_k_us[0].offer_sale_price
@@ -93,18 +105,18 @@ export const aeDsRouter = router({
         price.discount = discount;
 
         price.discountedPrice = {
-          min: Math.ceil((min - min * (discount / 100)) * 100) / 100,
-          max: Math.ceil((max - max * (discount / 100)) * 100) / 100,
+          min: discountedPrice.min,
+          max: discountedPrice.max,
         };
         price.originalPrice = {
-          min,
-          max,
+          min: originalPrice.min,
+          max: originalPrice.max,
         };
       } else {
         price.hasDiscount = false;
         price.originalPrice = {
-          min,
-          max,
+          min: originalPrice.min,
+          max: originalPrice.max,
         };
       }
 
