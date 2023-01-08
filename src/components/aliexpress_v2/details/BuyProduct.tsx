@@ -90,11 +90,13 @@ const BuyProduct = ({
                 imageUrl: selectedVariation.imageUrl,
                 properties: selectedVariation.aeop_s_k_u_propertys,
                 quantity: selectedVariation.quantity ?? 1,
-                sku: selectedVariation.sku_code,
+                sku: selectedVariation.id,
                 carrierId: selectedShipping.service_name,
                 shippingPrice,
                 totalPrice:
                   price * (selectedVariation.quantity ?? 1) + shippingPrice,
+                orderMemo:
+                  "Please do not put invoices or any other document inside the package. Instead send them to this email address support@reglini-dz.com. Thank you very much.",
               },
             ])
           );

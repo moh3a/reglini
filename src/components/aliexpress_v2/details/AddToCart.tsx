@@ -89,7 +89,7 @@ const AddToCart = ({
               imageUrl: selectedVariation.imageUrl,
               properties: selectedVariation.aeop_s_k_u_propertys,
               quantity: selectedVariation.quantity ?? 1,
-              sku: selectedVariation.sku_code,
+              sku: selectedVariation.id,
               carrierId: selectedShipping.service_name,
               shippingPrice,
               totalPrice:

@@ -78,7 +78,7 @@ model Cart {
   userId        String
   user          User     @relation(fields: userId, references: [id])
   date          DateTime @default(now()) @db.Date
-  productId     String? // ! remove optional ?
+  productId     String
   name          String
   imageUrl      String
   price         Float
@@ -105,9 +105,25 @@ model Wishlist {
   @@index([userId])
 }
 
+model Order {
+  id              String          @unique
+  userId          String
+  user            User            @relation(fields: userId, references: [id])
+  details         Json?
+  currency        String?
+  product         Product?
+  shippingAddress Shipping?
+  payment         Payment?
+  received        PackageReceipt?
+
+  @@index([userId])
+}
+
 model Product {
   id            String  @id @default(cuid())
-  productId     String? // ! remove optional ?
+  productId     String
+  orderId       String  @unique
+  order         Order   @relation(fields: orderId, references: [id])
   name          String
   imageUrl      String
   sku           String?
@@ -119,23 +135,6 @@ model Product {
   carrierId     String?
   orderMemo     String? @default("Please do not put invoices or any other document inside the package. Instead send them to this email address support@reglini-dz.com. Thank you very much.")
   properties    Json?
-  order         Order?
-}
-
-model Order {
-  id              String          @unique
-  userId          String
-  user            User            @relation(fields: userId, references: [id])
-  productId       String          @unique
-  product         Product         @relation(fields: [productId], references: [id])
-  details         Json?
-  currency        String?
-  shippingAddress Shipping?
-  payment         Payment?
-  tracking        Tracking?
-  received        PackageReceipt?
-
-  @@index([userId])
 }
 
 model Shipping {
@@ -167,15 +166,6 @@ model Payment {
 enum PAYMENT_METHOD {
   CCP
   CIB
-}
-
-model Tracking {
-  id               String  @id @default(cuid())
-  orderId          String  @unique
-  order            Order   @relation(fields: orderId, references: [id])
-  hasTracking      Boolean @default(false)
-  official_website String?
-  details          Json?
 }
 
 model PackageReceipt {

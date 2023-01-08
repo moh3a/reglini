@@ -8,6 +8,7 @@ import CartItem from "./CartItem";
 import Button from "@components/shared/Button";
 import Loading from "@components/shared/Loading";
 import { trpc } from "@utils/trpc";
+import { AENOProduct } from "@reglini-types/index";
 
 export default function Cart() {
   const [openCart, setOpenCart] = useState(false);
@@ -110,7 +111,10 @@ export default function Cart() {
                             cartQuery.data.cart &&
                             cartQuery.data.cart.length > 0 ? (
                               cartQuery.data.cart.map((item) => (
-                                <CartItem key={item.id} item={item} />
+                                <CartItem
+                                  key={item.id}
+                                  item={item as AENOProduct}
+                                />
                               ))
                             ) : (
                               <li className={`py-6 flex`}>

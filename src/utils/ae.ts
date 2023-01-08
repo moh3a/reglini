@@ -102,20 +102,20 @@ export const AE_DS_createOrder = async (
     zip?: string;
   },
   product_items: {
+    logistics_service_name?: string;
+    order_memo?: string;
     product_count: number;
     product_id: number;
     sku_attr?: string;
-    logistics_service_name?: string;
-    order_memo?: string;
-  }
+  }[]
 ) => {
   return await execute<
     DS_OrderAPI_Place_Order_Params,
     DS_OrderAPI_Place_Order_Result
   >("ds", "aliexpress.trade.buy.placeorder", {
     param_place_order_request4_open_api_d_t_o: JSON.stringify({
-      product_items,
       logistics_address,
+      product_items,
     }),
   });
 };

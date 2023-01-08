@@ -149,4 +149,20 @@ export const aeDsRouter = router({
       );
       return response;
     }),
+  tracking: procedure
+    .input(
+      z.object({
+        order_id: z.string(),
+        tracking_id: z.string(),
+        service_name: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const response = await ctx.aliexpress.ds.tracking(
+        input.order_id,
+        input.tracking_id,
+        input.service_name
+      );
+      return response;
+    }),
 });

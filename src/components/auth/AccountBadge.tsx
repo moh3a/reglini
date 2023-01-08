@@ -7,6 +7,7 @@ import {
   ArrowLeftOnRectangleIcon,
   Cog6ToothIcon,
   PowerIcon,
+  Square3Stack3DIcon,
 } from "@heroicons/react/24/outline";
 import Button from "../shared/Button";
 import {
@@ -98,7 +99,22 @@ const AccountBadge = () => {
                   }
                   variant="outline"
                 >
-                  Wishlist
+                  Your wishlist
+                </Button>
+              </Link>
+            </Menu.Item>
+            <Menu.Item>
+              <Link href={"/account/orders"}>
+                <Button
+                  icon={
+                    <Square3Stack3DIcon
+                      className="inline h-5 w-5 mr-2"
+                      aria-hidden="true"
+                    />
+                  }
+                  variant="outline"
+                >
+                  Your orders
                 </Button>
               </Link>
             </Menu.Item>

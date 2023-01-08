@@ -300,9 +300,7 @@ export interface DS_OrderAPI_Place_Order_Result {
   result: {
     error_code: string;
     error_msg: string;
-    order_list: {
-      number: number[];
-    };
+    order_list: number[];
     is_success: boolean;
   };
 }
@@ -321,33 +319,33 @@ export interface DS_OrderAPI_Get_Order_Params {
 export interface DS_OrderAPI_Get_Order_Result {
   result: {
     gmt_create: string;
-    order_status: string;
-    logistics_status: string;
+    order_status:
+      | "PLACE_ORDER_SUCCESS"
+      | "WAIT_BUYER_ACCEPT_GOODS"
+      | "FUND_PROCESSING"
+      | "FINISH";
+    logistics_status:
+      | "NO_LOGISTICS"
+      | "WAIT_SELLER_SEND_GOODS"
+      | "SELLER_SEND_GOODS"
+      | "BUYER_ACCEPT_GOODS";
     order_amount: {
       amount: string;
       currency_code: string;
     };
     child_order_list: {
-      aeop_child_order_info: [
-        {
-          product_id: number;
-          product_price: {
-            amount: string;
-            currency_code: string;
-          };
-          product_name: string;
-          product_count: number;
-        }
-      ];
-    };
+      product_id: number;
+      product_price: {
+        amount: string;
+        currency_code: string;
+      };
+      product_name: string;
+      product_count: number;
+    }[];
     logistics_info_list: {
-      ae_order_logistics_info: [
-        {
-          logistics_no: string;
-          logistics_service: string;
-        }
-      ];
-    };
+      logistics_no: string;
+      logistics_service: string;
+    }[];
     store_info: {
       store_id: number;
       store_name: string;

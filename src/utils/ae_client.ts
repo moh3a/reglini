@@ -41,14 +41,14 @@ export const call = async <T extends PublicParams, K extends object>(
       basestring +=
         symbol + sorted[i] + "=" + params[sorted[i] as keyof typeof params];
   }
-  const { data } = await axios.post(basestring, undefined, {
+  const { data } = await axios.post<K>(basestring, undefined, {
     headers: {
       "content-type": "application/json",
       Accept: "application/json",
       "Accept-Encoding": "application/json", // workaround for an axios@1.2.0 bug
     },
   });
-  return data as K;
+  return data;
 };
 
 type Timestamp = string | number | Date;
@@ -121,7 +121,5 @@ export const execute = async <T, K extends object>(
     timestamp: get_timestamp(),
   };
   parameters.sign = sign_function(app_secret, parameters);
-
-  const data = await call<T & PublicParams, K>(parameters);
-  return data;
+  return await call<T & PublicParams, K>(parameters);
 };

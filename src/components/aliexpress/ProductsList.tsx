@@ -173,6 +173,7 @@ const ProductsList = () => {
           )}
           {searchAffiliateProducts.data &&
             searchAffiliateProducts.data.resp_result &&
+            searchAffiliateProducts.data.resp_result.result &&
             searchAffiliateProducts.data.resp_result.result
               .current_record_count > 0 && (
               <>

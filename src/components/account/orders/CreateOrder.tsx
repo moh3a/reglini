@@ -47,19 +47,35 @@ const CreateOrder = () => {
         profile.data.user.profile?.realName &&
         profile.data.user.address?.postalCode
       ) {
-        await createOrderMutation.mutateAsync({
-          products,
-          shippingAddress: {
-            countryCode: "DZ",
-            name: profile.data.user.profile?.realName,
-            phoneCountry: "+213",
-            mobilePhone: profile.data.user.profile?.phoneNumber,
-            city: profile.data.user.address?.commune ?? "",
-            addressLine1: profile.data.user.address?.streetName ?? "",
-            province: profile.data.user.address?.wilaya ?? "",
-            zipCode: profile.data.user.address?.postalCode,
+        await createOrderMutation.mutateAsync(
+          {
+            products,
+            shippingAddress: {
+              countryCode: "DZ",
+              name: profile.data.user.profile?.realName,
+              phoneCountry: "+213",
+              mobilePhone: profile.data.user.profile?.phoneNumber,
+              city: profile.data.user.address?.commune ?? "",
+              addressLine1: profile.data.user.address?.streetName ?? "",
+              province: profile.data.user.address?.wilaya ?? "",
+              zipCode: profile.data.user.address?.postalCode,
+            },
           },
-        });
+          {
+            onSettled(data, error) {
+              if (error) setMessage({ type: "error", text: error.message });
+              if (data) {
+                if (data.success) {
+                  setMessage({ type: "success", text: data.message });
+                } else setMessage({ type: "error", text: data.error });
+              }
+              setTimeout(
+                () => setMessage({ type: undefined, text: undefined }),
+                3000
+              );
+            },
+          }
+        );
       } else {
         setMessage({ type: "error", text: "Fill the required fields." });
         setTimeout(() => {

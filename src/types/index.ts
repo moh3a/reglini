@@ -159,11 +159,11 @@ export interface MDBUser {
 }
 
 export interface AEProduct {
-  productId: string | null;
-  quantity: number | null;
-  sku: string | null;
-  carrierId: string | null;
-  orderMemo?: string | null;
+  productId: string;
+  quantity: number;
+  sku: string;
+  carrierId: string;
+  orderMemo?: string;
 }
 
 export interface AEProductProperties {

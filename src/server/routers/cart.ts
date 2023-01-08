@@ -51,20 +51,23 @@ export const cartRouter = router({
               productId: input.productId,
             },
           });
-          const updated = await ctx.prisma.cart.upsert({
-            where: { id: item?.id },
-            update: input,
-            create: {
-              ...input,
-              user: { connect: { email: ctx.session.user.email! } },
-            },
-          });
-          if (updated)
-            return {
-              success: true,
-              message: "Item successfully added to your cart.",
-            };
-          else return { success: false, error: "Could not add item to cart." };
+          if (item)
+            return { success: false, error: "Item is already in cart." };
+          else {
+            const updated = await ctx.prisma.cart.create({
+              data: {
+                ...input,
+                user: { connect: { email: ctx.session.user.email! } },
+              },
+            });
+            if (updated)
+              return {
+                success: true,
+                message: "Item successfully added to your cart.",
+              };
+            else
+              return { success: false, error: "Could not add item to cart." };
+          }
         } catch (error) {
           return {
             success: false,

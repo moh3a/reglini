@@ -72,7 +72,7 @@ async function main() {
                   email: user.email,
                 },
               },
-              id: cart.productId,
+              productId: cart.productId,
               imageUrl: cart.imageUrl,
               name: cart.name,
               price: cart.price,
@@ -131,7 +131,7 @@ async function main() {
               },
               product: {
                 create: {
-                  id: order.product?.productId ?? "",
+                  productId: order.product?.productId ?? "",
                   imageUrl: order.product?.imageUrl ?? "",
                   name: order.product?.name ?? "",
                   carrierId: order.product?.carrierId,
@@ -143,15 +143,6 @@ async function main() {
                   sku: order.product?.sku,
                 },
               },
-              tracking: order.tracking
-                ? {
-                    create: {
-                      hasTracking: order.tracking?.hasTracking,
-                      details: JSON.stringify(order.tracking?.details),
-                      official_website: order.tracking?.official_website,
-                    },
-                  }
-                : undefined,
               shippingAddress: order.shippingAddress
                 ? {
                     create: {
