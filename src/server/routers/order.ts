@@ -61,7 +61,7 @@ export const orderRouter = router({
           error: "You must be logged in.",
         };
     }),
-  address: procedure
+  details: procedure
     .input(
       z.object({
         order_id: z.string(),
@@ -69,16 +69,16 @@ export const orderRouter = router({
     )
     .query(async ({ ctx, input }) => {
       if (ctx.session && ctx.session.user) {
-        const address = await ctx.prisma.shipping.findUnique({
-          where: { orderId: input.order_id },
+        const order = await ctx.prisma.order.findUnique({
+          where: { id: input.order_id },
+          include: {
+            payment: true,
+            product: true,
+            received: true,
+            shippingAddress: true,
+          },
         });
-        if (address) {
-          return { success: true, address };
-        } else
-          return {
-            success: false,
-            error: "Shipping address not found.",
-          };
+        return { success: true, order };
       } else
         return {
           success: false,
