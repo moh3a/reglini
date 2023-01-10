@@ -4,10 +4,11 @@ import {
   ExclamationCircleIcon,
   XCircleIcon,
 } from "@heroicons/react/24/outline";
+import { ReactNode } from "react";
 
 interface BannerProps {
   type?: "success" | "warning" | "error";
-  message?: string;
+  message?: ReactNode | string;
 }
 
 const Banner = ({ type, message }: BannerProps) => {

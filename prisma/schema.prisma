@@ -109,7 +109,7 @@ model Order {
   id              String          @unique
   userId          String
   user            User            @relation(fields: userId, references: [id])
-  details         Json?
+  cancelled       Boolean         @default(false)
   currency        String?
   product         Product?
   shippingAddress Shipping?

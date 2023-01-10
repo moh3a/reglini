@@ -109,7 +109,6 @@ async function main() {
             data: {
               id: order.orderId,
               currency: order.currency,
-              details: JSON.stringify(order.details),
               payment: order.payment
                 ? {
                     create: {

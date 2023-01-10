@@ -4,8 +4,6 @@ import {
   Affiliate_Hotproducts_Result,
   Affiliate_Product_Details_Params,
   Affiliate_Product_Details_Result,
-  DS_OrderAPI_Cancel_Order_Params,
-  DS_OrderAPI_Cancel_Order_Result,
   DS_OrderAPI_Get_Order_Params,
   DS_OrderAPI_Get_Order_Result,
   DS_OrderAPI_Place_Order_Params,
@@ -129,13 +127,6 @@ export const AE_DS_getOrder = async (order_id: number) => {
   });
 };
 
-export const AE_DS_cancelOrder = async (order_id: number) => {
-  return await execute<
-    DS_OrderAPI_Cancel_Order_Params,
-    DS_OrderAPI_Cancel_Order_Result
-  >("ds", "aliexpress.miniapp.order.cancel", { trade_order_id: order_id });
-};
-
 export const AE_Affiliate_Hotproducts = async (
   category_ids: string,
   page_size?: number,
@@ -210,7 +201,6 @@ export const ALIEXPRESS = {
     tracking: AE_DS_getTrackingInfo,
     createOrder: AE_DS_createOrder,
     getOrder: AE_DS_getOrder,
-    cancelOrder: AE_DS_cancelOrder,
   },
   affiliate: {
     hotproducts: AE_Affiliate_Hotproducts,

@@ -7,6 +7,7 @@ interface ModalProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   children: ReactNode;
   title?: string;
+  transparent?: boolean;
 }
 
 export default function Modal({
@@ -15,6 +16,7 @@ export default function Modal({
   setIsOpen,
   children,
   title,
+  transparent,
 }: ModalProps) {
   function closeModal() {
     setIsOpen(false);
@@ -51,9 +53,11 @@ export default function Modal({
                   !type && "bg-white dark:bg-grim"
                 } ${type === "error" && "text-white bg-danger"} ${
                   type === "warning" && "text-white bg-warning"
-                } ${
-                  type === "success" && "text-white bg-success"
-                } bg-opacity-95 p-6 text-left align-middle shadow-xl transition-all`}
+                } ${type === "success" && "text-white bg-success"} ${
+                  transparent
+                    ? "bg-opacity-50 backdrop-blur-sm"
+                    : "bg-opacity-95"
+                } p-6 text-left align-middle shadow-xl transition-all`}
               >
                 <Dialog.Title as="h3" className="text-lg leading-6">
                   {title}

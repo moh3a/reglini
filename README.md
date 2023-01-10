@@ -1,3 +1,3 @@
-- order: pay, delete, tracking, confirm receipt
+- order: tracking, confirm receipt
 - order create: error -> invalid signature || missing version
 - fix locale

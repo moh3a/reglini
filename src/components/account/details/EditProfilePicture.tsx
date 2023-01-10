@@ -82,13 +82,15 @@ const EditProfilePicture = ({
     } else if (newPicType === "upload" && newValue && image) {
       const formData = new FormData();
       formData.append("file", image);
+      formData.append("folder", "pp");
+      formData.append("public_id", new Date().getTime().toString());
       const config: AxiosRequestConfig = {
         headers: { "content-type": "multipart/form-data" },
         onUploadProgress: (event) => {
           setProgress(Math.round((event.loaded * 100) / (event.total ?? 1)));
         },
       };
-      const { data } = await axios.post("/api/uploads", formData, config);
+      const { data } = await axios.post("/api/uploads/image", formData, config);
       if (data.success) {
         setProgress(0);
         setLoading(true);

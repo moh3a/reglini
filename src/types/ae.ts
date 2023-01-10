@@ -7,8 +7,7 @@ export type DS_API_NAMES =
   | "aliexpress.trade.buy.placeorder"
   | "aliexpress.ds.trade.order.get"
   | "aliexpress.logistics.buyer.freight.calculate"
-  | "aliexpress.logistics.ds.trackinginfo.query"
-  | "aliexpress.miniapp.order.cancel";
+  | "aliexpress.logistics.ds.trackinginfo.query";
 
 export type AFFILIATE_API_NAMES =
   | "aliexpress.affiliate.productdetail.get"
@@ -354,21 +353,6 @@ export interface DS_OrderAPI_Get_Order_Result {
   };
   rsp_msg: string;
   rsp_code: string;
-}
-
-/**
- *
- * ORDER API
- * CANCEL ORDER
- *
- */
-
-export interface DS_OrderAPI_Cancel_Order_Params {
-  trade_order_id: number;
-}
-
-export interface DS_OrderAPI_Cancel_Order_Result {
-  trade_order_id: number;
 }
 
 /**

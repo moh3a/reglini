@@ -13,7 +13,10 @@ import Loading from "@components/shared/Loading";
 import { trpc } from "@utils/trpc";
 import { useState } from "react";
 import Modal from "@components/shared/Modal";
-import Title from "@components/shared/Title";
+import Pay from "./actions/Pay";
+import Cancel from "./actions/Cancel";
+import Banner from "@components/shared/Banner";
+import Tracking from "./actions/Tracking";
 
 interface OrderDetailsProps {
   id: string;
@@ -21,10 +24,24 @@ interface OrderDetailsProps {
 
 const OrderDetails = ({ id }: OrderDetailsProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [info, setInfo] = useState<"tracking" | "payment" | undefined>();
+  const [info, setInfo] = useState<
+    "tracking" | "payment" | "confirm_cancel" | undefined
+  >();
+
+  const [message, setMessage] = useState<{
+    type?: "error" | "success";
+    text?: string;
+  }>({ type: undefined, text: undefined });
+
   const orderQuery = trpc.order.get.useQuery({ order_id: id });
   const detailsQuery = trpc.order.details.useQuery({ order_id: id });
-  const trackingMutation = trpc.aliexpress.ds.tracking.useMutation();
+
+  const cancelOrderHandler = async () => {
+    if (orderQuery.data?.result?.order_status === "PLACE_ORDER_SUCCESS") {
+      setInfo("confirm_cancel");
+      setIsOpen(true);
+    }
+  };
 
   const getTracking = async () => {
     if (
@@ -35,12 +52,6 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
     ) {
       setInfo("tracking");
       setIsOpen(true);
-      await trackingMutation.mutateAsync({
-        order_id: id,
-        tracking_id: orderQuery.data.result.logistics_info_list[0].logistics_no,
-        service_name:
-          orderQuery.data.result.logistics_info_list[0].logistics_service,
-      });
     }
   };
 
@@ -51,6 +62,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
           <Loading size="medium" />
         </div>
       )}
+      {message.type && <Banner type={message.type} message={message.text} />}
       {orderQuery.data && orderQuery.data.result && (
         <div>
           <div>
@@ -86,7 +98,14 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                       "PLACE_ORDER_SUCCESS" &&
                       orderQuery.data.result.logistics_status ===
                         "NO_LOGISTICS" &&
+                      !detailsQuery.data?.order?.payment?.receipt &&
                       "Awaiting Payment"}
+                    {orderQuery.data.result.order_status ===
+                      "PLACE_ORDER_SUCCESS" &&
+                      orderQuery.data.result.logistics_status ===
+                        "NO_LOGISTICS" &&
+                      detailsQuery.data?.order?.payment?.receipt &&
+                      "Awaiting Payment Confirmation"}
                     {orderQuery.data.result.order_status ===
                       "PLACE_ORDER_SUCCESS" &&
                       orderQuery.data.result.logistics_status ===
@@ -112,8 +131,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
           {detailsQuery.data &&
             detailsQuery.data.order &&
             detailsQuery.data.order.payment &&
-            (detailsQuery.data.order.payment.isPaymentConfirmed ||
-              detailsQuery.data.order.payment.wasDeclined) && (
+            detailsQuery.data.order.payment.receipt && (
               <>
                 <h2 className="mt-2">
                   <span
@@ -167,7 +185,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                     </dt>
                     <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
                       <Link
-                        href={detailsQuery.data.order.payment.receipt ?? ""}
+                        href={detailsQuery.data.order.payment.receipt}
                         target="_blank"
                         rel="noreferrer"
                       >
@@ -265,14 +283,42 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
             setIsOpen={setIsOpen}
             title={info?.toUpperCase()}
           >
-            <Title title="todo" />
+            {info === "payment" && (
+              <Pay
+                price={detailsQuery.data?.order?.product?.totalPrice ?? 0}
+                order_id={id}
+                setIsOpen={setIsOpen}
+              />
+            )}
+            {info === "tracking" && (
+              <Tracking
+                setMessage={setMessage}
+                order_id={id}
+                tracking_id={
+                  orderQuery.data.result.logistics_info_list[0].logistics_no
+                }
+                service_name={
+                  orderQuery.data.result.logistics_info_list[0]
+                    .logistics_service
+                }
+              />
+            )}
+            {info === "confirm_cancel" && (
+              <Cancel
+                orderId={id}
+                setIsOpen={setIsOpen}
+                setMessage={setMessage}
+              />
+            )}
           </Modal>
           <div className="mt-4 flex justify-end space-x-2">
             {orderQuery.data.result.order_status === "PLACE_ORDER_SUCCESS" && (
-              <Button variant="solid">Cancel order</Button>
+              <Button variant="solid" onClick={cancelOrderHandler}>
+                Cancel order
+              </Button>
             )}
             {orderQuery.data.result.order_status === "PLACE_ORDER_SUCCESS" &&
-              !detailsQuery.data?.order?.payment?.isPaymentConfirmed && (
+              !detailsQuery.data?.order?.payment?.receipt && (
                 <Button
                   variant="solid"
                   onClick={() => {

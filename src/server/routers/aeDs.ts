@@ -157,12 +157,14 @@ export const aeDsRouter = router({
         service_name: z.string(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       const response = await ctx.aliexpress.ds.tracking(
         input.order_id,
         input.tracking_id,
         input.service_name
       );
-      return response;
+      if (response.result_success) {
+        return { success: true, result: response };
+      } else return { success: false, error: response.error_desc };
     }),
 });

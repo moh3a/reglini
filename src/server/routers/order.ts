@@ -3,6 +3,7 @@ import { z } from "zod";
 import { AEProduct } from "@reglini-types/index";
 import { ZAE_ShippingAddres } from "@reglini-types/zapiex";
 import { router, procedure } from "../trpc";
+import SendEmail from "@utils/send_email";
 
 export const orderRouter = router({
   all: procedure.query(async ({ ctx }) => {
@@ -149,6 +150,84 @@ export const orderRouter = router({
             return { success: false, error: JSON.stringify(error) };
           }
         } else return { success: false, error: "No user was found." };
+      } else
+        return {
+          success: false,
+          error: "You must be logged in.",
+        };
+    }),
+  pay: procedure
+    .input(
+      z.object({
+        order_id: z.string(),
+        method: z.enum(["CCP", "CIB"]),
+        receipt_url: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.session && ctx.session.user) {
+        const data = {
+          date: new Date(),
+          hasTimedOut: false,
+          isPaymentConfirmed: false,
+          paymentMethod: input.method,
+          receipt: input.receipt_url,
+          wasDeclined: false,
+        };
+        const payment = await ctx.prisma.payment.upsert({
+          where: { orderId: input.order_id },
+          update: data,
+          create: { ...data, orderId: input.order_id },
+        });
+        SendEmail({
+          from: "support@reglini-dz.com",
+          to: "moh3a@reglini-dz.com",
+          subject: `Check the payment made by ${ctx.session.user.email}`,
+          text: `
+          <h2>
+          User with email address ${ctx.session.user.email} has made a payment.
+          </h2>
+          <p>The payment was made for order with the order id ${input.order_id}.</p>
+          <p>The payment was via ${input.method}.</p>
+          <p>Here's the image sent to validate the payment.</p>
+          <img alt='payment' src=${input.receipt_url} />
+          <p>A response should be sent to the user.</p>
+          `,
+        });
+        if (payment) {
+          return { success: true, message: "Payment is successful." };
+        } else return { success: false, error: "An error has occured." };
+      } else
+        return {
+          success: false,
+          error: "You must be logged in.",
+        };
+    }),
+  cancel: procedure
+    .input(z.object({ order_id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.session && ctx.session.user) {
+        const result = await ctx.zapiex.cancelOrder(input.order_id);
+        console.log(result);
+        if (result.success) {
+          await ctx.prisma.shipping.delete({
+            where: { orderId: input.order_id },
+          });
+          await ctx.prisma.packageReceipt.delete({
+            where: { orderId: input.order_id },
+          });
+          await ctx.prisma.order.update({
+            where: { id: input.order_id },
+            data: {
+              cancelled: true,
+            },
+          });
+
+          return {
+            success: true,
+            message: "Successfully cancelled this order.",
+          };
+        } else return { success: false, error: "An error has occured." };
       } else
         return {
           success: false,
