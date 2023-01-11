@@ -47,7 +47,7 @@ handler.post(async (req: any, res) => {
     } else
       res.status(200).json({
         success: false,
-        message: "Une erreur s'est produite.",
+        message: "Une erreur s'est produite en telechargeant votre image.",
       });
   } else
     res.status(200).json({

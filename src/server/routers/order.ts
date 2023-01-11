@@ -208,7 +208,6 @@ export const orderRouter = router({
     .mutation(async ({ ctx, input }) => {
       if (ctx.session && ctx.session.user) {
         const result = await ctx.zapiex.cancelOrder(input.order_id);
-        console.log(result);
         if (result.success) {
           await ctx.prisma.shipping.delete({
             where: { orderId: input.order_id },
@@ -222,10 +221,68 @@ export const orderRouter = router({
               cancelled: true,
             },
           });
-
           return {
             success: true,
             message: "Successfully cancelled this order.",
+          };
+        } else return { success: false, error: "An error has occured." };
+      } else
+        return {
+          success: false,
+          error: "You must be logged in.",
+        };
+    }),
+  received: procedure
+    .input(
+      z.object({
+        order_id: z.string(),
+        package_pic: z.string().optional(),
+        rating: z.number().min(1).max(5).optional(),
+        feedback: z.string().optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.session && ctx.session.user) {
+        if (input.rating || input.feedback) {
+          await ctx.prisma.feedback.create({
+            data: {
+              user: {
+                connect: {
+                  email: ctx.session.user.email!,
+                },
+              },
+              message: input.feedback,
+              rating: input.rating,
+            },
+          });
+        }
+        const RECEIVED_OBJECT = {
+          date: new Date(),
+          wasReceived: true,
+          packagePicture: input.package_pic,
+        };
+        const received = await ctx.prisma.packageReceipt.upsert({
+          where: { orderId: input.order_id },
+          update: RECEIVED_OBJECT,
+          create: { ...RECEIVED_OBJECT, orderId: input.order_id },
+        });
+        if (received) {
+          SendEmail({
+            from: "support@reglini-dz.com",
+            to: "moh3a@reglini-dz.com",
+            subject: `Package received by ${ctx.session.user.email}`,
+            text: `
+          <h2>
+          User with email address ${ctx.session.user.email} has received his package.
+          </h2>
+          <p>The package is from the order with the ID ${input.order_id}.</p>
+          <p>Here's the package received by the client.</p>
+          <img alt='payment' src=${input.package_pic} />
+          `,
+          });
+          return {
+            success: true,
+            message: "Successfully terminated this order.",
           };
         } else return { success: false, error: "An error has occured." };
       } else

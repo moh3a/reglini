@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { useState } from "react";
 import Link from "next/link";
 import {
   CheckCircleIcon,
@@ -10,13 +11,13 @@ import {
 import { PADDING, ROUNDED, SHADOW, TEXT_GRADIENT } from "@config/design";
 import Button from "@components/shared/Button";
 import Loading from "@components/shared/Loading";
-import { trpc } from "@utils/trpc";
-import { useState } from "react";
 import Modal from "@components/shared/Modal";
+import Banner from "@components/shared/Banner";
 import Pay from "./actions/Pay";
 import Cancel from "./actions/Cancel";
-import Banner from "@components/shared/Banner";
 import Tracking from "./actions/Tracking";
+import { trpc } from "@utils/trpc";
+import ConfirmReception from "./actions/ConfirmReception";
 
 interface OrderDetailsProps {
   id: string;
@@ -25,7 +26,7 @@ interface OrderDetailsProps {
 const OrderDetails = ({ id }: OrderDetailsProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [info, setInfo] = useState<
-    "tracking" | "payment" | "confirm_cancel" | undefined
+    "tracking" | "payment" | "confirm_cancel" | "confirm_receipt" | undefined
   >();
 
   const [message, setMessage] = useState<{
@@ -43,6 +44,16 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
     }
   };
 
+  const paymentHandler = async () => {
+    if (
+      orderQuery.data?.result?.order_status === "PLACE_ORDER_SUCCESS" &&
+      !detailsQuery.data?.order?.payment?.receipt
+    ) {
+      setInfo("payment");
+      setIsOpen(true);
+    }
+  };
+
   const getTracking = async () => {
     if (
       orderQuery &&
@@ -53,6 +64,18 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
       setInfo("tracking");
       setIsOpen(true);
     }
+  };
+
+  const confirmReceptionHandler = async () => {
+    // if (
+    //   orderQuery.data?.result?.order_status === "WAIT_BUYER_ACCEPT_GOODS" &&
+    //   !detailsQuery.data?.order?.received?.wasReceived
+    // ) {
+    //   setInfo("confirm_receipt");
+    //   setIsOpen(true);
+    // }
+    setInfo("confirm_receipt");
+    setIsOpen(true);
   };
 
   return (
@@ -292,6 +315,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
             )}
             {info === "tracking" && (
               <Tracking
+                setIsOpen={setIsOpen}
                 setMessage={setMessage}
                 order_id={id}
                 tracking_id={
@@ -310,6 +334,13 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                 setMessage={setMessage}
               />
             )}
+            {info === "confirm_receipt" && (
+              <ConfirmReception
+                order_id={id}
+                setIsOpen={setIsOpen}
+                setMessage={setMessage}
+              />
+            )}
           </Modal>
           <div className="mt-4 flex justify-end space-x-2">
             {orderQuery.data.result.order_status === "PLACE_ORDER_SUCCESS" && (
@@ -319,13 +350,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
             )}
             {orderQuery.data.result.order_status === "PLACE_ORDER_SUCCESS" &&
               !detailsQuery.data?.order?.payment?.receipt && (
-                <Button
-                  variant="solid"
-                  onClick={() => {
-                    setInfo("payment");
-                    setIsOpen(true);
-                  }}
-                >
+                <Button variant="solid" onClick={paymentHandler}>
                   Pay
                 </Button>
               )}
@@ -335,11 +360,16 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                   Track order
                 </Button>
               )}
-            {orderQuery.data.result.order_status ===
+            {/* {orderQuery.data.result.order_status ===
               "WAIT_BUYER_ACCEPT_GOODS" &&
               !detailsQuery.data?.order?.received?.wasReceived && (
-                <Button variant="solid">Confirm receipt</Button>
-              )}
+                <Button variant="solid" onClick={confirmReceptionHandler}>
+                  Confirm receipt
+                </Button>
+              )} */}
+            <Button variant="solid" onClick={confirmReceptionHandler}>
+              Confirm receipt
+            </Button>
           </div>
         </div>
       )}
