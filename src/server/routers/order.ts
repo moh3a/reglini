@@ -8,22 +8,16 @@ import SendEmail from "@utils/send_email";
 export const orderRouter = router({
   all: procedure.query(async ({ ctx }) => {
     if (ctx.session && ctx.session.user) {
-      const user = await ctx.prisma.user.findUnique({
-        where: { email: ctx.session.user.email! },
+      const orders = await ctx.prisma.order.findMany({
+        where: { user: { email: ctx.session.user.email! } },
         include: {
-          orders: {
-            include: {
-              payment: true,
-              product: true,
-              received: true,
-              shippingAddress: true,
-            },
-          },
+          payment: true,
+          product: true,
+          received: true,
+          shippingAddress: true,
         },
       });
-      if (user) {
-        return { success: true, orders: user.orders };
-      } else return { success: false, error: "No user was found." };
+      return { success: true, orders };
     } else
       return {
         success: false,

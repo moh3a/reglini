@@ -67,15 +67,13 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
   };
 
   const confirmReceptionHandler = async () => {
-    // if (
-    //   orderQuery.data?.result?.order_status === "WAIT_BUYER_ACCEPT_GOODS" &&
-    //   !detailsQuery.data?.order?.received?.wasReceived
-    // ) {
-    //   setInfo("confirm_receipt");
-    //   setIsOpen(true);
-    // }
-    setInfo("confirm_receipt");
-    setIsOpen(true);
+    if (
+      orderQuery.data?.result?.order_status === "WAIT_BUYER_ACCEPT_GOODS" &&
+      !detailsQuery.data?.order?.received?.wasReceived
+    ) {
+      setInfo("confirm_receipt");
+      setIsOpen(true);
+    }
   };
 
   return (
@@ -360,16 +358,13 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                   Track order
                 </Button>
               )}
-            {/* {orderQuery.data.result.order_status ===
+            {orderQuery.data.result.order_status ===
               "WAIT_BUYER_ACCEPT_GOODS" &&
               !detailsQuery.data?.order?.received?.wasReceived && (
                 <Button variant="solid" onClick={confirmReceptionHandler}>
                   Confirm receipt
                 </Button>
-              )} */}
-            <Button variant="solid" onClick={confirmReceptionHandler}>
-              Confirm receipt
-            </Button>
+              )}
           </div>
         </div>
       )}
