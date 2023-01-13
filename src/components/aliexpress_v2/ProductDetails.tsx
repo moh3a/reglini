@@ -18,6 +18,7 @@ import {
   Affiliate_Categories_Result,
   DS_ShippingAPI_Shipping_Info_Result,
 } from "@reglini-types/ae";
+import { useTranslations } from "next-intl";
 
 export interface SelectedVariation {
   imageUrl: string;
@@ -171,6 +172,8 @@ const ProductDetails = ({ id }: { id: number }) => {
     }
   }, [product.data, variation, quantity]);
 
+  const t = useTranslations("AliexpressPage");
+
   return (
     <>
       {product.isLoading && (
@@ -202,10 +205,8 @@ const ProductDetails = ({ id }: { id: number }) => {
                 >
                   <h2 className={`text-sm font-mono tracking-widest`}>
                     {product.data.result.aeop_ae_product_propertys &&
-                      product.data.result.aeop_ae_product_propertys
-                        .aeop_ae_product_property &&
-                      product.data.result.aeop_ae_product_propertys
-                        .aeop_ae_product_property[0].attr_value}
+                      product.data.result.aeop_ae_product_propertys[0]
+                        .attr_value}
                   </h2>
                   <h1 className="text-xl font-medium mb-1">
                     {product.data.result.subject}
@@ -213,7 +214,7 @@ const ProductDetails = ({ id }: { id: number }) => {
                   <ProductReviews product={product.data.result} />
                   {categoryInfo.data ? (
                     <p className="leading-relaxed font-mono">
-                      Category:{" "}
+                      {t("category")}:{" "}
                       {
                         (
                           categoryInfo.data as Affiliate_Categories_Result["resp_result"]["result"]["categories"][0]
@@ -222,7 +223,7 @@ const ProductDetails = ({ id }: { id: number }) => {
                     </p>
                   ) : (
                     <p className="leading-relaxed font-mono">
-                      Category ID: {product.data.result.category_id}
+                      {t("categoryId")}: {product.data.result.category_id}
                     </p>
                   )}
                   <div className="mt-6 pb-5 mb-5">
@@ -253,13 +254,18 @@ const ProductDetails = ({ id }: { id: number }) => {
                     </div>
                   )}
                   {shippingInfo.data &&
-                    shippingInfo.data.result
-                      .aeop_freight_calculate_result_for_buyer_d_t_o_list && (
-                      <ProductShipping
-                        shipping={shippingInfo.data}
-                        setSelectedShipping={setSelectedShipping}
-                      />
-                    )}
+                  shippingInfo.data.result &&
+                  shippingInfo.data.result
+                    .aeop_freight_calculate_result_for_buyer_d_t_o_list ? (
+                    <ProductShipping
+                      shipping={shippingInfo.data}
+                      setSelectedShipping={setSelectedShipping}
+                    />
+                  ) : (
+                    <p className="text-danger text-center uppercase font-mono">
+                      {t("shipping.shippingNotAvailable")}
+                    </p>
+                  )}
                   <div className="mt-4 flex justify-end space-x-2">
                     <BuyProduct
                       product={product.data.result}

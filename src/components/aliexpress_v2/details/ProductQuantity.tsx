@@ -7,6 +7,7 @@ import {
 import NumberInput from "@components/shared/NumberInput";
 import { SelectedVariation } from "../ProductDetails";
 import { DS_ProductAPI_Product_Details } from "@reglini-types/ae";
+import { useTranslations } from "next-intl";
 
 interface ProductQuantityProps {
   product: DS_ProductAPI_Product_Details;
@@ -21,6 +22,7 @@ const ProductQuantity = ({
   setQuantity,
   selectedVariation,
 }: ProductQuantityProps) => {
+  const t = useTranslations("AliexpressPage.quantity");
   const stock =
     selectedVariation &&
     typeof selectedVariation.s_k_u_available_stock !== "undefined"
@@ -29,7 +31,7 @@ const ProductQuantity = ({
 
   return (
     <div className={`mt-4`}>
-      <div>Quantity</div>
+      <div>{t("title")}</div>
       <div className={`flex`}>
         {stock > 0 && (
           <NumberInput
@@ -49,7 +51,7 @@ const ProductQuantity = ({
                 aria-hidden="true"
               />
               <span>
-                {stock} {product.base_unit} available
+                {stock} {product.base_unit} {t("available")}
               </span>
             </>
           ) : (
@@ -58,7 +60,7 @@ const ProductQuantity = ({
                 className="h-5 w-5 inline text-danger mr-1"
                 aria-hidden="true"
               />
-              <span className="text-danger">Out of Stock</span>
+              <span className="text-danger">{t("outOfStock")}</span>
             </>
           )}
         </span>

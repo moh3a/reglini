@@ -18,9 +18,9 @@ const Badge = ({ text }: { text: string }) => {
 };
 
 const LANGUAGES = [
-  { name: "French", badge: <Badge text="fr" />, locale: "fr" },
+  { name: "Français", badge: <Badge text="fr" />, locale: "fr" },
   { name: "English", badge: <Badge text="en" />, locale: "en" },
-  { name: "Arabic", badge: <Badge text="ع" />, locale: "ar" },
+  { name: "عربي", badge: <Badge text="ع" />, locale: "ar" },
 ];
 
 const Language = () => {

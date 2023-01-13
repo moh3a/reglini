@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { Menu, Transition } from "@headlessui/react";
@@ -9,18 +9,21 @@ import {
   PowerIcon,
   Square3Stack3DIcon,
 } from "@heroicons/react/24/outline";
-import Button from "../shared/Button";
+import { HeartIcon } from "@heroicons/react/24/solid";
+import { useTranslations } from "next-intl";
+
 import {
   BG_TRANSPARENT_BACKDROP,
   PADDING,
   ROUNDED,
   SHADOW,
 } from "@config/design";
+import Button from "../shared/Button";
 import Loading from "@components/shared/Loading";
-import { HeartIcon } from "@heroicons/react/24/solid";
 
 const AccountBadge = () => {
   const { data: session, status } = useSession();
+  const t = useTranslations("Common.badge");
 
   if (status === "unauthenticated") {
     return (
@@ -35,7 +38,7 @@ const AccountBadge = () => {
               />
             }
           >
-            Login
+            {t("title")}
           </Button>
         </Link>
       </div>
@@ -84,7 +87,7 @@ const AccountBadge = () => {
                   }
                   variant="outline"
                 >
-                  Account
+                  {t("account")}
                 </Button>
               </Link>
             </Menu.Item>
@@ -99,7 +102,7 @@ const AccountBadge = () => {
                   }
                   variant="outline"
                 >
-                  Your wishlist
+                  {t("wishlist")}
                 </Button>
               </Link>
             </Menu.Item>
@@ -114,7 +117,7 @@ const AccountBadge = () => {
                   }
                   variant="outline"
                 >
-                  Your orders
+                  {t("orders")}
                 </Button>
               </Link>
             </Menu.Item>
@@ -129,7 +132,7 @@ const AccountBadge = () => {
                 onClick={() => signOut()}
                 variant="outline"
               >
-                Sign out
+                {t("signOut")}
               </Button>
             </Menu.Item>
           </Menu.Items>

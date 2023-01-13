@@ -11,6 +11,7 @@ import {
 } from "@config/design";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
+import { useTranslations } from "next-intl";
 
 interface ProductShipping {
   product: ZAE_Product;
@@ -20,6 +21,7 @@ interface ProductShipping {
 }
 
 const ProductShipping = ({ product, setSelectedShipping }: any) => {
+  const t = useTranslations("AliexpressPage");
   const { commission, euro } = useFinance();
   const [selected, setSelected] = useState(product.shipping.carriers[0]);
   useEffect(() => {
@@ -31,9 +33,9 @@ const ProductShipping = ({ product, setSelectedShipping }: any) => {
       {product.shipping.isAvailableForSelectedCountries ? (
         <>
           <p className={`text-success font-mono text-center uppercase`}>
-            THIS ITEM IS AVAILABLE FOR SHIPPING TO ALGERIA
+            {t("shipping.shippingAvailable")}
           </p>
-          <p>Shipping Carriers:</p>
+          <p>{t("shipping.carriers")}:</p>
           <div>
             <Listbox value={selected} onChange={setSelected}>
               <div className="relative mt-1">
@@ -77,8 +79,12 @@ const ProductShipping = ({ product, setSelectedShipping }: any) => {
                                 {carrier.company.name}
                               </span>
                               <span className="text-xs">
-                                Delivered in {carrier.deliveryTimeInDays.min} -{" "}
-                                {carrier.deliveryTimeInDays.max} days
+                                {t("shipping.deliveredIn", {
+                                  time:
+                                    carrier.deliveryTimeInDays.min +
+                                    " - " +
+                                    carrier.deliveryTimeInDays.max,
+                                })}
                               </span>
 
                               {carrier.hasTracking ? (
@@ -91,12 +97,13 @@ const ProductShipping = ({ product, setSelectedShipping }: any) => {
                                 </span>
                               )}
                               <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-                                {GetPrice(
-                                  euro ?? 0,
-                                  commission ?? 0,
-                                  carrier.price.value
-                                )}{" "}
-                                DZD
+                                {t("price", {
+                                  price: GetPrice(
+                                    euro ?? 0,
+                                    commission ?? 0,
+                                    carrier.price.value
+                                  ),
+                                })}
                               </span>
                               {selected ? (
                                 <span
@@ -120,17 +127,27 @@ const ProductShipping = ({ product, setSelectedShipping }: any) => {
           </div>
           <p className="relative text-xs pl-2 z-0">
             <span>
-              Delivered in {selected.deliveryTimeInDays.min} -{" "}
-              {selected.deliveryTimeInDays.max} days
+              {t("shipping.deliveredIn", {
+                time:
+                  selected.deliveryTimeInDays.min +
+                  " - " +
+                  selected.deliveryTimeInDays.max,
+              })}
             </span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-              {GetPrice(euro ?? 0, commission ?? 0, selected.price.value)} DZD
+              {t("price", {
+                price: GetPrice(
+                  euro ?? 0,
+                  commission ?? 0,
+                  selected.price.value
+                ),
+              })}
             </span>
           </p>
         </>
       ) : (
         <p className="text-danger text-center uppercase font-mono">
-          Item not available for shipping to Algeria.
+          {t("shipping.shippingNotAvailable")}
         </p>
       )}
     </div>

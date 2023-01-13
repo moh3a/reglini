@@ -11,6 +11,7 @@ import {
 } from "@reglini-types/ae";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
+import { useTranslations } from "next-intl";
 
 interface BuyProductProps {
   product: DS_ProductAPI_Product_Details;
@@ -105,6 +106,7 @@ const BuyProduct = ({
       }
     }
   };
+  const t = useTranslations("AliexpressPage");
 
   return (
     <Button
@@ -119,7 +121,7 @@ const BuyProduct = ({
       variant="solid"
       type="button"
     >
-      Buy
+      {t("buy")}
     </Button>
   );
 };

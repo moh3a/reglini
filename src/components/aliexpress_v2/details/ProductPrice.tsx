@@ -2,6 +2,7 @@ import { PADDING, ROUNDED, SHADOW } from "@config/design";
 import { AEProductPrice } from "@reglini-types/index";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
+import { useTranslations } from "next-intl";
 import { SelectedVariation } from "../ProductDetails";
 
 interface ProductPriceProps {
@@ -11,6 +12,7 @@ interface ProductPriceProps {
 
 const ProductPrice = ({ price, selectedVariation }: ProductPriceProps) => {
   const { usd, commission } = useFinance();
+  const t = useTranslations("AliexpressPage");
   return (
     <div className="flex justify-center mt-2 title-font font-medium text-xl">
       {selectedVariation && selectedVariation.id ? (
@@ -19,21 +21,23 @@ const ProductPrice = ({ price, selectedVariation }: ProductPriceProps) => {
             className={`bg-aliexpress hover:bg-red-500 text-center font-bold text-white ${PADDING} ${ROUNDED} ${SHADOW}`}
           >
             <div>
-              {GetPrice(
-                usd ?? 0,
-                commission ?? 0,
-                Number(selectedVariation.offer_sale_price)
-              )}{" "}
-              DZD
+              {t("price", {
+                price: GetPrice(
+                  usd ?? 0,
+                  commission ?? 0,
+                  Number(selectedVariation.offer_sale_price)
+                ),
+              })}
             </div>
             <div>
               <span className="line-through mr-2">
-                {GetPrice(
-                  usd ?? 0,
-                  commission ?? 0,
-                  Number(selectedVariation.sku_price)
-                )}{" "}
-                DZD
+                {t("price", {
+                  price: GetPrice(
+                    usd ?? 0,
+                    commission ?? 0,
+                    Number(selectedVariation.sku_price)
+                  ),
+                })}
               </span>{" "}
               -{price.discount}%
             </div>
@@ -48,47 +52,65 @@ const ProductPrice = ({ price, selectedVariation }: ProductPriceProps) => {
           <div>
             <span>
               {price.discountedPrice.min === price.discountedPrice.max ? (
-                GetPrice(usd ?? 0, commission ?? 0, price.discountedPrice.min)
-              ) : (
-                <>
-                  {GetPrice(
+                t("price", {
+                  price: GetPrice(
                     usd ?? 0,
                     commission ?? 0,
                     price.discountedPrice.min
-                  )}{" "}
+                  ),
+                })
+              ) : (
+                <>
+                  {t("price", {
+                    price: GetPrice(
+                      usd ?? 0,
+                      commission ?? 0,
+                      price.discountedPrice.min
+                    ),
+                  })}{" "}
                   -{" "}
-                  {GetPrice(
-                    usd ?? 0,
-                    commission ?? 0,
-                    price.discountedPrice.max
-                  )}
+                  {t("price", {
+                    price: GetPrice(
+                      usd ?? 0,
+                      commission ?? 0,
+                      price.discountedPrice.max
+                    ),
+                  })}
                 </>
               )}
-            </span>{" "}
-            DZD
+            </span>
           </div>
           <div>
             <span className="line-through mr-2">
               <span>
                 {price.originalPrice.min === price.originalPrice.max ? (
-                  GetPrice(usd ?? 0, commission ?? 0, price.originalPrice.min)
-                ) : (
-                  <>
-                    {GetPrice(
+                  t("price", {
+                    price: GetPrice(
                       usd ?? 0,
                       commission ?? 0,
                       price.originalPrice.min
-                    )}{" "}
+                    ),
+                  })
+                ) : (
+                  <>
+                    {t("price", {
+                      price: GetPrice(
+                        usd ?? 0,
+                        commission ?? 0,
+                        price.originalPrice.min
+                      ),
+                    })}{" "}
                     -{" "}
-                    {GetPrice(
-                      usd ?? 0,
-                      commission ?? 0,
-                      price.originalPrice.max
-                    )}
+                    {t("price", {
+                      price: GetPrice(
+                        usd ?? 0,
+                        commission ?? 0,
+                        price.originalPrice.max
+                      ),
+                    })}
                   </>
                 )}
-              </span>{" "}
-              DZD
+              </span>
             </span>{" "}
             -{price.discount}%
           </div>
@@ -99,15 +121,33 @@ const ProductPrice = ({ price, selectedVariation }: ProductPriceProps) => {
         >
           <span>
             {price.originalPrice.min === price.originalPrice.max ? (
-              GetPrice(usd ?? 0, commission ?? 0, price.originalPrice.min)
+              t("price", {
+                price: GetPrice(
+                  usd ?? 0,
+                  commission ?? 0,
+                  price.originalPrice.min
+                ),
+              })
             ) : (
               <>
-                {GetPrice(usd ?? 0, commission ?? 0, price.originalPrice.min)} -{" "}
-                {GetPrice(usd ?? 0, commission ?? 0, price.originalPrice.max)}
+                {t("price", {
+                  price: GetPrice(
+                    usd ?? 0,
+                    commission ?? 0,
+                    price.originalPrice.min
+                  ),
+                })}{" "}
+                -{" "}
+                {t("price", {
+                  price: GetPrice(
+                    usd ?? 0,
+                    commission ?? 0,
+                    price.originalPrice.max
+                  ),
+                })}
               </>
             )}
-          </span>{" "}
-          DZD
+          </span>
         </div>
       )}
     </div>

@@ -1,6 +1,7 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { useTranslations } from "next-intl";
 
 import { TEXT_GRADIENT } from "@config/design";
 import { APP_NAME } from "@config/general";
@@ -9,11 +10,12 @@ import ResetPassword from "@components/auth/ResetPassword";
 const ResetPasswordPage = () => {
   const router = useRouter();
   const { token } = router.query;
+  const t = useTranslations("AuthPage.resetYourPassword");
 
   return (
     <>
       <Head>
-        <title>{"Reset your password | " + APP_NAME}</title>
+        <title>{`${t("title")} | ${APP_NAME}`}</title>
       </Head>
       {token ? (
         <ResetPassword token={token.toString()} />
@@ -28,12 +30,15 @@ const ResetPasswordPage = () => {
   );
 };
 
+import { pick } from "lodash";
+const namespaces = ["AuthPage", "Common"];
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  const messages = (await import(`../../../../locales/${locale}/AuthPage.json`))
-    .default;
   return {
     props: {
-      messages,
+      messages: pick(
+        (await import(`../../../../messages/${locale}.json`)).default,
+        namespaces
+      ),
     },
   };
 };

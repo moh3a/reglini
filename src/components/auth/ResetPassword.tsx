@@ -8,6 +8,7 @@ import Title from "@components/shared/Title";
 import Button from "@components/shared/Button";
 import { trpc } from "@utils/trpc";
 import { signOut } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 const ResetPassword = ({ token }: { token: string }) => {
   const router = useRouter();
@@ -118,6 +119,7 @@ const ResetPassword = ({ token }: { token: string }) => {
       );
     }
   };
+  const t = useTranslations("AuthPage.register");
 
   return (
     <form
@@ -129,7 +131,7 @@ const ResetPassword = ({ token }: { token: string }) => {
       {message.type && <Banner type={message.type} message={message.text} />}
       <div className="my-3">
         <label className="block leading-relaxed" htmlFor="password">
-          Password
+          {t("password")}
         </label>
         <PasswordInput
           id="password"
@@ -146,7 +148,7 @@ const ResetPassword = ({ token }: { token: string }) => {
       </div>
       <div className="my-3">
         <label className="block leading-relaxed" htmlFor="confirm">
-          Confirm
+          {t("passwordConfirm")}
         </label>
         <PasswordInput
           id="confirm"
@@ -160,9 +162,9 @@ const ResetPassword = ({ token }: { token: string }) => {
         />
         {confirmPassword ? (
           confirmed ? (
-            <p className="text-success">Password confirmed!</p>
+            <p className="text-success">{t("confirmed")}</p>
           ) : (
-            <p className="text-danger">Passwords do not match..</p>
+            <p className="text-danger">{t("notConfirmed")}</p>
           )
         ) : (
           ""
@@ -218,7 +220,7 @@ const ResetPassword = ({ token }: { token: string }) => {
             />
           }
         >
-          Set new password !
+          {t("submit")}
         </Button>
       </div>
     </form>

@@ -1,3 +1,4 @@
+import { GetStaticProps } from "next";
 import Head from "next/head";
 import { APP_NAME } from "@config/general";
 import { TEXT_GRADIENT } from "@config/design";
@@ -15,6 +16,19 @@ const InternalError = () => {
       </div>
     </>
   );
+};
+
+import { pick } from "lodash";
+const namespaces = ["Common"];
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      messages: pick(
+        (await import(`../../messages/${locale}.json`)).default,
+        namespaces
+      ),
+    },
+  };
 };
 
 import Layout from "../components/layout/Layout";

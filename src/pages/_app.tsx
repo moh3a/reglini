@@ -4,6 +4,7 @@ import Head from "next/head";
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
+import { NextIntlProvider, IntlErrorCode } from "next-intl";
 
 import type { AppType } from "next/dist/shared/lib/utils";
 import { trpc } from "@utils/trpc";
@@ -24,9 +25,14 @@ const MyApp: AppType<{
         <meta name="theme-color" content="#1b1f23" />
       </Head>
       <ThemeProvider attribute="class">
-        <SessionProvider session={session}>
-          {getLayout(<Component {...pageProps} />)}
-        </SessionProvider>
+        <NextIntlProvider
+          messages={messages}
+          getMessageFallback={getMessageFallback}
+        >
+          <SessionProvider session={session}>
+            {getLayout(<Component {...pageProps} />)}
+          </SessionProvider>
+        </NextIntlProvider>
       </ThemeProvider>
       <noscript>Enable javascript to run this web app.</noscript>
     </>
@@ -34,3 +40,13 @@ const MyApp: AppType<{
 };
 
 export default trpc.withTRPC(MyApp);
+
+function getMessageFallback({ namespace, key, error }: any) {
+  const path = [namespace, key].filter((part) => part != null).join(".");
+
+  if (error.code === IntlErrorCode.MISSING_MESSAGE) {
+    return `${path} is not yet translated`;
+  } else {
+    return `Dear developer, please fix this message: ${path}`;
+  }
+}

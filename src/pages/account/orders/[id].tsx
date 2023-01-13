@@ -26,13 +26,15 @@ const OrderDetailsPage = () => {
   );
 };
 
+import { pick } from "lodash";
+const namespaces = ["Common"];
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  const messages = (
-    await import(`../../../../locales/${locale}/AliexpressPage.json`)
-  ).default;
   return {
     props: {
-      messages,
+      messages: pick(
+        (await import(`../../../../messages/${locale}.json`)).default,
+        namespaces
+      ),
     },
   };
 };

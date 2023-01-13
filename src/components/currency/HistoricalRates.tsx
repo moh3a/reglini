@@ -1,7 +1,9 @@
 import Title from "@components/shared/Title";
+import { useTranslations } from "next-intl";
 
 const HistoricalRates = () => {
-  return <Title title="coming soon" />;
+  const t = useTranslations("CurrencyPage.historical");
+  return <Title title={t("comingSoon")} />;
 };
 
 export default HistoricalRates;

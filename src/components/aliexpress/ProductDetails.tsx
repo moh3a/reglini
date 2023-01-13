@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-import {
-  ZAE_Product,
-  ZAE_ProductPrice,
-  ZAE_ProductProperties,
-} from "@reglini-types/zapiex";
+import { ZAE_Product, ZAE_ProductPrice } from "@reglini-types/zapiex";
 import Modal from "@components/shared/Modal";
 import Loading from "@components/shared/Loading";
 import ProductImage from "./details/ProductImage";
@@ -19,6 +15,7 @@ import ProductFeatures from "./details/ProductFeatures";
 import AddToCart from "./details/AddToCart";
 import AddToWishlist from "./details/AddToWishlist";
 import { trpc } from "@utils/trpc";
+import { useTranslations } from "next-intl";
 
 export interface SelectedVariation {
   sku: string;
@@ -133,6 +130,7 @@ const ProductDetails = ({ id }: { id: string }) => {
       }
     }
   }, [product.data, variation, quantity]);
+  const t = useTranslations("AliexpressPage");
 
   return (
     <>
@@ -173,7 +171,8 @@ const ProductDetails = ({ id }: { id: string }) => {
                   {product.data.data.productCategory &&
                     product.data.data.productCategory.name && (
                       <p className="leading-relaxed font-mono">
-                        Category: {product.data.data.productCategory.name}
+                        {t("category")}:{" "}
+                        {product.data.data.productCategory.name}
                       </p>
                     )}
                   <div className="mt-6 pb-5 mb-5">

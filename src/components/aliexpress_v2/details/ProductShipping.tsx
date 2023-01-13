@@ -11,6 +11,7 @@ import {
 import { DS_ShippingAPI_Shipping_Info_Result } from "@reglini-types/ae";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
+import { useTranslations } from "next-intl";
 
 interface ProductShipping {
   shipping: DS_ShippingAPI_Shipping_Info_Result;
@@ -33,15 +34,16 @@ const ProductShipping = ({
   useEffect(() => {
     if (selected) setSelectedShipping(selected);
   }, [selected, setSelectedShipping]);
+  const t = useTranslations("AliexpressPage");
 
   return (
     <div className={`text-left z-10 mt-4`}>
       {shipping.result.success ? (
         <>
           <p className={`text-success font-mono text-center uppercase`}>
-            THIS ITEM IS AVAILABLE FOR SHIPPING TO ALGERIA
+            {t("shipping.shippingAvailable")}
           </p>
-          <p>Shipping Carriers:</p>
+          <p>{t("shipping.carriers")}:</p>
           <div>
             <Listbox value={selected} onChange={setSelected}>
               <div className="relative mt-1">
@@ -85,17 +87,19 @@ const ProductShipping = ({
                                 {carrier.service_name}
                               </span>
                               <span className="text-xs">
-                                Delivered in {carrier.estimated_delivery_time}{" "}
-                                days
+                                {t("shipping.deliveredIn", {
+                                  time: carrier.estimated_delivery_time,
+                                })}
                               </span>
 
                               <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-                                {GetPrice(
-                                  usd ?? 0,
-                                  commission ?? 0,
-                                  carrier.freight.amount
-                                )}{" "}
-                                DZD
+                                {t("price", {
+                                  price: GetPrice(
+                                    usd ?? 0,
+                                    commission ?? 0,
+                                    carrier.freight.amount
+                                  ),
+                                })}
                               </span>
                               {selected ? (
                                 <span
@@ -118,15 +122,25 @@ const ProductShipping = ({
             </Listbox>
           </div>
           <p className="relative text-xs pl-2 z-0">
-            <span>Delivered in {selected.estimated_delivery_time} days</span>
+            <span>
+              {t("shipping.deliveredIn", {
+                time: selected.estimated_delivery_time,
+              })}
+            </span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-              {GetPrice(usd ?? 0, commission ?? 0, selected.freight.amount)} DZD
+              {t("price", {
+                price: GetPrice(
+                  usd ?? 0,
+                  commission ?? 0,
+                  selected.freight.amount
+                ),
+              })}
             </span>
           </p>
         </>
       ) : (
         <p className="text-danger text-center uppercase font-mono">
-          Item not available for shipping to Algeria.
+          {t("shipping.shippingNotAvailable")}
         </p>
       )}
     </div>

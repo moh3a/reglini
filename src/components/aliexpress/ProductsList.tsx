@@ -10,6 +10,7 @@ import Modal from "@components/shared/Modal";
 import { trpc } from "@utils/trpc";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
+import { useTranslations } from "next-intl";
 
 const ProductsList = () => {
   const { euro, usd, commission } = useFinance();
@@ -88,6 +89,7 @@ const ProductsList = () => {
       });
     }
   };
+  const t = useTranslations("AliexpressPage");
 
   return (
     <div className="my-8 mx-2">
@@ -130,15 +132,14 @@ const ProductsList = () => {
                         </h1>
 
                         <p className={`font-mono`}>
-                          <span>
-                            {GetPrice(
+                          {t("price", {
+                            price: GetPrice(
                               euro ?? 0,
                               commission ?? 0,
                               product.productMinPrice.value +
                                 product.shippingMinPrice.value
-                            )}
-                          </span>{" "}
-                          <span>DZD</span>
+                            ),
+                          })}
                         </p>
                       </div>
                       <div>
@@ -206,14 +207,13 @@ const ProductsList = () => {
                             </h2>
 
                             <p className={`font-mono`}>
-                              <span>
-                                {GetPrice(
+                              {t("price", {
+                                price: GetPrice(
                                   usd ?? 0,
                                   commission ?? 0,
                                   Number(product.target_app_sale_price ?? 0)
-                                )}
-                              </span>{" "}
-                              <span>DZD</span>
+                                ),
+                              })}
                             </p>
                           </div>
                           <div>

@@ -7,6 +7,7 @@ import Button from "@components/shared/Button";
 import { trpc } from "@utils/trpc";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
+import { useTranslations } from "next-intl";
 
 interface AddToWishlistProps {
   product: ZAE_Product;
@@ -61,6 +62,7 @@ const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
       );
     }
   };
+  const t = useTranslations("AliexpressPage");
 
   return (
     <Button
@@ -69,7 +71,7 @@ const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
       variant="outline"
       type="button"
     >
-      Wishlist
+      {t("wishlist")}
     </Button>
   );
 };

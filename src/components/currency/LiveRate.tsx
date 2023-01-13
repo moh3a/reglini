@@ -1,10 +1,12 @@
 import Loading from "@components/shared/Loading";
 import { TEXT_GRADIENT } from "@config/design";
 import { trpc } from "@utils/trpc";
+import { useTranslations } from "next-intl";
 import CurrencyCard from "./CurrencyCard";
 
 const LiveRate = () => {
   const currencies = trpc.currency.currencies.useQuery();
+  const t = useTranslations("CurrencyPage.liveRate");
 
   return (
     <div>
@@ -17,15 +19,18 @@ const LiveRate = () => {
         <>
           <div className="py-8 lg:py-16 px-4 flex flex-col items-center">
             <h1 className="text-center text-xl lg:text-4xl font-bold">
-              Algerian Dinars (DZD) in the{" "}
-              <span className={TEXT_GRADIENT}>parallel</span> market
+              {t.rich("intro", {
+                market: "parallel",
+                highlight: (chunks) => (
+                  <span className={TEXT_GRADIENT}>{chunks}</span>
+                ),
+              })}
             </h1>
             <div className="text-xs lg:text-sm">
-              Here we give you the daily prices of the big foreign currencies in
-              the algerian parallel market.
+              {t("desc", { market: "parallel" })}
             </div>
             <h2 className="text-lg lg:text-xl font-semibold underline font-mono">
-              purchase
+              {t("purchase")}
             </h2>
             <div className="flex flex-wrap flex-center select-none">
               {currencies.data.currencies.map((currency) => (
@@ -37,7 +42,7 @@ const LiveRate = () => {
               ))}
             </div>
             <h2 className="text-lg lg:text-xl font-semibold underline font-mono">
-              sale
+              {t("sale")}
             </h2>
             <div className="flex flex-wrap flex-center select-none">
               {currencies.data.currencies.map((currency) => (
@@ -51,12 +56,15 @@ const LiveRate = () => {
           </div>
           <div className="py-8 lg:py-16 px-4 flex flex-col items-center">
             <h1 className="text-center text-xl lg:text-4xl font-bold">
-              Algerian Dinars (DZD) in the{" "}
-              <span className={TEXT_GRADIENT}>official</span> market
+              {t.rich("intro", {
+                market: "official",
+                highlight: (chunks) => (
+                  <span className={TEXT_GRADIENT}>{chunks}</span>
+                ),
+              })}
             </h1>
             <div className="text-xs lg:text-sm">
-              Here we give you the daily prices of the big foreign currencies in
-              the algerian official market.
+              {t("desc", { market: "official" })}
             </div>
             <div className="grid grid-cols-3 gap-x-3 md:gap-x-6 select-none">
               {currencies.data.currencies.map((currency) => (

@@ -1,23 +1,35 @@
 import { PADDING } from "@config/design";
 import { Tab } from "@headlessui/react";
+import { useRouter } from "next/router";
 
 import ConvertCurrency from "./ConvertCurrency";
 import HistoricalRates from "./HistoricalRates";
 import LiveRate from "./LiveRate";
 
 const TABS = [
-  { name: "Live Rate", component: <LiveRate /> },
-  { name: "Convert", component: <ConvertCurrency /> },
-  { name: "Historical", component: <HistoricalRates /> },
+  {
+    name: { fr: "Live Rate", ar: "Live Rate", en: "Live Rate" },
+    component: <LiveRate />,
+  },
+  {
+    name: { fr: "Convert", ar: "Convert", en: "Convert" },
+    component: <ConvertCurrency />,
+  },
+  {
+    name: { fr: "Historical", ar: "Historical", en: "Historical" },
+    component: <HistoricalRates />,
+  },
 ];
 
 const Currency = () => {
+  const router = useRouter();
+
   return (
     <Tab.Group as={"div"}>
       <Tab.List className="flex justify-center font-bold p-1 space-x-1 rounded-xl">
         {TABS.map((tab) => (
           <Tab
-            key={tab.name}
+            key={tab.name.fr}
             className={({ selected }) =>
               ` hover:underline hover:decoration-aliexpress ${PADDING} ${
                 selected &&
@@ -25,13 +37,13 @@ const Currency = () => {
               } `
             }
           >
-            {tab.name}
+            {tab.name[(router.locale as "fr" | "en" | "ar") ?? "fr"]}
           </Tab>
         ))}
       </Tab.List>
       <Tab.Panels>
         {TABS.map((tab) => (
-          <div key={tab.name}>
+          <div key={tab.name.fr}>
             <Tab.Panel>{tab.component}</Tab.Panel>
           </div>
         ))}

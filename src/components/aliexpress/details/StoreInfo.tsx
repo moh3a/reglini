@@ -3,14 +3,15 @@ import Link from "next/link";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 
 import { ZAE_Product } from "@reglini-types/zapiex";
+import { useTranslations } from "next-intl";
 
 const StoreInfo = ({ product }: { product: ZAE_Product }) => {
+  const t = useTranslations("AliexpressPage.store");
   return (
     <>
       {product.sellerDetails && (
         <Link
           href={product.sellerDetails.sellerDetailsUrl}
-          // href={`https://aliexpress.com/store/${product.sellerDetails.sellerDetailsUrl}`}
           target="_blank"
           rel="noreferrer"
         >
@@ -20,7 +21,7 @@ const StoreInfo = ({ product }: { product: ZAE_Product }) => {
               src="/aliexpress-ar21.svg"
               alt="aliexpress logo"
             />
-            <span>Store Info</span>
+            <span>{t("title")}</span>
             <ArrowTopRightOnSquareIcon
               className="w-5 h-5 inline ml-2 relative bottom-1"
               aria-hidden="true"
@@ -29,21 +30,21 @@ const StoreInfo = ({ product }: { product: ZAE_Product }) => {
           <p className="font-bold text-lg">{product.seller.storeName}</p>
           <div className="text-xs">
             <p>
-              Communication Rating:{" "}
+              {t("communication")}:{" "}
               {
                 product.sellerDetails.detailedRatings.communication.rating
                   .percentage
               }
             </p>
             <p>
-              Items as Described Rating:{" "}
+              {t("item")}:{" "}
               {
                 product.sellerDetails.detailedRatings.itemAsDescribed.rating
                   .percentage
               }
             </p>
             <p>
-              Shipping Speed Rating:{" "}
+              {t("speed")}:{" "}
               {
                 product.sellerDetails.detailedRatings.shippingSpeed.rating
                   .percentage

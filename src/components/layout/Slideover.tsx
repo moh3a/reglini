@@ -4,10 +4,10 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useTranslations } from "next-intl";
 
 import DarkMode from "../DarkMode";
 import Language from "../Language";
-import { PAGES } from "@config/navigation";
 import { BG_GRADIENT } from "@config/design";
 
 export default function Slideover({
@@ -18,6 +18,7 @@ export default function Slideover({
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const { data: session } = useSession();
+  const t = useTranslations("Common.navigation");
   const router = useRouter();
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -77,18 +78,42 @@ export default function Slideover({
                       {/* Replace with your content */}
                       <div className="absolute inset-0 px-4 sm:px-6">
                         <nav className="flex-col my-4">
-                          {PAGES.map((page) => (
-                            <div
-                              key={page.name}
-                              className={`mx-4 font-bold ${
-                                router.asPath === page.url
-                                  ? `py-1 px-3 rounded-r-full ${BG_GRADIENT} text-white`
-                                  : ""
-                              }`}
-                            >
-                              <Link href={page.url}>{page.name}</Link>
-                            </div>
-                          ))}
+                          <div
+                            className={`mx-4 font-bold ${
+                              router.asPath === "/aliexpress"
+                                ? `py-1 px-3 rounded-r-full ${BG_GRADIENT} text-white`
+                                : ""
+                            }`}
+                          >
+                            <Link href="/aliexpress">{t("aliexpress")}</Link>
+                          </div>
+                          <div
+                            className={`mx-4 font-bold ${
+                              router.asPath === "/currency"
+                                ? `py-1 px-3 rounded-r-full ${BG_GRADIENT} text-white`
+                                : ""
+                            }`}
+                          >
+                            <Link href="/currency">{t("currency")}</Link>
+                          </div>
+                          <div
+                            className={`mx-4 font-bold ${
+                              router.asPath === "/support"
+                                ? `py-1 px-3 rounded-r-full ${BG_GRADIENT} text-white`
+                                : ""
+                            }`}
+                          >
+                            <Link href="/support">{t("support")}</Link>
+                          </div>
+                          <div
+                            className={`mx-4 font-bold ${
+                              router.asPath === "/faq"
+                                ? `py-1 px-3 rounded-r-full ${BG_GRADIENT} text-white`
+                                : ""
+                            }`}
+                          >
+                            <Link href="/faq">{t("faq")}</Link>
+                          </div>
                         </nav>
 
                         <div className="flex justify-center">

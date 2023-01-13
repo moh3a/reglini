@@ -8,6 +8,7 @@ import Button from "@components/shared/Button";
 import { trpc } from "@utils/trpc";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
+import { useTranslations } from "next-intl";
 
 interface AddToCartProps {
   product: ZAE_Product;
@@ -102,6 +103,7 @@ const AddToCart = ({
       }
     }
   };
+  const t = useTranslations("AliexpressPage");
 
   return (
     <Button
@@ -113,7 +115,7 @@ const AddToCart = ({
       variant="outline"
       type="button"
     >
-      Cart
+      {t("cart")}
     </Button>
   );
 };

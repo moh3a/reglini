@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { PADDING, ROUNDED, SHADOW } from "@config/design";
 import { ZAE_Product } from "@reglini-types/zapiex";
 import StoreInfo from "./StoreInfo";
+import { useTranslations } from "next-intl";
 
 const Item = ({ title, children }: any) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -70,12 +71,13 @@ export default function ProductFeatures({ product }: { product: ZAE_Product }) {
       setAttributes(att);
     }
   }, [product]);
+  const t = useTranslations("AliexpressPage.features");
 
   return (
     <div>
       <div className="max-w-3xl mx-auto py-10 px-4">
         <div>
-          <Item title="Product Specifications">
+          <Item title={t("productSpecs")}>
             <dl className="my-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
               {attributes &&
                 attributes.map((attribute) => {
@@ -96,12 +98,12 @@ export default function ProductFeatures({ product }: { product: ZAE_Product }) {
             </dl>
           </Item>
 
-          <Item title="Seller Details">
+          <Item title={t("sellerDetails")}>
             <StoreInfo product={product} />
           </Item>
 
           {product.htmlDescription && (
-            <Item title="Seller's Product Description">
+            <Item title={t("productDesc")}>
               <div
                 dangerouslySetInnerHTML={{ __html: product.htmlDescription }}
               />

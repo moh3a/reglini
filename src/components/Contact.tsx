@@ -1,6 +1,7 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
 
 import { ROUNDED, SHADOW, TEXT_INPUT } from "@config/design";
 import TextInput from "./shared/Input";
@@ -49,12 +50,13 @@ const Contact = () => {
       }, 3000);
     }
   };
+  const t = useTranslations("SupportPage");
 
   return (
     <>
-      <Title title="Get in touch" />
+      <Title title={t("title")} />
       <p className="mb-4 font-bold font-mono text-sm text-center">
-        Your feedback is the most welcome.
+        {t("subtitle")}
       </p>
 
       <section
@@ -78,13 +80,13 @@ const Contact = () => {
               />
             </svg>
 
-            <span className="mt-2">Algiers, DZ</span>
+            <span className="mt-2">{t("contact.address")}</span>
           </a>
 
           <a className="cursor-pointer flex flex-col items-center px-4 py-3  rounded-lg  hover:bg-green-200 dark:hover:bg-green-800">
             <i className="fab fa-whatsapp text-green-500"></i>
 
-            <span className="mt-2">+213540861775</span>
+            <span className="mt-2">{t("contact.phoneNumber")}</span>
           </a>
 
           <a className="cursor-pointer flex flex-col items-center px-4 py-3  rounded-lg  hover:bg-orange-200 dark:hover:bg-orange-800 text-xs">
@@ -98,14 +100,14 @@ const Contact = () => {
               <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
             </svg>
 
-            <span className="mt-2">support@reglini-dz.com</span>
+            <span className="mt-2">{t("contact.email")}</span>
           </a>
         </div>
         <p className="my-4 text-base text-center md:text-lg">
-          You have a question? We may have answered it already.{" "}
+          {t("directToFaq.youHaveAQuestion")}{" "}
           <Link href="/faq" passHref>
             <span className="underline text-gray-700 dark:text-gray-400">
-              Checkout the frequently asked questions
+              {t("directToFaq.checkoutAnswer")}
             </span>
           </Link>
         </p>
@@ -119,14 +121,14 @@ const Contact = () => {
                   router.locale === "ar" ? "text-right" : ""
                 } mb-2 text-sm font-medium text-gray-600 dark:text-gray-200`}
               >
-                Email Subject
+                {t("form.emailSubject")}
               </label>
 
               <TextInput
                 id="subject"
                 name="subject"
                 type="text"
-                placeholder={"Email Title"}
+                placeholder={t("form.emailSubject")}
                 autocomplete={false}
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
@@ -142,7 +144,7 @@ const Contact = () => {
                 router.locale === "ar" ? "text-right" : ""
               } block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200`}
             >
-              Message
+              {t("form.message")}
             </label>
 
             <textarea
@@ -157,7 +159,7 @@ const Contact = () => {
 
           <div className="flex justify-center mt-6">
             <Button variant="solid" type="submit">
-              Send Message
+              {t("form.send")}
             </Button>
           </div>
         </form>

@@ -6,6 +6,7 @@ import { GetStaticProps } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import Link from "next/link";
 
 import Button from "@components/shared/Button";
 import Logo from "@components/shared/Logo";
@@ -15,7 +16,7 @@ const AuthPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (status !== "unauthenticated") router.replace("/");
+    if (status === "authenticated") router.replace("/");
   }, [router, status]);
 
   return (
@@ -61,17 +62,20 @@ const AuthPage = () => {
   );
 };
 
+import { pick } from "lodash";
+const namespaces = ["AuthPage", "Common"];
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const messages = (await import(`../../../locales/${locale}/AuthPage.json`)).default;
   return {
     props: {
-      messages,
+      messages: pick(
+        (await import(`../../../messages/${locale}.json`)).default,
+        namespaces
+      ),
     },
   };
 };
 
 import Layout from "@components/layout/Layout";
-import Link from "next/link";
 AuthPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };

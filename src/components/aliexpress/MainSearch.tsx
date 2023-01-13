@@ -1,5 +1,6 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
 
 import SearchInput from "@components/shared/SearchInput";
 import AliExpressLogo from "@components/shared/AliExpressLogo";
@@ -19,18 +20,19 @@ const MainSearch = () => {
       router.push(`/aliexpress?q=${url}`);
     }
   };
+  const t = useTranslations("AliexpressPage");
 
   return (
     <section>
       <p className="text-center text-sm font-bold font-mono my-2">
-        Here starts everything
+        {t("hereStartsEverything")}
       </p>
       <div className="flex justify-center items-center">
         <AliExpressLogo width={400} />
       </div>
       <h1 className="select-none font-extrabold text-4xl font-mono w-full text-center">
         <span className="uppercase bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-aliexpress">
-          between your hands
+          {t("betweenYourHands")}
         </span>
       </h1>
 

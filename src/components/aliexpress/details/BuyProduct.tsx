@@ -8,6 +8,7 @@ import { ZAE_Product } from "@reglini-types/zapiex";
 import { SelectedVariation } from "../ProductDetails";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
+import { useTranslations } from "next-intl";
 
 interface BuyProductProps {
   product: ZAE_Product;
@@ -91,6 +92,7 @@ const BuyProduct = ({
       }
     }
   };
+  const t = useTranslations("AliexpressPage");
 
   return (
     <Button
@@ -105,7 +107,7 @@ const BuyProduct = ({
       variant="solid"
       type="button"
     >
-      Buy
+      {t("buy")}
     </Button>
   );
 };

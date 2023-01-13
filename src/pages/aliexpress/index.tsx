@@ -17,13 +17,15 @@ const AliexpressPage = () => {
   );
 };
 
+import { pick } from "lodash";
+const namespaces = ["AliexpressPage", "Common"];
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const messages = (
-    await import(`../../../locales/${locale}/AliexpressPage.json`)
-  ).default;
   return {
     props: {
-      messages,
+      messages: pick(
+        (await import(`../../../messages/${locale}.json`)).default,
+        namespaces
+      ),
     },
   };
 };

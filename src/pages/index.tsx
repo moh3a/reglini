@@ -1,26 +1,33 @@
 import { GetStaticProps } from "next";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 import Title from "@components/shared/Title";
 
 const IndexPage = () => {
+  const t = useTranslations("IndexPage");
   const { data: session } = useSession();
 
   return (
     <>
       <Title
-        title={`hello ${session && session.user ? session.user.name : "guest"}`}
+        title={`${t("hello", {
+          user: session && session.user ? session.user.name : "guest",
+        })}`}
       />
     </>
   );
 };
 
+import { pick } from "lodash";
+const namespaces = ["IndexPage", "Common"];
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const messages = (await import(`../../locales/${locale}/IndexPage.json`))
-    .default;
   return {
     props: {
-      messages,
+      messages: pick(
+        (await import(`../../messages/${locale}.json`)).default,
+        namespaces
+      ),
     },
   };
 };

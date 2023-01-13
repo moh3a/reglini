@@ -205,19 +205,17 @@ export interface DS_ProductAPI_Product_Details {
   };
   owner_member_id: string;
   product_status_type: string;
-  aeop_ae_product_propertys: {
-    aeop_ae_product_property: [
-      {
-        attr_value_unit: string;
-        attr_value_start: string;
-        attr_value_id: number;
-        attr_value_end: string;
-        attr_value: string;
-        attr_name_id: number;
-        attr_name: string;
-      }
-    ];
-  };
+  aeop_ae_product_propertys: [
+    {
+      attr_value_unit: string;
+      attr_value_start: string;
+      attr_value_id: number;
+      attr_value_end: string;
+      attr_value: string;
+      attr_name_id: number;
+      attr_name: string;
+    }
+  ];
   gross_weight: string;
   delivery_time: number;
   ws_valid_num: number;

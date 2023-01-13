@@ -7,6 +7,7 @@ import { trpc } from "@utils/trpc";
 import { DS_ProductAPI_Product_Details } from "@reglini-types/ae";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
+import { useTranslations } from "next-intl";
 
 interface AddToWishlistProps {
   product: DS_ProductAPI_Product_Details;
@@ -61,6 +62,7 @@ const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
       );
     }
   };
+  const t = useTranslations("AliexpressPage");
 
   return (
     <Button
@@ -69,7 +71,7 @@ const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
       variant="outline"
       type="button"
     >
-      Wishlist
+      {t("wishlist")}
     </Button>
   );
 };

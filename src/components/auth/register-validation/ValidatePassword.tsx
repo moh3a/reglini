@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { useState, useEffect } from "react";
 import PasswordInput from "../../shared/PasswordInput";
 
@@ -76,12 +77,13 @@ const ValidatePassword = ({ setPasswordValidation }: any) => {
       setConfirmed(false);
     }
   };
+  const t = useTranslations("AuthPage.register");
 
   return (
     <>
       <div className="my-3">
         <label className="block leading-relaxed" htmlFor="password">
-          Password
+          {t("password")}
         </label>
         <PasswordInput
           id="password"
@@ -98,7 +100,7 @@ const ValidatePassword = ({ setPasswordValidation }: any) => {
       </div>
       <div className="my-3">
         <label className="block leading-relaxed" htmlFor="confirm">
-          Confirm
+          {t("passwordConfirm")}
         </label>
         <PasswordInput
           id="confirm"
@@ -112,9 +114,9 @@ const ValidatePassword = ({ setPasswordValidation }: any) => {
         />
         {confirmPassword ? (
           confirmed ? (
-            <p className="text-success">Password confirmed!</p>
+            <p className="text-success">{t("confirmed")}</p>
           ) : (
-            <p className="text-danger">Passwords do not match..</p>
+            <p className="text-danger">{t("notConfirmed")}</p>
           )
         ) : (
           ""

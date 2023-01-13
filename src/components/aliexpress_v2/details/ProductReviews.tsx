@@ -1,10 +1,12 @@
 import { DS_ProductAPI_Product_Details } from "@reglini-types/ae";
+import { useTranslations } from "next-intl";
 
 const ProductReviews = ({
   product,
 }: {
   product: DS_ProductAPI_Product_Details;
 }) => {
+  const t = useTranslations("AliexpressPage.reviews");
   return (
     <div className={`flex mb-4`}>
       <span className={`flex items-center`}>
@@ -26,13 +28,13 @@ const ProductReviews = ({
             </span>
             <span className={`mx-4`}>
               <span>{product.evaluation_count}</span>{" "}
-              <span className="mr-1">Reviews</span>
+              <span className="mr-1">{t("title")}</span>
             </span>
           </>
         )}
         <span className={`ml-4`}>
           <span>{product.order_count}</span>{" "}
-          <span className="mr-1">Orders</span>
+          <span className="mr-1">{t("orders")}</span>
         </span>
       </span>
     </div>

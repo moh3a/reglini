@@ -1,26 +1,31 @@
 import { GetStaticProps } from "next";
 import Head from "next/head";
+import { useTranslations } from "next-intl";
 
 import { APP_NAME } from "@config/general";
 import Currency from "@components/currency";
 
 const CurrencyPage = () => {
+  const t = useTranslations("CurrencyPage");
   return (
     <>
       <Head>
-        <title>{`Currency exchange in the algerian market | ${APP_NAME}`}</title>
+        <title>{`${t("title")} | ${APP_NAME}`}</title>
       </Head>
       <Currency />
     </>
   );
 };
 
+import { pick } from "lodash";
+const namespaces = ["CurrencyPage", "Common"];
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const messages = (await import(`../../locales/${locale}/CurrencyPage.json`))
-    .default;
   return {
     props: {
-      messages,
+      messages: pick(
+        (await import(`../../messages/${locale}.json`)).default,
+        namespaces
+      ),
     },
   };
 };

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import Button from "../shared/Button";
 import ValidateEmail from "./register-validation/ValidateEmail";
@@ -19,6 +20,7 @@ const Register = ({ csrfToken }: { csrfToken: string }) => {
       setValid(false);
     }
   }, [passwordValidation, emailValidation]);
+  const t = useTranslations("AuthPage.register");
 
   return (
     <>
@@ -32,13 +34,13 @@ const Register = ({ csrfToken }: { csrfToken: string }) => {
 
         <div className="my-3">
           <label htmlFor="name" className="block leading-relaxed">
-            Username
+            {t("username")}
           </label>
           <TextInput
             id="name"
             name="name"
             type="text"
-            placeholder="Name"
+            placeholder={t("username")}
             tabIndex={1}
             required={true}
             value={name}
@@ -51,20 +53,20 @@ const Register = ({ csrfToken }: { csrfToken: string }) => {
 
         {valid ? (
           <Button type="submit" variant="solid" tabIndex={3} width="100%">
-            Register
+            {t("title")}
           </Button>
         ) : (
           <p className="text-center text-danger cursor-pointer">
-            Fill the register form to submit.
+            {t("correctIt")}
           </p>
         )}
       </form>
 
       <p className="mt-2 mb-8 text-center">
-        Already have an account?{" "}
+        {t("haveAccount")}{" "}
         <Link href="/auth/login">
           <Button variant="outline" tabIndex={4}>
-            Sign In
+            {t("signIn")}
           </Button>
         </Link>
       </p>

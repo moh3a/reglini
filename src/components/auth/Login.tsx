@@ -1,10 +1,12 @@
 import { useState } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
+
 import ForgotPasswordModal from "./ForgotPasswordModal";
-import { trpc } from "@utils/trpc";
 import TextInput from "../shared/Input";
 import PasswordInput from "../shared/PasswordInput";
 import Button from "../shared/Button";
+import { trpc } from "@utils/trpc";
 
 const Login = ({ csrfToken }: { csrfToken: string }) => {
   const [email, setEmail] = useState("");
@@ -35,6 +37,7 @@ const Login = ({ csrfToken }: { csrfToken: string }) => {
       }
     );
   };
+  const t = useTranslations("AuthPage.login");
 
   return (
     <>
@@ -48,7 +51,7 @@ const Login = ({ csrfToken }: { csrfToken: string }) => {
 
         <div className="my-3">
           <label htmlFor="email" className="block leading-relaxed">
-            Email Address
+            {t("email")}
           </label>
           <TextInput
             id="email"
@@ -71,7 +74,7 @@ const Login = ({ csrfToken }: { csrfToken: string }) => {
 
         <div className="my-3">
           <label className="block leading-relaxed" htmlFor="password">
-            Password
+            {t("password")}
           </label>
           <PasswordInput
             id="password"
@@ -86,21 +89,21 @@ const Login = ({ csrfToken }: { csrfToken: string }) => {
 
         {password && !error ? (
           <Button type="submit" variant="solid" tabIndex={3} width="100%">
-            Login
+            {t("title")}
           </Button>
         ) : (
           <p className="text-center text-danger cursor-pointer">
-            Correctly fill the login form to submit.
+            {t("correctIt")}
           </p>
         )}
       </form>
 
       <ForgotPasswordModal />
       <p className="mt-2 mb-8 text-center">
-        Don&apos;t have an account?{" "}
+        {t("dontHaveAccount")}{" "}
         <Link href="/auth/register">
           <Button variant="outline" tabIndex={4}>
-            Create one
+            {t("createOne")}
           </Button>
         </Link>
       </p>

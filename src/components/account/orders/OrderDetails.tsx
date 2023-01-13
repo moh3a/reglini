@@ -1,12 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 import Link from "next/link";
-import {
-  CheckCircleIcon,
-  MapPinIcon,
-  PhotoIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { MapPinIcon, PhotoIcon } from "@heroicons/react/24/outline";
 
 import { PADDING, ROUNDED, SHADOW, TEXT_GRADIENT } from "@config/design";
 import Button from "@components/shared/Button";
@@ -166,55 +161,40 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                 >
                   <div className="p-2 sm:px-4 sm:py-5 grid grid-cols-3 gap-4">
                     <dt className="text-sm font-bold lg:flex lg:items-center">
-                      Payment confirmed?
+                      Status
                     </dt>
                     <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
-                      {detailsQuery.data.order.payment.isPaymentConfirmed ? (
-                        <CheckCircleIcon
-                          className="h-6 w-6 inline text-success"
-                          aria-checked="true"
-                        />
-                      ) : (
-                        <XMarkIcon
-                          className="h-6 w-6 inline text-danger"
-                          aria-checked="true"
-                        />
-                      )}
-                    </dd>
-                  </div>
-                  <div className="p-2 sm:px-4 sm:py-5 grid grid-cols-3 gap-4">
-                    <dt className="text-sm font-bold lg:flex lg:items-center">
-                      Payment declined?
-                    </dt>
-                    <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
-                      {detailsQuery.data.order.payment.wasDeclined ? (
-                        <CheckCircleIcon
-                          className="h-6 w-6 inline text-success"
-                          aria-checked="true"
-                        />
-                      ) : (
-                        <XMarkIcon
-                          className="h-6 w-6 inline text-danger"
-                          aria-checked="true"
-                        />
-                      )}
-                    </dd>
-                  </div>
-                  <div className="p-2 sm:px-4 sm:py-5 grid grid-cols-3 gap-4">
-                    <dt className="text-sm font-bold lg:flex lg:items-center">
-                      Payment receipt
-                    </dt>
-                    <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
-                      <Link
-                        href={detailsQuery.data.order.payment.receipt}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <PhotoIcon
-                          className="h-6 w-6 inline text-success"
-                          aria-checked="true"
-                        />
-                      </Link>
+                      <div>
+                        {!detailsQuery.data.order.payment.isPaymentConfirmed &&
+                          !detailsQuery.data.order.payment.wasDeclined && (
+                            <span className="text-warning uppercase font-bold text-sm">
+                              Awaiting confirmation
+                            </span>
+                          )}
+                        {detailsQuery.data.order.payment.isPaymentConfirmed && (
+                          <span className="text-success uppercase font-bold text-sm">
+                            Payment Confirmed
+                          </span>
+                        )}
+                        {detailsQuery.data.order.payment.wasDeclined && (
+                          <span className="text-danger uppercase font-bold text-sm">
+                            Payment Declined
+                          </span>
+                        )}
+                      </div>
+                      <div>
+                        Receipt{" "}
+                        <Link
+                          href={detailsQuery.data.order.payment.receipt}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <PhotoIcon
+                            className="h-6 w-6 inline text-aliexpress"
+                            aria-checked="true"
+                          />
+                        </Link>
+                      </div>
                     </dd>
                   </div>
                 </dl>

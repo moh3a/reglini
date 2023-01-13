@@ -13,6 +13,7 @@ import {
 import Loading from "@components/shared/Loading";
 import NumberInput from "@components/shared/NumberInput";
 import { trpc } from "@utils/trpc";
+import { useTranslations } from "next-intl";
 
 const ConvertCurrency = () => {
   const [selectedDevise, setSelectedDevise] = useState<{
@@ -48,6 +49,8 @@ const ConvertCurrency = () => {
     setMoney({ dzd: rate, devise: 1 });
   }, [rate]);
 
+  const t = useTranslations("CurrencyPage.convertCurrency");
+
   return (
     <>
       {currenciesQuery.isLoading && (
@@ -58,12 +61,17 @@ const ConvertCurrency = () => {
       {currenciesQuery.data && currenciesQuery.data.currencies && (
         <div className="py-32 lg:py-44 px-4 flex flex-col items-center">
           <h1 className="text-center text-xl lg:text-4xl font-bold">
-            Convert{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-red-400">
-              DZD
-            </span>{" "}
-            to <span className={TEXT_GRADIENT}>{selectedDevise.exchange}</span>{" "}
-            with the parallel market rates.
+            {t.rich("intro", {
+              exchange: selectedDevise.exchange,
+              gradient: (chunks) => (
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-red-400">
+                  {chunks}
+                </span>
+              ),
+              highlight: (chunks) => (
+                <span className={TEXT_GRADIENT}>{chunks}</span>
+              ),
+            })}
           </h1>
           <form className="mt-8 mx-auto lg:min-w-128 flex flex-col items-center lg:flex-row lg:justify-around">
             <div className="relative mx-2">

@@ -3,6 +3,7 @@ import { GetServerSideProps } from "next";
 import { getCsrfToken, getProviders, useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
 
 import { APP_NAME } from "@config/general";
 import Login from "@components/auth/Login";
@@ -17,24 +18,25 @@ interface AuthProps {
 const LoginPage = ({ csrfToken, providers }: AuthProps) => {
   const { status } = useSession();
   const router = useRouter();
+  const t = useTranslations("AuthPage.login");
 
   useEffect(() => {
-    if (status !== "unauthenticated") router.replace("/");
+    if (status === "authenticated") router.replace("/");
   }, [router, status]);
 
   return (
     <>
       <Head>
-        <title>{"Login | " + APP_NAME}</title>
+        <title>{`${t("title")} ${APP_NAME}`}</title>
       </Head>
       {status !== "authenticated" && (
         <section className="mx-auto max-w-lg">
-          <Title title="Login" />
+          <Title title={t("title")} />
           <Login csrfToken={csrfToken} />
           <div className="flex items-center justify-between my-4">
             <span className="w-1/5 border-b border-darkTransparent lg:w-1/5"></span>
             <div className="text-xs text-center select-none uppercase">
-              or login with Social Media
+              {t("socialMedia")}
             </div>
             <span className="w-1/5 border-b border-darkTransparent lg:w-1/5"></span>
           </div>
@@ -45,6 +47,8 @@ const LoginPage = ({ csrfToken, providers }: AuthProps) => {
   );
 };
 
+import { pick } from "lodash";
+const namespaces = ["AuthPage", "Common"];
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const csrfToken = await getCsrfToken(context);
   const providers = await getProviders();
@@ -52,9 +56,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       csrfToken,
       providers,
-      messages: (
-        await import(`../../../locales/${context.locale}/AuthPage.json`)
-      ).default,
+      messages: pick(
+        (await import(`../../../messages/${context.locale}.json`)).default,
+        namespaces
+      ),
     },
   };
 };

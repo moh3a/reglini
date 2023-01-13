@@ -1,8 +1,11 @@
 import { FormEvent, useState } from "react";
+import { useTranslations } from "next-intl";
+
 import { trpc } from "@utils/trpc";
-import Button from "../shared/Button";
-import TextInput from "../shared/Input";
-import Modal from "../shared/Modal";
+import Button from "@components/shared/Button";
+import TextInput from "@components/shared/Input";
+import Modal from "@components/shared/Modal";
+import Banner from "@components/shared/Banner";
 
 export default function ForgotPasswordModal() {
   let [isOpen, setIsOpen] = useState(false);
@@ -39,11 +42,12 @@ export default function ForgotPasswordModal() {
           }
         );
       } catch (error: any) {
-        setMessage({ type: "error", text: error.response.data.error });
+        setMessage({ type: "error", text: JSON.stringify(error) });
       }
     }
     setEmail("");
   };
+  const t = useTranslations("AuthPage.forgotPassword");
 
   return (
     <>
@@ -54,36 +58,32 @@ export default function ForgotPasswordModal() {
           tabIndex={4}
           onClick={openModal}
         >
-          Forgot password?
+          {t("title")}
         </Button>
       </div>
-      <Modal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        title="Forgot your password?"
-      >
+      <Modal isOpen={isOpen} setIsOpen={setIsOpen} title={t("title")}>
         <form onSubmit={forgotPasswordHandler}>
-          <div className="my-2 text-sm">
-            Please enter the email address you registered your account with. We
-            will send you a password reset link. Follow the link and set your
-            new password.
-          </div>
+          {message?.type && (
+            <Banner message={message.text} type={message.type} />
+          )}
+          <div className="my-2 text-sm">{t("desc")}</div>
 
           <div className="my-2">
             <TextInput
               type="email"
               required={true}
               id="email"
-              placeholder="Email address"
+              placeholder={t("email")}
               value={email}
               autocomplete={false}
               onChange={(e) => setEmail(e.target.value)}
+              width="100%"
             />
           </div>
 
           <div className="my-4">
             <Button onClick={closeModal} type="submit" variant="solid">
-              Send email!
+              {t("send")}
             </Button>
           </div>
         </form>

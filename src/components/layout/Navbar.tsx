@@ -2,8 +2,13 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
+import {
+  AtSymbolIcon,
+  CurrencyEuroIcon,
+  QuestionMarkCircleIcon,
+} from "@heroicons/react/24/solid";
 
-import { PAGES } from "@config/navigation";
 import DarkMode from "../DarkMode";
 import AccountBadge from "../auth/AccountBadge";
 import Slideover from "./Slideover";
@@ -17,6 +22,7 @@ const Navbar = () => {
   const [sideOpen, setSideOpen] = useState(false);
 
   const router = useRouter();
+  const t = useTranslations("Common.navigation");
 
   return (
     <div className="mb-8 lg:mb-0">
@@ -55,47 +61,127 @@ const Navbar = () => {
       </div>
 
       <nav className="hidden lg:flex justify-center mt-4 mb-8">
-        {PAGES.map((page) => (
-          <div
-            key={page.name}
-            className={`mx-4 font-bold hover:text-aliexpress ${
-              router.asPath.includes(page.url)
-                ? "text-aliexpress"
-                : "grayscale hover:grayscale-0"
-            }`}
-          >
-            <Link href={page.url}>
-              <Button
-                variant="outline"
-                icon={
-                  page.logo.type === "svg" ? (
-                    <img
-                      src={page.logo.path}
-                      alt="page logo"
-                      className={`inline mr-1 ${
-                        router.asPath.includes(page.url) ? "grayscale-0" : ""
-                      } `}
-                      height={20}
-                      width={20}
-                    />
-                  ) : (
-                    page.logo.component
-                  )
-                }
-              >
-                <span
-                  className={`text-grim dark:text-white ${
-                    router.asPath.includes(page.url)
-                      ? "underline underline-offset-2 decoration-double decoration-aliexpress"
-                      : "hover:underline hover:decoration-aliexpress"
+        <div
+          className={`mx-4 font-bold hover:text-aliexpress ${
+            router.asPath.includes("/aliexpress")
+              ? "text-aliexpress"
+              : "grayscale hover:grayscale-0"
+          }`}
+        >
+          <Link href={"/aliexpress"}>
+            <Button
+              variant="outline"
+              icon={
+                <img
+                  src="/AliexpressIcon.svg"
+                  alt="page logo"
+                  className={`inline mr-1 ${
+                    router.asPath.includes("/aliexpress") ? "grayscale-0" : ""
                   } `}
-                >
-                  {page.name}
-                </span>
-              </Button>
-            </Link>
-          </div>
-        ))}
+                  height={20}
+                  width={20}
+                />
+              }
+            >
+              <span
+                className={`text-grim dark:text-white ${
+                  router.asPath.includes("/aliexpress")
+                    ? "underline underline-offset-2 decoration-double decoration-aliexpress"
+                    : "hover:underline hover:decoration-aliexpress"
+                } `}
+              >
+                {t("aliexpress")}
+              </span>
+            </Button>
+          </Link>
+        </div>
+        <div
+          className={`mx-4 font-bold hover:text-aliexpress ${
+            router.asPath.includes("/currency")
+              ? "text-aliexpress"
+              : "grayscale hover:grayscale-0"
+          }`}
+        >
+          <Link href={"/currency"}>
+            <Button
+              variant="outline"
+              icon={
+                <CurrencyEuroIcon
+                  className="h-5 w-5 inline mr-1"
+                  aria-hidden="true"
+                />
+              }
+            >
+              <span
+                className={`text-grim dark:text-white ${
+                  router.asPath.includes("/currency")
+                    ? "underline underline-offset-2 decoration-double decoration-aliexpress"
+                    : "hover:underline hover:decoration-aliexpress"
+                } `}
+              >
+                {t("currency")}
+              </span>
+            </Button>
+          </Link>
+        </div>
+        <div
+          className={`mx-4 font-bold hover:text-aliexpress ${
+            router.asPath.includes("/support")
+              ? "text-aliexpress"
+              : "grayscale hover:grayscale-0"
+          }`}
+        >
+          <Link href={"/support"}>
+            <Button
+              variant="outline"
+              icon={
+                <AtSymbolIcon
+                  className="h-5 w-5 inline mr-1"
+                  aria-hidden="true"
+                />
+              }
+            >
+              <span
+                className={`text-grim dark:text-white ${
+                  router.asPath.includes("/support")
+                    ? "underline underline-offset-2 decoration-double decoration-aliexpress"
+                    : "hover:underline hover:decoration-aliexpress"
+                } `}
+              >
+                {t("support")}
+              </span>
+            </Button>
+          </Link>
+        </div>
+        <div
+          className={`mx-4 font-bold hover:text-aliexpress ${
+            router.asPath.includes("/faq")
+              ? "text-aliexpress"
+              : "grayscale hover:grayscale-0"
+          }`}
+        >
+          <Link href={"/faq"}>
+            <Button
+              variant="outline"
+              icon={
+                <QuestionMarkCircleIcon
+                  className="h-5 w-5 inline mr-1"
+                  aria-hidden="true"
+                />
+              }
+            >
+              <span
+                className={`text-grim dark:text-white ${
+                  router.asPath.includes("/faq")
+                    ? "underline underline-offset-2 decoration-double decoration-aliexpress"
+                    : "hover:underline hover:decoration-aliexpress"
+                } `}
+              >
+                {t("faq")}
+              </span>
+            </Button>
+          </Link>
+        </div>
       </nav>
     </div>
   );

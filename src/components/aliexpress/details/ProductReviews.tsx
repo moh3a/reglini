@@ -1,6 +1,8 @@
 import { ZAE_Product } from "@reglini-types/zapiex";
+import { useTranslations } from "next-intl";
 
 const ProductReviews = ({ product }: { product: ZAE_Product }) => {
+  const t = useTranslations("AliexpressPage.reviews");
   return (
     <div className={`flex mb-4`}>
       <span className={`flex items-center`}>
@@ -24,13 +26,13 @@ const ProductReviews = ({ product }: { product: ZAE_Product }) => {
             </span>
             <span className={`mx-4`}>
               <span>{product.reviewsRatings.totalCount}</span>{" "}
-              <span className="mr-1">Reviews</span>
+              <span className="mr-1">{t("title")}</span>
             </span>
           </>
         )}
         <span className={`ml-4`}>
           <span>{product.totalOrders}</span>{" "}
-          <span className="mr-1">Orders</span>
+          <span className="mr-1">{t("orders")}</span>
         </span>
       </span>
     </div>

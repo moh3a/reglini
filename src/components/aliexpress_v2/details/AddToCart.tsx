@@ -11,6 +11,7 @@ import {
 } from "@reglini-types/ae";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
+import { useTranslations } from "next-intl";
 
 interface AddToCartProps {
   product: DS_ProductAPI_Product_Details;
@@ -113,6 +114,7 @@ const AddToCart = ({
       }
     }
   };
+  const t = useTranslations("AliexpressPage");
 
   return (
     <Button
@@ -124,7 +126,7 @@ const AddToCart = ({
       variant="outline"
       type="button"
     >
-      Cart
+      {t("cart")}
     </Button>
   );
 };

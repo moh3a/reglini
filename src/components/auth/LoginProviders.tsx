@@ -1,8 +1,12 @@
 import { signIn } from "next-auth/react";
+import { useTranslations } from "next-intl";
+
 import { PADDING, ROUNDED } from "@config/design";
 import Button from "../shared/Button";
 
 const LoginProviders = ({ providers }: { providers: any }) => {
+  const t = useTranslations("AuthPage.providers");
+
   return (
     <div className="flex flex-col lg:py-6">
       {providers &&
@@ -19,7 +23,7 @@ const LoginProviders = ({ providers }: { providers: any }) => {
                     className={` w-full font-bold text-center border-black bg-black text-white transition duration-500 ease-in-out transform hover:bg-gray-100 hover:text-black ${PADDING} ${ROUNDED} disabled:cursor-not-allowed disabled:border-0 disabled:bg-gray-500 `}
                   >
                     <i className="fab fa-google mr-2"></i>
-                    Continue with Google
+                    {t("continue", { provider: "Google" })}
                   </Button>
                 </a>
               </div>
@@ -36,7 +40,7 @@ const LoginProviders = ({ providers }: { providers: any }) => {
                     className={` w-full font-bold text-center border-facebook bg-facebook text-white transition duration-500 ease-in-out transform hover:bg-gray-100 hover:text-facebook ${PADDING} ${ROUNDED} disabled:cursor-not-allowed disabled:border-0 disabled:bg-gray-500 `}
                   >
                     <i className="fab fa-facebook-f mr-2"></i>
-                    Continue with Facebook
+                    {t("continue", { provider: "Facebook" })}
                   </Button>
                 </a>
               </div>

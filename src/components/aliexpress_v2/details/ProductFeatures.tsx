@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import parse from "html-react-parser";
 
 import { PADDING, ROUNDED, SHADOW } from "@config/design";
@@ -59,32 +60,31 @@ export default function ProductFeatures({
 
   useEffect(() => {
     let att: any[] = [];
-    if (product.aeop_ae_product_propertys.aeop_ae_product_property) {
-      product.aeop_ae_product_propertys.aeop_ae_product_property.map(
-        (attribute) => {
-          const index = att.findIndex(
-            (x: any) => x.id === attribute.attr_name_id.toString()
-          );
-          if (index === -1) {
-            att.push({
-              id: attribute.attr_name_id.toString(),
-              name: attribute.attr_name,
-              value: [attribute.attr_value],
-            });
-          } else {
-            att[index].value.push(attribute.attr_value);
-          }
+    if (product.aeop_ae_product_propertys) {
+      product.aeop_ae_product_propertys.map((attribute) => {
+        const index = att.findIndex(
+          (x: any) => x.id === attribute.attr_name_id.toString()
+        );
+        if (index === -1) {
+          att.push({
+            id: attribute.attr_name_id.toString(),
+            name: attribute.attr_name,
+            value: [attribute.attr_value],
+          });
+        } else {
+          att[index].value.push(attribute.attr_value);
         }
-      );
+      });
       setAttributes(att);
     }
   }, [product]);
+  const t = useTranslations("AliexpressPage.features");
 
   return (
     <div>
       <div className="max-w-3xl mx-auto py-10 px-4">
         <div>
-          <Item title="Product Specifications">
+          <Item title={t("productSpecs")}>
             <dl className="my-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
               {attributes &&
                 attributes.map((attribute) => {
@@ -105,14 +105,12 @@ export default function ProductFeatures({
             </dl>
           </Item>
 
-          <Item title="Seller Details">
+          <Item title={t("sellerDetails")}>
             <StoreInfo product={product} />
           </Item>
 
           {product.detail && (
-            <Item title="Seller's Product Description">
-              {parse(product.detail)}
-            </Item>
+            <Item title={t("productDesc")}>{parse(product.detail)}</Item>
           )}
         </div>
       </div>

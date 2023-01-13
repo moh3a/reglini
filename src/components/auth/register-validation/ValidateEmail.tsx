@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { trpc } from "@utils/trpc";
 import TextInput from "../../shared/Input";
+import { useTranslations } from "next-intl";
 
 const ValidateEmail = ({ setEmailValidation }: any) => {
   const [email, setEmail] = useState("");
@@ -57,11 +58,12 @@ const ValidateEmail = ({ setEmailValidation }: any) => {
       }
     );
   };
+  const t = useTranslations("AuthPage.register");
 
   return (
     <div className="my-3">
       <label htmlFor="email" className="block leading-relaxed">
-        Email Address
+        {t("email")}
       </label>
       <TextInput
         id="email"
