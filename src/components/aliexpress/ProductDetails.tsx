@@ -16,6 +16,8 @@ import AddToCart from "./details/AddToCart";
 import AddToWishlist from "./details/AddToWishlist";
 import { trpc } from "@utils/trpc";
 import { useTranslations } from "next-intl";
+import Head from "next/head";
+import { APP_NAME } from "@config/general";
 
 export interface SelectedVariation {
   sku: string;
@@ -134,6 +136,13 @@ const ProductDetails = ({ id }: { id: string }) => {
 
   return (
     <>
+      <Head>
+        <title>{`${
+          product.data && product.data.data
+            ? product.data.data.title.substring(0, 30) + "..."
+            : "Product"
+        } | Aliexpress | ${APP_NAME}`}</title>
+      </Head>
       {product.isLoading && (
         <div className="w-full flex justify-center items-center">
           <Loading size="large" />

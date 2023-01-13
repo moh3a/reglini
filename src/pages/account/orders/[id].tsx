@@ -19,7 +19,7 @@ const OrderDetailsPage = () => {
   return (
     <>
       <Head>
-        <title>{`Order details | ${APP_NAME}`}</title>
+        <title>{`Order ${id} details | ${APP_NAME}`}</title>
       </Head>
       {id && <OrderDetails id={id.toString()} />}
     </>

@@ -3,6 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { HomeIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
 
 import {
   BG_TRANSPARENT_BACKDROP,
@@ -37,12 +38,13 @@ const DeleteAccount = () => {
       },
     });
   };
+  const t = useTranslations("AccountPage.delete");
 
   return (
     <>
       <div className="text-center mx-8 lg:mx-32 my-60">
         <p className="mb-4 font-bold font-mono text-xl text-center">
-          Are you sure you want to delete your account? All data will be lost.
+          {t("prompt")}
         </p>
         <Button
           onClick={openModal}
@@ -51,7 +53,7 @@ const DeleteAccount = () => {
             <TrashIcon className="h-5 w-5 mr-1 inline" aria-hidden="true" />
           }
         >
-          Delete
+          {t("delete")}
         </Button>
         <br />
         <Link href={"/"}>
@@ -61,7 +63,7 @@ const DeleteAccount = () => {
               <HomeIcon className="h-5 w-5 mr-1 inline" aria-hidden="true" />
             }
           >
-            Go back home
+            {t("goHome")}
           </Button>
         </Link>
       </div>
@@ -107,9 +109,7 @@ const DeleteAccount = () => {
                     <Title title="DELETE YOUR ACCOUNT" />
                   </Dialog.Title>
                   <div className="mt-4">
-                    <p className="text-sm">
-                      All your data will be lost. This action is irreversible.
-                    </p>
+                    <p className="text-sm">{t("dataLoss")}</p>
                   </div>
 
                   <div className="mt-2">
@@ -123,7 +123,7 @@ const DeleteAccount = () => {
                         />
                       }
                     >
-                      Permanently Delete
+                      {t("permanentlyDelete")}
                     </Button>
                   </div>
                 </form>

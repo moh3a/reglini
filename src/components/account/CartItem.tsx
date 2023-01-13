@@ -8,6 +8,7 @@ import Button from "@components/shared/Button";
 import Banner from "@components/shared/Banner";
 import { AENOProduct } from "@reglini-types/index";
 import { trpc } from "@utils/trpc";
+import { useTranslations } from "next-intl";
 
 const CartItem = ({ item }: { item: AENOProduct }) => {
   const [message, setMessage] = useState<{
@@ -61,6 +62,7 @@ const CartItem = ({ item }: { item: AENOProduct }) => {
       }
     );
   };
+  const t = useTranslations("Common.cart");
 
   return (
     <>
@@ -87,7 +89,7 @@ const CartItem = ({ item }: { item: AENOProduct }) => {
               </Link>
             </h1>
             <p className={`text-aliexpress font-bold font-mono`}>
-              {item.price} DZD
+              {t("price", { price: item.price })}
             </p>
           </div>
 
@@ -123,18 +125,18 @@ const CartItem = ({ item }: { item: AENOProduct }) => {
           </div>
           <div className={`text-xs my-2`}>
             <p>
-              Shipping Carrier:{" "}
+              {t("shippingCarrier")}:{" "}
               <span className="px-2 font-bold">{item.carrierId}</span>
             </p>
             <p>
-              Shipping Price:
+              {t("shippingPrice")}:
               <span className={`px-2 font-bold font-mono`}>
-                {item.shippingPrice} DZD
+                {t("price", { price: item.shippingPrice })}
               </span>
             </p>
           </div>
           <div className={`flex items-center space-x-1 text-sm `}>
-            <p>Qty</p>
+            <p>{t("qty")}</p>
             <NumberInput
               value={item.quantity ?? 1}
               min={1}

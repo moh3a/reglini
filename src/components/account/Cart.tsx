@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
+import { useTranslations } from "next-intl";
 
 import CartItem from "./CartItem";
 import Button from "@components/shared/Button";
@@ -26,6 +27,7 @@ export default function Cart() {
       }
     },
   });
+  const t = useTranslations("Common.cart");
 
   return (
     <>
@@ -66,7 +68,7 @@ export default function Cart() {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="absolute inset-0 bg-gray-500 dark:bg-black dark:bg-opacity-80 bg-opacity-75 transition-opacity" />
+              <Dialog.Overlay className="absolute inset-0 transition-opacity bg-opacity-50 backdrop-blur-md" />
             </Transition.Child>
 
             <div className="fixed inset-y-0 right-0 pl-10 max-w-full flex">
@@ -86,7 +88,7 @@ export default function Cart() {
                     <div className="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
                       <div className="flex items-start justify-between">
                         <Dialog.Title className={`text-lg font-mono`}>
-                          Shopping cart
+                          {t("title")}
                         </Dialog.Title>
                         <div className="ml-3 h-7 flex items-center">
                           <Button
@@ -120,9 +122,7 @@ export default function Cart() {
                                 />
                               ))
                             ) : (
-                              <li className={`py-6 flex`}>
-                                Your cart is empty.
-                              </li>
+                              <li className={`py-6 flex`}>{t("empty")}</li>
                             )}
                           </ul>
                         </div>
@@ -133,13 +133,13 @@ export default function Cart() {
                       <div
                         className={`flex justify-between text-base font-medium font-mono`}
                       >
-                        <p>Subtotal</p>
-                        <p>{subtotal} DZD</p>
+                        <p>{t("subtotal")}</p>
+                        <p>{t("price", { price: subtotal })}</p>
                       </div>
                       <p
                         className={`mt-0.5 mb-5 text-sm font-mono text-center`}
                       >
-                        Shipping and total calculated at checkout.
+                        {t("atCheckout")}
                       </p>
                       <Link href="/account/orders/new?ref=cart" passHref>
                         <Button
@@ -147,18 +147,18 @@ export default function Cart() {
                           variant="solid"
                           onClick={() => setOpenCart(false)}
                         >
-                          Place Order
+                          {t("placeOrder")}
                         </Button>
                       </Link>
                       <div className="mt-6 flex justify-center text-sm text-center text-gray-800 dark:text-gray-100">
                         <p>
-                          or{" "}
+                          {t("or")}{" "}
                           <button
                             type="button"
                             className="text-gray-600 dark:text-gray-200 font-medium hover:text-gray-500 dark:hover:text-gray-300"
                             onClick={() => setOpenCart(false)}
                           >
-                            Continue Shopping
+                            {t("continueShopping")}
                             <span aria-hidden="true"> &rarr;</span>
                           </button>
                         </p>

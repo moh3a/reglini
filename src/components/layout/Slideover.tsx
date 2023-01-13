@@ -1,14 +1,23 @@
 import { Dispatch, Fragment, SetStateAction } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { Dialog, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowLeftOnRectangleIcon,
+  PowerIcon,
+  UserPlusIcon,
+  XMarkIcon,
+  Cog6ToothIcon,
+  Square3Stack3DIcon,
+} from "@heroicons/react/24/outline";
+import { HeartIcon } from "@heroicons/react/24/solid";
 import { useTranslations } from "next-intl";
 
 import DarkMode from "../DarkMode";
 import Language from "../Language";
 import { BG_GRADIENT } from "@config/design";
+import Button from "@components/shared/Button";
 
 export default function Slideover({
   open,
@@ -18,7 +27,7 @@ export default function Slideover({
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const { data: session } = useSession();
-  const t = useTranslations("Common.navigation");
+  const t = useTranslations("Common");
   const router = useRouter();
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -32,7 +41,7 @@ export default function Slideover({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
+          <div className="fixed inset-0 transition-opacity bg-opacity-50 backdrop-blur-md" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-hidden">
@@ -70,13 +79,114 @@ export default function Slideover({
                   </Transition.Child>
                   <div className="flex h-full flex-col bg-white dark:bg-grim py-6 shadow-xl">
                     <div className="px-4 sm:px-6">
-                      <Dialog.Title className="text-lg font-bold">
-                        Navigation
+                      <Dialog.Title className="text-lg font-bold font-mono">
+                        Account
                       </Dialog.Title>
                     </div>
                     <div className="relative mt-6 flex-1 px-4 sm:px-6">
                       {/* Replace with your content */}
                       <div className="absolute inset-0 px-4 sm:px-6">
+                        {session && session.user ? (
+                          <nav>
+                            <div>
+                              <Link href={"/account"}>
+                                <Button
+                                  icon={
+                                    <Cog6ToothIcon
+                                      className="inline h-5 w-5 mr-2"
+                                      aria-hidden="true"
+                                    />
+                                  }
+                                  variant="outline"
+                                >
+                                  {t("badge.account")}
+                                </Button>
+                              </Link>
+                            </div>
+                            <div>
+                              <Link href={"/account/wishlist"}>
+                                <Button
+                                  icon={
+                                    <HeartIcon
+                                      className="inline h-5 w-5 mr-2"
+                                      aria-hidden="true"
+                                    />
+                                  }
+                                  variant="outline"
+                                >
+                                  {t("badge.wishlist")}
+                                </Button>
+                              </Link>
+                            </div>
+                            <div>
+                              <Link href={"/account/orders"}>
+                                <Button
+                                  icon={
+                                    <Square3Stack3DIcon
+                                      className="inline h-5 w-5 mr-2"
+                                      aria-hidden="true"
+                                    />
+                                  }
+                                  variant="outline"
+                                >
+                                  {t("badge.orders")}
+                                </Button>
+                              </Link>
+                            </div>
+                            <div>
+                              <Button
+                                icon={
+                                  <PowerIcon
+                                    className="inline h-5 w-5 mr-2"
+                                    aria-hidden="true"
+                                  />
+                                }
+                                onClick={() => signOut()}
+                                variant="outline"
+                              >
+                                {t("badge.signOut")}
+                              </Button>
+                            </div>
+                          </nav>
+                        ) : (
+                          <nav>
+                            <div>
+                              <Link href={"/auth/login"}>
+                                <Button
+                                  icon={
+                                    <ArrowLeftOnRectangleIcon
+                                      className="inline h-5 w-5 mr-2"
+                                      aria-hidden="true"
+                                    />
+                                  }
+                                  variant="outline"
+                                >
+                                  {t("navigation.login")}
+                                </Button>
+                              </Link>
+                            </div>
+                            <div>
+                              <Link href={"/auth/register"}>
+                                <Button
+                                  icon={
+                                    <UserPlusIcon
+                                      className="inline h-5 w-5 mr-2"
+                                      aria-hidden="true"
+                                    />
+                                  }
+                                  variant="outline"
+                                >
+                                  {t("navigation.register")}
+                                </Button>
+                              </Link>
+                            </div>
+                          </nav>
+                        )}
+
+                        <h2 className="mt-8 font-mono font-bold text-lg px-4 sm:px-6">
+                          Navigation
+                        </h2>
+
                         <nav className="flex-col my-4">
                           <div
                             className={`mx-4 font-bold ${
@@ -85,7 +195,9 @@ export default function Slideover({
                                 : ""
                             }`}
                           >
-                            <Link href="/aliexpress">{t("aliexpress")}</Link>
+                            <Link href="/aliexpress">
+                              {t("navigation.aliexpress")}
+                            </Link>
                           </div>
                           <div
                             className={`mx-4 font-bold ${
@@ -94,7 +206,9 @@ export default function Slideover({
                                 : ""
                             }`}
                           >
-                            <Link href="/currency">{t("currency")}</Link>
+                            <Link href="/currency">
+                              {t("navigation.currency")}
+                            </Link>
                           </div>
                           <div
                             className={`mx-4 font-bold ${
@@ -103,7 +217,9 @@ export default function Slideover({
                                 : ""
                             }`}
                           >
-                            <Link href="/support">{t("support")}</Link>
+                            <Link href="/support">
+                              {t("navigation.support")}
+                            </Link>
                           </div>
                           <div
                             className={`mx-4 font-bold ${
@@ -112,7 +228,7 @@ export default function Slideover({
                                 : ""
                             }`}
                           >
-                            <Link href="/faq">{t("faq")}</Link>
+                            <Link href="/faq">{t("navigation.faq")}</Link>
                           </div>
                         </nav>
 

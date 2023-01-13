@@ -4,7 +4,7 @@ import Head from "next/head";
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
-import { NextIntlProvider, IntlErrorCode } from "next-intl";
+import { NextIntlProvider, IntlErrorCode, IntlError } from "next-intl";
 
 import type { AppType } from "next/dist/shared/lib/utils";
 import { trpc } from "@utils/trpc";
@@ -27,6 +27,7 @@ const MyApp: AppType<{
       <ThemeProvider attribute="class">
         <NextIntlProvider
           messages={messages}
+          onError={onError}
           getMessageFallback={getMessageFallback}
         >
           <SessionProvider session={session}>
@@ -41,9 +42,14 @@ const MyApp: AppType<{
 
 export default trpc.withTRPC(MyApp);
 
+function onError(error: IntlError) {
+  if (error.code === IntlErrorCode.MISSING_MESSAGE) {
+    console.error(error);
+  }
+}
+
 function getMessageFallback({ namespace, key, error }: any) {
   const path = [namespace, key].filter((part) => part != null).join(".");
-
   if (error.code === IntlErrorCode.MISSING_MESSAGE) {
     return `${path} is not yet translated`;
   } else {

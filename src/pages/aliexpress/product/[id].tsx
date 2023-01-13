@@ -1,22 +1,13 @@
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 
-import { APP_NAME } from "@config/general";
 import ProductDetails from "@components/aliexpress_v2/ProductDetails";
 
 const AliexpressProductPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  return (
-    <>
-      <Head>
-        <title>{`Product | Aliexpress | ${APP_NAME}`}</title>
-      </Head>
-      {id && <ProductDetails id={parseInt(id.toString())} />}
-    </>
-  );
+  return <>{id && <ProductDetails id={parseInt(id.toString())} />}</>;
 };
 
 import { pick } from "lodash";

@@ -1,11 +1,45 @@
 {
   "Common": {
+    "cart": {
+      "title": "Shopping cart",
+      "empty": "Your cart is empty.",
+      "price": "{price} DZD",
+      "shippingCarrier": "Shipping Carrier",
+      "shippingPrice": "Shipping Price",
+      "qty": "Qty",
+      "subtotal": "Subtotal",
+      "atCheckout": "Shipping and total calculated at checkout.",
+      "placeOrder": "Place Order",
+      "or": "or",
+      "continueShopping": "Continue Shopping"
+    },
+    "navigation": {
+      "aliexpress": "Aliexpress",
+      "currency": "Currency Exchange",
+      "support": "Support",
+      "faq": "FAQ",
+      "login": "Login",
+      "register": "Register"
+    },
     "badge": {
       "title": "Login",
       "account": "Account",
       "wishlist": "Your wishlist",
       "orders": "Your orders",
       "signOut": "Sign out"
+    }
+  },
+  "AccountPage": {
+    "wishlist": "Wishlist",
+    "empty": "Such empty!",
+    "price": "{price} DZD",
+    "details": "View Details",
+    "delete": {
+      "prompt": "Are you sure you want to delete your account? All data will be lost.",
+      "delete": "Delete",
+      "permanentlyDelete": "Permanently Delete",
+      "goHome": "Go back home",
+      "dataLoss": "All your data will be lost. This action is irreversible."
     }
   },
   "AliexpressPage": {

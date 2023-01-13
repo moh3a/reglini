@@ -17,6 +17,7 @@ import Language from "../Language";
 import Button from "../shared/Button";
 import Cart from "@components/account/Cart";
 import SearchButton from "@components/aliexpress/SearchButton";
+import { APP_NAME } from "@config/general";
 
 const Navbar = () => {
   const [sideOpen, setSideOpen] = useState(false);
@@ -39,7 +40,7 @@ const Navbar = () => {
         <Slideover open={sideOpen} setOpen={setSideOpen} />
         <div className="flex-1 flex justify-center relative bottom-2 lg:flex-none">
           <Link href="/" passHref>
-            <span className="sr-only">reglini-dz</span>
+            <span className="sr-only">{APP_NAME}</span>
             <Logo width="40" height="40" />
           </Link>
         </div>
