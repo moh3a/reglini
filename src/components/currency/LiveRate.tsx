@@ -20,14 +20,14 @@ const LiveRate = () => {
           <div className="py-8 lg:py-16 px-4 flex flex-col items-center">
             <h1 className="text-center text-xl lg:text-4xl font-bold">
               {t.rich("intro", {
-                market: "parallel",
+                market: t("parallel"),
                 highlight: (chunks) => (
                   <span className={TEXT_GRADIENT}>{chunks}</span>
                 ),
               })}
             </h1>
             <div className="text-xs lg:text-sm">
-              {t("desc", { market: "parallel" })}
+              {t("desc", { market: t("parallel") })}
             </div>
             <h2 className="text-lg lg:text-xl font-semibold underline font-mono">
               {t("purchase")}
@@ -57,14 +57,14 @@ const LiveRate = () => {
           <div className="py-8 lg:py-16 px-4 flex flex-col items-center">
             <h1 className="text-center text-xl lg:text-4xl font-bold">
               {t.rich("intro", {
-                market: "official",
+                market: t("official"),
                 highlight: (chunks) => (
                   <span className={TEXT_GRADIENT}>{chunks}</span>
                 ),
               })}
             </h1>
             <div className="text-xs lg:text-sm">
-              {t("desc", { market: "official" })}
+              {t("desc", { market: t("official") })}
             </div>
             <div className="grid grid-cols-3 gap-x-3 md:gap-x-6 select-none">
               {currencies.data.currencies.map((currency) => (

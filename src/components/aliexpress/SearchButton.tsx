@@ -6,6 +6,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 import Button from "@components/shared/Button";
 import { ROUNDED, TEXT_INPUT } from "@config/design";
+import { useTranslations } from "next-intl";
 
 const SearchButton = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,6 +25,8 @@ const SearchButton = () => {
     setIsOpen(false);
     setUrl("");
   };
+
+  const t = useTranslations("Common.aliexpress");
 
   return (
     <>
@@ -70,7 +73,7 @@ const SearchButton = () => {
                   >
                     <input
                       className={`w-full py-2 pl-7 pr-7 ${TEXT_INPUT} `}
-                      placeholder="Search Aliexpress"
+                      placeholder={t("search")}
                       value={url}
                       onChange={(e) => setUrl(e.target.value)}
                       autoComplete="off"

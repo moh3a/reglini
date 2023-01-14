@@ -1,5 +1,6 @@
 {
   "Common": {
+    "aliexpress": { "search": "Search Aliexpress" },
     "cart": {
       "title": "Shopping cart",
       "empty": "Your cart is empty.",
@@ -33,13 +34,131 @@
     "wishlist": "Wishlist",
     "empty": "Such empty!",
     "price": "{price} DZD",
-    "details": "View Details",
+    "viewDetails": "View Details",
+    "details": {
+      "title": "Account Information",
+      "subtitle": "Personal details.",
+      "profilePicture": {
+        "title": "Profile picture",
+        "desc": "generate a new avatar or upload a local image",
+        "upload": "upload",
+        "generate": "generate"
+      },
+      "address": {
+        "title": "Address",
+        "wilaya": "Wilaya",
+        "daira": "Daira",
+        "city": "City",
+        "streetName": "Street name",
+        "postalCode": "Postal code"
+      },
+      "loading": "loading",
+      "cancel": "cancel",
+      "save": "save",
+      "edit": "edit",
+      "username": "Username",
+      "email": "Email",
+      "verified": "Email address verified",
+      "fullName": "Full name",
+      "phoneNumber": "Phone number",
+      "deleteAccount": "Delete your account",
+      "danger": "DANGER! All data will be permanently lost."
+    },
     "delete": {
       "prompt": "Are you sure you want to delete your account? All data will be lost.",
       "delete": "Delete",
       "permanentlyDelete": "Permanently Delete",
       "goHome": "Go back home",
       "dataLoss": "All your data will be lost. This action is irreversible."
+    },
+    "orders": {
+      "title": "Your orders",
+      "orderId": "Order ID",
+      "price": "{price} DZD",
+      "status": {
+        "paid": "ORDER PAID",
+        "awaiting": "AWAITING PAYMENT",
+        "cancelled": "ORDER CANCELLED"
+      },
+      "empty": "You have no orders!",
+      "paymentTimout": "A payment should be submitted in less than 3 days or the order will be automatically cancelled. You can pay once the order was created.",
+      "product": {
+        "title": "Products",
+        "productPrice": "Product price",
+        "shippingPrice": "Shipping price",
+        "quantity": "Quantity",
+        "total": "Total",
+        "placeOrder": "Place your order"
+      },
+      "validation": {
+        "addPhoneNumber": "Add a phone number.",
+        "addName": "Add your real identity name.",
+        "addAddress": "Add a shipping address."
+      },
+      "orderInfo": "Order info",
+      "orderDate": "Order date",
+      "orderStatus": {
+        "title": "Status",
+        "awaitingPayment": "Awaiting payment",
+        "awaitingPaymentConfirmation": "Awaiting payment confirmation",
+        "awaitingShipment": "Awaiting shipment",
+        "awaitingReceptionConfirmation": "Awaiting reception confirmation",
+        "finished": "Finished"
+      },
+      "paymentInfo": "Payment info",
+      "paymentStatus": {
+        "title": "Status",
+        "awaitingConfirmation": "Awaiting confirmation",
+        "confirmed": "Payment confirmed",
+        "declined": "Payment declined"
+      },
+      "receipt": "Receipt",
+      "productInfo": "Product info",
+      "productId": "Product ID",
+      "addressInfo": "Address info",
+      "actions": {
+        "cancel": "Cancel order",
+        "pay": "Pay",
+        "track": "Track order",
+        "confirm": "Confirm receipt"
+      },
+      "cancel": {
+        "question": "Are you sure you want to cancel this order?",
+        "yes": "Yes",
+        "no": "No"
+      },
+      "track": {
+        "trackingId": "Tracking ID",
+        "shippedBy": "The product will be shipped from China to Algeria by {service}",
+        "close": "Close"
+      },
+      "received": {
+        "title": "Package received",
+        "desc": "Have you successfully received your package? Take a clear picture of the package you received.",
+        "upload": "upload",
+        "feedback": "Feedback",
+        "appreciated": "Your feedback for our service would be appreciated !",
+        "rate": "How would you rate our service?",
+        "feedbackPlaceholder": "Leave a feedback message (optional)",
+        "cancel": "Cancel",
+        "send": "Send Feedback"
+      },
+      "pay": {
+        "amountToBePaid": "The total amount to be paid is <highlight>{price} DZD</highlight>",
+        "paymentMethod": "Choose your payment method",
+        "howToPay": "Click here to learn how to pay",
+        "ccp": {
+          "desc": "The CCP payment is made to the following account",
+          "name": "Name: <bold>{name}</bold>",
+          "id": "Account Number (CCP): <bold>{id}</bold>"
+        },
+        "cib": {
+          "desc": "For a transaction in CIB, the payment is made to the following account number (RIB)"
+        },
+        "upload": "Upload receipt",
+        "cancel": "Cancel",
+        "send": "Send Payment"
+      }
     }
   },
   "AliexpressPage": {
@@ -121,7 +240,10 @@
       "intro": "Algerian Dinars (DZD) in the <highlight>{market}</highlight> market",
       "desc": "Here we give you the daily prices of the big foreign currencies in the algerian {market} market.",
       "purchase": "purchase",
-      "sale": "sale"
+      "sale": "sale",
+      "parallel": "parallel",
+      "official": "official",
+      "updated": "Updated"
     },
     "historical": {
       "comingSoon": "Coming soon"

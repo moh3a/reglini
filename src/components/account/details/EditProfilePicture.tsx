@@ -5,13 +5,14 @@ import {
   PencilIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import axios, { AxiosRequestConfig } from "axios";
+import { useTranslations } from "next-intl";
 
 import { BG_TRANSPARENT_BACKDROP, SHADOW } from "@config/design";
 import Button from "@components/shared/Button";
 import Banner from "@components/shared/Banner";
-import { trpc } from "@utils/trpc";
 import Loading from "@components/shared/Loading";
-import axios, { AxiosRequestConfig } from "axios";
+import { trpc } from "@utils/trpc";
 
 /* eslint-disable @next/next/no-img-element */
 const EditProfilePicture = ({
@@ -119,12 +120,14 @@ const EditProfilePicture = ({
     setLoading(false);
   };
 
+  const t = useTranslations("AccountPage.details");
+
   return (
     <>
       {message.type && <Banner type={message.type} message={message.text} />}
       {loading && (
         <span className="font-mono text-sm">
-          <Loading size="small" /> loading...
+          <Loading size="small" /> {t("loading")}...
         </span>
       )}
       {progress !== 0 && (
@@ -142,9 +145,7 @@ const EditProfilePicture = ({
           <div className="flex justify-between items-center">
             <div className="flex-1">
               {!newPicType && (
-                <div className="font-mono">
-                  generate a new avatar or upload a local image
-                </div>
+                <div className="font-mono">{t("profilePicture.desc")}</div>
               )}
               <div className="truncate">
                 <img
@@ -173,7 +174,7 @@ const EditProfilePicture = ({
                     )
                   }
                 >
-                  upload
+                  {t("profilePicture.upload")}
                 </Button>
                 <input
                   accept="image/*"
@@ -206,7 +207,7 @@ const EditProfilePicture = ({
                     )
                   }
                 >
-                  generate
+                  {t("profilePicture.generate")}
                 </Button>
               </div>
             </div>
@@ -220,7 +221,7 @@ const EditProfilePicture = ({
               onClick={() => setEdit(false)}
               type="button"
             >
-              cancel
+              {t("cancel")}
             </Button>
           </div>
           <div>
@@ -234,7 +235,7 @@ const EditProfilePicture = ({
               }
               type="submit"
             >
-              save {field}
+              {t("save")} {field}
             </Button>
           </div>
         </form>
@@ -254,7 +255,7 @@ const EditProfilePicture = ({
             }
             onClick={() => setEdit(true)}
           >
-            edit {field}
+            {t("edit")} {field}
           </Button>
         </>
       )}

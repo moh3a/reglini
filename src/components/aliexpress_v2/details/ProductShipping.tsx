@@ -27,6 +27,7 @@ const ProductShipping = ({
   shipping,
   setSelectedShipping,
 }: ProductShipping) => {
+  const t = useTranslations("AliexpressPage");
   const { usd, commission } = useFinance();
   const [selected, setSelected] = useState(
     shipping.result.aeop_freight_calculate_result_for_buyer_d_t_o_list[0]
@@ -34,7 +35,6 @@ const ProductShipping = ({
   useEffect(() => {
     if (selected) setSelectedShipping(selected);
   }, [selected, setSelectedShipping]);
-  const t = useTranslations("AliexpressPage");
 
   return (
     <div className={`text-left z-10 mt-4`}>

@@ -69,6 +69,7 @@ const Logo = ({ width, height, loading }: any) => {
                   fill="#e0e0e0"
                   fillOpacity="1"
                   fontSize="36px"
+                  fontWeight={500}
                 >
                   <tspan x="-0.7368" y="40.9041">
                     r

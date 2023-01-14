@@ -15,6 +15,7 @@ import TextInput from "@components/shared/Input";
 import Banner from "@components/shared/Banner";
 import Loading from "@components/shared/Loading";
 import { trpc } from "@utils/trpc";
+import { useTranslations } from "next-intl";
 
 const EditAddress = ({
   field,
@@ -95,12 +96,14 @@ const EditAddress = ({
     }
   };
 
+  const t = useTranslations("AccountPage.details");
+
   return (
     <>
       {message.type && <Banner type={message.type} message={message.text} />}
       {loading && (
         <span className="font-mono text-sm">
-          <Loading size="small" /> loading...
+          <Loading size="small" /> {t("loading")}...
         </span>
       )}
       {edit ? (
@@ -130,7 +133,7 @@ const EditAddress = ({
           )}
           {postalCode && (
             <div className="my-1">
-              <div className="font-mono">Street Name</div>
+              <div className="font-mono">{t("address.streetName")}</div>
               <TextInput
                 value={streetName}
                 setValue={setStreetName}
@@ -146,7 +149,7 @@ const EditAddress = ({
               }
               onClick={() => setEdit(false)}
             >
-              cancel
+              {t("cancel")}
             </Button>
           </div>
           <div>
@@ -160,7 +163,7 @@ const EditAddress = ({
               }
               type="submit"
             >
-              save {field}
+              {t("save")} {field}
             </Button>
           </div>
         </form>
@@ -174,7 +177,7 @@ const EditAddress = ({
             }
             onClick={() => setEdit(true)}
           >
-            edit {field}
+            {t("edit")} {field}
           </Button>
         </>
       )}

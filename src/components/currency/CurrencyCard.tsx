@@ -2,6 +2,7 @@
 import { Fragment } from "react";
 import { Currency } from "@prisma/client";
 import { BG_TRANSPARENT_BACKDROP, SHADOW } from "@config/design";
+import { useTranslations } from "next-intl";
 
 const CurrencyCard = ({
   currency,
@@ -10,6 +11,7 @@ const CurrencyCard = ({
   currency: Currency;
   market: "parallel_purchase" | "parallel_sale" | "official_rate";
 }) => {
+  const t = useTranslations("CurrencyPage.liveRate");
   return (
     <Fragment key={currency.id}>
       <div
@@ -36,7 +38,7 @@ const CurrencyCard = ({
           )}
         </div>
         <small className="text-xs">
-          Updated: {currency.date.toISOString().substring(0, 10)}
+          {t("updated")}: {currency.date.toISOString().substring(0, 10)}
         </small>
         <div className="flex flex-col justify-start">
           <p className="text-gray-700 dark:text-gray-100 text-4xl text-left font-bold my-4">

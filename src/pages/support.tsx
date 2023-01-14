@@ -1,6 +1,5 @@
 import { GetStaticProps } from "next";
 import Head from "next/head";
-import pick from "lodash/pick";
 import { useTranslations } from "next-intl";
 
 import { APP_NAME } from "@config/general";
@@ -18,15 +17,10 @@ const SupportPage = () => {
   );
 };
 
-const namespaces = ["SupportPage", "Common"];
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const messages = pick(
-    (await import(`../../messages/${locale}.json`)).default,
-    namespaces
-  );
   return {
     props: {
-      messages,
+      messages: (await import(`../../messages/${locale}.json`)).default,
     },
   };
 };

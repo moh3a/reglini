@@ -1,78 +1,197 @@
 {
   "Common": {
+    "aliexpress": { "search": "Recherchez sur Aliexpress" },
     "cart": {
-      "title": "Shopping cart",
-      "empty": "Your cart is empty.",
+      "title": "Panier",
+      "empty": "Votre panier est vide.",
       "price": "{price} DZD",
-      "shippingCarrier": "Shipping Carrier",
-      "shippingPrice": "Shipping Price",
-      "qty": "Qty",
-      "subtotal": "Subtotal",
-      "atCheckout": "Shipping and total calculated at checkout.",
-      "placeOrder": "Place Order",
-      "or": "or",
-      "continueShopping": "Continue Shopping"
+      "shippingCarrier": "Transporteur maritime",
+      "shippingPrice": "Prix de l'expédition",
+      "qty": "Qté",
+      "subtotal": "Sous-total",
+      "atCheckout": "La livraison et le total sont calculés à la caisse.",
+      "placeOrder": "Passer la commande",
+      "or": "ou",
+      "continueShopping": "Continuer vos achats"
     },
     "navigation": {
       "aliexpress": "Aliexpress",
-      "currency": "Currency Exchange",
+      "currency": "Échange de devises",
       "support": "Support",
       "faq": "FAQ",
-      "login": "Login",
-      "register": "Register"
+      "login": "Se connecter",
+      "register": "S'inscrire"
     },
     "badge": {
-      "title": "Login",
-      "account": "Account",
-      "wishlist": "Your wishlist",
-      "orders": "Your orders",
-      "signOut": "Sign out"
+      "title": "Se connecter",
+      "account": "Compte",
+      "wishlist": "Votre wishlist",
+      "orders": "Vos commandes",
+      "signOut": "Se déconnecter"
     }
   },
   "AccountPage": {
     "wishlist": "Wishlist",
-    "empty": "Such empty!",
+    "empty": "Tellement vide !",
     "price": "{price} DZD",
-    "details": "View Details",
+    "viewDetails": "Voir les détails",
+    "details": {
+      "title": "Informations sur le compte",
+      "subtitle": "Détails personnels.",
+      "profilePicture": {
+        "title": "Photo de profil",
+        "desc": "générer un nouvel avatar ou télécharger une image locale",
+        "upload": "télécharger",
+        "generate": "générer"
+      },
+      "address": {
+        "title": "Adresse",
+        "wilaya": "Wilaya",
+        "daira": "Daira",
+        "city": "Ville",
+        "streetName": "Nom de rue",
+        "postalCode": "Code postal"
+      },
+      "loading": "chargement",
+      "cancel": "annuler",
+      "save": "sauvegarder",
+      "edit": "modifier",
+      "username": "Nom d'utilisateur",
+      "email": "Email",
+      "verified": "Adresse e-mail vérifiée",
+      "fullName": "Nom et prénom",
+      "phoneNumber": "Numéro de téléphone",
+      "deleteAccount": "Supprimer votre compte",
+      "danger": "DANGER! Toutes vos données seront définitivement perdues."
+    },
     "delete": {
-      "prompt": "Are you sure you want to delete your account? All data will be lost.",
-      "delete": "Delete",
-      "permanentlyDelete": "Permanently Delete",
+      "prompt": "Êtes-vous sûr de vouloir supprimer votre compte? Toutes les données seront perdues.",
+      "delete": "Supprimer",
+      "permanentlyDelete": "Supprimer définitivement",
       "goHome": "Go back home",
-      "dataLoss": "All your data will be lost. This action is irreversible."
+      "dataLoss": "Toutes vos données seront perdues. Cette action est irréversible."
+    },
+    "orders": {
+      "title": "Vos commandes",
+      "orderId": "ID de commande",
+      "price": "{price} DZD",
+      "status": {
+        "paid": "COMMANDE PAYÉE",
+        "awaiting": "EN ATTENTE DE PAIEMENT",
+        "cancelled": "COMMANDE ANNULÉE"
+      },
+      "empty": "Vous n'avez pas de commandes!",
+      "paymentTimout": "Un paiement doit être soumis en moins de 3 jours ou la commande sera automatiquement annulée. Vous pouvez payer une fois la commande créée.",
+      "product": {
+        "title": "Produits",
+        "productPrice": "Prix du produit",
+        "shippingPrice": "Prix de l'expédition",
+        "quantity": "Quantité",
+        "total": "Total",
+        "placeOrder": "Passer votre commande"
+      },
+      "validation": {
+        "addPhoneNumber": "Ajoutez un numéro de téléphone.",
+        "addName": "Ajoutez votre vrai nom d'identité.",
+        "addAddress": "Ajoutez une adresse de livraison."
+      },
+      "orderInfo": "Info. commande",
+      "orderDate": "Date de commande",
+      "orderStatus": {
+        "title": "Statut",
+        "awaitingPayment": "En attente de paiement",
+        "awaitingPaymentConfirmation": "En attente de confirmation de paiement",
+        "awaitingShipment": "En attente d'expédition",
+        "awaitingReceptionConfirmation": "En attente de confirmation de réception",
+        "finished": "Finie"
+      },
+      "paymentInfo": "Info. paiement",
+      "paymentStatus": {
+        "title": "Statut",
+        "awaitingConfirmation": "En attente de confirmation",
+        "confirmed": "Paiement accepté",
+        "declined": "Paiement refusé"
+      },
+      "receipt": "Reçu",
+      "productInfo": "Info. produit",
+      "productId": "ID du produit",
+      "addressInfo": "Info. adresse",
+      "actions": {
+        "cancel": "Annuler la commande",
+        "pay": "Payer",
+        "track": "Suivi de commande",
+        "confirm": "Confirmer la réception"
+      },
+      "cancel": {
+        "question": "Voulez-vous vraiment annuler cette commande?",
+        "yes": "Oui",
+        "no": "Non"
+      },
+      "track": {
+        "trackingId": "ID de suivi",
+        "shippedBy": "Le produit sera expédié de Chine en Algérie par {service}",
+        "close": "Fermer"
+      },
+      "received": {
+        "title": "Colis reçu",
+        "desc": "Avez-vous bien reçu votre colis ? Prenez une photo claire du colis que vous avez reçu.",
+        "upload": "télécharger",
+        "feedback": "Feedback",
+        "appreciated": "Votre feedback pour notre service serait apprécié!",
+        "rate": "Comment évalueriez-vous notre service ?",
+        "feedbackPlaceholder": "Laisser un commentaire (facultatif)",
+        "cancel": "Annuler",
+        "send": "Envoyer"
+      },
+      "pay": {
+        "amountToBePaid": "Le montant total à payer est <highlight>{price} DZD</highlight>",
+        "paymentMethod": "Choisissez votre méthode de paiement",
+        "howToPay": "Cliquez ici pour savoir comment payer",
+        "ccp": {
+          "desc": "Le paiement CCP est effectué sur le compte suivant",
+          "name": "Nom: <bold>{name}</bold>",
+          "id": "Numéro de compte (CCP): <bold>{id}</bold>"
+        },
+        "cib": {
+          "desc": "Pour une transaction en CIB, le paiement s'effectue sur le numéro de compte suivant (RIB)"
+        },
+        "upload": "Télécharger le reçu",
+        "cancel": "Annuler",
+        "send": "Envoyer le paiement"
+      }
     }
   },
   "AliexpressPage": {
-    "hereStartsEverything": "Here starts everything",
-    "betweenYourHands": "between your hands",
-    "cart": "Cart",
-    "buy": "Buy",
+    "hereStartsEverything": "Ici commence tout",
+    "betweenYourHands": "entre vos mains",
+    "cart": "Panier",
+    "buy": "Acheter",
     "wishlist": "Wishlist",
-    "category": "Category",
-    "categoryId": "Category ID",
+    "category": "Catégorie",
+    "categoryId": "ID de catégorie",
     "price": "{price} DZD",
     "shipping": {
-      "carriers": "Shipping Carriers",
-      "shippingAvailable": "Item available for shipping to Algeria.",
-      "shippingNotAvailable": "Item not available for shipping to Algeria.",
-      "deliveredIn": "Delivered in {time} days"
+      "carriers": "Transporteurs",
+      "shippingAvailable": "Article disponible pour expédition en Algérie.",
+      "shippingNotAvailable": "Article non disponible pour l'expédition en Algérie.",
+      "deliveredIn": "Livré en {time} jours"
     },
     "quantity": {
-      "title": "Quantity",
-      "available": "available",
-      "outOfStock": "Out of stock"
+      "title": "Quantité",
+      "available": "disponible(s)",
+      "outOfStock": "Rupture de stock"
     },
     "reviews": {
-      "title": "Reviews",
-      "orders": "Orders"
+      "title": "Commentaires",
+      "orders": "Commandes"
     },
     "features": {
-      "productSpecs": "Product Specifications",
-      "sellerDetails": "Seller Details",
-      "productDesc": "Seller's Product Description"
+      "productSpecs": "Spécifications du produit",
+      "sellerDetails": "Détails du vendeur",
+      "productDesc": "Description du produit du vendeur"
     },
     "store": {
-      "title": "Store info",
+      "title": "Informations sur le magasin",
       "communication": "Communication Rating",
       "item": "Items as Described Rating",
       "speed": "Shipping Speed Rating"
@@ -80,114 +199,117 @@
   },
   "AuthPage": {
     "forgotPassword": {
-      "title": "Forgot your password?",
-      "desc": "Please enter the email address you registered your account with. We will send you a password reset link. Follow the link and set your new password.",
-      "email": "Email address",
-      "send": "Send Email!"
+      "title": "Mot de passe oublié?",
+      "desc": "Veuillez saisir l'adresse e-mail avec laquelle vous avez enregistré votre compte. Nous vous enverrons un lien de réinitialisation du mot de passe. Suivez le lien et définissez votre nouveau mot de passe.",
+      "email": "Adresse e-mail",
+      "send": "Envoyez l'e-mail!"
     },
     "register": {
-      "title": "Register a new account",
-      "socialMedia": "or sign up with Social Media",
-      "username": "Username",
-      "email": "Email address",
-      "password": "Password",
-      "passwordConfirm": "Confirm password",
-      "confirmed": "Password confirmed!",
-      "notConfirmed": "Passwords do not match..1",
-      "correctIt": "Fill the register form to submit.",
-      "haveAccount": "Already have an account?",
-      "signIn": "Sign in.",
-      "submit": "Set new password!"
+      "title": "Créer un nouveau compte",
+      "socialMedia": "ou inscrivez-vous avec les Social Media",
+      "username": "Nom d'utilisateur",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "passwordConfirm": "Confirmez le mot de passe",
+      "confirmed": "Mot de passe confirmé!",
+      "notConfirmed": "Les mots de passe ne correspondent pas..",
+      "correctIt": "Remplissez le formulaire d'inscription pour le soumettre.",
+      "haveAccount": "Vous avez déjà un compte?",
+      "signIn": "S'identifier.",
+      "submit": "Definir un nouveau mot de passe!"
     },
     "login": {
-      "title": "Login",
-      "socialMedia": "or login with Social Media",
-      "email": "Email address",
-      "password": "Password",
-      "correctIt": "Correctly fill the login form to submit.",
-      "dontHaveAccount": "Don't have an account?",
-      "createOne": "Create one."
+      "title": "Se connecter",
+      "socialMedia": "ou connectez-vous avec les Social Media",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "correctIt": "Remplissez correctement le formulaire de connexion pour le soumettre.",
+      "dontHaveAccount": "Vous n'avez pas de compte?",
+      "createOne": "Créer un compte."
     },
     "providers": {
-      "continue": "Continue with {provider}"
+      "continue": "Continuer avec {provider}"
     },
     "resetYourPassword": {
-      "title": "Reset your password"
+      "title": "Réinitialisez votre mot de passe"
     }
   },
   "CurrencyPage": {
-    "title": "Currency exchange in the algerian market",
+    "title": "Change de devises sur le marché algérien",
     "liveRate": {
-      "intro": "Algerian Dinars (DZD) in the <highlight>{market}</highlight> market",
-      "desc": "Here we give you the daily prices of the big foreign currencies in the algerian {market} market.",
-      "purchase": "purchase",
-      "sale": "sale"
+      "intro": "Dinars algériens (DZD) sur le marché <highlight>{market}</highlight>",
+      "desc": "Ici, nous vous donnons les prix des grandes devises étrangères sur le marché {market} algérien.",
+      "purchase": "achat",
+      "sale": "vente",
+      "parallel": "parallèle",
+      "official": "officiel",
+      "updated": "Mis à jour"
     },
     "historical": {
       "comingSoon": "Coming soon"
     },
     "convertCurrency": {
-      "intro": "Convert <gradient>DZD</gradient> to <highlight>{exchange}</highlight> with the parallel market rates."
+      "intro": "Convertissez <gradient>DZD</gradient> en <highlight>{exchange}</highlight> avec les taux du marché parallèle."
     }
   },
   "IndexPage": {
-    "hello": "Hello {user}"
+    "hello": "Salut {user}"
   },
   "SupportPage": {
-    "title": "Get in touch",
-    "subtitle": "Your feedback is the most welcome.",
+    "title": "Entrez en contact",
+    "subtitle": "Votre feedback est le bienvenu.",
     "contact": {
-      "address": "Algiers, DZ",
+      "address": "Alger, DZ",
       "phoneNumber": "+213540861775",
       "email": "support@reglini-dz.com"
     },
     "directToFaq": {
-      "youHaveAQuestion": "You have a question? We may have answered it already.",
-      "checkoutAnswer": "Checkout the frequently asked questions"
+      "youHaveAQuestion": "Vous avez une question? Nous y avons peut-être déjà répondu.",
+      "checkoutAnswer": "Consultez les FAQ"
     },
     "form": {
-      "emailSubject": "Email subject",
+      "emailSubject": "Titre de l'email",
       "message": "Message",
-      "send": "Send Message"
+      "send": "Envoyer le message"
     }
   },
   "FAQPage": {
     "f1": {
-      "question": "What is the purpose of this app?",
-      "answer": "AliExpress is one of the biggest online retail services based in China that offer products to international online buyers. While algerians are starting to use it, it is yet to be mainstream. And that's for many reasons, one of which is harsh algerian customs that imposes many rules on product imports. Another reason is that AliExpress only accepts major foreign currencies as payments. That is why we offer you to purchase from AliExpress and have it shipped to your town, using the local algerian dinars."
+      "question": "Quel est le but de cette application ?",
+      "answer": "AliExpress est l'un des plus grands services de vente au détail en ligne basé en Chine qui propose des produits aux acheteurs en ligne internationaux. Alors que les algériens commencent à l'utiliser, il n'est pas encore devenu courant. Et cela pour de nombreuses raisons, dont l'une est les coutumes algériennes sévères qui imposent de nombreuses règles sur les importations de produits. Une autre raison est qu'AliExpress n'accepte que les principales devises étrangères comme moyen de paiement. C'est pourquoi nous vous proposons d'acheter sur AliExpress et de le faire livrer dans votre ville, en utilisant les dinars algériens locaux."
     },
     "f2": {
-      "question": "Why order from reglini-dz?",
-      "answer": "There are several Algerian online services that take customer requests and take care of ordering and paying Aliexpress while receiving their payments in DZD. Basically this is also what reglini-dz does, but also allows a great user experience, who has full access to products, orders and package tracking. All this is automatic and without the need for intermediary help."
+      "question": "Pourquoi commander chez reglini-dz ?",
+      "answer": "Il existe plusieurs services en ligne algériens qui prennent les demandes des clients et se chargent de commander et de payer Aliexpress tout en recevant leurs paiements en DZD. Fondamentalement, c'est aussi ce que fait reglini-dz, mais permet également une excellente expérience utilisateur, qui a un accès complet aux produits, aux commandes et au suivi des colis. Tout cela est automatique et sans besoin d'aide intermédiaire."
     },
     "f3": {
-      "question": "How does ordering from reglini-dz work?",
-      "item1": "First you find an item that you like, check if it can be shipped to Algeria and at what price.",
-      "item2": "Select the properties of the item then add it to cart, or even directly buy it.",
-      "item3": "Buying an item is submitting an order, that needs the real legal name and the full correct address and phone number of the buyer.",
-      "item4": "If all the informations are validated, an order is created. The buyer then has 48 hours to submit a payment with the order's total amount. If no payment was submitted in 48 hours, the order will be automatically cancelled.",
-      "item5": "The payment should be once and with the total amount.",
-      "item6": "After the payment was submitted and validated, you can then check the status of your order, and even see the tracking of your item -if your product's carrier provides it."
+      "question": "Comment fonctionne la commande auprès de reglini-dz ?",
+      "item1": "Vous trouvez d'abord un article qui vous plaît, vérifiez s'il peut être expédié en Algérie et à quel prix.",
+      "item2": "Sélectionnez les propriétés de l'article puis ajoutez-le au panier, ou même achetez-le directement.",
+      "item3": "L'achat d'un article consiste à soumettre une commande, qui nécessite le vrai nom légal ainsi que l'adresse et le numéro de téléphone complets et corrects de l'acheteur.",
+      "item4": "Si toutes les informations sont validées, une commande est créée. L'acheteur dispose alors d'un délai de 48 heures pour effectuer le règlement du montant total de la commande. Si aucun paiement n'a été effectué dans les 72 heures, la commande sera automatiquement annulée.",
+      "item5": "Le paiement doit être unique et avec le montant total.",
+      "item6": "Une fois le paiement soumis et validé, vous pouvez alors vérifier l'état de votre commande, et même voir le suivi de votre article -si le transporteur de votre produit le fournit."
     },
     "f4": {
-      "question": "How to make a payment via CCP?",
-      "answer": "<div>At the counter of any post office, and on a unique SFP01 form available at the counter or <a href=\"https://www.poste.dz/\" target=\"_blank\" rel=\"noreferrer\">downloadable from the Internet</a>. The payment requires a description of the beneficiary's CCP account number and key on the SFP01 and a cash remittance of the payment amount at the counter.</div><br /><div><p>Name: AIT ABDELMALEK MOHAMED ALI</p><p>CCP number and key: 0020008646 key 02</p></div>"
+      "question": "Comment effectuer un paiement via CCP?",
+      "answer": "<div>Au guichet de n'importe quel bureau de poste, et sur un formulaire unique SFP01 disponible au guichet ou <a href=\"https://www.poste.dz/\" target=\"_blank\" rel=\"noreferrer\">téléchargeable sur Internet</a>. . Le versement nécessite une description du numéro et de la clé de compte CCP du bénéficiaire sur le SFP01 et une remise en espèces du montant de versement au guichet.</div><br /><div><p>Nom: AIT ABDELMALEK MOHAMED ALI</p><p>Numéro et clé CCP: 0020008646 key 02</p></div>"
     },
     "f5": {
-      "question": "How does a transaction via CIB work?",
-      "answer": "<p>If you have a CIB, you can make payments online safely and reliably. And for each payment transaction made using the card, a payment receipt is issued to the customer. The payment receipt contains information relating to the payment transaction carried out as well as other information generated by the system and giving indications on the progress of the transaction. This receipt must be taken in screenshot by the customer and be sent as much payment at the level of the reglini-dz order.</p><p>All you need to complete the transaction is the RIB of the account you are going to pay.</p><br /><p>RIB: 007 99999 0020008646 02</p>"
+      "question": "Comment fonctionne une transaction via CIB?",
+      "answer": "<p>Si vous disposez d'une CIB, vous pouvez effectuer des paiements en ligne en toute sécurité et fiabilité. Et pour chaque opération de paiement effectuée au moyen de la carte, un reçu de paiement est délivré au client. Le reçu de paiement contient les informations relatives à lopération de paiement effectuée ainsi que d'autres informations générées par le système et donnant des indications sur le déroulement de la transaction. Ce reçu doit être pris en capture d'écran par le client et être envoyé autant de paiement au niveau de la commande reglini-dz.</p><p>Tout ce dont vous avez besoin pour effectuer la transaction est le RIB du compte que vous allez payer.</p><br /><p>RIB: 007 99999 0020008646 02</p>"
     },
     "f6": {
-      "question": "Products authorized for import",
-      "answer": "<p>You should know that the laws differ from one country to another, what can be authorized in one country is not necessarily authorized in the other, and your purchase could then be blocked at the level of the Algerian customs. Therefore, avoid any product that may constitute a danger to others or endanger national security.</p><p>For a complete list of goods prohibited or suspended from importation, <a target=\"_blank\" href=\"https://www.douane.gov.dz/spip.php?article104&lang=fr\" rel=\"noreferrer\">visit the official site of the Algerian customs.</a></p>"
+      "question": "Les produits autorisés à l'importation",
+      "answer": "<p>Il faut savoir que les législations diffèrent d'un pays à l'autre, ce qui peut être autorisé dans un pays ne l'est pas forcément dans l'autre, et votre achat pourrait alors se trouver bloqué au niveau de la douane algérienne. Évitez donc tout produit qui peut constituer un danger pour autrui ou porter atteinte à la sécurité nationale.</p><p>Pour une liste complète des marchandises interdites ou suspendues à l'importation, <a target=\"_blank\" href=\"https://www.douane.gov.dz/spip.php?article104&lang=fr\" rel=\"noreferrer\">visitez le site officiel de la douane algerienne.</a></p>"
     },
     "f7": {
-      "question": "How long does shipping take?",
-      "answer": "Delivery typically takes less than 30 days for products over 20 euros to almost 2 months for products under 5 euros."
+      "question": "Combien de temps prends l'expédition?",
+      "answer": "La livraison prend généralement moins de 30 jours pour les produits dépassant les 20 euros à presque 2 mois pour les produits à moins de 5 euros."
     },
     "directToSupport": {
-      "haveAnyQuestion": "Want to ask another question? You can do that from",
-      "goHere": "this page."
+      "haveAnyQuestion": "Vous voulez poser une autre question ? Vous pouvez le faire à partir de",
+      "goHere": "cette page."
     }
   }
 }

@@ -12,6 +12,7 @@ import {
 } from "@config/design";
 import Loading from "@components/shared/Loading";
 import { trpc } from "@utils/trpc";
+import { useTranslations } from "next-intl";
 
 export default function SelectDaira({
   wilaya,
@@ -23,6 +24,7 @@ export default function SelectDaira({
   setDaira: Dispatch<SetStateAction<Daira | undefined>>;
 }) {
   const dairasQuery = trpc.address.dairas.useQuery({ wilaya });
+  const t = useTranslations("AccountPage.details.address");
 
   return (
     <Listbox value={daira} onChange={setDaira}>
@@ -32,7 +34,7 @@ export default function SelectDaira({
             <Listbox.Button
               className={`relative flex text-left w-full pl-3 pr-10 py-1 ${TEXT_INPUT} `}
             >
-              <div className="flex-1 font-mono">Daira</div>
+              <div className="flex-1 font-mono">{t("daira")}</div>
               <div className="flex-1 truncate">
                 {daira ? daira.name : "Select.."}
               </div>

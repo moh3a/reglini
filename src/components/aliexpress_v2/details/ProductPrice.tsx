@@ -11,8 +11,8 @@ interface ProductPriceProps {
 }
 
 const ProductPrice = ({ price, selectedVariation }: ProductPriceProps) => {
-  const { usd, commission } = useFinance();
   const t = useTranslations("AliexpressPage");
+  const { usd, commission } = useFinance();
   return (
     <div className="flex justify-center mt-2 title-font font-medium text-xl">
       {selectedVariation && selectedVariation.id ? (

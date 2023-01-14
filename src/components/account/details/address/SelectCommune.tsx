@@ -1,6 +1,7 @@
 import { Fragment, Dispatch, SetStateAction } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
+import { useTranslations } from "next-intl";
 
 import { Commune } from "@prisma/client";
 import {
@@ -23,6 +24,7 @@ export default function SelectCommune({
   setCommune: Dispatch<SetStateAction<Commune | undefined>>;
 }) {
   const communesQuery = trpc.address.communes.useQuery({ daira });
+  const t = useTranslations("AccountPage.details.address");
 
   return (
     <Listbox value={commune} onChange={setCommune}>
@@ -32,7 +34,7 @@ export default function SelectCommune({
             <Listbox.Button
               className={`relative text-left flex w-full pl-3 pr-10 py-1 ${TEXT_INPUT} `}
             >
-              <div className="font-mono flex-1">City</div>
+              <div className="font-mono flex-1">{t("city")}</div>
               <div className="flex-1 truncate">
                 {commune ? commune.name : "Select.."}
               </div>

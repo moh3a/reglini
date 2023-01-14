@@ -81,7 +81,7 @@ const Wishlist = () => {
             wishlist.data?.wishlist.map((item) => (
               <div
                 key={item.id}
-                className={`max-w-xs mx-auto overflow-hidden ${BG_TRANSPARENT_BACKDROP} ${ROUNDED} ${SHADOW} ${PADDING} `}
+                className={`max-w-xs mx-auto overflow-hidden ${BG_TRANSPARENT_BACKDROP} ${ROUNDED} ${SHADOW} ${PADDING} flex flex-col justify-between `}
               >
                 <div>
                   <h1>
@@ -91,27 +91,31 @@ const Wishlist = () => {
                   <p className={`text-xs font-extrabold text-aliexpress`}>
                     {t("price", { price: item.price })}
                   </p>
+                  <img
+                    className={`object-cover w-full h-48 my-1 ${ROUNDED} `}
+                    src={item.imageUrl}
+                    alt={item.name}
+                  />
                 </div>
-                <img
-                  className={`object-cover w-full h-48 my-1 ${ROUNDED} `}
-                  src={item.imageUrl}
-                  alt={item.name}
-                />
                 <div className="text-xs flex items-center justify-between">
                   <p className="font-bold">
                     {item.date.toISOString().substring(0, 10)}{" "}
                     {item.date.toISOString().substring(11, 16)}
                   </p>
-                  <div className="space-x-1">
-                    <Button
-                      variant="solid"
-                      onClick={() => deleteHandler(item.id)}
-                    >
-                      <TrashIcon className="h-4 w-4" />
-                    </Button>
-                    <Link href={`/aliexpress/product/${item.id}`}>
-                      <Button variant="outline">{t("details")}</Button>
-                    </Link>
+                  <div className="flex space-x-1">
+                    <div>
+                      <Button
+                        variant="solid"
+                        onClick={() => deleteHandler(item.id)}
+                      >
+                        <TrashIcon className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <div>
+                      <Link href={`/aliexpress/product/${item.id}`}>
+                        <Button variant="outline">{t("viewDetails")}</Button>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>

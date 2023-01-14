@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
+import Link from "next/link";
 import axios, { AxiosRequestConfig } from "axios";
 import {
   ArrowDownTrayIcon,
@@ -14,6 +15,8 @@ import {
   CloudArrowDownIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { RadioGroup } from "@headlessui/react";
+import { useTranslations } from "next-intl";
 
 import {
   BG_GRADIENT,
@@ -26,8 +29,6 @@ import Banner from "@components/shared/Banner";
 import Button from "@components/shared/Button";
 import Loading from "@components/shared/Loading";
 import { trpc } from "@utils/trpc";
-import Link from "next/link";
-import { RadioGroup } from "@headlessui/react";
 
 interface PaymentProps {
   order_id: string;
@@ -99,16 +100,22 @@ const Pay = ({ order_id, price, setIsOpen }: PaymentProps) => {
     setLoading(false);
   };
 
+  const t = useTranslations("AccountPage.orders.pay");
+
   return (
     <>
       <div className="my-2">
         <div>
-          The total amount to be paid is{" "}
-          <span className={`font-mono ${TEXT_GRADIENT} `}>{price} DZD</span>
+          {t.rich("amountToBePaid", {
+            price: price,
+            highlight: (chunks) => (
+              <span className={`font-mono ${TEXT_GRADIENT} `}>{chunks}</span>
+            ),
+          })}
         </div>
 
         <div className="my-1 flex text-lg">
-          <h3 className="mr-2 font-bold">Choose your payment method:</h3>
+          <h3 className="mr-2 font-bold">{t("paymentMethod")}:</h3>
           <RadioGroup value={method} onChange={setMethod}>
             <RadioGroup.Label className="sr-only">
               payment method:{" "}
@@ -135,28 +142,29 @@ const Pay = ({ order_id, price, setIsOpen }: PaymentProps) => {
         </div>
         <div className="leading-none">
           <Link href={"/faq"} target="_blank">
-            <div className="font-mono text-gray-500 my-1">
-              Click here to learn how to pay
-            </div>
+            <div className="font-mono text-gray-500 my-1">{t("howToPay")}</div>
           </Link>
 
           {method === "CCP" && (
             <div>
-              <div>The CCP payment is made to the following account</div>
+              <div>{t("ccp.desc")}</div>
               <p>
-                Name:{" "}
-                <span className="font-bold">AIT ABDELMALEK MOHAMED ALI</span>
+                {t.rich("ccp.name", {
+                  name: "AIT ABDELMALEK MOHAMED ALI",
+                  bold: (chunks) => <span className="font-bold">{chunks}</span>,
+                })}
               </p>
               <p>
-                Account number (CCP):{" "}
-                <span className="font-bold">0020008646 02</span>
+                {t.rich("ccp.id", {
+                  id: "0020008646 02",
+                  bold: (chunks) => <span className="font-bold">{chunks}</span>,
+                })}
               </p>
             </div>
           )}
           {method === "CIB" && (
             <div>
-              For a transaction in CIB, the payment is made to the following
-              account number (RIB):
+              {t("cib.desc")}:
               <span className="font-bold mx-1">007 99999 0020008646 02</span>
             </div>
           )}
@@ -203,7 +211,7 @@ const Pay = ({ order_id, price, setIsOpen }: PaymentProps) => {
               />
             }
           >
-            upload receipt
+            {t("upload")}
           </Button>
           <input
             accept="image/*"
@@ -224,7 +232,7 @@ const Pay = ({ order_id, price, setIsOpen }: PaymentProps) => {
             onClick={() => setIsOpen(false)}
             type="button"
           >
-            cancel
+            {t("cancel")}
           </Button>
           <Button
             variant="outline"
@@ -236,7 +244,7 @@ const Pay = ({ order_id, price, setIsOpen }: PaymentProps) => {
             }
             type="submit"
           >
-            send payment
+            {t("send")}
           </Button>
         </div>
       </form>

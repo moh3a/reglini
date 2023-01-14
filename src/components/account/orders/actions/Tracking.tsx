@@ -5,6 +5,7 @@ import { trpc } from "@utils/trpc";
 import { TEXT_GRADIENT } from "@config/design";
 import Loading from "@components/shared/Loading";
 import Button from "@components/shared/Button";
+import { useTranslations } from "next-intl";
 
 interface TrackingProps {
   order_id: string;
@@ -46,14 +47,14 @@ const Tracking = ({
     }
   );
 
+  const t = useTranslations("AccountPage.orders.track");
+
   return (
     <div>
       <h2 className="font-mono text-xl">
-        Tracking ID: <span className={TEXT_GRADIENT}>{tracking_id}</span>
+        {t("trackingId")}: <span className={TEXT_GRADIENT}>{tracking_id}</span>
       </h2>
-      <h3 className="mb-4">
-        The product will be shipped from China to Algeria by {service_name}
-      </h3>
+      <h3 className="mb-4">{t("shippedBy", { service: service_name })}</h3>
       {trackingQuery.isLoading && (
         <div className="w-full flex justify-center items-center">
           <Loading size="medium" />
@@ -77,7 +78,7 @@ const Tracking = ({
           onClick={() => setIsOpen(false)}
           type="button"
         >
-          cancel
+          {t("close")}
         </Button>
       </div>
     </div>

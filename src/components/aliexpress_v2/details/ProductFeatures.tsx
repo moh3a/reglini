@@ -54,6 +54,7 @@ export default function ProductFeatures({
 }: {
   product: DS_ProductAPI_Product_Details;
 }) {
+  const t = useTranslations("AliexpressPage.features");
   const [attributes, setAttributes] = useState([
     { id: "", name: "", value: [""] },
   ]);
@@ -78,7 +79,6 @@ export default function ProductFeatures({
       setAttributes(att);
     }
   }, [product]);
-  const t = useTranslations("AliexpressPage.features");
 
   return (
     <div>

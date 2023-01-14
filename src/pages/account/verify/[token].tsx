@@ -26,15 +26,10 @@ const AccountVerificationPage = () => {
   );
 };
 
-import { pick } from "lodash";
-const namespaces = ["Common"];
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
-      messages: pick(
-        (await import(`../../../../messages/${locale}.json`)).default,
-        namespaces
-      ),
+      messages: (await import(`../../../../messages/${locale}.json`)).default,
     },
   };
 };

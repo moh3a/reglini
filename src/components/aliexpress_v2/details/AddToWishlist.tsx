@@ -23,6 +23,7 @@ interface AddToWishlistProps {
 }
 
 const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
+  const t = useTranslations("AliexpressPage");
   const { usd, commission } = useFinance();
   const { status } = useSession();
   const wishlistMutation = trpc.wishlist.add.useMutation();
@@ -62,7 +63,6 @@ const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
       );
     }
   };
-  const t = useTranslations("AliexpressPage");
 
   return (
     <Button

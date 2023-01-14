@@ -78,11 +78,6 @@ export default function Slideover({
                     </div>
                   </Transition.Child>
                   <div className="flex h-full flex-col bg-white dark:bg-grim py-6 shadow-xl">
-                    <div className="px-4 sm:px-6">
-                      <Dialog.Title className="text-lg font-bold font-mono">
-                        Account
-                      </Dialog.Title>
-                    </div>
                     <div className="relative mt-6 flex-1 px-4 sm:px-6">
                       {/* Replace with your content */}
                       <div className="absolute inset-0 px-4 sm:px-6">

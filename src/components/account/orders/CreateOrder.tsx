@@ -15,6 +15,7 @@ import EditAddress from "../details/EditAddress";
 import { trpc } from "@utils/trpc";
 import { AENOProduct } from "../../../types";
 import Banner from "@components/shared/Banner";
+import { useTranslations } from "next-intl";
 
 const CreateOrder = () => {
   const profile = trpc.account.profile.useQuery();
@@ -85,6 +86,8 @@ const CreateOrder = () => {
     }
   };
 
+  const t = useTranslations("AccountPage");
+
   return (
     <div className="mb-10">
       <Title title="Place a new order" />
@@ -98,11 +101,11 @@ const CreateOrder = () => {
           <>
             <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 ">
               <dt className="text-sm font-bold lg:flex lg:items-center">
-                Full name
+                {t("details.fullName")}
               </dt>
               <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
                 <Edit
-                  title="legal name"
+                  title={t("details.fullName")}
                   field="realName"
                   type="text"
                   value={profile.data.user.profile?.realName}
@@ -111,11 +114,11 @@ const CreateOrder = () => {
             </div>
             <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 ">
               <dt className="text-sm font-bold lg:flex lg:items-center">
-                Phone number
+                {t("details.phoneNumber")}
               </dt>
               <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
                 <Edit
-                  title="phone number"
+                  title={t("details.phoneNumber")}
                   field="phoneNumber"
                   type="text"
                   value={profile.data.user.profile?.phoneNumber}
@@ -124,7 +127,7 @@ const CreateOrder = () => {
             </div>
             <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 ">
               <dt className="text-sm font-bold lg:flex lg:items-center">
-                Address
+                {t("details.address.title")}
               </dt>
               <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
                 <EditAddress
@@ -136,12 +139,11 @@ const CreateOrder = () => {
           </>
         )}
         <div className="px-4 py-5 font-bold font-mono text-sm text-center whitespace-normal">
-          A payment should be submitted in less than 3 days or the order will be
-          automatically cancelled. You can pay once the order was created.
+          {t("orders.paymentTimout")}
         </div>
         <div className="px-4 py-5">
           <dt className="text-sm font-bold lg:flex lg:items-center">
-            Products
+            {t("orders.product.title")}
           </dt>
           {products &&
             products.map((product, index) => (
@@ -159,17 +161,20 @@ const CreateOrder = () => {
                 <div className="flex flex-col whitespace-normal">
                   <p className="font-bold">{product.name}</p>
                   <p className="text-sm font-mono">
-                    Product price: {product.price} DZD
+                    {t("orders.product.productPrice")}:{" "}
+                    {t("price", { price: product.price })}
                   </p>
                   <p className="text-sm font-mono">
-                    Shipping price: {product.shippingPrice} DZD
+                    {t("orders.product.shippingPrice")}:{" "}
+                    {t("price", { price: product.shippingPrice })}
                   </p>
                   <p className="text-sm font-mono">
-                    Quantity: {product.quantity}
+                    {t("orders.product.quantity")}: {product.quantity}
                   </p>
                   <p className={`text-sm font-mono`}>
                     <span className={TEXT_GRADIENT + " font-extrabold"}>
-                      Total: {product.totalPrice} DZD
+                      {t("orders.product.total")}:{" "}
+                      {t("price", { price: product.totalPrice })}
                     </span>
                   </p>
                 </div>
@@ -202,7 +207,7 @@ const CreateOrder = () => {
                           aria-hidden="true"
                         />
                       )}
-                      Add a phone number.
+                      {t("orders.validation.addPhoneNumber")}
                     </li>
                     <li>
                       {profile.data.user.profile?.realName ? (
@@ -216,7 +221,7 @@ const CreateOrder = () => {
                           aria-hidden="true"
                         />
                       )}
-                      Add your real identity name.
+                      {t("orders.validation.addName")}
                     </li>
                     <li>
                       {profile.data.user.address?.postalCode ? (
@@ -230,7 +235,7 @@ const CreateOrder = () => {
                           aria-hidden="true"
                         />
                       )}
-                      Add a shipping address.
+                      {t("orders.validation.addAddress")}
                     </li>
                   </>
                 )}
@@ -240,7 +245,7 @@ const CreateOrder = () => {
             type="button"
             onClick={createOrderHandler}
           >
-            Place your order
+            {t("orders.product.placeOrder")}
           </Button>
         </div>
       </dl>

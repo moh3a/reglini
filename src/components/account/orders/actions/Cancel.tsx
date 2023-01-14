@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 import Button from "@components/shared/Button";
 import { trpc } from "@utils/trpc";
+import { useTranslations } from "next-intl";
 
 const Cancel = ({
   orderId,
@@ -41,15 +42,17 @@ const Cancel = ({
     );
   };
 
+  const t = useTranslations("AccountPage.orders.cancel");
+
   return (
     <div className="flex flex-col justify-center items-center">
-      <p>Are you sure you want to cancel this order?</p>
+      <p>{t("question")}</p>
       <div className="flex space-x-4">
         <Button variant="outline" onClick={cancelHandler}>
-          Yes
+          {t("yes")}
         </Button>
         <Button variant="solid" onClick={() => setIsOpen(false)}>
-          No
+          {t("no")}
         </Button>
       </div>
     </div>

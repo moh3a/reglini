@@ -12,6 +12,7 @@ import {
 } from "@config/design";
 import Loading from "@components/shared/Loading";
 import { trpc } from "@utils/trpc";
+import { useTranslations } from "next-intl";
 
 export default function SelectWilaya({
   wilaya,
@@ -21,6 +22,7 @@ export default function SelectWilaya({
   setWilaya: Dispatch<SetStateAction<Wilaya | undefined>>;
 }) {
   const wilayasQuery = trpc.address.wilayas.useQuery();
+  const t = useTranslations("AccountPage.details.address");
 
   return (
     <Listbox value={wilaya} onChange={setWilaya}>
@@ -30,7 +32,7 @@ export default function SelectWilaya({
             <Listbox.Button
               className={`relative flex text-left w-full pl-3 pr-10 py-1 ${TEXT_INPUT} `}
             >
-              <div className="flex-1 font-mono">Wilaya</div>
+              <div className="flex-1 font-mono">{t("wilaya")}</div>
               <div className="flex-1 truncate">
                 {wilaya ? wilaya.name : "Select.."}
               </div>

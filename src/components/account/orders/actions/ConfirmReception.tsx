@@ -13,6 +13,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import axios, { AxiosRequestConfig } from "axios";
+import { useTranslations } from "next-intl";
 
 import {
   BG_TRANSPARENT_BACKDROP,
@@ -106,16 +107,15 @@ const ConfirmReception = ({
     setLoading(false);
   };
 
+  const t = useTranslations("AccountPage");
+
   return (
     <section>
-      <p>
-        Have you successfully received your package? Take a clear picture of the
-        package you received.
-      </p>
+      <p>{t("orders.received.appreciated")}</p>
       <form className="my-2" onSubmit={submitHandler}>
         {loading && (
           <span className="font-mono text-sm">
-            <Loading size="small" /> loading...
+            <Loading size="small" /> {t("details.loading")}...
           </span>
         )}
         {progress !== 0 && (
@@ -130,7 +130,7 @@ const ConfirmReception = ({
         )}
         <div className="my-2">
           <h2 className="text-lg font-semibold">
-            <span className={TEXT_GRADIENT}>Package received</span>
+            <span className={TEXT_GRADIENT}>{t("orders.received.title")}</span>
           </h2>
           {value && (
             <div className="truncate">
@@ -155,7 +155,7 @@ const ConfirmReception = ({
               />
             }
           >
-            upload
+            {t("orders.received.upload")}
           </Button>
           <input
             accept="image/*"
@@ -170,14 +170,14 @@ const ConfirmReception = ({
         <div className="my-4">
           <div className="mb-2">
             <h2 className="text-lg font-semibold">
-              <span className={TEXT_GRADIENT}>Feedback</span>
+              <span className={TEXT_GRADIENT}>
+                {t("orders.received.feedback")}
+              </span>
             </h2>
-            <p className="font-mono">
-              Your feedback for our service would be appreciated !
-            </p>
+            <p className="font-mono">{t("orders.received.appreciated")}</p>
           </div>
           <div className="flex space-x-2">
-            <p>How would you rate our service?</p>
+            <p>{t("orders.received.rate")}</p>
             <div className="flex space-x-0">
               {[1, 2, 3, 4, 5].map((star) => (
                 <svg
@@ -213,7 +213,7 @@ const ConfirmReception = ({
             onClick={() => setIsOpen(false)}
             type="button"
           >
-            cancel
+            {t("orders.received.cancel")}
           </Button>
           <Button
             variant="outline"
@@ -225,7 +225,7 @@ const ConfirmReception = ({
             }
             type="submit"
           >
-            send feedback
+            {t("orders.received.send")}
           </Button>
         </div>
       </form>

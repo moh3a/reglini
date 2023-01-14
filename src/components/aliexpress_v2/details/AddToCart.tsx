@@ -36,6 +36,7 @@ const AddToCart = ({
   selectedVariation,
   selectedShipping,
 }: AddToCartProps) => {
+  const t = useTranslations("AliexpressPage");
   const { usd, commission } = useFinance();
   const { status } = useSession();
   const cartMutation = trpc.cart.add.useMutation();
@@ -114,7 +115,6 @@ const AddToCart = ({
       }
     }
   };
-  const t = useTranslations("AliexpressPage");
 
   return (
     <Button

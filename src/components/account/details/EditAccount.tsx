@@ -4,6 +4,7 @@ import {
   PencilIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { useTranslations } from "next-intl";
 
 import Button from "@components/shared/Button";
 import TextInput from "@components/shared/Input";
@@ -12,7 +13,7 @@ import { trpc } from "@utils/trpc";
 
 interface EditAccountProps {
   title: string;
-  field: "name" | "realName" | "phoneNumber" | 'picture';
+  field: "name" | "realName" | "phoneNumber" | "picture";
   value: any;
   type: HTMLInputTypeAttribute;
   editHandler?: (args?: any) => void;
@@ -55,6 +56,7 @@ const Edit = ({ title, field, value, type, editHandler }: EditAccountProps) => {
       }
     }
   };
+  const t = useTranslations("AccountPage.details");
 
   return (
     <>
@@ -80,7 +82,7 @@ const Edit = ({ title, field, value, type, editHandler }: EditAccountProps) => {
               }
               onClick={() => setEdit(false)}
             >
-              cancel
+              {t("cancel")}
             </Button>
           </div>
           <div>
@@ -94,7 +96,7 @@ const Edit = ({ title, field, value, type, editHandler }: EditAccountProps) => {
               }
               type="submit"
             >
-              save {title}
+              {t("save")} {title}
             </Button>
           </div>
         </form>
@@ -108,7 +110,7 @@ const Edit = ({ title, field, value, type, editHandler }: EditAccountProps) => {
             }
             onClick={() => setEdit(true)}
           >
-            edit {title}
+            {t("edit")} {title}
           </Button>
         </>
       )}

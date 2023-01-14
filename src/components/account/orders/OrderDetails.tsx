@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { MapPinIcon, PhotoIcon } from "@heroicons/react/24/outline";
+import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW, TEXT_GRADIENT } from "@config/design";
 import Button from "@components/shared/Button";
@@ -70,6 +71,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
       setIsOpen(true);
     }
   };
+  const t = useTranslations("AccountPage.orders");
 
   return (
     <div className="px-4 mx-auto max-w-xl">
@@ -86,19 +88,19 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
               <span
                 className={`font-semibold text-xl font-mono ${TEXT_GRADIENT} `}
               >
-                Order info
+                {t("orderInfo")}
               </span>
             </h2>
             <dl className={`m-auto truncate ${PADDING} ${SHADOW} ${ROUNDED} `}>
               <div className="p-2 sm:px-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
                 <dt className="text-sm font-bold lg:flex lg:items-center">
-                  Order Id
+                  {t("orderId")}
                 </dt>
                 <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">{id}</dd>
               </div>
               <div className="p-2 sm:px-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
                 <dt className="text-sm font-bold lg:flex lg:items-center">
-                  Order date
+                  {t("orderDate")}
                 </dt>
                 <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
                   {orderQuery.data.result.gmt_create}
@@ -106,7 +108,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
               </div>
               <div className="p-2 sm:px-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
                 <dt className="text-sm font-bold lg:flex lg:items-center">
-                  Order status
+                  {t("orderStatus.title")}
                 </dt>
                 <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
                   <span className={"text-aliexpress font-bold uppercase"}>
@@ -115,25 +117,25 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                       orderQuery.data.result.logistics_status ===
                         "NO_LOGISTICS" &&
                       !detailsQuery.data?.order?.payment?.receipt &&
-                      "Awaiting Payment"}
+                      t("orderStatus.awaitingPayment")}
                     {orderQuery.data.result.order_status ===
                       "PLACE_ORDER_SUCCESS" &&
                       orderQuery.data.result.logistics_status ===
                         "NO_LOGISTICS" &&
                       detailsQuery.data?.order?.payment?.receipt &&
-                      "Awaiting Payment Confirmation"}
+                      t("orderStatus.awaitingPaymentConfirmation")}
                     {orderQuery.data.result.order_status ===
                       "PLACE_ORDER_SUCCESS" &&
                       orderQuery.data.result.logistics_status ===
                         "WAIT_SELLER_SEND_GOODS" &&
-                      "Awaiting Shipment"}
+                      t("orderStatus.awaitingShipment")}
                     {orderQuery.data.result.order_status ===
                       "WAIT_BUYER_ACCEPT_GOODS" &&
                       orderQuery.data.result.logistics_status ===
                         "SELLER_SEND_GOODS" &&
-                      "Awaiting Reception confirmation"}
+                      t("orderStatus.awaitingReceptionConfirmation")}
                     {orderQuery.data.result.order_status === "FINISH" &&
-                      "Finished"}
+                      t("orderStatus.finished")}
                   </span>
                 </dd>
               </div>
@@ -153,7 +155,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                   <span
                     className={`font-semibold text-xl font-mono ${TEXT_GRADIENT} `}
                   >
-                    Payment info
+                    {t("paymentInfo")}
                   </span>
                 </h2>
                 <dl
@@ -161,29 +163,29 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                 >
                   <div className="p-2 sm:px-4 sm:py-5 grid grid-cols-3 gap-4">
                     <dt className="text-sm font-bold lg:flex lg:items-center">
-                      Status
+                      {t("paymentStatus.title")}
                     </dt>
                     <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
                       <div>
                         {!detailsQuery.data.order.payment.isPaymentConfirmed &&
                           !detailsQuery.data.order.payment.wasDeclined && (
                             <span className="text-warning uppercase font-bold text-sm">
-                              Awaiting confirmation
+                              {t("paymentStatus.awaitingConfirmation")}
                             </span>
                           )}
                         {detailsQuery.data.order.payment.isPaymentConfirmed && (
                           <span className="text-success uppercase font-bold text-sm">
-                            Payment Confirmed
+                            {t("paymentStatus.confirmed")}
                           </span>
                         )}
                         {detailsQuery.data.order.payment.wasDeclined && (
                           <span className="text-danger uppercase font-bold text-sm">
-                            Payment Declined
+                            {t("paymentStatus.declined")}
                           </span>
                         )}
                       </div>
                       <div>
-                        Receipt{" "}
+                        {t("receipt")}{" "}
                         <Link
                           href={detailsQuery.data.order.payment.receipt}
                           target="_blank"
@@ -208,7 +210,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                   <span
                     className={`font-semibold text-xl font-mono ${TEXT_GRADIENT} `}
                   >
-                    Product info
+                    {t("productInfo")}
                   </span>
                 </h2>
                 <Link
@@ -227,13 +229,16 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                     </dt>
                     <dd className="text-sm col-span-4">
                       <p className="font-bold">
-                        Product ID: {detailsQuery.data.order.product.productId}
+                        {t("productId")}:{" "}
+                        {detailsQuery.data.order.product.productId}
                       </p>
                       <p className="h-5 overflow-hidden text-ellipsis">
                         {detailsQuery.data.order.product.name}
                       </p>
                       <p className="font-mono text-aliexpress">
-                        {detailsQuery.data.order.product.totalPrice} DZD
+                        {t("price", {
+                          price: detailsQuery.data.order.product.totalPrice,
+                        })}
                       </p>
                     </dd>
                   </dl>
@@ -248,7 +253,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                   <span
                     className={`font-semibold text-xl font-mono ${TEXT_GRADIENT} `}
                   >
-                    Address info
+                    {t("addressInfo")}
                   </span>
                 </h2>
                 <section>
@@ -323,26 +328,26 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
           <div className="mt-4 flex justify-end space-x-2">
             {orderQuery.data.result.order_status === "PLACE_ORDER_SUCCESS" && (
               <Button variant="solid" onClick={cancelOrderHandler}>
-                Cancel order
+                {t("actions.cancel")}
               </Button>
             )}
             {orderQuery.data.result.order_status === "PLACE_ORDER_SUCCESS" &&
               !detailsQuery.data?.order?.payment?.receipt && (
                 <Button variant="solid" onClick={paymentHandler}>
-                  Pay
+                  {t("actions.pay")}
                 </Button>
               )}
             {orderQuery.data.result.logistics_status !== "NO_LOGISTICS" &&
               orderQuery.data.result.order_status !== "FINISH" && (
                 <Button variant="solid" onClick={getTracking}>
-                  Track order
+                  {t("actions.track")}
                 </Button>
               )}
             {orderQuery.data.result.order_status ===
               "WAIT_BUYER_ACCEPT_GOODS" &&
               !detailsQuery.data?.order?.received?.wasReceived && (
                 <Button variant="solid" onClick={confirmReceptionHandler}>
-                  Confirm receipt
+                  {t("actions.confirm")}
                 </Button>
               )}
           </div>

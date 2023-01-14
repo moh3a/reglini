@@ -95,6 +95,9 @@ export const authOptions: NextAuthOptions = {
                 },
               },
             },
+            include: {
+              profile: true,
+            },
           });
 
           const url = `${process.env.NEXTAUTH_URL}/account/verify/${token}`;
@@ -150,6 +153,7 @@ export const authOptions: NextAuthOptions = {
           token = {
             ...token,
             type,
+            image: (user as any).profile?.picture,
           };
         } else if (type === "oauth") {
           const { provider } = account;
@@ -157,7 +161,8 @@ export const authOptions: NextAuthOptions = {
             ...token,
             type,
             provider,
-            accessToken: account.access_token,
+            access_token: account.access_token,
+            image: (user as any).profile?.picture,
           };
         }
       }

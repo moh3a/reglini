@@ -47,8 +47,6 @@ const RegisterPage = ({ csrfToken, providers }: AuthProps) => {
   );
 };
 
-import { pick } from "lodash";
-const namespaces = ["AuthPage", "Common"];
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const csrfToken = await getCsrfToken(context);
   const providers = await getProviders();
@@ -56,10 +54,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       csrfToken,
       providers,
-      messages: pick(
-        (await import(`../../../messages/${context.locale}.json`)).default,
-        namespaces
-      ),
+      messages: (await import(`../../../messages/${context.locale}.json`))
+        .default,
     },
   };
 };

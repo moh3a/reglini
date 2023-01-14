@@ -36,6 +36,7 @@ const BuyProduct = ({
   selectedVariation,
   selectedShipping,
 }: BuyProductProps) => {
+  const t = useTranslations("AliexpressPage");
   const { usd, commission } = useFinance();
   const { status } = useSession();
   const router = useRouter();
@@ -106,7 +107,6 @@ const BuyProduct = ({
       }
     }
   };
-  const t = useTranslations("AliexpressPage");
 
   return (
     <Button

@@ -1,6 +1,7 @@
 import { Fragment, Dispatch, SetStateAction } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
+import { useTranslations } from "next-intl";
 
 import { Post } from "@prisma/client";
 import {
@@ -34,6 +35,7 @@ export default function SelectPost({
       },
     }
   );
+  const t = useTranslations("AccountPage.details.address");
 
   return (
     <>
@@ -46,7 +48,7 @@ export default function SelectPost({
         <div
           className={`relative flex my-1 text-left w-full pl-3 pr-10 py-1 ${TEXT_INPUT} `}
         >
-          <div className="flex-1 font-mono">Postal code</div>
+          <div className="flex-1 font-mono">{t("postalCode")}</div>
           <div className="flex-1 truncate">
             {postalCode ? postalCode.zip_code : "Select.."}
           </div>
@@ -60,7 +62,7 @@ export default function SelectPost({
                 <Listbox.Button
                   className={`relative flex text-left w-full pl-3 pr-10 py-1 ${TEXT_INPUT} `}
                 >
-                  <div className="flex-1 font-mono">Postal code</div>
+                  <div className="flex-1 font-mono">{t("postalCode")}</div>
                   <div className="flex-1 truncate">
                     {postalCode ? postalCode.zip_code : "Select.."}
                   </div>
