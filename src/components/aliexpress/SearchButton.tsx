@@ -65,7 +65,7 @@ const SearchButton = () => {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel
-                  className={`max-w-xl w-full transform text-left align-middle transition-all`}
+                  className={`max-w-xl w-full transform align-middle transition-all`}
                 >
                   <form
                     onSubmit={submitHandler}

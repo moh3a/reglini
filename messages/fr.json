@@ -28,6 +28,14 @@
       "wishlist": "Votre wishlist",
       "orders": "Vos commandes",
       "signOut": "Se déconnecter"
+    },
+    "footer": {
+      "desc": "Welcome to reglini-dz, where you'll be able to buy items from Aliexpress using the local algerian dinars.",
+      "info": "Info",
+      "support": "Support",
+      "pp": "Privacy Policy",
+      "tos": "Terms of Service",
+      "contact": "Contact"
     }
   },
   "AccountPage": {

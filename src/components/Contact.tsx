@@ -117,9 +117,7 @@ const Contact = () => {
             <div className="w-full mx-2">
               <label
                 htmlFor="subject"
-                className={`block ${
-                  router.locale === "ar" ? "text-right" : ""
-                } mb-2 text-sm font-medium text-gray-600 dark:text-gray-200`}
+                className={`block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200`}
               >
                 {t("form.emailSubject")}
               </label>
@@ -140,9 +138,7 @@ const Contact = () => {
           <div className="w-full mt-4">
             <label
               htmlFor="message"
-              className={`${
-                router.locale === "ar" ? "text-right" : ""
-              } block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200`}
+              className={`block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200`}
             >
               {t("form.message")}
             </label>

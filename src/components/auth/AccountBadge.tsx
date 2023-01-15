@@ -46,7 +46,7 @@ const AccountBadge = () => {
   }
 
   return (
-    <Menu as="div" className="relative inline-block text-left">
+    <Menu as="div" className="relative inline-block">
       <Menu.Button as={Fragment}>
         <div
           className={`cursor-pointer flex justify-center items-center ${SHADOW} w-8 h-8 rounded-full truncate`}

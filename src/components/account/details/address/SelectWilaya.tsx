@@ -30,7 +30,7 @@ export default function SelectWilaya({
         <>
           <div className="mt-1 relative">
             <Listbox.Button
-              className={`relative flex text-left w-full pl-3 pr-10 py-1 ${TEXT_INPUT} `}
+              className={`relative flex w-full pl-3 pr-10 py-1 ${TEXT_INPUT} `}
             >
               <div className="flex-1 font-mono">{t("wilaya")}</div>
               <div className="flex-1 truncate">

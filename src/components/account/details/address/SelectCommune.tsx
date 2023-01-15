@@ -32,7 +32,7 @@ export default function SelectCommune({
         <>
           <div className="mt-1 relative">
             <Listbox.Button
-              className={`relative text-left flex w-full pl-3 pr-10 py-1 ${TEXT_INPUT} `}
+              className={`relative flex w-full pl-3 pr-10 py-1 ${TEXT_INPUT} `}
             >
               <div className="font-mono flex-1">{t("city")}</div>
               <div className="flex-1 truncate">

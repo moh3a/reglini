@@ -46,7 +46,7 @@ export default function SelectPost({
       )}
       {postsQuery.data?.post && (
         <div
-          className={`relative flex my-1 text-left w-full pl-3 pr-10 py-1 ${TEXT_INPUT} `}
+          className={`relative flex my-1 w-full pl-3 pr-10 py-1 ${TEXT_INPUT} `}
         >
           <div className="flex-1 font-mono">{t("postalCode")}</div>
           <div className="flex-1 truncate">
@@ -60,7 +60,7 @@ export default function SelectPost({
             <>
               <div className="mt-1 relative">
                 <Listbox.Button
-                  className={`relative flex text-left w-full pl-3 pr-10 py-1 ${TEXT_INPUT} `}
+                  className={`relative flex w-full pl-3 pr-10 py-1 ${TEXT_INPUT} `}
                 >
                   <div className="flex-1 font-mono">{t("postalCode")}</div>
                   <div className="flex-1 truncate">

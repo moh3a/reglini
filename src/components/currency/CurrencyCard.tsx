@@ -41,7 +41,7 @@ const CurrencyCard = ({
           {t("updated")}: {currency.date.toISOString().substring(0, 10)}
         </small>
         <div className="flex flex-col justify-start">
-          <p className="text-gray-700 dark:text-gray-100 text-4xl text-left font-bold my-4">
+          <p className="text-gray-700 dark:text-gray-100 text-4xl font-bold my-4">
             {currency[market]}
             <span className="text-sm">DZD</span>
           </p>

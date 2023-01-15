@@ -57,7 +57,7 @@ export default function Modal({
                   transparent
                     ? "bg-opacity-50 backdrop-blur-sm"
                     : "bg-opacity-95"
-                } p-6 text-left align-middle shadow-xl transition-all`}
+                } p-6 align-middle shadow-xl transition-all`}
               >
                 <Dialog.Title as="h3" className="text-lg leading-6">
                   {title}

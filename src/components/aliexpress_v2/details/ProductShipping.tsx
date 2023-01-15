@@ -37,7 +37,7 @@ const ProductShipping = ({
   }, [selected, setSelectedShipping]);
 
   return (
-    <div className={`text-left z-10 mt-4`}>
+    <div className={`z-10 mt-4`}>
       {shipping.result.success ? (
         <>
           <p className={`text-success font-mono text-center uppercase`}>

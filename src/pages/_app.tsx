@@ -8,7 +8,7 @@ import { NextIntlProvider, IntlErrorCode } from "next-intl";
 
 import type { AppType } from "next/dist/shared/lib/utils";
 import { trpc } from "@utils/trpc";
-import { APP_DESCRIPTION, APP_NAME } from "@config/general";
+import { APP_DESCRIPTION, APP_NAME, APP_URL } from "@config/general";
 
 const MyApp: AppType<{
   session: Session | null;
@@ -19,9 +19,15 @@ const MyApp: AppType<{
     <>
       <Head>
         <title>{APP_NAME}</title>
-        <meta name="description" content={APP_DESCRIPTION} />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="theme-color" content="#1b1f23" />
+        <meta
+          name="facebook-domain-verification"
+          content="tqch8yg7c5a548rbwp8vepozlepnap"
+        />
+        {/* <link rel="alternate" hrefLang="en" href={APP_URL + "/en"} />
+        <link rel="alternate" hrefLang="fr" href={APP_URL} />
+        <link rel="alternate" hrefLang="ar" href={APP_URL + "/ar"} /> */}
       </Head>
       <NextIntlProvider
         messages={(pageProps as any).messages}

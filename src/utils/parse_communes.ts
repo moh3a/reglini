@@ -3,11 +3,11 @@
  */
 
 import prisma from "../../config/prisma";
-// import Wilayas from "../../data/Wilayas";
+// import Wilayas from "../../data";
 
 export interface Commune {
   post: string;
-  zip_code: string;
+  zip_code?: string;
   commune_id?: string;
   commune?: string;
   code_ons?: string;
@@ -18,8 +18,8 @@ export interface Commune {
 }
 
 // const parsed_data = Wilayas.map((wilaya) => {
-//   let d: Commune[][] = [];
-//   const communes: Commune[] | undefined = wilaya.dairas
+//   let d: (Commune | undefined)[][] = [];
+//   const communes: (Commune | undefined)[] | undefined = wilaya.dairas
 //     ?.map((daira, daira_index) => {
 //       return daira.communes
 //         ?.map((commune, commune_index) => {
@@ -125,7 +125,7 @@ const insertable_data = (commune: Commune) => {
           }
         : undefined,
     post: commune.post,
-    zip_code: commune.zip_code,
+    zip_code: commune.zip_code ?? "",
     wilaya: {
       connectOrCreate: {
         where: {
@@ -141,9 +141,9 @@ const insertable_data = (commune: Commune) => {
   };
 };
 
-const insert = async (data: Commune[]) => {
+const insert = async (data: (Commune | undefined)[]) => {
   for (let commune of data) {
-    if (commune.zip_code && commune.wilaya_id) {
+    if (commune && commune.zip_code && commune.wilaya_id) {
       try {
         await prisma.post.create({
           data: insertable_data(commune),

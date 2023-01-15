@@ -6,6 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "preaddress": "npx tsc ./src/utils/parse_communes.ts --resolveJsonModule",
+    "address": "node ./src/utils/parse_communes.js",
     "premigration": "npx tsc ./src/utils/migration.ts",
     "migration": "node ./src/utils/migration.js",
     "lint": "next lint"
