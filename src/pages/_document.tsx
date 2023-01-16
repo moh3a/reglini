@@ -1,4 +1,10 @@
-import { APP_DESCRIPTION, APP_NAME, APP_URL, LOGO_URL } from "@config/general";
+import {
+  APP_DESCRIPTION,
+  APP_NAME,
+  APP_SLOGAN,
+  APP_URL,
+  LOGO_URL,
+} from "@config/general";
 import Document, {
   Html,
   Head,
@@ -25,18 +31,21 @@ class MyDocument extends Document {
             crossOrigin="anonymous"
             referrerPolicy="no-referrer"
           />
-          <meta name="title" content={APP_NAME} />
+          <meta name="title" content={APP_NAME + " | " + APP_SLOGAN} />
           <meta name="description" content={APP_DESCRIPTION} />
 
           {/* Open Graph / Facebook  */}
           <meta property="og:type" content="website" />
-          <meta property="og:title" content={APP_NAME} />
+          <meta property="og:title" content={APP_NAME + " | " + APP_SLOGAN} />
           <meta property="og:description" content={APP_DESCRIPTION} />
           <meta property="og:url" content={APP_URL} />
           <meta property="og:image" content={LOGO_URL} />
 
           {/* Twitter */}
-          <meta property="twitter:title" content={APP_NAME} />
+          <meta
+            property="twitter:title"
+            content={APP_NAME + " | " + APP_SLOGAN}
+          />
           <meta property="twitter:description" content={APP_DESCRIPTION} />
           <meta property="twitter:url" content={APP_URL} />
           <meta property="twitter:image" content={LOGO_URL} />

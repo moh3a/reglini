@@ -1,22 +1,8 @@
 import { GetStaticProps } from "next";
-import { useSession } from "next-auth/react";
-import { useTranslations } from "next-intl";
-
-import Title from "@components/shared/Title";
+import HomeHero from "@components/layout/sections/HomeHero";
 
 const IndexPage = () => {
-  const t = useTranslations("IndexPage");
-  const { data: session } = useSession();
-
-  return (
-    <>
-      <Title
-        title={`${t("hello", {
-          user: session && session.user ? session.user.name : "guest",
-        })}`}
-      />
-    </>
-  );
+  return <HomeHero />;
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {

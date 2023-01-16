@@ -261,7 +261,16 @@
     }
   },
   "IndexPage": {
-    "hello": "Salut {user}"
+    "wantToShop": "Vous voulez faire des achats sur AliExpress mais vous n'avez pas de devises étrangères ?",
+    "start": "Votre shopping sur Aliexpress avec paiement en DZD.",
+    "services": {
+      "component": "avec reglini-dz, vous pouvez <highlight>{service}</highlight>",
+      "0": "obtenir des données Aliexpress en direct",
+      "1": "rechercher tous les articles Aliexpress disponibles",
+      "2": "commander et payer en DZD",
+      "3": "suivre le parcours de votre colis jusqu'à vous"
+    },
+    "button": "Commencez"
   },
   "SupportPage": {
     "title": "Entrez en contact",

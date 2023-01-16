@@ -70,7 +70,7 @@ const AccountBadge = () => {
           leaveTo="transform opacity-0 scale-95"
         >
           <Menu.Items
-            className={`origin-top-right absolute right-0 mt-2 w-56 ${BG_TRANSPARENT_BACKDROP} ${SHADOW} ${PADDING} ${ROUNDED} `}
+            className={`origin-top-right absolute z-100 right-0 mt-2 w-56 ${BG_TRANSPARENT_BACKDROP} ${SHADOW} ${PADDING} ${ROUNDED} `}
           >
             <Menu.Item>
               <Link href={"/account"}>

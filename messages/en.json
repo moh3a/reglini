@@ -261,7 +261,16 @@
     }
   },
   "IndexPage": {
-    "hello": "Hello {user}"
+    "wantToShop": "Want to shop from AliExpress but don't have foreign exchange currency?",
+    "start": "Start shopping from Aliexpress using DZD.",
+    "services": {
+      "component": "with reglini-dz, you can <highlight>{service}</highlight>",
+      "0": "get live Aliexpress data",
+      "1": "search all available Aliexpress items",
+      "2": "order and pay in DZD",
+      "3": "track your package journey to you"
+    },
+    "button": "Start shopping"
   },
   "SupportPage": {
     "title": "Get in touch",
