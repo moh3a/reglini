@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/router";
 
 import CartItem from "./CartItem";
 import Button from "@components/shared/Button";
@@ -13,6 +14,7 @@ import { AENOProduct } from "@reglini-types/index";
 
 export default function Cart() {
   const t = useTranslations("Common.cart");
+  const router = useRouter();
 
   const [openCart, setOpenCart] = useState(false);
   const { status } = useSession();
@@ -29,6 +31,28 @@ export default function Cart() {
       }
     },
   });
+
+  const placeOrderHandler = () => {
+    if (subtotal > 0) {
+      const products = cartQuery.data?.cart?.map((product) => ({
+        productId: product.productId,
+        name: product.name,
+        price: product.price,
+        originalPrice: product.originalPrice,
+        imageUrl: product.imageUrl,
+        properties: product.properties,
+        quantity: product.quantity,
+        sku: product.sku,
+        carrierId: product.carrierId,
+        shippingPrice: product.shippingPrice,
+        totalPrice: product.totalPrice,
+        orderMemo:
+          "Please do not put invoices or any other document inside the package. Instead send them to this email address support@reglini-dz.com. Thank you very much.",
+      }));
+      localStorage.setItem("aeno", JSON.stringify(products));
+      router.push("/account/orders/new?ref=cart");
+    }
+  };
 
   return (
     <>
@@ -136,15 +160,16 @@ export default function Cart() {
                       >
                         {t("atCheckout")}
                       </p>
-                      <Link href="/account/orders/new?ref=cart" passHref>
-                        <Button
-                          width="100%"
-                          variant="solid"
-                          onClick={() => setOpenCart(false)}
-                        >
-                          {t("placeOrder")}
-                        </Button>
-                      </Link>
+                      <Button
+                        width="100%"
+                        variant="solid"
+                        onClick={() => {
+                          setOpenCart(false);
+                          placeOrderHandler();
+                        }}
+                      >
+                        {t("placeOrder")}
+                      </Button>
                       <div className="mt-6 flex justify-center text-sm text-center text-gray-800 dark:text-gray-100">
                         <p>
                           {t("or")}{" "}

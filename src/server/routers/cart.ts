@@ -133,4 +133,26 @@ export const cartRouter = router({
           error: "You must be logged in.",
         };
     }),
+  empty: procedure.mutation(async ({ ctx }) => {
+    if (ctx.session && ctx.session.user) {
+      try {
+        await ctx.prisma.cart.deleteMany({
+          where: { user: { email: ctx.session.user.email! } },
+        });
+        return {
+          success: true,
+          message: "Items successfully deleted from your cart.",
+        };
+      } catch (error) {
+        return {
+          success: false,
+          error: JSON.stringify(error),
+        };
+      }
+    } else
+      return {
+        success: false,
+        error: "You must be logged in.",
+      };
+  }),
 });

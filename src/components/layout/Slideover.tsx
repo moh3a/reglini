@@ -78,163 +78,167 @@ export default function Slideover({
                     </div>
                   </Transition.Child>
                   <div className="flex h-full flex-col bg-white dark:bg-grim py-6 shadow-xl">
-                    <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                    <div className="relative h-full mt-6 flex-1 px-4 sm:px-6">
                       {/* Replace with your content */}
-                      <div className="absolute inset-0 px-4 sm:px-6">
-                        {session && session.user ? (
-                          <nav>
-                            <div>
-                              <Link href={"/account"}>
+                      <div className="px-6">
+                        <div className="mb-10">
+                          {session && session.user ? (
+                            <nav>
+                              <div>
+                                <Link href={"/account"}>
+                                  <Button
+                                    icon={
+                                      <Cog6ToothIcon
+                                        className="inline h-5 w-5 mr-2"
+                                        aria-hidden="true"
+                                      />
+                                    }
+                                    variant="outline"
+                                  >
+                                    {t("badge.account")}
+                                  </Button>
+                                </Link>
+                              </div>
+                              <div>
+                                <Link href={"/account/wishlist"}>
+                                  <Button
+                                    icon={
+                                      <HeartIcon
+                                        className="inline h-5 w-5 mr-2"
+                                        aria-hidden="true"
+                                      />
+                                    }
+                                    variant="outline"
+                                  >
+                                    {t("badge.wishlist")}
+                                  </Button>
+                                </Link>
+                              </div>
+                              <div>
+                                <Link href={"/account/orders"}>
+                                  <Button
+                                    icon={
+                                      <Square3Stack3DIcon
+                                        className="inline h-5 w-5 mr-2"
+                                        aria-hidden="true"
+                                      />
+                                    }
+                                    variant="outline"
+                                  >
+                                    {t("badge.orders")}
+                                  </Button>
+                                </Link>
+                              </div>
+                              <div>
                                 <Button
                                   icon={
-                                    <Cog6ToothIcon
+                                    <PowerIcon
                                       className="inline h-5 w-5 mr-2"
                                       aria-hidden="true"
                                     />
                                   }
+                                  onClick={() => signOut()}
                                   variant="outline"
                                 >
-                                  {t("badge.account")}
+                                  {t("badge.signOut")}
                                 </Button>
-                              </Link>
-                            </div>
-                            <div>
-                              <Link href={"/account/wishlist"}>
-                                <Button
-                                  icon={
-                                    <HeartIcon
-                                      className="inline h-5 w-5 mr-2"
-                                      aria-hidden="true"
-                                    />
-                                  }
-                                  variant="outline"
-                                >
-                                  {t("badge.wishlist")}
-                                </Button>
-                              </Link>
-                            </div>
-                            <div>
-                              <Link href={"/account/orders"}>
-                                <Button
-                                  icon={
-                                    <Square3Stack3DIcon
-                                      className="inline h-5 w-5 mr-2"
-                                      aria-hidden="true"
-                                    />
-                                  }
-                                  variant="outline"
-                                >
-                                  {t("badge.orders")}
-                                </Button>
-                              </Link>
-                            </div>
-                            <div>
-                              <Button
-                                icon={
-                                  <PowerIcon
-                                    className="inline h-5 w-5 mr-2"
-                                    aria-hidden="true"
-                                  />
-                                }
-                                onClick={() => signOut()}
-                                variant="outline"
-                              >
-                                {t("badge.signOut")}
-                              </Button>
-                            </div>
-                          </nav>
-                        ) : (
-                          <nav>
-                            <div>
-                              <Link href={"/auth/login"}>
-                                <Button
-                                  icon={
-                                    <ArrowLeftOnRectangleIcon
-                                      className="inline h-5 w-5 mr-2"
-                                      aria-hidden="true"
-                                    />
-                                  }
-                                  variant="outline"
-                                >
-                                  {t("navigation.login")}
-                                </Button>
-                              </Link>
-                            </div>
-                            <div>
-                              <Link href={"/auth/register"}>
-                                <Button
-                                  icon={
-                                    <UserPlusIcon
-                                      className="inline h-5 w-5 mr-2"
-                                      aria-hidden="true"
-                                    />
-                                  }
-                                  variant="outline"
-                                >
-                                  {t("navigation.register")}
-                                </Button>
-                              </Link>
-                            </div>
-                          </nav>
-                        )}
-
-                        <h2 className="mt-8 font-mono font-bold text-lg px-4 sm:px-6">
-                          Navigation
-                        </h2>
-
-                        <nav className="flex-col my-4">
-                          <div
-                            className={`mx-4 font-bold ${
-                              router.asPath === "/aliexpress"
-                                ? `py-1 px-3 rounded-r-full ${BG_GRADIENT} text-white`
-                                : ""
-                            }`}
-                          >
-                            <Link href="/aliexpress">
-                              {t("navigation.aliexpress")}
-                            </Link>
-                          </div>
-                          <div
-                            className={`mx-4 font-bold ${
-                              router.asPath === "/currency"
-                                ? `py-1 px-3 rounded-r-full ${BG_GRADIENT} text-white`
-                                : ""
-                            }`}
-                          >
-                            <Link href="/currency">
-                              {t("navigation.currency")}
-                            </Link>
-                          </div>
-                          <div
-                            className={`mx-4 font-bold ${
-                              router.asPath === "/support"
-                                ? `py-1 px-3 rounded-r-full ${BG_GRADIENT} text-white`
-                                : ""
-                            }`}
-                          >
-                            <Link href="/support">
-                              {t("navigation.support")}
-                            </Link>
-                          </div>
-                          <div
-                            className={`mx-4 font-bold ${
-                              router.asPath === "/faq"
-                                ? `py-1 px-3 rounded-r-full ${BG_GRADIENT} text-white`
-                                : ""
-                            }`}
-                          >
-                            <Link href="/faq">{t("navigation.faq")}</Link>
-                          </div>
-                        </nav>
-
-                        <div className="flex justify-center">
-                          <DarkMode />
+                              </div>
+                            </nav>
+                          ) : (
+                            <nav>
+                              <div>
+                                <Link href={"/auth/login"}>
+                                  <Button
+                                    icon={
+                                      <ArrowLeftOnRectangleIcon
+                                        className="inline h-5 w-5 mr-2"
+                                        aria-hidden="true"
+                                      />
+                                    }
+                                    variant="outline"
+                                  >
+                                    {t("navigation.login")}
+                                  </Button>
+                                </Link>
+                              </div>
+                              <div>
+                                <Link href={"/auth/register"}>
+                                  <Button
+                                    icon={
+                                      <UserPlusIcon
+                                        className="inline h-5 w-5 mr-2"
+                                        aria-hidden="true"
+                                      />
+                                    }
+                                    variant="outline"
+                                  >
+                                    {t("navigation.register")}
+                                  </Button>
+                                </Link>
+                              </div>
+                            </nav>
+                          )}
                         </div>
-                        <div className="flex justify-center">
-                          <Language />{" "}
-                          <span className="font-bold relative top-1 font-mono">
-                            Locale
-                          </span>
+                        <div className="my-20">
+                          <h2 className="mt-8 font-mono font-bold text-lg px-4 sm:px-6">
+                            Navigation
+                          </h2>
+
+                          <nav className="flex-col my-4">
+                            <div
+                              className={`mx-4 font-bold ${
+                                router.asPath === "/aliexpress"
+                                  ? `py-1 px-3 rounded-r-full ${BG_GRADIENT} text-white`
+                                  : ""
+                              }`}
+                            >
+                              <Link href="/aliexpress">
+                                {t("navigation.aliexpress")}
+                              </Link>
+                            </div>
+                            <div
+                              className={`mx-4 font-bold ${
+                                router.asPath === "/currency"
+                                  ? `py-1 px-3 rounded-r-full ${BG_GRADIENT} text-white`
+                                  : ""
+                              }`}
+                            >
+                              <Link href="/currency">
+                                {t("navigation.currency")}
+                              </Link>
+                            </div>
+                            <div
+                              className={`mx-4 font-bold ${
+                                router.asPath === "/support"
+                                  ? `py-1 px-3 rounded-r-full ${BG_GRADIENT} text-white`
+                                  : ""
+                              }`}
+                            >
+                              <Link href="/support">
+                                {t("navigation.support")}
+                              </Link>
+                            </div>
+                            <div
+                              className={`mx-4 font-bold ${
+                                router.asPath === "/faq"
+                                  ? `py-1 px-3 rounded-r-full ${BG_GRADIENT} text-white`
+                                  : ""
+                              }`}
+                            >
+                              <Link href="/faq">{t("navigation.faq")}</Link>
+                            </div>
+                          </nav>
+                        </div>
+                        <div className="mt-10">
+                          <div className="flex justify-center">
+                            <DarkMode />
+                          </div>
+                          <div className="flex justify-center">
+                            <Language />{" "}
+                            <span className="font-bold relative top-1 font-mono">
+                              Locale
+                            </span>
+                          </div>
                         </div>
                       </div>
                       {/* /End replace */}

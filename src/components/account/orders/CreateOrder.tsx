@@ -16,10 +16,18 @@ import { trpc } from "@utils/trpc";
 import { AENOProduct } from "../../../types";
 import Banner from "@components/shared/Banner";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/router";
 
 const CreateOrder = () => {
+  const t = useTranslations("AccountPage");
+
+  const router = useRouter();
+  const { ref } = router.query;
+
   const profile = trpc.account.profile.useQuery();
+  const emptyCartMutation = trpc.cart.empty.useMutation();
   const createOrderMutation = trpc.order.create.useMutation();
+
   const [products, setProducts] = useState<AENOProduct[] | undefined>();
   const [message, setMessage] = useState<{
     type?: "success" | "error";
@@ -67,6 +75,9 @@ const CreateOrder = () => {
               if (error) setMessage({ type: "error", text: error.message });
               if (data) {
                 if (data.success) {
+                  if (ref?.toString() === "cart") {
+                    emptyCartMutation.mutate();
+                  }
                   setMessage({ type: "success", text: data.message });
                 } else setMessage({ type: "error", text: data.error });
               }
@@ -85,8 +96,6 @@ const CreateOrder = () => {
       }
     }
   };
-
-  const t = useTranslations("AccountPage");
 
   return (
     <div className="mb-10">

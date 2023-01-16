@@ -30,13 +30,14 @@ const Navbar = () => {
       <div className="h-14 p-4 flex justify-between">
         {/* hamburger menu icon */}
         <div
-          className="flex-1 lg:hidden space-y-1.5"
+          className="flex-1 lg:hidden relative top-2 space-y-1.5"
           onClick={() => setSideOpen(!sideOpen)}
         >
           <span className="block w-5 h-0.5 bg-slate-600 dark:bg-slate-300"></span>
           <span className="block w-8 h-0.5 bg-slate-600 dark:bg-slate-300"></span>
           <span className="block w-8 h-0.5 bg-slate-600 dark:bg-slate-300"></span>
         </div>
+
         <Slideover open={sideOpen} setOpen={setSideOpen} />
         <div className="flex-1 flex justify-center relative bottom-2 lg:flex-none">
           <Link href="/" passHref>

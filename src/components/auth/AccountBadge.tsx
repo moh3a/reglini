@@ -27,14 +27,16 @@ const AccountBadge = () => {
 
   if (status === "unauthenticated") {
     return (
-      <div>
+      <div className={`flex justify-center items-center w-8 h-8 md:w-auto`}>
         <Link href={"/auth/login"}>
           <Button variant="outline">
-            <ArrowLeftOnRectangleIcon
-              className="inline w-5 h-5 md:mr-1"
-              aria-hidden="true"
-            />
-            <span className="hidden md:inline">{t("title")}</span>
+            <div className="flex relative top-1">
+              <ArrowLeftOnRectangleIcon
+                className="w-5 h-5 md:mr-1"
+                aria-hidden="true"
+              />
+              <span className="hidden md:block">{t("title")}</span>
+            </div>
           </Button>
         </Link>
       </div>

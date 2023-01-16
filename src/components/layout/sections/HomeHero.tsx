@@ -20,7 +20,7 @@ const HomeHero = () => {
   return (
     <div className="my-24 mx-auto max-w-6xl">
       <div className="relative px-6 lg:flex lg:justify-between">
-        <div className="z-50">
+        <div className="z-20">
           <h2 className="font-mono">{t("wantToShop")}</h2>
           <h1 className="text-6xl font-bold z-50">{t("start")}</h1>
         </div>
@@ -30,10 +30,9 @@ const HomeHero = () => {
           }`}
         >
           <img
-            className="-rotate-[50deg] z-0"
+            className="-rotate-[50deg] z-0 w-10 md:w-20 lg:w-28"
             src="/aliexpress-icon.png"
             alt="aliexpress icon"
-            width={100}
           />
         </div>
       </div>

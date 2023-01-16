@@ -30,7 +30,7 @@ const LoginPage = ({ csrfToken, providers }: AuthProps) => {
         <title>{`${t("title")} ${APP_NAME}`}</title>
       </Head>
       {status !== "authenticated" && (
-        <section className="mx-auto max-w-lg">
+        <section className="mx-auto max-w-lg px-6">
           <Title title={t("title")} />
           <Login csrfToken={csrfToken} />
           <div className="flex items-center justify-between my-4">

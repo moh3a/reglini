@@ -27,13 +27,13 @@ const LiveRate = () => {
                 ),
               })}
             </h1>
-            <div className="text-xs lg:text-sm">
+            <div className="text-xs lg:text-sm text-center">
               {t("desc", { market: t("parallel") })}
             </div>
             <h2 className="text-lg lg:text-xl font-semibold underline font-mono">
               {t("purchase")}
             </h2>
-            <div className="flex flex-wrap flex-center select-none">
+            <div className="flex justify-around select-none">
               {currencies.data.currencies.map((currency) => (
                 <CurrencyCard
                   key={currency.id}
@@ -64,7 +64,7 @@ const LiveRate = () => {
                 ),
               })}
             </h1>
-            <div className="text-xs lg:text-sm">
+            <div className="text-xs lg:text-sm text-center">
               {t("desc", { market: t("official") })}
             </div>
             <div className="flex flex-wrap flex-center select-none">

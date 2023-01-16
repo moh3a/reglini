@@ -15,7 +15,7 @@ const CurrencyCard = ({
   return (
     <Fragment key={currency.id}>
       <div
-        className={` ${SHADOW} rounded-2xl p-4 mx-2 my-4 ${BG_TRANSPARENT_BACKDROP}`}
+        className={`flex-1 ${SHADOW} rounded-2xl p-2 md:p-4 mx-1 md:mx-2 my-4 ${BG_TRANSPARENT_BACKDROP}`}
       >
         <div className="flex items-center">
           {currency.exchange === "EUR" && (
@@ -38,10 +38,10 @@ const CurrencyCard = ({
           )}
         </div>
         <small className="text-xs">
-          {t("updated")}: {currency.date.toISOString().substring(0, 10)}
+          {t("updated")}: {currency.date.toISOString().substring(2, 10)}
         </small>
         <div className="flex flex-col justify-start">
-          <p className="text-gray-700 dark:text-gray-100 text-4xl font-bold my-4">
+          <p className="text-gray-700 dark:text-gray-100 text-2xl md:text-4xl font-bold my-3 md:my-4">
             {currency[market]}
             <span className="text-sm">DZD</span>
           </p>
