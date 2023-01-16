@@ -190,11 +190,11 @@ export interface AEProductPrice {
 
 export interface AENOProduct extends AEProduct {
   id: string;
-  name: string | null;
-  originalPrice: number | null;
-  imageUrl: string | null;
+  name: string;
+  imageUrl: string;
   properties: any; // AEProductProperties[] | ZAE_ProductProperties[] | null;
-  price: number | null;
-  shippingPrice: number | null;
-  totalPrice: number | null;
+  price: number;
+  originalPrice?: number;
+  shippingPrice?: number;
+  totalPrice?: number;
 }

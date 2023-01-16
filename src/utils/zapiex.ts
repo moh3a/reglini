@@ -85,6 +85,7 @@ export const ZAE_CreateOrder = async (
     headers: {
       "x-api-key": process.env.ZAPIEX_KEY,
       "Content-Type": "application/json",
+      "Accept-Encoding": "application/json", // workaround for an axios@1.2.0 bug
     },
     data: {
       username: process.env.ALIEXPRESS_USERNAME,
@@ -94,7 +95,7 @@ export const ZAE_CreateOrder = async (
       shippingAddress,
     },
   });
-  return data.data as { orderIds: string[] };
+  return data as { statusCode: number; data: { orderIds: string[] } };
 };
 
 export const ZAE_GetOrder = async (id: string) => {

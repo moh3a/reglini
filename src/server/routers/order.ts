@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { AEProduct } from "@reglini-types/index";
+import { AENOProduct, AEProduct } from "@reglini-types/index";
 import { ZAE_ShippingAddres } from "@reglini-types/zapiex";
 import { router, procedure } from "../trpc";
 import SendEmail from "@utils/send_email";
@@ -80,11 +80,81 @@ export const orderRouter = router({
           error: "You must be logged in.",
         };
     }),
+  // create: procedure
+  //   .input(
+  //     z.object({
+  //       shippingAddress: z.custom<ZAE_ShippingAddres>(),
+  //       products: z.custom<AEProduct[]>(),
+  //     })
+  //   )
+  //   .mutation(async ({ ctx, input }) => {
+  //     if (ctx.session && ctx.session.user) {
+  //       const user = await ctx.prisma.user.findUnique({
+  //         where: { email: ctx.session.user.email! },
+  //       });
+  //       if (user) {
+  //         try {
+  //           const product_items = input.products.map((product) => {
+  //             return {
+  //               logistics_service_name: product.carrierId,
+  //               order_memo: product.orderMemo,
+  //               product_count: product.quantity,
+  //               product_id: parseInt(product.productId),
+  //               sku_attr: product.sku,
+  //             };
+  //           });
+  //           const result = await ctx.aliexpress.ds.createOrder(
+  //             {
+  //               address: input.shippingAddress.addressLine1,
+  //               city: input.shippingAddress.city,
+  //               contact_person: input.shippingAddress.name,
+  //               country: input.shippingAddress.countryCode,
+  //               full_name: input.shippingAddress.name,
+  //               mobile_no: input.shippingAddress.mobilePhone,
+  //               phone_country: input.shippingAddress.phoneCountry,
+  //               province: input.shippingAddress.province,
+  //               zip: input.shippingAddress.zipCode,
+  //             },
+  //             product_items
+  //           );
+  //           if (result.result) {
+  //             if (result.result.is_success) {
+  //               for (const order_id of result.result.order_list) {
+  //                 await ctx.prisma.order.create({
+  //                   data: {
+  //                     id: order_id.toString(),
+  //                     userId: user.id,
+  //                     shippingAddress: {
+  //                       create: input.shippingAddress,
+  //                     },
+  //                   },
+  //                 });
+  //               }
+  //               return {
+  //                 success: true,
+  //                 message: "Successfully created your orders.",
+  //               };
+  //             } else return { success: false, error: result.result.error_msg };
+  //           } else
+  //             return {
+  //               success: false,
+  //               error: (result as any).error_response.msg,
+  //             };
+  //         } catch (error) {
+  //           return { success: false, error: JSON.stringify(error) };
+  //         }
+  //       } else return { success: false, error: "No user was found." };
+  //     } else
+  //       return {
+  //         success: false,
+  //         error: "You must be logged in.",
+  //       };
+  //   }),
   create: procedure
     .input(
       z.object({
         shippingAddress: z.custom<ZAE_ShippingAddres>(),
-        products: z.custom<AEProduct[]>(),
+        products: z.custom<AENOProduct[]>(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -92,54 +162,61 @@ export const orderRouter = router({
         const user = await ctx.prisma.user.findUnique({
           where: { email: ctx.session.user.email! },
         });
+        const products: AEProduct[] = input.products.map((product) => ({
+          carrierId: product.carrierId,
+          productId: product.productId,
+          quantity: product.quantity,
+          sku: product.sku,
+          orderMemo: product.orderMemo,
+        }));
         if (user) {
           try {
-            const product_items = input.products.map((product) => {
-              return {
-                logistics_service_name: product.carrierId,
-                order_memo: product.orderMemo,
-                product_count: product.quantity,
-                product_id: parseInt(product.productId),
-                sku_attr: product.sku,
-              };
-            });
-            const result = await ctx.aliexpress.ds.createOrder(
-              {
-                address: input.shippingAddress.addressLine1,
-                city: input.shippingAddress.city,
-                contact_person: input.shippingAddress.name,
-                country: input.shippingAddress.countryCode,
-                full_name: input.shippingAddress.name,
-                mobile_no: input.shippingAddress.mobilePhone,
-                phone_country: input.shippingAddress.phoneCountry,
-                province: input.shippingAddress.province,
-                zip: input.shippingAddress.zipCode,
-              },
-              product_items
+            const data = await ctx.zapiex.createOrder(
+              products,
+              input.shippingAddress
             );
-            if (result.result) {
-              if (result.result.is_success) {
-                for (const order_id of result.result.order_list) {
-                  await ctx.prisma.order.create({
-                    data: {
-                      id: order_id.toString(),
-                      userId: user.id,
-                      shippingAddress: {
-                        create: input.shippingAddress,
-                      },
+            if (data.statusCode === 200) {
+              if (data.data.orderIds.length === 1) {
+                await ctx.prisma.order.create({
+                  data: {
+                    id: data.data.orderIds[0].toString(),
+                    userId: user.id,
+                    shippingAddress: {
+                      create: input.shippingAddress,
                     },
-                  });
+                    product: {
+                      create: input.products[0],
+                    },
+                  },
+                });
+              } else {
+                for (const order_id of data.data.orderIds) {
+                  const result = await ctx.zapiex.getOrder(order_id.toString());
+                  const product = input.products.find(
+                    (product) =>
+                      product.productId === result.products[0].productId
+                  );
+                  if (product) {
+                    await ctx.prisma.order.create({
+                      data: {
+                        id: order_id.toString(),
+                        userId: user.id,
+                        shippingAddress: {
+                          create: input.shippingAddress,
+                        },
+                        product: {
+                          create: product,
+                        },
+                      },
+                    });
+                  }
                 }
-                return {
-                  success: true,
-                  message: "Successfully created your orders.",
-                };
-              } else return { success: false, error: result.result.error_msg };
-            } else
+              }
               return {
-                success: false,
-                error: (result as any).error_response.msg,
+                success: true,
+                message: "Successfully created your orders.",
               };
+            } else return { success: false, error: `Couldn't create order.` };
           } catch (error) {
             return { success: false, error: JSON.stringify(error) };
           }
@@ -203,16 +280,16 @@ export const orderRouter = router({
       if (ctx.session && ctx.session.user) {
         const result = await ctx.zapiex.cancelOrder(input.order_id);
         if (result.success) {
-          await ctx.prisma.shipping.delete({
-            where: { orderId: input.order_id },
-          });
-          await ctx.prisma.packageReceipt.delete({
-            where: { orderId: input.order_id },
-          });
           await ctx.prisma.order.update({
             where: { id: input.order_id },
             data: {
               cancelled: true,
+              shippingAddress: {
+                delete: true,
+              },
+              product: {
+                delete: true,
+              },
             },
           });
           return {

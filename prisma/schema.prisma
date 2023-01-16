@@ -106,7 +106,7 @@ model Wishlist {
 }
 
 model Order {
-  id              String          @unique
+  id              String          @id @unique
   userId          String
   user            User            @relation(fields: userId, references: [id])
   cancelled       Boolean         @default(false)

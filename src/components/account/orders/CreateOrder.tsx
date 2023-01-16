@@ -79,6 +79,7 @@ const CreateOrder = () => {
                     emptyCartMutation.mutate();
                   }
                   setMessage({ type: "success", text: data.message });
+                  router.push("/account/orders");
                 } else setMessage({ type: "error", text: data.error });
               }
               setTimeout(
