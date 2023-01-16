@@ -12,6 +12,8 @@ import { trpc } from "@utils/trpc";
 import { AENOProduct } from "@reglini-types/index";
 
 export default function Cart() {
+  const t = useTranslations("Common.cart");
+
   const [openCart, setOpenCart] = useState(false);
   const { status } = useSession();
   const [subtotal, setSubtotal] = useState(0);
@@ -27,7 +29,6 @@ export default function Cart() {
       }
     },
   });
-  const t = useTranslations("Common.cart");
 
   return (
     <>
@@ -40,15 +41,9 @@ export default function Cart() {
         <span className="sr-only">items in cart, view bag</span>
         <ShoppingBagIcon className="h-5 w-5 inline" aria-hidden="true" />
         <span className="absolute text-xs w-5 h-5 p-0.5 rounded-full bg-aliexpress text-white top-0 right-0">
-          {status === "loading" || cartQuery.isLoading ? (
-            <Loading size="small" />
-          ) : status === "authenticated" &&
-            cartQuery.data &&
-            cartQuery.data?.cart ? (
-            cartQuery.data?.cart.length
-          ) : (
-            0
-          )}
+          {cartQuery.data && cartQuery.data?.cart
+            ? cartQuery.data?.cart.length
+            : 0}
         </span>
       </Button>
 

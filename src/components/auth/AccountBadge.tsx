@@ -29,16 +29,12 @@ const AccountBadge = () => {
     return (
       <div>
         <Link href={"/auth/login"}>
-          <Button
-            variant="outline"
-            icon={
-              <ArrowLeftOnRectangleIcon
-                className="inline w-5 h-5 mr-1"
-                aria-hidden="true"
-              />
-            }
-          >
-            {t("title")}
+          <Button variant="outline">
+            <ArrowLeftOnRectangleIcon
+              className="inline w-5 h-5 md:mr-1"
+              aria-hidden="true"
+            />
+            <span className="hidden md:inline">{t("title")}</span>
           </Button>
         </Link>
       </div>

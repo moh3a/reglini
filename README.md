@@ -1,2 +1,3 @@
 - order create: error -> invalid signature || missing version
+- fix styling and add homepage for deployment
 - fix LTR in latin and RTL in arabic

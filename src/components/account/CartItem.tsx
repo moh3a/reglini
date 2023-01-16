@@ -2,15 +2,16 @@
 import { ChangeEvent, useState } from "react";
 import Link from "next/link";
 import { TrashIcon } from "@heroicons/react/24/outline";
+import { useTranslations } from "next-intl";
 
 import NumberInput from "@components/shared/NumberInput";
 import Button from "@components/shared/Button";
 import Banner from "@components/shared/Banner";
 import { AENOProduct } from "@reglini-types/index";
 import { trpc } from "@utils/trpc";
-import { useTranslations } from "next-intl";
 
 const CartItem = ({ item }: { item: AENOProduct }) => {
+  const t = useTranslations("Common.cart");
   const [message, setMessage] = useState<{
     type?: "error" | "success";
     text?: string;
@@ -62,7 +63,6 @@ const CartItem = ({ item }: { item: AENOProduct }) => {
       }
     );
   };
-  const t = useTranslations("Common.cart");
 
   return (
     <>

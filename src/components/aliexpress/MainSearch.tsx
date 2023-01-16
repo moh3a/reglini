@@ -23,7 +23,7 @@ const MainSearch = () => {
   const t = useTranslations("AliexpressPage");
 
   return (
-    <section>
+    <section className="px-4">
       <p className="text-center text-sm font-bold font-mono my-2">
         {t("hereStartsEverything")}
       </p>

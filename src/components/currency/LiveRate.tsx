@@ -1,8 +1,9 @@
-import Loading from "@components/shared/Loading";
-import { TEXT_GRADIENT } from "@config/design";
-import { trpc } from "@utils/trpc";
 import { useTranslations } from "next-intl";
+
+import { TEXT_GRADIENT } from "@config/design";
+import Loading from "@components/shared/Loading";
 import CurrencyCard from "./CurrencyCard";
+import { trpc } from "@utils/trpc";
 
 const LiveRate = () => {
   const currencies = trpc.currency.currencies.useQuery();
@@ -66,7 +67,7 @@ const LiveRate = () => {
             <div className="text-xs lg:text-sm">
               {t("desc", { market: t("official") })}
             </div>
-            <div className="grid grid-cols-3 gap-x-3 md:gap-x-6 select-none">
+            <div className="flex flex-wrap flex-center select-none">
               {currencies.data.currencies.map((currency) => (
                 <CurrencyCard
                   key={currency.id}

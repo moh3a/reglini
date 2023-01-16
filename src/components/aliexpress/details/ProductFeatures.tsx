@@ -14,13 +14,13 @@ const Item = ({ title, children }: any) => {
         type="button"
         aria-label="Open item"
         title="Open item"
-        className="flex items-center justify-between w-full p-4 focus:outline-none"
+        className="flex items-center justify-between w-full p-2 md:p-4 focus:outline-none"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <h1 className="text-3xl font-extrabold tracking-tight  sm:text-4xl">
+        <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
           {title}
         </h1>
-        <div className="flex items-center justify-center w-8 h-8 border rounded-full">
+        <div className="flex items-center justify-center w-6 h-6 border rounded-full">
           <svg
             viewBox="0 0 24 24"
             className={`w-3 transition-transform duration-200 ${
@@ -40,7 +40,7 @@ const Item = ({ title, children }: any) => {
         </div>
       </button>
       {isOpen && (
-        <div className="p-4 pt-0">
+        <div className="p-2 md:p-4 pt-0">
           <div>{children}</div>
         </div>
       )}
