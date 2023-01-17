@@ -47,7 +47,7 @@ export const currencyRouter = router({
       };
     }
   }),
-  currenciesObject: procedure.query(async ({ ctx, input }) => {
+  currenciesObject: procedure.mutation(async ({ ctx }) => {
     try {
       const eur = await ctx.prisma.currency.findFirst({
         where: {

@@ -74,7 +74,7 @@ const ConvertCurrency = () => {
             })}
           </h1>
           <form className="mt-8 mx-auto lg:min-w-128 flex flex-col items-center lg:flex-row lg:justify-around">
-            <div className="relative mx-2">
+            <div className="relative m-2">
               <label htmlFor="dzd" className="sr-only">
                 From Algerian Dinars
               </label>
@@ -95,7 +95,7 @@ const ConvertCurrency = () => {
                 DZD
               </span>
             </div>
-            <div className="relative mx-2">
+            <div className="relative m-2">
               <label htmlFor="toUnit" className="sr-only">
                 To devise
               </label>

@@ -56,12 +56,7 @@ export default function Cart() {
 
   return (
     <>
-      <Button
-        variant="outline"
-        onClick={() => {
-          if (status === "authenticated") setOpenCart(true);
-        }}
-      >
+      <Button variant="outline" onClick={() => setOpenCart(true)}>
         <span className="sr-only">items in cart, view bag</span>
         <ShoppingBagIcon className="h-5 w-5 inline" aria-hidden="true" />
         <span className="absolute text-xs w-5 h-5 p-0.5 rounded-full bg-aliexpress text-white top-0 right-0">
@@ -131,17 +126,21 @@ export default function Cart() {
                                 <Loading size="medium" />
                               </div>
                             )}
-                            {cartQuery.data &&
-                            cartQuery.data.cart &&
-                            cartQuery.data.cart.length > 0 ? (
-                              cartQuery.data.cart.map((item) => (
-                                <CartItem
-                                  key={item.id}
-                                  item={item as AENOProduct}
-                                />
-                              ))
+                            {status === "authenticated" ? (
+                              cartQuery.data &&
+                              cartQuery.data.cart &&
+                              cartQuery.data.cart.length > 0 ? (
+                                cartQuery.data.cart.map((item) => (
+                                  <CartItem
+                                    key={item.id}
+                                    item={item as AENOProduct}
+                                  />
+                                ))
+                              ) : (
+                                <li className={`py-6 flex`}>{t("empty")}</li>
+                              )
                             ) : (
-                              <li className={`py-6 flex`}>{t("empty")}</li>
+                              <li className="py-6 flex">You are offline!</li>
                             )}
                           </ul>
                         </div>

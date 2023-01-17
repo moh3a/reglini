@@ -44,7 +44,7 @@ export const appRouter = router({
         return { success: false, message: JSON.stringify(error) };
       }
     }),
-  commission: procedure.query(async ({ ctx }) => {
+  commission: procedure.mutation(async ({ ctx }) => {
     const config = await ctx.prisma.config.findUnique({
       where: { id: "config" },
       select: { commission: true },

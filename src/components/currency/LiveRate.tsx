@@ -18,7 +18,7 @@ const LiveRate = () => {
       )}
       {currencies.data && currencies.data.currencies && (
         <>
-          <div className="py-8 lg:py-16 px-4 flex flex-col items-center">
+          <div className="py-8 lg:py-16 px-2 flex flex-col items-center">
             <h1 className="text-center text-xl lg:text-4xl font-bold">
               {t.rich("intro", {
                 market: t("parallel"),
@@ -55,7 +55,7 @@ const LiveRate = () => {
               ))}
             </div>
           </div>
-          <div className="py-8 lg:py-16 px-4 flex flex-col items-center">
+          <div className="py-8 lg:py-16 px-2 flex flex-col items-center">
             <h1 className="text-center text-xl lg:text-4xl font-bold">
               {t.rich("intro", {
                 market: t("official"),

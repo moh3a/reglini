@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
 import Button from "@components/shared/Button";
-import { useRouter } from "next/router";
 
 const HomeHero = () => {
   const t = useTranslations("IndexPage");
@@ -30,7 +30,7 @@ const HomeHero = () => {
           }`}
         >
           <img
-            className="-rotate-[50deg] z-0 w-10 md:w-20 lg:w-28"
+            className="-rotate-[50deg] z-0 w-10 md:w-16"
             src="/aliexpress-icon.png"
             alt="aliexpress icon"
           />

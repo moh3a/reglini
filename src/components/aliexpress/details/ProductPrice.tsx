@@ -53,8 +53,7 @@ const ProductPrice = ({ product, selectedVariation }: ProductPriceProps) => {
                   commission ?? 0,
                   selectedVariation.price.app?.originalPrice.value
                 ),
-              })}{" "}
-              DZD
+              })}
             </>
           )}
         </>
@@ -71,8 +70,7 @@ const ProductPrice = ({ product, selectedVariation }: ProductPriceProps) => {
                     commission ?? 0,
                     product.price.app.discountedPrice.value
                   ),
-                })}{" "}
-                DZD
+                })}
               </div>
               <div className="text-xs lg:text-sm">
                 <span className="line-through mr-4">
@@ -82,8 +80,7 @@ const ProductPrice = ({ product, selectedVariation }: ProductPriceProps) => {
                       commission ?? 0,
                       product.price.app.originalPrice.value
                     ),
-                  })}{" "}
-                  DZD
+                  })}
                 </span>{" "}
                 {product.price.app.discountPercentage}% off
               </div>
@@ -96,8 +93,7 @@ const ProductPrice = ({ product, selectedVariation }: ProductPriceProps) => {
                   commission ?? 0,
                   product.price.app.originalPrice.value
                 ),
-              })}{" "}
-              DZD
+              })}
             </>
           )}
         </>
@@ -115,15 +111,14 @@ const ProductPrice = ({ product, selectedVariation }: ProductPriceProps) => {
                     product.priceSummary.app.discountedPrice.min.value
                   ),
                 })}{" "}
-                DZD -{" "}
+                -{" "}
                 {t("price", {
                   price: GetPrice(
                     euro ?? 0,
                     commission ?? 0,
                     product.priceSummary.app.discountedPrice.max.value
                   ),
-                })}{" "}
-                DZD
+                })}
               </div>
               <div className="text-xs lg:text-sm">
                 <span className="line-through mr-4">
