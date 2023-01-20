@@ -31,7 +31,7 @@ export default function Slideover({
   const router = useRouter();
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={setOpen}>
+      <Dialog as="div" className="relative z-100" onClose={setOpen}>
         <Transition.Child
           as={Fragment}
           enter="ease-in-out duration-500"
@@ -46,15 +46,15 @@ export default function Slideover({
 
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="pointer-events-none fixed inset-y-0 left-0 flex max-w-full pr-32">
+            <div className="pointer-events-none fixed inset-y-0 ltr:left-0 rtl:right-0 flex max-w-full ltr:pr-32 rtl:pl-32">
               <Transition.Child
                 as={Fragment}
                 enter="transform transition ease-in-out duration-500 sm:duration-700"
-                enterFrom="-translate-x-full"
-                enterTo="-translate-x-0"
+                enterFrom="ltr:-translate-x-full rtl:translate-x-full"
+                enterTo="ltr:-translate-x-0 rtl:translate-x-0"
                 leave="transform transition ease-in-out duration-500 sm:duration-700"
-                leaveFrom="-translate-x-0"
-                leaveTo="-translate-x-full"
+                leaveFrom="ltr:-translate-x-0 rtl:translate-x-0"
+                leaveTo="ltr:-translate-x-full rtl:translate-x-full"
               >
                 <Dialog.Panel className="pointer-events-auto relative w-screen max-w-md">
                   <Transition.Child
@@ -66,7 +66,7 @@ export default function Slideover({
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                   >
-                    <div className="absolute top-0 right-0 -mr-8 flex pt-4 pl-2 sm:-mr-10 sm:pl-4">
+                    <div className="absolute top-0 ltr:right-0 rtl:left-0 ltr:-mr-8 rtl:-ml-8 flex pt-4 ltr:pl-2 rtl:pr-2 rtl:sm:-ml-10 ltr:sm:-mr-10 ltr:sm:pl-4 rtl:sm:pr-4">
                       <button
                         type="button"
                         className={`text-contentDark hover:text-primary `}
@@ -89,7 +89,7 @@ export default function Slideover({
                                   <Button
                                     icon={
                                       <Cog6ToothIcon
-                                        className="inline h-5 w-5 mr-2"
+                                        className="inline h-5 w-5 ltr:mr-2 rtl:ml-2"
                                         aria-hidden="true"
                                       />
                                     }
@@ -104,7 +104,7 @@ export default function Slideover({
                                   <Button
                                     icon={
                                       <HeartIcon
-                                        className="inline h-5 w-5 mr-2"
+                                        className="inline h-5 w-5 ltr:mr-2 rtl:ml-2"
                                         aria-hidden="true"
                                       />
                                     }
@@ -119,7 +119,7 @@ export default function Slideover({
                                   <Button
                                     icon={
                                       <Square3Stack3DIcon
-                                        className="inline h-5 w-5 mr-2"
+                                        className="inline h-5 w-5 ltr:mr-2 rtl:ml-2"
                                         aria-hidden="true"
                                       />
                                     }
@@ -133,7 +133,7 @@ export default function Slideover({
                                 <Button
                                   icon={
                                     <PowerIcon
-                                      className="inline h-5 w-5 mr-2"
+                                      className="inline h-5 w-5 ltr:mr-2 rtl:ml-2"
                                       aria-hidden="true"
                                     />
                                   }
@@ -151,7 +151,7 @@ export default function Slideover({
                                   <Button
                                     icon={
                                       <ArrowLeftOnRectangleIcon
-                                        className="inline h-5 w-5 mr-2"
+                                        className="inline h-5 w-5 ltr:mr-2 rtl:ml-2"
                                         aria-hidden="true"
                                       />
                                     }
@@ -166,7 +166,7 @@ export default function Slideover({
                                   <Button
                                     icon={
                                       <UserPlusIcon
-                                        className="inline h-5 w-5 mr-2"
+                                        className="inline h-5 w-5 ltr:mr-2 rtl:ml-2"
                                         aria-hidden="true"
                                       />
                                     }
@@ -188,7 +188,7 @@ export default function Slideover({
                             <div
                               className={`mx-4 font-bold ${
                                 router.asPath === "/aliexpress"
-                                  ? `py-1 px-3 rounded-r-full ${BG_GRADIENT} text-white`
+                                  ? `py-1 px-3 ltr:rounded-r-full rtl:rounded-l-full ${BG_GRADIENT} text-white`
                                   : ""
                               }`}
                             >
@@ -199,7 +199,7 @@ export default function Slideover({
                             <div
                               className={`mx-4 font-bold ${
                                 router.asPath === "/currency"
-                                  ? `py-1 px-3 rounded-r-full ${BG_GRADIENT} text-white`
+                                  ? `py-1 px-3 ltr:rounded-r-full rtl:rounded-l-full ${BG_GRADIENT} text-white`
                                   : ""
                               }`}
                             >
@@ -210,7 +210,7 @@ export default function Slideover({
                             <div
                               className={`mx-4 font-bold ${
                                 router.asPath === "/support"
-                                  ? `py-1 px-3 rounded-r-full ${BG_GRADIENT} text-white`
+                                  ? `py-1 px-3 ltr:rounded-r-full rtl:rounded-l-full ${BG_GRADIENT} text-white`
                                   : ""
                               }`}
                             >
@@ -221,7 +221,7 @@ export default function Slideover({
                             <div
                               className={`mx-4 font-bold ${
                                 router.asPath === "/faq"
-                                  ? `py-1 px-3 rounded-r-full ${BG_GRADIENT} text-white`
+                                  ? `py-1 px-3 ltr:rounded-r-full rtl:rounded-l-full ${BG_GRADIENT} text-white`
                                   : ""
                               }`}
                             >

@@ -62,17 +62,17 @@ const Footer = () => {
               <div>
                 <h1 className="font-bold uppercase">{t("info")}</h1>
                 <Link href="/support">
-                  <div className="mt-2 text-sm text-gray-500 dark:text-gray-400 hover:underline">
+                  <div className="my-1 py-1 text-sm text-gray-500 dark:text-gray-400 hover:underline">
                     {t("support")}
                   </div>
                 </Link>
                 <Link href="/pp">
-                  <div className="mt-2 text-sm text-gray-500 dark:text-gray-400 hover:underline">
+                  <div className="my-1 py-1 text-sm text-gray-500 dark:text-gray-400 hover:underline">
                     {t("pp")}
                   </div>
                 </Link>
                 <Link href="/tos">
-                  <div className="mt-2 text-sm text-gray-500 dark:text-gray-400 hover:underline">
+                  <div className="my-1 py-1 text-sm text-gray-500 dark:text-gray-400 hover:underline">
                     {t("tos")}
                   </div>
                 </Link>
@@ -80,10 +80,10 @@ const Footer = () => {
 
               <div>
                 <h1 className="font-bold uppercase">{t("contact")}</h1>
-                <div className="mt-2 text-sm text-gray-500 dark:text-gray-400 hover:underline">
-                  +213 540 86 17 75
+                <div className="my-1 py-1 text-sm text-gray-500 dark:text-gray-400 hover:underline">
+                  213540861775
                 </div>
-                <div className="mt-2 text-sm text-gray-500 dark:text-gray-400 hover:underline">
+                <div className="my-1 py-1 text-sm text-gray-500 dark:text-gray-400 hover:underline">
                   support@reglini-dz.com
                 </div>
               </div>

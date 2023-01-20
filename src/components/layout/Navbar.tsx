@@ -48,13 +48,13 @@ const Navbar = () => {
           <div className="hidden lg:block relative top-1">
             <DarkMode />
           </div>
-          <div className="hidden lg:block ml-4">
+          <div className="hidden lg:block rtl:mr-4 ltr:ml-4">
             <Language />
           </div>
           <div>
             <SearchButton />
           </div>
-          <div className="mr-4">
+          <div className="ltr:mr-4 rtl:ml-4">
             <Cart />
           </div>
           {!router.asPath.includes("/auth") && <AccountBadge />}
@@ -76,7 +76,7 @@ const Navbar = () => {
                 <img
                   src="/AliexpressIcon.svg"
                   alt="page logo"
-                  className={`inline mr-1 ${
+                  className={`inline rtl:ml-1 ltr:mr-1 ${
                     router.asPath.includes("/aliexpress") ? "grayscale-0" : ""
                   } `}
                   height={20}
@@ -108,7 +108,7 @@ const Navbar = () => {
               variant="outline"
               icon={
                 <CurrencyEuroIcon
-                  className="h-5 w-5 inline mr-1"
+                  className="h-5 w-5 inline rtl:ml-1 ltr:mr-1"
                   aria-hidden="true"
                 />
               }
@@ -137,7 +137,7 @@ const Navbar = () => {
               variant="outline"
               icon={
                 <AtSymbolIcon
-                  className="h-5 w-5 inline mr-1"
+                  className="h-5 w-5 inline rtl:ml-1 ltr:mr-1"
                   aria-hidden="true"
                 />
               }
@@ -166,7 +166,7 @@ const Navbar = () => {
               variant="outline"
               icon={
                 <QuestionMarkCircleIcon
-                  className="h-5 w-5 inline mr-1"
+                  className="h-5 w-5 inline rtl:ml-1 ltr:mr-1"
                   aria-hidden="true"
                 />
               }

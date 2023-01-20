@@ -2,7 +2,11 @@ import { GetStaticProps } from "next";
 import HomeHero from "@components/layout/sections/HomeHero";
 
 const IndexPage = () => {
-  return <HomeHero />;
+  return (
+    <section className="overflow-hidden">
+      <HomeHero />
+    </section>
+  );
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {

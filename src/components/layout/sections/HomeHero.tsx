@@ -19,18 +19,17 @@ const HomeHero = () => {
 
   return (
     <div className="my-24 mx-auto max-w-6xl">
-      <div className="relative px-6 lg:flex lg:justify-between">
-        <div className="z-20">
+      <div className={`relative px-6 sm:flex sm:flex-row sm:justify-between`}>
+        <div className="z-20 basis-5/6 md:basis-3/4">
           <h2 className="font-mono">{t("wantToShop")}</h2>
           <h1 className="text-6xl font-bold z-50">{t("start")}</h1>
         </div>
+
         <div
-          className={`absolute z-0 ${
-            router.locale === "ar" ? "left-10 -bottom-10" : "right-10 bottom-0"
-          }`}
+          className={`z-0 hidden sm:flex justify-center items-center basis-1/6 md:basis-1/4`}
         >
           <img
-            className="-rotate-[50deg] z-0 w-10 md:w-16"
+            className="ltr:-rotate-[50deg] rtl:rotate-[50deg] z-0 sm:w-20 lg:w-28"
             src="/aliexpress-icon.png"
             alt="aliexpress icon"
           />

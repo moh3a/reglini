@@ -99,8 +99,7 @@ const Wishlist = () => {
                 </div>
                 <div className="text-xs flex items-center justify-between">
                   <p className="font-bold">
-                    {item.date.toISOString().substring(0, 10)}{" "}
-                    {item.date.toISOString().substring(11, 16)}
+                    {item.date.toISOString().substring(0, 10)}
                   </p>
                   <div className="flex space-x-1">
                     <div>

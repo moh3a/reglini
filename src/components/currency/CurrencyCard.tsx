@@ -21,24 +21,24 @@ const CurrencyCard = ({
           {currency.exchange === "EUR" && (
             <>
               <FlagEU />
-              <p className="text-md ml-2">1 € =</p>
+              <p className="text-md ltr:ml-2 rtl:mr-2">1 € =</p>
             </>
           )}
           {currency.exchange === "USD" && (
             <>
               <FlagUS />
-              <p className="text-md ml-2">1 $ =</p>
+              <p className="text-md ltr:ml-2 rtl:mr-2">1 $ =</p>
             </>
           )}
           {currency.exchange === "GBP" && (
             <>
               <FlagUK />
-              <p className="text-md ml-2">1 £ =</p>
+              <p className="text-md ltr:ml-2 rtl:mr-2">1 £ =</p>
             </>
           )}
         </div>
         <small className="text-xs">
-          {t("updated")}: {currency.date.toISOString().substring(2, 10)}
+          {t("updated")} : {currency.date.toISOString().substring(2, 10)}
         </small>
         <div className="flex flex-col justify-start">
           <p className="text-gray-700 dark:text-gray-100 text-2xl md:text-4xl font-bold my-3 md:my-4">

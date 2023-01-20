@@ -91,7 +91,7 @@ const ConvertCurrency = () => {
                   });
                 }}
               />
-              <span className="absolute inset-y-0 right-5 flex items-center pr-2 pointer-events-none text-gray-500">
+              <span className="absolute inset-y-0 right-5 pr-2 flex items-center pointer-events-none text-gray-500">
                 DZD
               </span>
             </div>
@@ -110,7 +110,7 @@ const ConvertCurrency = () => {
                   });
                 }}
               />
-              <span className="absolute inset-y-0 right-5 flex items-center pr-2 pointer-events-none text-gray-500">
+              <span className="absolute inset-y-0 right-5 pr-2 flex items-center pointer-events-none text-gray-500">
                 {selectedDevise.exchange === "EUR"
                   ? "€"
                   : selectedDevise.exchange === "USD"

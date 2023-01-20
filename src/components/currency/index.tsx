@@ -8,15 +8,15 @@ import LiveRate from "./LiveRate";
 
 const TABS = [
   {
-    name: { fr: "Taux actuel", ar: "Live Rate", en: "Live Rate" },
+    name: { fr: "Taux actuel", ar: "الأسعار الحية", en: "Live Rate" },
     component: <LiveRate />,
   },
   {
-    name: { fr: "Convertir", ar: "Convert", en: "Convert" },
+    name: { fr: "Convertir", ar: "تحويل", en: "Convert" },
     component: <ConvertCurrency />,
   },
   {
-    name: { fr: "Historique", ar: "Historical", en: "Historical" },
+    name: { fr: "Historique", ar: "الأسعار التاريخية", en: "Historical" },
     component: <HistoricalRates />,
   },
 ];

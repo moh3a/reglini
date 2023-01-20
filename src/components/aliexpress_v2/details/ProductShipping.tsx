@@ -78,40 +78,45 @@ const ProductShipping = ({
                           value={carrier}
                         >
                           {({ selected, active }) => (
-                            <>
-                              <span
-                                className={`${
-                                  selected ? "font-bold" : "font-normal"
-                                } block truncate`}
-                              >
-                                {carrier.service_name}
-                              </span>
-                              <span className="text-xs">
-                                {t("shipping.deliveredIn", {
-                                  time: carrier.estimated_delivery_time,
-                                })}
-                              </span>
-
-                              <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-                                {t("price", {
-                                  price: GetPrice(
-                                    usd ?? 0,
-                                    commission ?? 0,
-                                    carrier.freight.amount
-                                  ),
-                                })}
-                              </span>
-                              {selected ? (
-                                <span
-                                  className={`text-success absolute inset-y-0 left-0 flex items-center pl-3`}
+                            <div
+                              className={`cursor-pointer ${
+                                selected ? "font-bold" : "font-normal"
+                              }`}
+                            >
+                              <div className="flex justify-between">
+                                <div
+                                  className={`truncate ${
+                                    active ? "font-extrabold" : ""
+                                  }`}
                                 >
-                                  <CheckIcon
-                                    className="w-5 h-5"
-                                    aria-hidden="true"
-                                  />
-                                </span>
-                              ) : null}
-                            </>
+                                  {carrier.service_name}
+                                </div>
+                                {selected && (
+                                  <div className={`text-success`}>
+                                    <CheckIcon
+                                      className="w-5 h-5"
+                                      aria-hidden="true"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                              <div className="text-xs flex justify-between">
+                                <div>
+                                  {t("shipping.deliveredIn", {
+                                    time: carrier.estimated_delivery_time,
+                                  })}
+                                </div>
+                                <div>
+                                  {t("price", {
+                                    price: GetPrice(
+                                      usd ?? 0,
+                                      commission ?? 0,
+                                      carrier.freight.amount
+                                    ),
+                                  })}
+                                </div>
+                              </div>
+                            </div>
                           )}
                         </Listbox.Option>
                       )
@@ -121,13 +126,13 @@ const ProductShipping = ({
               </div>
             </Listbox>
           </div>
-          <p className="relative text-xs pl-2 z-0">
-            <span>
+          <div className="flex justify-between text-xs z-0">
+            <div>
               {t("shipping.deliveredIn", {
                 time: selected.estimated_delivery_time,
               })}
-            </span>
-            <span className="absolute inset-y-0 right-0 flex items-center pr-3">
+            </div>
+            <div>
               {t("price", {
                 price: GetPrice(
                   usd ?? 0,
@@ -135,8 +140,8 @@ const ProductShipping = ({
                   selected.freight.amount
                 ),
               })}
-            </span>
-          </p>
+            </div>
+          </div>
         </>
       ) : (
         <p className="text-danger text-center uppercase font-mono">

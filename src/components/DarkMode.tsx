@@ -13,7 +13,9 @@ const DarkMode = () => {
       <span className="sr-only">Toggle Dark Mode</span>
       <div
         className={`${
-          theme === "dark" ? "translate-x-7" : "translate-x-1"
+          theme === "dark"
+            ? "ltr:translate-x-7 rtl:-tranlate-x-1"
+            : "ltr:translate-x-1 rtl:-translate-x-7"
         } inline-block h-6 w-6 transform transition ease-in-out duration-200 rounded-full`}
       >
         {theme === "dark" ? (

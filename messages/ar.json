@@ -1,6 +1,6 @@
 {
   "Common": {
-    "aliexpress": { "search": "بحث AliExpress" },
+    "aliexpress": { "search": "بحث أليكسبرس" },
     "cart": {
       "title": "عربة التسوق",
       "empty": "عربة التسوق فارغة",
@@ -30,7 +30,7 @@
       "signOut": "خروج"
     },
     "footer": {
-      "desc": "مرحبًا بك في reglini-dz ، حيث ستتمكن من شراء سلع من Aliexpress باستخدام الدينار الجزائري المحلي",
+      "desc": "مرحبًا بك في ريغليني ، حيث ستتمكن من شراء سلع من أليكسبرس باستخدام الدينار الجزائري المحلي",
       "info": "معلومات",
       "support": "دعم تقني",
       "pp": "سياسة الخصوصية",
@@ -89,7 +89,7 @@
         "cancelled": "تم الغاء الطلب"
       },
       "empty": "ليس لديك طلبات!",
-      "paymentTimout": "يجب تقديم دفعة في أقل من 3 أيام أو سيتم إلغاء الطلب تلقائيًا. يمكنك الدفع بمجرد إنشاء الطلب",
+      "paymentTimout": "يجب الدفع في أقل من 3 أيام أو سيتم إلغاء الطلب تلقائيًا. يمكنك الدفع بمجرد إنشاء الطلب",
       "product": {
         "title": "المنتجات",
         "productPrice": "سعر المنتج",
@@ -257,7 +257,7 @@
       "comingSoon": "قريبا"
     },
     "convertCurrency": {
-      "intro": "حول <gradient>DZD</gradient> الى <highlight>{exchange}</highlight> مع أسعار السوق الموازية."
+      "intro": "حول <gradient>دج</gradient> الى <highlight>{exchange}</highlight> مع أسعار السوق الموازية."
     }
   },
   "IndexPage": {

@@ -2,8 +2,10 @@
 
 ### Todo
 
+- fix logo RTL
+- move from font-awesome css link to react component
+- optimize for lighthouse
 - order create: error -> invalid signature || missing version
-- fix LTR in latin and RTL in arabic
 
 ### Prerequisites
 

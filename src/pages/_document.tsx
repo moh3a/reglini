@@ -21,7 +21,10 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html>
+      <Html
+        dir={this.props.locale === "ar" ? "rtl" : "ltr"}
+        lang={this.props.locale}
+      >
         <Head>
           <link rel="icon" href="/favicon.ico" />
           <link
@@ -31,6 +34,9 @@ class MyDocument extends Document {
             crossOrigin="anonymous"
             referrerPolicy="no-referrer"
           />
+          <link rel="alternate" hrefLang="en" href={APP_URL + "/en"} />
+          <link rel="alternate" hrefLang="fr" href={APP_URL} />
+          <link rel="alternate" hrefLang="ar" href={APP_URL + "/ar"} />
           <meta name="title" content={APP_NAME + " | " + APP_SLOGAN} />
           <meta name="description" content={APP_DESCRIPTION} />
 

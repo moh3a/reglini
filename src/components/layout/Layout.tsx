@@ -1,5 +1,4 @@
 import { ReactNode, useCallback, useEffect } from "react";
-import { useRouter } from "next/router";
 
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -7,7 +6,6 @@ import { useFinance } from "@utils/store";
 import { trpc } from "@utils/trpc";
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const router = useRouter();
   const { set_currency, set_commission, commission, euro, usd } = useFinance();
 
   const commissionMutation = trpc.commission.useMutation();
@@ -41,13 +39,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <Navbar />
-      <main
-        className={`mb-2 min-h-[350px] ${
-          router.locale === "ar" ? "text-right" : "text-left"
-        } `}
-      >
-        {children}
-      </main>
+      <main className={`mb-2 min-h-[350px]`}>{children}</main>
       <Footer />
     </>
   );

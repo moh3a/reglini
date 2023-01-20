@@ -1,4 +1,4 @@
-const Logo = ({ width, height, loading }: any) => {
+const Logo = ({ width, height }: any) => {
   return (
     <>
       <svg
@@ -7,7 +7,6 @@ const Logo = ({ width, height, loading }: any) => {
         width={width}
         height={height}
         viewBox="0 0 39 45"
-        className={loading ? "animate-pulse select-none" : ""}
       >
         <defs>
           <linearGradient
@@ -71,7 +70,11 @@ const Logo = ({ width, height, loading }: any) => {
                   fontSize="36px"
                   fontWeight={500}
                 >
-                  <tspan x="-0.7368" y="40.9041">
+                  <tspan
+                    x="-0.7368"
+                    y="40.9041"
+                    className="inline-block rtl:relative rtl:left-4"
+                  >
                     r
                   </tspan>
                 </text>

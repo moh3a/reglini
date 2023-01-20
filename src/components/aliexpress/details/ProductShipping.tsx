@@ -70,22 +70,45 @@ const ProductShipping = ({ product, setSelectedShipping }: any) => {
                           value={carrier}
                         >
                           {({ selected, active }) => (
-                            <>
-                              <span
-                                className={`${
-                                  selected ? "font-bold" : "font-normal"
-                                } block truncate`}
-                              >
-                                {carrier.company.name}
-                              </span>
-                              <span className="text-xs">
-                                {t("shipping.deliveredIn", {
-                                  time:
-                                    carrier.deliveryTimeInDays.min +
-                                    " - " +
-                                    carrier.deliveryTimeInDays.max,
-                                })}
-                              </span>
+                            <div
+                              className={selected ? "font-bold" : "font-normal"}
+                            >
+                              <div className="flex justify-between">
+                                <div
+                                  className={`${
+                                    active && "font-extrabold"
+                                  } truncate`}
+                                >
+                                  {carrier.company.name}
+                                </div>
+                                {selected && (
+                                  <div className={`text-success`}>
+                                    <CheckIcon
+                                      className="w-5 h-5"
+                                      aria-hidden="true"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                              <div className="flex justify-between text-xs">
+                                <div>
+                                  {t("shipping.deliveredIn", {
+                                    time:
+                                      carrier.deliveryTimeInDays.min +
+                                      " - " +
+                                      carrier.deliveryTimeInDays.max,
+                                  })}
+                                </div>
+                                <div>
+                                  {t("price", {
+                                    price: GetPrice(
+                                      euro ?? 0,
+                                      commission ?? 0,
+                                      carrier.price.value
+                                    ),
+                                  })}
+                                </div>
+                              </div>
 
                               {carrier.hasTracking ? (
                                 <span className="text-xs text-success block truncate">
@@ -96,26 +119,7 @@ const ProductShipping = ({ product, setSelectedShipping }: any) => {
                                   Carrier does not have tracking
                                 </span>
                               )}
-                              <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-                                {t("price", {
-                                  price: GetPrice(
-                                    euro ?? 0,
-                                    commission ?? 0,
-                                    carrier.price.value
-                                  ),
-                                })}
-                              </span>
-                              {selected ? (
-                                <span
-                                  className={`text-success absolute inset-y-0 left-0 flex items-center pl-3`}
-                                >
-                                  <CheckIcon
-                                    className="w-5 h-5"
-                                    aria-hidden="true"
-                                  />
-                                </span>
-                              ) : null}
-                            </>
+                            </div>
                           )}
                         </Listbox.Option>
                       )
@@ -125,16 +129,16 @@ const ProductShipping = ({ product, setSelectedShipping }: any) => {
               </div>
             </Listbox>
           </div>
-          <p className="relative text-xs pl-2 z-0">
-            <span>
+          <div className="flex justify-between text-xs z-0">
+            <div>
               {t("shipping.deliveredIn", {
                 time:
                   selected.deliveryTimeInDays.min +
                   " - " +
                   selected.deliveryTimeInDays.max,
               })}
-            </span>
-            <span className="absolute inset-y-0 right-0 flex items-center pr-3">
+            </div>
+            <div>
               {t("price", {
                 price: GetPrice(
                   euro ?? 0,
@@ -142,8 +146,8 @@ const ProductShipping = ({ product, setSelectedShipping }: any) => {
                   selected.price.value
                 ),
               })}
-            </span>
-          </p>
+            </div>
+          </div>
         </>
       ) : (
         <p className="text-danger text-center uppercase font-mono">

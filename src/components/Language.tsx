@@ -11,7 +11,7 @@ import Button from "./shared/Button";
 
 const Badge = ({ text }: { text: string }) => {
   return (
-    <span className="inline-block text-xs w-6 h-6 rounded-full bg-aliexpress text-white p-1">
+    <span className="inline-block text-center text-xs w-6 h-6 rounded-full bg-aliexpress text-white p-1">
       {text}
     </span>
   );
@@ -59,11 +59,12 @@ const Language = () => {
                       `${ROUNDED} w-full px-4 py-2 text-sm flex`
                     )}
                     locale={language.locale}
-                    passHref
                     onClick={() => Cookies.set("NEXT_LOCALE", language.locale)}
                   >
                     {language.badge}{" "}
-                    <span className="ml-1 relative top-1">{language.name}</span>
+                    <span className="ltr:ml-1 rtl:mr-1 relative top-0.5">
+                      {language.name}
+                    </span>
                   </Link>
                 )}
               </Menu.Item>
