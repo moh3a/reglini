@@ -88,6 +88,7 @@ const SearchButton = () => {
                     </div>
                     <div className="absolute top-0 -right-1">
                       <Button variant="outline" type="submit">
+                        <span className="sr-only">search aliexpress</span>
                         <MagnifyingGlassIcon
                           className="h-5 w-5 inline"
                           aria-hidden="true"

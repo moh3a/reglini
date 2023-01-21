@@ -10,7 +10,7 @@ import {
   ROUNDED,
   SHADOW,
 } from "@config/design";
-import AliExpressLogo from "@components/shared/AliExpressLogo";
+import { AliExpressLogo } from "@components/shared/Logos";
 import Button from "@components/shared/Button";
 import Loading from "@components/shared/Loading";
 import Title from "@components/shared/Title";
@@ -112,7 +112,12 @@ const Wishlist = () => {
                     </div>
                     <div>
                       <Link href={`/aliexpress/product/${item.id}`}>
-                        <Button variant="outline">{t("viewDetails")}</Button>
+                        <Button variant="outline">
+                          <span className="sr-only">
+                            view item&apos; details
+                          </span>
+                          {t("viewDetails")}
+                        </Button>
                       </Link>
                     </div>
                   </div>

@@ -146,6 +146,7 @@ const CartItem = ({ item }: { item: AENOProduct }) => {
               max={100}
             />
             <Button variant="outline" onClick={deleteHanlder}>
+              <span className="sr-only">delete item</span>
               <TrashIcon
                 className="h-6 w-6 inline text-aliexpress"
                 aria-hidden="true"

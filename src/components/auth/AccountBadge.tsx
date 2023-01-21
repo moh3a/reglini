@@ -30,6 +30,7 @@ const AccountBadge = () => {
       <div className={`flex justify-center items-center w-8 h-8 md:w-auto`}>
         <Link href={"/auth/login"}>
           <Button variant="outline">
+            <span className="sr-only">login</span>
             <div className="flex relative top-1">
               <ArrowLeftOnRectangleIcon
                 className="w-5 h-5 md:mr-1"

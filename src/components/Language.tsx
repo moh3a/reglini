@@ -30,7 +30,8 @@ const Language = () => {
     <Menu as="div" className="relative inline-block">
       <Menu.Button as="div">
         <Button variant="outline">
-          <LanguageIcon className="h-5 w-5 inline" aria-hidden="true" />
+          <span className="sr-only">select language</span>
+          <LanguageIcon className="h-5 w-5 inline" />
         </Button>
       </Menu.Button>
 

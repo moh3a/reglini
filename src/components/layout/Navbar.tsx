@@ -9,15 +9,14 @@ import {
   QuestionMarkCircleIcon,
 } from "@heroicons/react/24/solid";
 
-import DarkMode from "../DarkMode";
-import AccountBadge from "../auth/AccountBadge";
-import Slideover from "./Slideover";
-import Logo from "../shared/Logo";
-import Language from "../Language";
-import Button from "../shared/Button";
+import { APP_NAME } from "@config/general";
+import Slideover from "@components/layout/Slideover";
+import AccountBadge from "@components/auth/AccountBadge";
+import DarkMode from "@components/DarkMode";
+import Language from "@components/Language";
 import Cart from "@components/account/Cart";
 import SearchButton from "@components/aliexpress/SearchButton";
-import { APP_NAME } from "@config/general";
+import Button from "@components/shared/Button";
 
 const Navbar = () => {
   const t = useTranslations("Common.navigation");
@@ -41,7 +40,7 @@ const Navbar = () => {
         <div className="flex-1 flex justify-center relative bottom-2 lg:flex-none">
           <Link href="/" passHref>
             <span className="sr-only">{APP_NAME}</span>
-            <Logo width="40" height="40" />
+            <img src="/favicon.ico" alt="reglini logo" width={40} height={40} />
           </Link>
         </div>
         <div className="flex-1 flex justify-end">

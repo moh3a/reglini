@@ -37,6 +37,7 @@ const FileUpload = ({ onChange, uploadFileName }: FileUploadProps) => {
         type="button"
         onClick={onClickHandler}
       >
+        <span className="sr-only">upload file</span>
         <FolderOpenIcon className="h-5 w-5 text-aliexpress" />
       </button>
       <input

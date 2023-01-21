@@ -27,13 +27,6 @@ class MyDocument extends Document {
       >
         <Head>
           <link rel="icon" href="/favicon.ico" />
-          <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-            integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
-            crossOrigin="anonymous"
-            referrerPolicy="no-referrer"
-          />
           <link rel="alternate" hrefLang="en" href={APP_URL + "/en"} />
           <link rel="alternate" hrefLang="fr" href={APP_URL} />
           <link rel="alternate" hrefLang="ar" href={APP_URL + "/ar"} />
@@ -60,6 +53,18 @@ class MyDocument extends Document {
         <body className="bg-white dark:bg-grim text-grim dark:text-white">
           <Main />
           <NextScript />
+          <script
+            id={"fontawesome"}
+            dangerouslySetInnerHTML={{
+              __html: `</script><link
+                rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+                integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+                crossOrigin="anonymous"
+                referrerPolicy="no-referrer"
+              /><script>`,
+            }}
+          />
         </body>
       </Html>
     );

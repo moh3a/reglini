@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
 import SearchInput from "@components/shared/SearchInput";
-import AliExpressLogo from "@components/shared/AliExpressLogo";
+import { AliExpressLogo } from "@components/shared/Logos";
 
 const MainSearch = () => {
   const router = useRouter();

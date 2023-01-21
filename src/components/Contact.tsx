@@ -66,7 +66,9 @@ const Contact = () => {
           <Banner type={notification.type} message={notification.text} />
         )}
         <div className="grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 md:grid-cols-3">
-          <a className="cursor-pointer flex flex-col items-center px-4 py-3 rounded-lg  hover:bg-purple-200 dark:hover:bg-purple-800">
+          <div
+            className={`cursor-pointer flex flex-col items-center px-4 py-3 ${ROUNDED} hover:bg-purple-200 dark:hover:bg-purple-800`}
+          >
             <svg
               className="w-5 h-5 text-purple-600"
               xmlns="http://www.w3.org/2000/svg"
@@ -81,15 +83,16 @@ const Contact = () => {
             </svg>
 
             <span className="mt-2">{t("contact.address")}</span>
-          </a>
-
-          <a className="cursor-pointer flex flex-col items-center px-4 py-3  rounded-lg  hover:bg-green-200 dark:hover:bg-green-800">
+          </div>
+          <div
+            className={`cursor-pointer flex flex-col items-center px-4 py-3 ${ROUNDED} hover:bg-green-200 dark:hover:bg-green-800`}
+          >
             <i className="fab fa-whatsapp text-green-500"></i>
-
             <span className="mt-2">{t("contact.phoneNumber")}</span>
-          </a>
-
-          <a className="cursor-pointer flex flex-col items-center px-4 py-3  rounded-lg  hover:bg-orange-200 dark:hover:bg-orange-800 text-xs">
+          </div>
+          <div
+            className={`cursor-pointer flex flex-col items-center px-4 py-3 ${ROUNDED} hover:bg-orange-200 dark:hover:bg-orange-800 text-xs`}
+          >
             <svg
               className="w-5 h-5 text-orange-500"
               xmlns="http://www.w3.org/2000/svg"
@@ -99,9 +102,8 @@ const Contact = () => {
               <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
               <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
             </svg>
-
             <span className="mt-2">{t("contact.email")}</span>
-          </a>
+          </div>
         </div>
         <p className="my-4 text-base text-center md:text-lg">
           {t("directToFaq.youHaveAQuestion")}{" "}

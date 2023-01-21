@@ -15,34 +15,30 @@ const LoginProviders = ({ providers }: { providers: any }) => {
           if (provider.id === "google") {
             return (
               <div key={provider.name} className="my-1">
-                <a target="_blank">
-                  <Button
-                    onClick={() => signIn(provider.id)}
-                    tabIndex={5}
-                    type="button"
-                    className={` w-full font-bold text-center border-black bg-black text-white transition duration-500 ease-in-out transform hover:bg-gray-100 hover:text-black ${PADDING} ${ROUNDED} disabled:cursor-not-allowed disabled:border-0 disabled:bg-gray-500 `}
-                  >
-                    <i className="fab fa-google mr-2"></i>
-                    {t("continue", { provider: "Google" })}
-                  </Button>
-                </a>
+                <Button
+                  onClick={() => signIn(provider.id, { redirect: true })}
+                  tabIndex={5}
+                  type="button"
+                  className={` w-full font-bold text-center border-black bg-black text-white transition duration-500 ease-in-out transform hover:bg-gray-100 hover:text-black ${PADDING} ${ROUNDED} disabled:cursor-not-allowed disabled:border-0 disabled:bg-gray-500 `}
+                >
+                  <i className="fab fa-google mr-2"></i>
+                  {t("continue", { provider: "Google" })}
+                </Button>
               </div>
             );
           }
           if (provider.id === "facebook") {
             return (
               <div key={provider.name} className="my-1">
-                <a target="_blank">
-                  <Button
-                    onClick={() => signIn(provider.id)}
-                    tabIndex={5}
-                    type="button"
-                    className={` w-full font-bold text-center border-facebook bg-facebook text-white transition duration-500 ease-in-out transform hover:bg-gray-100 hover:text-facebook ${PADDING} ${ROUNDED} disabled:cursor-not-allowed disabled:border-0 disabled:bg-gray-500 `}
-                  >
-                    <i className="fab fa-facebook-f mr-2"></i>
-                    {t("continue", { provider: "Facebook" })}
-                  </Button>
-                </a>
+                <Button
+                  onClick={() => signIn(provider.id, { redirect: true })}
+                  tabIndex={5}
+                  type="button"
+                  className={` w-full font-bold text-center border-facebook bg-facebook text-white transition duration-500 ease-in-out transform hover:bg-gray-100 hover:text-facebook ${PADDING} ${ROUNDED} disabled:cursor-not-allowed disabled:border-0 disabled:bg-gray-500 `}
+                >
+                  <i className="fab fa-facebook-f mr-2"></i>
+                  {t("continue", { provider: "Facebook" })}
+                </Button>
               </div>
             );
           }

@@ -8,7 +8,6 @@ import Button from "@components/shared/Button";
 
 const HomeHero = () => {
   const t = useTranslations("IndexPage");
-  const router = useRouter();
   const [serviceIdx, setServiceIdx] = useState(3);
 
   useEffect(() => {
@@ -18,7 +17,7 @@ const HomeHero = () => {
   }, [serviceIdx]);
 
   return (
-    <div className="my-24 mx-auto max-w-6xl">
+    <div className="my-12 md:my-24 mx-auto max-w-6xl">
       <div className={`relative px-6 sm:flex sm:flex-row sm:justify-between`}>
         <div className="z-20 basis-5/6 md:basis-3/4">
           <h2 className="font-mono">{t("wantToShop")}</h2>

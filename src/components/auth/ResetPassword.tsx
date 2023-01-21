@@ -1,6 +1,10 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { ArrowPathRoundedSquareIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowPathRoundedSquareIcon,
+  CheckBadgeIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 
 import Banner from "@components/shared/Banner";
 import PasswordInput from "@components/shared/PasswordInput";
@@ -176,34 +180,34 @@ const ResetPassword = ({ token }: { token: string }) => {
           Password must contain the following fields
           <p className={checkUpperCase ? "text-success" : "text-danger"}>
             {checkUpperCase ? (
-              <i className="fas fa-check"></i>
+              <CheckBadgeIcon className="h-5 w-5 inline mx-1" />
             ) : (
-              <i className="fas fa-times"></i>
-            )}{" "}
+              <XMarkIcon className="h-5 w-5 inline mx-1" />
+            )}
             An uppercase letter
           </p>
           <p className={checkLowerCase ? "text-success" : "text-danger"}>
             {checkLowerCase ? (
-              <i className="fas fa-check"></i>
+              <CheckBadgeIcon className="h-5 w-5 inline mx-1" />
             ) : (
-              <i className="fas fa-times"></i>
-            )}{" "}
+              <XMarkIcon className="h-5 w-5 inline mx-1" />
+            )}
             A lowercaser letter
           </p>
           <p className={checkNumber ? "text-success" : "text-danger"}>
             {checkNumber ? (
-              <i className="fas fa-check"></i>
+              <CheckBadgeIcon className="h-5 w-5 inline mx-1" />
             ) : (
-              <i className="fas fa-times"></i>
-            )}{" "}
+              <XMarkIcon className="h-5 w-5 inline mx-1" />
+            )}
             A number
           </p>
           <p className={checkLength ? "text-success" : "text-danger"}>
             {checkLength ? (
-              <i className="fas fa-check"></i>
+              <CheckBadgeIcon className="h-5 w-5 inline mx-1" />
             ) : (
-              <i className="fas fa-times"></i>
-            )}{" "}
+              <XMarkIcon className="h-5 w-5 inline mx-1" />
+            )}
             Minimum 8 characters
           </p>
         </div>

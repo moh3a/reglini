@@ -1,7 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-
-import Logo from "@components/shared/Logo";
 
 const Footer = () => {
   const t = useTranslations("Common.footer");
@@ -26,18 +25,13 @@ const Footer = () => {
                   rel="noreferrer"
                   target="_blank"
                 >
-                  <span
-                    className="mx-2 text-blue-600 dark:text-white hover:text-blue-500 dark:hover:text-gray-100"
-                    aria-label="Facebook"
-                  >
+                  <span className="sr-only">facebook profile</span>
+                  <span className="mx-2 text-blue-600 dark:text-white hover:text-blue-500 dark:hover:text-gray-100">
                     <i className="fab fa-facebook-square"></i>
                   </span>
                 </Link>
 
-                <span
-                  className="cursor-pointer mx-2 text-blue-400 dark:text-white hover:text-blue-300 dark:hover:text-gray-100"
-                  aria-label="Messenger"
-                >
+                <span className="cursor-pointer mx-2 text-blue-400 dark:text-white hover:text-blue-300 dark:hover:text-gray-100">
                   <i className="fab fa-facebook-messenger"></i>
                 </span>
 
@@ -46,10 +40,8 @@ const Footer = () => {
                   rel="noreferrer"
                   target="_blank"
                 >
-                  <span
-                    className="mx-2 text-pink-600 dark:text-white hover:text-pink-700 dark:hover:text-gray-100"
-                    aria-label="Instagram"
-                  >
+                  <span className="sr-only">instagram profile</span>
+                  <span className="mx-2 text-pink-600 dark:text-white hover:text-pink-700 dark:hover:text-gray-100">
                     <i className="fab fa-instagram"></i>
                   </span>
                 </Link>
@@ -92,7 +84,7 @@ const Footer = () => {
         </div>
 
         <div className="w-full flex justify-center">
-          <Logo width="50" height="50" loading={false} />
+          <img src="/favicon.ico" alt="reglini logo" width={40} height={40} />
         </div>
       </div>
     </footer>

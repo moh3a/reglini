@@ -62,12 +62,6 @@ const FlagEU = () => {
 const FlagUK = () => {
   return (
     <div className="w-6 h-6 inline">
-      <a
-        className="sr-only"
-        href="https://icons8.com/icon/t3NE3BsOAQwq/great-britain"
-      >
-        Great Britain icon by Icons8
-      </a>
       <img
         src="https://img.icons8.com/color/48/000000/great-britain-circular.png"
         alt="UK flag"
@@ -79,9 +73,6 @@ const FlagUK = () => {
 const FlagUS = () => {
   return (
     <div className="w-6 h-6 inline">
-      <a className="sr-only" href="https://icons8.com/icon/aRiu1GGi6Aoe/usa">
-        Usa icon by Icons8
-      </a>
       <img
         src="https://img.icons8.com/color/48/000000/usa-circular.png"
         alt="USA flag"
