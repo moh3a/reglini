@@ -2,7 +2,9 @@
 
 ### Todo
 
+- add parallax effect at /
 - order create: error -> invalid signature || missing version
+- follow [https://web.dev/add-manifest/] for a full manifest.json
 
 ### Prerequisites
 

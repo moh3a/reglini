@@ -5,10 +5,14 @@ import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import { NextIntlProvider, IntlErrorCode } from "next-intl";
+import { PageTransition } from "next-page-transitions";
 
 import type { AppType } from "next/dist/shared/lib/utils";
 import { trpc } from "@utils/trpc";
 import { APP_NAME } from "@config/general";
+import Loading from "@components/shared/Loading";
+
+const TIMEOUT = 500;
 
 const MyApp: AppType<{
   session: Session | null;
@@ -19,8 +23,10 @@ const MyApp: AppType<{
     <>
       <Head>
         <title>{APP_NAME}</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="theme-color" content="#1b1f23" />
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+        />
         <meta
           name="facebook-domain-verification"
           content="tqch8yg7c5a548rbwp8vepozlepnap"
@@ -30,13 +36,52 @@ const MyApp: AppType<{
         messages={(pageProps as any).messages}
         getMessageFallback={getMessageFallback}
       >
-        <ThemeProvider attribute="class">
-          <SessionProvider session={session}>
-            {getLayout(<Component {...pageProps} />)}
-          </SessionProvider>
-        </ThemeProvider>
+        <PageTransition
+          timeout={TIMEOUT}
+          classNames="page-transition"
+          loadingComponent={<Loading size="large" />}
+          loadingDelay={500}
+          loadingTimeout={{
+            enter: TIMEOUT,
+            exit: 0,
+          }}
+          loadingClassNames="loading-indicator"
+        >
+          <ThemeProvider attribute="class">
+            <SessionProvider session={session}>
+              {getLayout(<Component {...pageProps} />)}
+            </SessionProvider>
+          </ThemeProvider>
+        </PageTransition>
       </NextIntlProvider>
       <noscript>Enable javascript to run this web app.</noscript>
+      <style jsx global>{`
+        .page-transition-enter {
+          opacity: 0;
+          transform: translate3d(0, 20px, 0);
+        }
+        .page-transition-enter-active {
+          opacity: 1;
+          transform: translate3d(0, 0, 0);
+          transition: opacity ${TIMEOUT}ms, transform ${TIMEOUT}ms;
+        }
+        .page-transition-exit {
+          opacity: 1;
+        }
+        .page-transition-exit-active {
+          opacity: 0;
+          transition: opacity ${TIMEOUT}ms;
+        }
+        .loading-indicator-appear,
+        .loading-indicator-enter {
+          opacity: 0;
+        }
+        .loading-indicator-appear-active,
+        .loading-indicator-enter-active {
+          opacity: 1;
+          transition: opacity ${TIMEOUT}ms;
+        }
+      `}</style>
     </>
   );
 };

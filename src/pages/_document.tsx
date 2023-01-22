@@ -49,6 +49,51 @@ class MyDocument extends Document {
           <meta property="twitter:url" content={APP_URL} />
           <meta property="twitter:image" content={LOGO_URL} />
           <meta property="twitter:card" content={LOGO_URL} />
+
+          <meta name="application-name" content="reglini-dz" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="default"
+          />
+          <meta name="apple-mobile-web-app-title" content="reglini-dz" />
+          <meta name="format-detection" content="telephone=no" />
+          <meta name="mobile-web-app-capable" content="yes" />
+          <meta name="msapplication-TileColor" content="#1b1f23" />
+          <meta name="msapplication-tap-highlight" content="no" />
+          <meta name="theme-color" content="#1b1f23" />
+
+          <link rel="apple-touch-icon" href="/icon-192x192.png" />
+          <link
+            rel="apple-touch-icon"
+            sizes="192x192"
+            href="/icon-192x192.png"
+          />
+          <link
+            rel="apple-touch-icon"
+            sizes="256x256"
+            href="/icon-256x256.png"
+          />
+          <link
+            rel="apple-touch-icon"
+            sizes="512x512"
+            href="/icon-512x512.png"
+          />
+
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="192x192"
+            href="/icon-192x192.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="256x256"
+            href="/icon-256x256.png"
+          />
+          <link rel="manifest" href="/manifest.json" />
+          <link rel="shortcut icon" href="/favicon.ico" />
         </Head>
         <body className="bg-white dark:bg-grim text-grim dark:text-white">
           <Main />

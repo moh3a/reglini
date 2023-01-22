@@ -1,0 +1,47 @@
+{
+  "name": "reglini-dz",
+  "short_name": "reglini",
+  "theme_color": "#1b1f23",
+  "background_color": "#1b1f23",
+  "display": "standalone",
+  "start_url": "/",
+  "description": "Aliexpress in algerian dinars.",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Search Aliexpress",
+      "short_name": "Aliexpress",
+      "description": "Search Aliexpress products and start your order!",
+      "url": "/aliexpress",
+      "icons": [{ "src": "/aliexpress-icon.png", "sizes": "64x64" }]
+    },
+    {
+      "name": "Live currency exchange",
+      "short_name": "Currency exchange",
+      "description": "Get live foreigh exchange rate in Algeria.",
+      "url": "/currency",
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}
