@@ -2,7 +2,6 @@
 
 ### Todo
 
-- add parallax effect at /
 - google login
 - order create: error -> invalid signature || missing version
 

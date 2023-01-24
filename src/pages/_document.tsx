@@ -24,6 +24,7 @@ class MyDocument extends Document {
       <Html
         dir={this.props.locale === "ar" ? "rtl" : "ltr"}
         lang={this.props.locale}
+        style={{ scrollBehavior: "smooth" }}
       >
         <Head>
           <link rel="icon" href="/favicon.ico" />
