@@ -1,0 +1,43 @@
+/* eslint-disable @next/next/no-img-element */
+import Button from "@components/shared/Button";
+import Link from "next/link";
+
+const AccountHero = () => {
+  return (
+    <div className="h-screen py-24 md:py-36 mx-auto max-w-6xl flex items-center">
+      <div>
+        <div className={`relative px-6 sm:flex sm:flex-row sm:justify-between`}>
+          <div className="z-20 basis-5/6 md:basis-3/4">
+            <h2 className="font-mono">
+              Place an order after creating your free account.
+            </h2>
+            <h1 className="text-6xl font-bold z-50">
+              Fill in your personal details, and have the package delivered to
+              your city.
+            </h1>
+          </div>
+          <div
+            className={`z-0 hidden sm:relative sm:flex justify-center items-center basis-1/6 md:basis-1/4`}
+          >
+            <div className="absolute ltr:-rotate-[5deg] rtl:rotate-[5deg] bg-gradient-to-t blur-3xl rounded-3xl from-teal-600 to-indigo-600 ltr:sm:-left-14 ltr:lg:-left-5 ltr:xl:left-5 -top-6 w-[300px] h-[500px]" />
+            <div className="absolute ltr:-rotate-[5deg] rtl:rotate-[5deg] ltr:hover:-rotate-[4deg] rtl:hover:rotate-[4deg] transition-transform duration-200 ease-in ltr:sm:-left-14 ltr:lg:-left-5 ltr:xl:left-5 -top-5 w-[300px]">
+              <img
+                className="w-full"
+                src="/screenshots/reglini-tablet.png"
+                alt="reglini ui screenshot"
+                width={2000}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="p-6">
+          <Link href={"/account"}>
+            <Button variant="solid">To your account</Button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AccountHero;

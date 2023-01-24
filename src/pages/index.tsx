@@ -1,10 +1,14 @@
 import { GetStaticProps } from "next";
-import HomeHero from "@components/layout/sections/HomeHero";
+import AliexpressHero from "@components/layout/sections/AliexpressHero";
+import CurrencyHero from "@components/layout/sections/CurrencyHero";
+import AccountHero from "@components/layout/sections/AccountHero";
 
 const IndexPage = () => {
   return (
     <section className="overflow-hidden">
-      <HomeHero />
+      <AliexpressHero />
+      <CurrencyHero />
+      <AccountHero />
     </section>
   );
 };

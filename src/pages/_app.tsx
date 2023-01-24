@@ -11,8 +11,9 @@ import type { AppType } from "next/dist/shared/lib/utils";
 import { trpc } from "@utils/trpc";
 import { APP_NAME } from "@config/general";
 import Loading from "@components/shared/Loading";
+import Logo from "@components/shared/Logo";
 
-const TIMEOUT = 500;
+const TIMEOUT = 200;
 
 const MyApp: AppType<{
   session: Session | null;
@@ -25,7 +26,7 @@ const MyApp: AppType<{
         <title>{APP_NAME}</title>
         <meta
           name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover"
         />
         <meta
           name="facebook-domain-verification"
@@ -39,7 +40,14 @@ const MyApp: AppType<{
         <PageTransition
           timeout={TIMEOUT}
           classNames="page-transition"
-          loadingComponent={<Loading size="large" />}
+          loadingComponent={
+            <div className="fixed inset-0 w-screen h-screen flex justify-center items-center bg-opacity-50 backdrop-blur-md">
+              <div className="flex">
+                <Logo />
+                <Loading size="large" />
+              </div>
+            </div>
+          }
           loadingDelay={500}
           loadingTimeout={{
             enter: TIMEOUT,

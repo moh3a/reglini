@@ -3,8 +3,8 @@
 ### Todo
 
 - add parallax effect at /
+- google login
 - order create: error -> invalid signature || missing version
-- follow [https://web.dev/add-manifest/] for a full manifest.json
 
 ### Prerequisites
 

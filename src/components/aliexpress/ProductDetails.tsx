@@ -41,6 +41,10 @@ export interface SelectedVariation {
 
 const ProductDetails = ({ id }: { id: string }) => {
   const router = useRouter();
+  const [showImage, setShowImage] = useState("/placeholder.png");
+  const [selectedShipping, setSelectedShipping] =
+    useState<ZAE_Product["shipping"]["carriers"]["0"]>();
+
   const product = trpc.zapiex.product.useQuery(
     {
       id,
@@ -64,10 +68,6 @@ const ProductDetails = ({ id }: { id: string }) => {
     if (message?.type) setIsOpen(true);
     else setIsOpen(false);
   }, [message?.type]);
-
-  const [showImage, setShowImage] = useState("");
-  const [selectedShipping, setSelectedShipping] =
-    useState<ZAE_Product["shipping"]["carriers"]["0"]>();
 
   const [quantity, setQuantity] = useState(1);
   const [properties, setProperties] = useState([{ name: "", value: "" }]);

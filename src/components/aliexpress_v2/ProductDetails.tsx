@@ -52,6 +52,7 @@ const ProductDetails = ({ id }: { id: number }) => {
   const router = useRouter();
   const [quantity, setQuantity] = useState(1);
 
+  const [showImage, setShowImage] = useState("/placeholder.png");
   const product = trpc.aliexpress.ds.product.useQuery(
     {
       id,
@@ -66,6 +67,11 @@ const ProductDetails = ({ id }: { id: number }) => {
       },
     }
   );
+
+  const [selectedShipping, setSelectedShipping] =
+    useState<
+      DS_ShippingAPI_Shipping_Info_Result["result"]["aeop_freight_calculate_result_for_buyer_d_t_o_list"]["0"]
+    >();
   const shippingInfo = trpc.aliexpress.ds.shipping.useQuery(
     { id, quantity },
     {
@@ -98,12 +104,6 @@ const ProductDetails = ({ id }: { id: number }) => {
     if (message?.type) setIsOpen(true);
     else setIsOpen(false);
   }, [message?.type]);
-
-  const [showImage, setShowImage] = useState("");
-  const [selectedShipping, setSelectedShipping] =
-    useState<
-      DS_ShippingAPI_Shipping_Info_Result["result"]["aeop_freight_calculate_result_for_buyer_d_t_o_list"]["0"]
-    >();
 
   const [properties, setProperties] = useState([{ name: "", value: "" }]);
   const [variation, setVariation] =
