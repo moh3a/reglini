@@ -2,7 +2,6 @@
 
 ### Todo
 
-- google login
 - order create: error -> invalid signature || missing version
 
 ### Prerequisites
