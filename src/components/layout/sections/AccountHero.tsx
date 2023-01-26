@@ -12,8 +12,10 @@ const AccountHero = () => {
         whileInView={{ opacity: 1, scale: 1 }}
       >
         <div>
-          <div className={`relative px-6 flex flex-row justify-between`}>
-            <div className="z-20 basis-5/6 md:basis-3/4">
+          <div
+            className={`relative px-6 flex flex-col md:flex-row justify-between`}
+          >
+            <div className="z-20 md:basis-3/4">
               <h2 className="font-mono">
                 Place an order after creating your free account.
               </h2>
@@ -23,10 +25,10 @@ const AccountHero = () => {
               </h1>
             </div>
             <div
-              className={`z-0 relative flex justify-center items-center basis-1/6 md:basis-1/4`}
+              className={`z-0 relative flex justify-center items-center md:basis-1/4`}
             >
-              <div className="absolute ltr:-rotate-[5deg] rtl:rotate-[5deg] bg-gradient-to-t blur-3xl rounded-3xl from-teal-600 to-indigo-600 ltr:sm:-left-14 ltr:lg:-left-5 ltr:xl:left-5 -top-6 w-[300px] h-[350px]" />
-              <div className="absolute ltr:-rotate-[5deg] rtl:rotate-[5deg] ltr:hover:-rotate-[4deg] rtl:hover:rotate-[4deg] transition-transform duration-200 ease-in ltr:sm:-left-14 ltr:lg:-left-5 ltr:xl:left-5 -top-5 w-[300px]">
+              <div className="absolute ltr:-rotate-[5deg] rtl:rotate-[5deg] bg-gradient-to-t blur-3xl rounded-3xl from-teal-600 to-indigo-600 ltr:left-64 ltr:md:-left-14 ltr:lg:-left-5 ltr:xl:left-5 -top-6 w-[160px] md:w-[300px] h-[220px] md:h-[400px] " />
+              <div className="absolute ltr:-rotate-[5deg] rtl:rotate-[5deg] ltr:hover:-rotate-[4deg] rtl:hover:rotate-[4deg] transition-transform duration-200 ease-in ltr:left-72 ltr:md:-left-14 ltr:lg:-left-5 ltr:xl:left-5 -top-5 w-[150px] md:w-[300px]">
                 <img
                   className="w-full"
                   src="/screenshots/reglini-tablet.png"

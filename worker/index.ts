@@ -30,12 +30,19 @@ self.addEventListener("message", async (event) => {
   }
 });
 
+self.addEventListener("appinstalled", (event) => {
+  new Notification("reglini app", {
+    body: "The reglini app was installed successfully",
+    icon: "/icon-192x192.png",
+  });
+});
+
 self.addEventListener("push", (event) => {
   const data = JSON.parse(event?.data.text() || "{}");
   event?.waitUntil(
     self.registration.showNotification(data.title, {
       body: data.message,
-      icon: "/icons/android-chrome-192x192.png",
+      icon: "/icon-192x192.png",
     })
   );
 });

@@ -23,8 +23,10 @@ const AliexpressHero = () => {
         whileInView={{ opacity: 1, scale: 1 }}
       >
         <div>
-          <div className={`relative px-6 flex flex-row justify-between`}>
-            <div className="z-20 basis-5/6 md:basis-3/4">
+          <div
+            className={`relative px-6 flex flex-col md:flex-row justify-between`}
+          >
+            <div className="z-20 md:basis-3/4">
               <h2 className="font-mono">{t("wantToShop")}</h2>
               <h1 className="text-4xl sm:text-6xl font-bold z-50">
                 {t("start")}
@@ -32,10 +34,10 @@ const AliexpressHero = () => {
             </div>
 
             <div
-              className={`z-0 relative flex justify-center items-center basis-1/6 md:basis-1/4`}
+              className={`z-0 relative flex justify-center items-center md:basis-1/4`}
             >
-              <div className="absolute ltr:-rotate-[5deg] rtl:rotate-[5deg] bg-gradient-to-tl blur-3xl rounded-3xl from-aliexpress to-amber-300 dark:to-amber-900 ltr:sm:-left-14 ltr:lg:-left-5 ltr:xl:left-5 -top-6 w-[800px] h-[500px]" />
-              <div className="absolute ltr:-rotate-[5deg] rtl:rotate-[5deg] ltr:hover:-rotate-[4deg] rtl:hover:rotate-[4deg] transition-transform duration-200 ease-in ltr:sm:-left-14 ltr:lg:-left-5 ltr:xl:left-5 -top-5 w-[750px]">
+              <div className="absolute ltr:-rotate-[5deg] rtl:rotate-[5deg] bg-gradient-to-tl blur-3xl rounded-3xl from-aliexpress to-amber-300 dark:to-amber-900 ltr:left-64 ltr:md:-left-14 ltr:lg:-left-5 ltr:xl:left-5 top-3 md:-top-6 w-[420px] md:w-[800px] h-[300px] md:h-[500px]" />
+              <div className="absolute ltr:-rotate-[5deg] rtl:rotate-[5deg] ltr:hover:-rotate-[4deg] rtl:hover:rotate-[4deg] transition-transform duration-200 ease-in ltr:left-72 ltr:md:-left-14 ltr:lg:-left-5 ltr:xl:left-5 top-5 md:-top-5 w-[400px] md:w-[750px]">
                 <img
                   className="w-full"
                   src="/screenshots/reglini-laptop.png"
@@ -45,7 +47,7 @@ const AliexpressHero = () => {
               </div>
             </div>
           </div>
-          <div className="px-6 h-12 my-6 text-lg font-bold">
+          <div className="z-50 px-6 h-12 my-6 text-lg font-bold">
             {t.rich("services.component", {
               highlight: (chunks) => (
                 <span

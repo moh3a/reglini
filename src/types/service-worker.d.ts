@@ -104,6 +104,7 @@ interface ServiceWorkerGlobalScope {
     event: "activate",
     fn: (event?: ExtendableEvent) => any
   ): void;
+  addEventListener(event: "appinstalled", fn: (event?: any) => any): void;
   addEventListener(
     event: "message",
     fn: (event?: ExtendableMessageEvent) => any

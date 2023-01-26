@@ -17,6 +17,7 @@ const InstallPWA = () => {
         // Stash the event so it can be triggered later.
         set_can_install(true);
         set_prompt(e);
+        setIsOpen(true);
       });
     }
   }, []);
@@ -34,7 +35,7 @@ const InstallPWA = () => {
     <>
       {can_install && (
         <Toast isOpen={isOpen} setIsOpen={setIsOpen}>
-          <div className="flex justify-between">
+          <div className="flex justify-between p-4">
             <div>
               <img
                 src="/icon-192x192.png"
