@@ -2,10 +2,10 @@
 import { useEffect, useState } from "react";
 
 import { useInstallPWA } from "@utils/store";
-import Button from "./shared/Button";
-import Toast from "./shared/Toast";
+import Button from "../../shared/Button";
+import Toast from "../../shared/Toast";
 
-const InstallPWA = () => {
+const InstallPWASection = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { set_prompt, set_can_install, can_install, prompt } = useInstallPWA();
 
@@ -26,7 +26,6 @@ const InstallPWA = () => {
     setIsOpen(false);
     prompt.prompt();
     const { outcome } = await prompt.userChoice;
-    console.log("response to install: " + outcome);
     set_can_install(false);
     set_prompt(undefined);
   };
@@ -35,9 +34,10 @@ const InstallPWA = () => {
     <>
       {can_install && (
         <Toast isOpen={isOpen} setIsOpen={setIsOpen}>
-          <div className="flex justify-between p-4">
+          <div className="flex justify-between p-2">
             <div>
               <img
+                className="inline"
                 src="/icon-192x192.png"
                 alt="reglini logo"
                 height={20}
@@ -47,7 +47,7 @@ const InstallPWA = () => {
                 Would you like to install the reglini app to your device?
               </span>
             </div>
-            <div>
+            <div className="flex justify-end">
               <Button variant="solid" onClick={installHandler}>
                 Install
               </Button>
@@ -59,4 +59,4 @@ const InstallPWA = () => {
   );
 };
 
-export default InstallPWA;
+export default InstallPWASection;

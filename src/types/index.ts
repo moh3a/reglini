@@ -1,3 +1,8 @@
+export interface IMessage {
+  type?: "success" | "error" | "warning";
+  text?: string;
+}
+
 export interface ISession {
   expires: string;
   user?: {

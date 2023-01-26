@@ -7,15 +7,12 @@ import { useTranslations } from "next-intl";
 import NumberInput from "@components/shared/NumberInput";
 import Button from "@components/shared/Button";
 import Banner from "@components/shared/Banner";
-import { AENOProduct } from "@reglini-types/index";
+import { AENOProduct, IMessage } from "@reglini-types/index";
 import { trpc } from "@utils/trpc";
 
 const CartItem = ({ item }: { item: AENOProduct }) => {
   const t = useTranslations("Common.cart");
-  const [message, setMessage] = useState<{
-    type?: "error" | "success";
-    text?: string;
-  }>({ type: undefined, text: undefined });
+  const [message, setMessage] = useState<IMessage>();
 
   const utils = trpc.useContext();
   const deleteItemMutation = trpc.cart.delete.useMutation();
@@ -66,7 +63,7 @@ const CartItem = ({ item }: { item: AENOProduct }) => {
 
   return (
     <>
-      {message.type && <Banner type={message.type} message={message.text} />}
+      {message?.type && <Banner type={message?.type} message={message?.text} />}
       <li className={`py-6 flex`}>
         <div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
           <img

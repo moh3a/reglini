@@ -13,7 +13,7 @@ import Button from "@components/shared/Button";
 import Edit from "../details/EditAccount";
 import EditAddress from "../details/EditAddress";
 import { trpc } from "@utils/trpc";
-import { AENOProduct } from "../../../types";
+import { AENOProduct, IMessage } from "@reglini-types/index";
 import Banner from "@components/shared/Banner";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
@@ -29,10 +29,7 @@ const CreateOrder = () => {
   const createOrderMutation = trpc.order.create.useMutation();
 
   const [products, setProducts] = useState<AENOProduct[] | undefined>();
-  const [message, setMessage] = useState<{
-    type?: "success" | "error";
-    text?: string;
-  }>({ type: undefined, text: undefined });
+  const [message, setMessage] = useState<IMessage>();
   const [valid, setValid] = useState(false);
 
   useEffect(() => {
@@ -191,7 +188,9 @@ const CreateOrder = () => {
               </dd>
             ))}
         </div>
-        {message.type && <Banner type={message.type} message={message.text} />}
+        {message?.type && (
+          <Banner type={message?.type} message={message?.text} />
+        )}
         <div className="flex justify-end px-4 py-5">
           <Button
             icon={

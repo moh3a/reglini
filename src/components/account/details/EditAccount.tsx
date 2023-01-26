@@ -10,6 +10,7 @@ import Button from "@components/shared/Button";
 import TextInput from "@components/shared/Input";
 import Banner from "@components/shared/Banner";
 import { trpc } from "@utils/trpc";
+import { IMessage } from "@reglini-types/index";
 
 interface EditAccountProps {
   title: string;
@@ -22,10 +23,7 @@ interface EditAccountProps {
 const Edit = ({ title, field, value, type, editHandler }: EditAccountProps) => {
   const [edit, setEdit] = useState(false);
   const [state, setState] = useState(value);
-  const [message, setMessage] = useState<{
-    type?: "error" | "success";
-    text?: string;
-  }>({ type: undefined, text: undefined });
+  const [message, setMessage] = useState<IMessage>();
   const editMutation = trpc.account.edit.useMutation();
   const utils = trpc.useContext();
 
@@ -60,7 +58,7 @@ const Edit = ({ title, field, value, type, editHandler }: EditAccountProps) => {
 
   return (
     <>
-      {message.type && <Banner type={message.type} message={message.text} />}
+      {message?.type && <Banner type={message?.type} message={message?.text} />}
       {edit ? (
         <form onSubmit={submitHandler}>
           <div>

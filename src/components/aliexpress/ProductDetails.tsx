@@ -18,6 +18,7 @@ import { trpc } from "@utils/trpc";
 import { useTranslations } from "next-intl";
 import Head from "next/head";
 import { APP_NAME } from "@config/general";
+import { IMessage } from "@reglini-types/index";
 
 export interface SelectedVariation {
   sku: string;
@@ -59,10 +60,7 @@ const ProductDetails = ({ id }: { id: string }) => {
       },
     }
   );
-  const [message, setMessage] = useState<{
-    type?: "success" | "warning" | "error";
-    text?: string;
-  }>();
+  const [message, setMessage] = useState<IMessage>();
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     if (message?.type) setIsOpen(true);

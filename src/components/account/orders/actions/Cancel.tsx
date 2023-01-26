@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Button from "@components/shared/Button";
 import { trpc } from "@utils/trpc";
 import { useTranslations } from "next-intl";
+import { IMessage } from "@reglini-types/index";
 
 const Cancel = ({
   orderId,
@@ -12,12 +13,7 @@ const Cancel = ({
 }: {
   orderId: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  setMessage: Dispatch<
-    SetStateAction<{
-      type?: "error" | "success" | undefined;
-      text?: string | undefined;
-    }>
-  >;
+  setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
 }) => {
   const router = useRouter();
   const cancelMutation = trpc.order.cancel.useMutation();

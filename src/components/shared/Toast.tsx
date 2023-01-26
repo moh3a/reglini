@@ -15,7 +15,7 @@ const Toast = ({ children, type, isOpen, setIsOpen }: Message) => {
     <>
       {isOpen && (
         <div
-          className={`absolute bottom-10 z-100 m-5 bg-opacity-50 backdrop-blur-md font-bold ${ROUNDED} ${SHADOW} ${
+          className={`fixed bottom-10 z-100 m-5 bg-opacity-50 backdrop-blur-md font-bold ${ROUNDED} ${SHADOW} ${
             type === "success"
               ? "bg-success"
               : type === "warning"
@@ -27,11 +27,11 @@ const Toast = ({ children, type, isOpen, setIsOpen }: Message) => {
           role="alert"
         >
           <div className="flex">
-            {children}
-            <div className="basis-1/12 ml-auto p-4">
+            <div>{children}</div>
+            <div className="basis-1/12 ml-auto p-2">
               <Button variant="outline" onClick={() => setIsOpen(false)}>
                 <span className="sr-only">Close</span>
-                <XMarkIcon className="h-5 w-5 inline" />
+                <XMarkIcon className="h-3 w-3 inline" />
               </Button>
             </div>
           </div>

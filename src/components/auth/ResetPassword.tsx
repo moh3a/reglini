@@ -13,13 +13,11 @@ import Button from "@components/shared/Button";
 import { trpc } from "@utils/trpc";
 import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { IMessage } from "@reglini-types/index";
 
 const ResetPassword = ({ token }: { token: string }) => {
   const router = useRouter();
-  const [message, setMessage] = useState<{
-    type?: "error" | "success";
-    text?: string;
-  }>({ type: undefined, text: undefined });
+  const [message, setMessage] = useState<IMessage>();
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -132,7 +130,7 @@ const ResetPassword = ({ token }: { token: string }) => {
       className="max-w-lg m-auto"
     >
       <Title title="Reset your password" />
-      {message.type && <Banner type={message.type} message={message.text} />}
+      {message?.type && <Banner type={message?.type} message={message?.text} />}
       <div className="my-3">
         <label className="block leading-relaxed" htmlFor="password">
           {t("password")}

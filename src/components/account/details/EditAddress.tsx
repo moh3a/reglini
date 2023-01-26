@@ -16,6 +16,7 @@ import Banner from "@components/shared/Banner";
 import Loading from "@components/shared/Loading";
 import { trpc } from "@utils/trpc";
 import { useTranslations } from "next-intl";
+import { IMessage } from "@reglini-types/index";
 
 const EditAddress = ({
   field,
@@ -28,10 +29,7 @@ const EditAddress = ({
 
   const [edit, setEdit] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<{
-    type?: "error" | "success";
-    text?: string;
-  }>({ type: undefined, text: undefined });
+  const [message, setMessage] = useState<IMessage>();
 
   const [wilaya, setWilaya] = useState<Wilaya>();
   const [daira, setDaira] = useState<Daira>();
@@ -100,7 +98,7 @@ const EditAddress = ({
 
   return (
     <>
-      {message.type && <Banner type={message.type} message={message.text} />}
+      {message?.type && <Banner type={message?.type} message={message?.text} />}
       {loading && (
         <span className="font-mono text-sm">
           <Loading size="small" /> {t("loading")}...

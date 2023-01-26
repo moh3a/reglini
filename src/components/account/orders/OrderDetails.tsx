@@ -14,6 +14,7 @@ import Cancel from "./actions/Cancel";
 import Tracking from "./actions/Tracking";
 import { trpc } from "@utils/trpc";
 import ConfirmReception from "./actions/ConfirmReception";
+import { IMessage } from "@reglini-types/index";
 
 interface OrderDetailsProps {
   id: string;
@@ -24,11 +25,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
   const [info, setInfo] = useState<
     "tracking" | "payment" | "confirm_cancel" | "confirm_receipt" | undefined
   >();
-
-  const [message, setMessage] = useState<{
-    type?: "error" | "success";
-    text?: string;
-  }>({ type: undefined, text: undefined });
+  const [message, setMessage] = useState<IMessage>();
 
   const orderQuery = trpc.order.get.useQuery({ order_id: id });
   const detailsQuery = trpc.order.details.useQuery({ order_id: id });
@@ -80,7 +77,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
           <Loading size="medium" />
         </div>
       )}
-      {message.type && <Banner type={message.type} message={message.text} />}
+      {message?.type && <Banner type={message?.type} message={message?.text} />}
       {orderQuery.data && orderQuery.data.result && (
         <div>
           <div>

@@ -44,6 +44,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex-1 flex justify-end">
+          <div className="hidden lg:block font-mono">Install button</div>
           <div className="hidden lg:block relative top-1">
             <DarkMode />
           </div>

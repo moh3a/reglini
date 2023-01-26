@@ -180,11 +180,11 @@ export default function Slideover({
                           )}
                         </div>
                         <div className="my-20">
-                          <h2 className="mt-8 font-mono font-bold text-lg px-4 sm:px-6">
+                          <h2 className="mt-8 font-mono underline font-bold text-lg px-4 sm:px-6">
                             Navigation
                           </h2>
 
-                          <nav className="flex-col my-4">
+                          <nav className="flex-col my-4 space-y-2">
                             <div
                               className={`mx-4 font-bold ${
                                 router.asPath === "/aliexpress"
@@ -229,7 +229,7 @@ export default function Slideover({
                             </div>
                           </nav>
                         </div>
-                        <div className="mt-10">
+                        <div className="mt-10 space-y-4">
                           <div className="flex justify-center">
                             <DarkMode />
                           </div>
@@ -238,6 +238,9 @@ export default function Slideover({
                             <span className="font-bold relative top-1 font-mono">
                               Locale
                             </span>
+                          </div>
+                          <div className="flex justify-center">
+                            Intall button
                           </div>
                         </div>
                       </div>

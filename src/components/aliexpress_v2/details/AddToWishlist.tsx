@@ -8,18 +8,11 @@ import { DS_ProductAPI_Product_Details } from "@reglini-types/ae";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
 import { useTranslations } from "next-intl";
+import { IMessage } from "@reglini-types/index";
 
 interface AddToWishlistProps {
   product: DS_ProductAPI_Product_Details;
-  setMessage: Dispatch<
-    SetStateAction<
-      | {
-          type?: "success" | "warning" | "error" | undefined;
-          text?: string | undefined;
-        }
-      | undefined
-    >
-  >;
+  setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
 }
 
 const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {

@@ -13,6 +13,7 @@ import Button from "@components/shared/Button";
 import Banner from "@components/shared/Banner";
 import Loading from "@components/shared/Loading";
 import { trpc } from "@utils/trpc";
+import { IMessage } from "@reglini-types/index";
 
 /* eslint-disable @next/next/no-img-element */
 const EditProfilePicture = ({
@@ -29,10 +30,7 @@ const EditProfilePicture = ({
   const [newValue, setNewValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [message, setMessage] = useState<{
-    type?: "error" | "success";
-    text?: string;
-  }>({ type: undefined, text: undefined });
+  const [message, setMessage] = useState<IMessage>();
 
   // RANDOM STRING FOR DICEBEAR AVATAR
   const generateRandomString = (length: number) => {
@@ -124,7 +122,7 @@ const EditProfilePicture = ({
 
   return (
     <>
-      {message.type && <Banner type={message.type} message={message.text} />}
+      {message?.type && <Banner type={message?.type} message={message?.text} />}
       {loading && (
         <span className="font-mono text-sm">
           <Loading size="small" /> {t("loading")}...

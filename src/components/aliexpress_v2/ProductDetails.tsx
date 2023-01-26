@@ -21,6 +21,7 @@ import {
 import { useTranslations } from "next-intl";
 import Head from "next/head";
 import { APP_NAME } from "@config/general";
+import { IMessage } from "@reglini-types/index";
 
 export interface SelectedVariation {
   imageUrl: string;
@@ -95,10 +96,7 @@ const ProductDetails = ({ id }: { id: number }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product.data?.result.category_id]);
 
-  const [message, setMessage] = useState<{
-    type?: "success" | "warning" | "error";
-    text?: string;
-  }>();
+  const [message, setMessage] = useState<IMessage>();
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     if (message?.type) setIsOpen(true);

@@ -29,6 +29,7 @@ import Banner from "@components/shared/Banner";
 import Button from "@components/shared/Button";
 import Loading from "@components/shared/Loading";
 import { trpc } from "@utils/trpc";
+import { IMessage } from "@reglini-types/index";
 
 interface PaymentProps {
   order_id: string;
@@ -42,10 +43,7 @@ const Pay = ({ order_id, price, setIsOpen }: PaymentProps) => {
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [message, setMessage] = useState<{
-    type?: "error" | "success";
-    text?: string;
-  }>({ type: undefined, text: undefined });
+  const [message, setMessage] = useState<IMessage>();
 
   const [image, setImage] = useState<any>();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -171,7 +169,9 @@ const Pay = ({ order_id, price, setIsOpen }: PaymentProps) => {
         </div>
       </div>
       <form className="my-2" onSubmit={submitHandler}>
-        {message.type && <Banner type={message.type} message={message.text} />}
+        {message?.type && (
+          <Banner type={message?.type} message={message?.text} />
+        )}
         {loading && (
           <span className="font-mono text-sm">
             <Loading size="small" /> loading...

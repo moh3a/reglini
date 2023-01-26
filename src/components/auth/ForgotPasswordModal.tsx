@@ -6,14 +6,12 @@ import Button from "@components/shared/Button";
 import TextInput from "@components/shared/Input";
 import Modal from "@components/shared/Modal";
 import Banner from "@components/shared/Banner";
+import { IMessage } from "@reglini-types/index";
 
 export default function ForgotPasswordModal() {
   let [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState<{
-    type?: "success" | "error";
-    text?: string;
-  }>();
+  const [message, setMessage] = useState<IMessage>();
   const forgotPasswordMutation = trpc.auth.forgotPasswordHandler.useMutation();
 
   function closeModal() {
@@ -64,7 +62,7 @@ export default function ForgotPasswordModal() {
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} title={t("title")}>
         <form onSubmit={forgotPasswordHandler}>
           {message?.type && (
-            <Banner message={message.text} type={message.type} />
+            <Banner message={message?.text} type={message?.type} />
           )}
           <div className="my-2 text-sm">{t("desc")}</div>
 

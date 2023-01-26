@@ -26,16 +26,12 @@ import Button from "@components/shared/Button";
 import Banner from "@components/shared/Banner";
 import Loading from "@components/shared/Loading";
 import { trpc } from "@utils/trpc";
+import { IMessage } from "@reglini-types/index";
 
 interface ConfirmReceptionProps {
   order_id: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  setMessage: Dispatch<
-    SetStateAction<{
-      type?: "error" | "success" | undefined;
-      text?: string | undefined;
-    }>
-  >;
+  setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
 }
 
 const ConfirmReception = ({

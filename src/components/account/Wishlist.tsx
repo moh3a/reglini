@@ -19,15 +19,13 @@ import { trpc } from "@utils/trpc";
 import Head from "next/head";
 import { APP_NAME } from "@config/general";
 import { useTranslations } from "next-intl";
+import { IMessage } from "@reglini-types/index";
 
 const Wishlist = () => {
   const { data: session } = useSession();
   const t = useTranslations("AccountPage");
 
-  const [message, setMessage] = useState<{
-    type?: "success" | "error";
-    text?: string;
-  }>({ type: undefined, text: undefined });
+  const [message, setMessage] = useState<IMessage>();
   const wishlist = trpc.wishlist.get.useQuery();
   const deleteMutation = trpc.wishlist.delete.useMutation();
   const utils = trpc.useContext();
@@ -73,7 +71,7 @@ const Wishlist = () => {
             {t("empty")}
           </p>
         )}
-        {message.type && (
+        {message?.type && (
           <Banner type={message?.type} message={message?.text} />
         )}
         <div className="my-8 grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">

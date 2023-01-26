@@ -5,10 +5,7 @@ import { useTranslations } from "next-intl";
 
 const ValidateEmail = ({ setEmailValidation }: any) => {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState<{
-    type?: "success" | "error";
-    text?: string;
-  }>();
+  const [message, setMessage] = useState<IMessage>();
   const emailExistsMutation = trpc.auth.checkEmail.useMutation();
 
   useEffect(() => {

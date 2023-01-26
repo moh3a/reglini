@@ -8,18 +8,11 @@ import { trpc } from "@utils/trpc";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
 import { useTranslations } from "next-intl";
+import { IMessage } from "@reglini-types/index";
 
 interface AddToWishlistProps {
   product: ZAE_Product;
-  setMessage: Dispatch<
-    SetStateAction<
-      | {
-          type?: "success" | "warning" | "error" | undefined;
-          text?: string | undefined;
-        }
-      | undefined
-    >
-  >;
+  setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
 }
 
 const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
