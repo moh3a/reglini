@@ -37,7 +37,7 @@ const AliexpressHero = () => {
               className={`z-0 relative flex justify-center items-center md:basis-1/4`}
             >
               <div className="absolute ltr:-rotate-[5deg] rtl:rotate-[5deg] ltr:bg-gradient-to-tl rtl:bg-gradient-to-tr blur-3xl rounded-3xl from-aliexpress to-amber-500 ltr:left-64 ltr:md:-left-14 ltr:lg:-left-5 ltr:xl:left-5 rtl:-left-44 rtl:md:right-0 top-4 md:-top-6 w-[400px] md:w-[750px] h-[280px] md:h-[450px]" />
-              <div className="absolute ltr:-rotate-[5deg] rtl:rotate-[5deg] ltr:hover:-rotate-[4deg] rtl:hover:rotate-[4deg] transition-transform duration-200 ease-in ltr:left-72 ltr:md:-left-14 ltr:lg:-left-5 ltr:xl:left-5 rtl:-left-44 rtl:md:right-0 top-5 md:-top-5 w-[400px] md:w-[750px]">
+              <div className="absolute ltr:-rotate-[5deg] rtl:rotate-[5deg] ltr:hover:-rotate-[4deg] rtl:hover:rotate-[4deg] transition-transform duration-200 ease-in ltr:left-72 ltr:md:-left-14 ltr:lg:-left-5 ltr:xl:left-5 rtl:-left-64 rtl:md:right-0 top-5 md:-top-5 w-[400px] md:w-[750px]">
                 <img
                   className="w-full"
                   src="/screenshots/reglini-laptop.png"

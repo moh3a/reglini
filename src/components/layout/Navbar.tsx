@@ -44,20 +44,20 @@ const Navbar = () => {
             <img src="/favicon.ico" alt="reglini logo" width={40} height={40} />
           </Link>
         </div>
-        <div className="flex-1 flex justify-end">
+        <div className="flex-1 flex items-center justify-end space-x-3">
+          <div>
+            <SearchButton />
+          </div>
           <div className="hidden lg:block font-mono">
             <Install />
           </div>
           <div className="hidden lg:block relative top-1">
             <DarkMode />
           </div>
-          <div className="hidden lg:block rtl:mr-4 ltr:ml-4">
+          <div className="hidden lg:block">
             <Language />
           </div>
           <div>
-            <SearchButton />
-          </div>
-          <div className="ltr:mr-4 rtl:ml-4">
             <Cart />
           </div>
           {!router.asPath.includes("/auth") && <AccountBadge />}

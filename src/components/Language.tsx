@@ -29,9 +29,13 @@ const Language = () => {
   return (
     <Menu as="div" className="relative inline-block">
       <Menu.Button as="div">
-        <Button variant="outline">
-          <span className="sr-only">select language</span>
-          <LanguageIcon className="h-5 w-5 inline" />
+        <Button
+          variant="outline"
+          icon={
+            <LanguageIcon className="h-5 w-5 inline ltr:mr-1 rtl:ml-1 md:mx-0" />
+          }
+        >
+          <span className="font-mono md:sr-only">Locale</span>
         </Button>
       </Menu.Button>
 

@@ -22,6 +22,7 @@
       "login": "Login",
       "register": "Register"
     },
+    "install": "Install",
     "badge": {
       "title": "Login",
       "account": "Account",
@@ -282,6 +283,10 @@
       "subtitle": "Place an order after creating your free account.",
       "title": "Fill in your personal details, and have the package delivered to your city.",
       "button": "To your account"
+    },
+    "installHero": {
+      "title": "Would you like to install the reglini <logo></logo> app to your device?",
+      "button": "Install"
     }
   },
   "SupportPage": {

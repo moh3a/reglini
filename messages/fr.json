@@ -22,6 +22,7 @@
       "login": "Se connecter",
       "register": "S'inscrire"
     },
+    "install": "Installez",
     "badge": {
       "title": "Se connecter",
       "account": "Compte",
@@ -282,6 +283,10 @@
       "subtitle": "Passez une commande après avoir créé votre compte gratuit.",
       "title": "Remplissez vos données personnelles et faites livrer le colis directement dans votre ville.",
       "button": "Votre compte"
+    },
+    "installHero": {
+      "title": "Souhaitez-vous installer l'application reglini <logo></logo> sur votre appareil?",
+      "button": "Installez"
     }
   },
   "SupportPage": {

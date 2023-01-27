@@ -235,10 +235,7 @@ export default function Slideover({
                             <DarkMode />
                           </div>
                           <div className="flex justify-center">
-                            <Language />{" "}
-                            <span className="font-bold relative top-1 font-mono">
-                              Locale
-                            </span>
+                            <Language />
                           </div>
                           <div className="flex justify-center font-mono">
                             <Install />

@@ -4,8 +4,10 @@ import { useEffect } from "react";
 import { useInstallPWA } from "@utils/store";
 import Button from "@components/shared/Button";
 import { CloudArrowDownIcon } from "@heroicons/react/24/outline";
+import { useTranslations } from "next-intl";
 
 const Install = () => {
+  const t = useTranslations("Common");
   const { set_prompt, set_can_install, can_install, prompt } = useInstallPWA();
 
   useEffect(() => {
@@ -18,6 +20,7 @@ const Install = () => {
         set_prompt(e);
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const installHandler = async () => {
@@ -35,7 +38,7 @@ const Install = () => {
           icon={<CloudArrowDownIcon className="h-5 w-5 inline mx-1" />}
           onClick={installHandler}
         >
-          Install
+          {t("install")}
         </Button>
       )}
     </div>

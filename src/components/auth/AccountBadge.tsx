@@ -73,14 +73,14 @@ const AccountBadge = () => {
           leaveTo="transform opacity-0 scale-95"
         >
           <Menu.Items
-            className={`origin-top-right absolute z-100 right-0 mt-2 w-56 ${BG_TRANSPARENT_BACKDROP} ${SHADOW} ${PADDING} ${ROUNDED} `}
+            className={`ltr:origin-top-right rtl:origin-top-left absolute z-100 ltr:right-0 rtl:left-0 mt-2 w-56 ${BG_TRANSPARENT_BACKDROP} ${SHADOW} ${PADDING} ${ROUNDED} `}
           >
             <Menu.Item>
               <Link href={"/account"}>
                 <Button
                   icon={
                     <Cog6ToothIcon
-                      className="inline h-5 w-5 mr-2"
+                      className="inline h-5 w-5 mx-2"
                       aria-hidden="true"
                     />
                   }
@@ -95,7 +95,7 @@ const AccountBadge = () => {
                 <Button
                   icon={
                     <HeartIcon
-                      className="inline h-5 w-5 mr-2"
+                      className="inline h-5 w-5 mx-2"
                       aria-hidden="true"
                     />
                   }
@@ -110,7 +110,7 @@ const AccountBadge = () => {
                 <Button
                   icon={
                     <Square3Stack3DIcon
-                      className="inline h-5 w-5 mr-2"
+                      className="inline h-5 w-5 mx-2"
                       aria-hidden="true"
                     />
                   }
@@ -121,18 +121,20 @@ const AccountBadge = () => {
               </Link>
             </Menu.Item>
             <Menu.Item>
-              <Button
-                icon={
-                  <PowerIcon
-                    className="inline h-5 w-5 mr-2"
-                    aria-hidden="true"
-                  />
-                }
-                onClick={() => signOut()}
-                variant="outline"
-              >
-                {t("signOut")}
-              </Button>
+              <div>
+                <Button
+                  icon={
+                    <PowerIcon
+                      className="inline h-5 w-5 mx-2"
+                      aria-hidden="true"
+                    />
+                  }
+                  onClick={() => signOut()}
+                  variant="outline"
+                >
+                  {t("signOut")}
+                </Button>
+              </div>
             </Menu.Item>
           </Menu.Items>
         </Transition>
