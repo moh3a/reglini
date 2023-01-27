@@ -57,11 +57,11 @@ const Navbar = () => {
           <div className="hidden lg:block">
             <Language />
           </div>
-          <div className="ltr:mr-4 rtl:ml-4">
+          <div className="ltr:mr-2 rtl:ml-2">
             <Cart />
           </div>
           {!router.asPath.includes("/auth") && (
-            <div className="relative top-1">
+            <div>
               <AccountBadge />
             </div>
           )}

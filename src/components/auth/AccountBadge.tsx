@@ -27,25 +27,26 @@ const AccountBadge = () => {
 
   if (status === "unauthenticated") {
     return (
-      <div className={`flex justify-center items-center w-8 h-8 md:w-auto`}>
-        <Link href={"/auth/login"}>
-          <Button variant="outline">
-            <span className="sr-only">login</span>
-            <div className="flex relative top-1">
-              <ArrowLeftOnRectangleIcon
-                className="w-5 h-5 md:mr-1"
-                aria-hidden="true"
-              />
-              <span className="hidden md:block">{t("title")}</span>
-            </div>
-          </Button>
-        </Link>
-      </div>
+      <Link href={"/auth/login"}>
+        <Button
+          variant="outline"
+          icon={
+            <ArrowLeftOnRectangleIcon
+              className="w-5 h-5 inline rtl:md:ml-1 ltr:md:mr-1"
+              aria-hidden="true"
+            />
+          }
+        >
+          <span className="hidden md:inline relative top-0.5 text-sm ">
+            {t("title")}
+          </span>
+        </Button>
+      </Link>
     );
   }
 
   return (
-    <Menu as="div" className="relative inline-block">
+    <Menu as="div" className="relative top-0.5 inline-block ltr:ml-2 rtl:mr-2">
       <Menu.Button as={Fragment}>
         <div
           className={`cursor-pointer flex justify-center items-center ${SHADOW} w-8 h-8 rounded-full truncate`}

@@ -62,14 +62,14 @@ const Register = ({ csrfToken }: { csrfToken: string }) => {
         )}
       </form>
 
-      <p className="mt-2 mb-8 text-center">
+      <div className="mt-2 mb-8 text-center">
         {t("haveAccount")}{" "}
         <Link href="/auth/login">
           <Button variant="outline" tabIndex={4}>
             {t("signIn")}
           </Button>
         </Link>
-      </p>
+      </div>
     </>
   );
 };

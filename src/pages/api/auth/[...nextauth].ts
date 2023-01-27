@@ -146,7 +146,6 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     async jwt({ token, account, user }) {
-      // Add access_token to the token right after signin
       if (account && user) {
         const { type } = account;
         if (type === "credentials") {
@@ -162,7 +161,7 @@ export const authOptions: NextAuthOptions = {
             type,
             provider,
             access_token: account.access_token,
-            image: (user as any).profile?.picture,
+            image: user.image,
           };
         }
       }

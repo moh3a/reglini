@@ -99,14 +99,14 @@ const Login = ({ csrfToken }: { csrfToken: string }) => {
       </form>
 
       <ForgotPasswordModal />
-      <p className="mt-2 mb-8 text-center">
+      <div className="mt-2 mb-8 text-center">
         {t("dontHaveAccount")}{" "}
         <Link href="/auth/register">
           <Button variant="outline" tabIndex={4}>
             {t("createOne")}
           </Button>
         </Link>
-      </p>
+      </div>
     </>
   );
 };

@@ -49,7 +49,7 @@ const Language = () => {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items
-          className={`origin-top-right absolute right-0 mt-2 ${ROUNDED} ${SHADOW} ${BG_TRANSPARENT_BACKDROP} ring-1 ring-black ring-opacity-5 focus:outline-none`}
+          className={`origin-top-right absolute right-0 mt-2 ${ROUNDED} ${SHADOW} ${BG_TRANSPARENT_BACKDROP} z-100 ring-1 ring-black ring-opacity-5 focus:outline-none`}
         >
           <div className="p-1 ">
             {LANGUAGES.map((language) => (
