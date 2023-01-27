@@ -55,9 +55,12 @@ export default function Cart() {
 
   return (
     <>
-      <Button variant="outline" onClick={() => setOpenCart(true)}>
+      <Button
+        variant="outline"
+        onClick={() => setOpenCart(true)}
+        icon={<ShoppingBagIcon className="h-5 w-5 inline" aria-hidden="true" />}
+      >
         <span className="sr-only">items in cart, view bag</span>
-        <ShoppingBagIcon className="h-5 w-5 inline" aria-hidden="true" />
         <span className="absolute text-xs w-5 h-5 p-0.5 rounded-full bg-aliexpress text-white top-0 right-0">
           {cartQuery.data && cartQuery.data?.cart
             ? cartQuery.data?.cart.length

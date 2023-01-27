@@ -60,7 +60,10 @@ const CreateOrder = () => {
               countryCode: "DZ",
               name: profile.data.user.profile?.realName,
               phoneCountry: "+213",
-              mobilePhone: profile.data.user.profile?.phoneNumber,
+              mobilePhone: profile.data.user.profile?.phoneNumber.replace(
+                "+213",
+                "0"
+              ),
               city: profile.data.user.address?.commune ?? "",
               addressLine1: profile.data.user.address?.streetName ?? "",
               province: profile.data.user.address?.wilaya ?? "",

@@ -6,10 +6,11 @@ import MainSearch from "@components/aliexpress/MainSearch";
 import ProductsList from "@components/aliexpress/ProductsList";
 
 const AliexpressPage = () => {
+  const t = useTranslations("Common.aliexpress");
   return (
     <>
       <Head>
-        <title>{`Search Aliexpress | ${APP_NAME}`}</title>
+        <title>{`${t("search")} | ${APP_NAME}`}</title>
       </Head>
       <MainSearch />
       <ProductsList />
@@ -26,6 +27,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 };
 
 import Layout from "@components/layout/Layout";
+import { useTranslations } from "next-intl";
 AliexpressPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };

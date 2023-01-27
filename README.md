@@ -2,7 +2,6 @@
 
 ### Todo
 
-- navbar padding
 - order create: error -> invalid signature || missing version
 
 ### Prerequisites
