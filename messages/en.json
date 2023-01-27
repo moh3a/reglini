@@ -261,16 +261,28 @@
     }
   },
   "IndexPage": {
-    "wantToShop": "Want to shop from AliExpress but don't have foreign exchange currency?",
-    "start": "Start shopping from Aliexpress using DZD.",
-    "services": {
-      "component": "with reglini-dz, you can <highlight>{service}</highlight>",
-      "0": "get live Aliexpress data",
-      "1": "search all available Aliexpress items",
-      "2": "order and pay in DZD",
-      "3": "track your package journey to you"
+    "aliexpressHero": {
+      "wantToShop": "Want to shop from AliExpress but don't have foreign exchange currency?",
+      "start": "Start shopping from Aliexpress using DZD.",
+      "services": {
+        "component": "with reglini-dz, you can <highlight>{service}</highlight>",
+        "0": "get live Aliexpress data",
+        "1": "search all available Aliexpress items",
+        "2": "order and pay in DZD",
+        "3": "track your package journey to you"
+      },
+      "button": "Start shopping"
     },
-    "button": "Start shopping"
+    "currencyHero": {
+      "subtitle": "How much is the conversion rate?",
+      "title": "Stay up to date with the foreign currency exchange rates in the algerian market",
+      "button": "Check the rates!"
+    },
+    "accountHero": {
+      "subtitle": "Place an order after creating your free account.",
+      "title": "Fill in your personal details, and have the package delivered to your city.",
+      "button": "To your account"
+    }
   },
   "SupportPage": {
     "title": "Get in touch",

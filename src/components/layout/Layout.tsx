@@ -2,7 +2,6 @@ import { ReactNode, useCallback, useEffect } from "react";
 
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import InstallPWASection from "@components/layout/sections/InstallPWASection";
 import { useFinance } from "@utils/store";
 import { trpc } from "@utils/trpc";
 
@@ -39,7 +38,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
   return (
     <>
-      <InstallPWASection />
       <Navbar />
       <main className={`mb-2 min-h-[350px]`}>{children}</main>
       <Footer />

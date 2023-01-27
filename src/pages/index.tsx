@@ -2,6 +2,7 @@ import { GetStaticProps } from "next";
 import AliexpressHero from "@components/layout/sections/AliexpressHero";
 import CurrencyHero from "@components/layout/sections/CurrencyHero";
 import AccountHero from "@components/layout/sections/AccountHero";
+import InstallPWASection from "@components/layout/sections/InstallPWASection";
 
 const IndexPage = () => {
   return (
@@ -9,6 +10,7 @@ const IndexPage = () => {
       <AliexpressHero />
       <CurrencyHero />
       <AccountHero />
+      <InstallPWASection />
     </section>
   );
 };

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { trpc } from "@utils/trpc";
 import TextInput from "../../shared/Input";
 import { useTranslations } from "next-intl";
+import { IMessage } from "@reglini-types/index";
 
 const ValidateEmail = ({ setEmailValidation }: any) => {
   const [email, setEmail] = useState("");

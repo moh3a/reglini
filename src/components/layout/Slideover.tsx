@@ -18,6 +18,7 @@ import DarkMode from "../DarkMode";
 import Language from "../Language";
 import { BG_GRADIENT } from "@config/design";
 import Button from "@components/shared/Button";
+import Install from "@components/Install";
 
 export default function Slideover({
   open,
@@ -239,8 +240,8 @@ export default function Slideover({
                               Locale
                             </span>
                           </div>
-                          <div className="flex justify-center">
-                            Intall button
+                          <div className="flex justify-center font-mono">
+                            <Install />
                           </div>
                         </div>
                       </div>

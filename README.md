@@ -2,8 +2,6 @@
 
 ### Todo
 
-- style install button to slideover and navbar
-- style hero sections rtl and translate to frech/arabic
 - order create: error -> invalid signature || missing version
 
 ### Prerequisites

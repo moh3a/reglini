@@ -2,9 +2,10 @@
 import { useEffect } from "react";
 
 import { useInstallPWA } from "@utils/store";
-import Button from "../../shared/Button";
+import Button from "@components/shared/Button";
+import { CloudArrowDownIcon } from "@heroicons/react/24/outline";
 
-const InstallPWASection = () => {
+const Install = () => {
   const { set_prompt, set_can_install, can_install, prompt } = useInstallPWA();
 
   useEffect(() => {
@@ -27,30 +28,18 @@ const InstallPWASection = () => {
   };
 
   return (
-    <>
+    <div>
       {can_install && (
-        <div className="flex justify-between p-2">
-          <div>
-            <img
-              className="inline"
-              src="/icon-192x192.png"
-              alt="reglini logo"
-              height={20}
-              width={20}
-            />
-            <span>
-              Would you like to install the reglini app to your device?
-            </span>
-          </div>
-          <div className="flex justify-end">
-            <Button variant="solid" onClick={installHandler}>
-              Install
-            </Button>
-          </div>
-        </div>
+        <Button
+          variant="outline"
+          icon={<CloudArrowDownIcon className="h-5 w-5 inline mx-1" />}
+          onClick={installHandler}
+        >
+          Install
+        </Button>
       )}
-    </>
+    </div>
   );
 };
 
-export default InstallPWASection;
+export default Install;
