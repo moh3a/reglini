@@ -45,8 +45,6 @@ export default function Cart() {
         carrierId: product.carrierId,
         shippingPrice: product.shippingPrice,
         totalPrice: product.totalPrice,
-        orderMemo:
-          "Please do not put invoices or any other document inside the package. Instead send them to this email address support@reglini-dz.com. Thank you very much.",
       }));
       localStorage.setItem("aeno", JSON.stringify(products));
       router.push("/account/orders/new?ref=cart");

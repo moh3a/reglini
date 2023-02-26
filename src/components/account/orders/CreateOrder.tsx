@@ -202,7 +202,7 @@ const CreateOrder = () => {
                 aria-hidden="true"
               />
             }
-            disabled={!valid}
+            disabled={!valid || createOrderMutation.isLoading}
             tooltip={
               <ul>
                 {profile.data && profile.data.user && (

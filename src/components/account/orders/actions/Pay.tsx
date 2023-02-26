@@ -102,7 +102,7 @@ const Pay = ({ order_id, price, setIsOpen }: PaymentProps) => {
 
   return (
     <>
-      <div className="my-2">
+      <div className="my-8">
         <div>
           {t.rich("amountToBePaid", {
             price: price,
@@ -112,7 +112,7 @@ const Pay = ({ order_id, price, setIsOpen }: PaymentProps) => {
           })}
         </div>
 
-        <div className="my-1 flex text-lg">
+        <div className="my-8 flex flex-col lg:flex-row justify-center items-center text-lg">
           <h3 className="mr-2 font-bold">{t("paymentMethod")}:</h3>
           <RadioGroup value={method} onChange={setMethod}>
             <RadioGroup.Label className="sr-only">
@@ -120,7 +120,7 @@ const Pay = ({ order_id, price, setIsOpen }: PaymentProps) => {
             </RadioGroup.Label>
             <div className="flex flex-col sm:flex-row w-full space-x-2 text-base">
               {PAYMENT_METHODS.map((method) => (
-                <RadioGroup.Option key={method} value={method.toLowerCase()}>
+                <RadioGroup.Option key={method} value={method}>
                   {({ checked }) => (
                     <div
                       className={`cursor-pointer px-1 py-0.5 ${
@@ -138,9 +138,11 @@ const Pay = ({ order_id, price, setIsOpen }: PaymentProps) => {
             </div>
           </RadioGroup>
         </div>
-        <div className="leading-none">
+        <div className="leading-none my-8">
           <Link href={"/faq"} target="_blank">
-            <div className="font-mono text-gray-500 my-1">{t("howToPay")}</div>
+            <div className="text-xs lg:text-base  font-mono text-gray-500 my-6">
+              {t("howToPay")}
+            </div>
           </Link>
 
           {method === "CCP" && (
@@ -168,7 +170,7 @@ const Pay = ({ order_id, price, setIsOpen }: PaymentProps) => {
           )}
         </div>
       </div>
-      <form className="my-2" onSubmit={submitHandler}>
+      <form className="my-8" onSubmit={submitHandler}>
         {message?.type && (
           <Banner type={message?.type} message={message?.text} />
         )}
@@ -223,7 +225,7 @@ const Pay = ({ order_id, price, setIsOpen }: PaymentProps) => {
             type="file"
           />
         </div>
-        <div className="flex justify-end space-x-2">
+        <div className="mt-4 flex justify-end space-x-2">
           <Button
             variant="outline"
             icon={

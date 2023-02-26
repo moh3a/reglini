@@ -97,8 +97,6 @@ const BuyProduct = ({
                 shippingPrice,
                 totalPrice:
                   price * (selectedVariation.quantity ?? 1) + shippingPrice,
-                orderMemo:
-                  "Please do not put invoices or any other document inside the package. Instead send them to this email address support@reglini-dz.com. Thank you very much.",
               },
             ])
           );

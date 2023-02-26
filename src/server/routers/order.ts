@@ -167,7 +167,7 @@ export const orderRouter = router({
           productId: product.productId,
           quantity: product.quantity,
           sku: product.sku,
-          orderMemo: product.orderMemo,
+          orderMemo: "",
         }));
         if (user) {
           try {
