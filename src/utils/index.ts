@@ -1,3 +1,4 @@
+import prisma from "@config/prisma";
 import { ACCOUNT_TYPE, AUTH_PROVIDER } from "@prisma/client";
 import { ISession } from "../types";
 
@@ -28,5 +29,18 @@ export const GetPrice = (
     );
   } else {
     return 0;
+  }
+};
+
+export const CheckEmail = async (email: string) => {
+  const user = await prisma.user.findFirst({
+    where: {
+      email,
+    },
+  });
+  if (user) {
+    return true;
+  } else {
+    return false;
   }
 };

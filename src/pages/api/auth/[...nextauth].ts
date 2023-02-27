@@ -9,6 +9,7 @@ import { ACCOUNT_TYPE } from "@prisma/client";
 import prisma from "@config/prisma";
 import generate_token from "@utils/verify_signup";
 import SendEmail from "@utils/send_email";
+import { CheckEmail } from "@utils/index";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -57,12 +58,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (credentials) {
-          const checkemail = await prisma.user.findFirst({
-            where: {
-              account: ACCOUNT_TYPE.CREDENTIALS,
-              email: credentials.email,
-            },
-          });
+          const checkemail = await CheckEmail(credentials.email);
           if (checkemail) {
             throw `/auth/register/email_exists`;
           }
@@ -142,7 +138,24 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({}) {
+    async signIn({ user, account }) {
+      if (account?.type === "oauth" && user?.email) {
+        const checkemail = await CheckEmail(user?.email);
+        if (!checkemail) {
+          await prisma.user.create({
+            data: {
+              account: ACCOUNT_TYPE.OAUTH,
+              name: user.name,
+              email: user.email,
+              profile: {
+                create: {
+                  picture: user.image,
+                },
+              },
+            },
+          });
+        }
+      }
       return true;
     },
     async jwt({ token, account, user }) {
