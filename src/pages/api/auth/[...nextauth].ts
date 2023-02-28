@@ -7,9 +7,8 @@ import slugify from "slugify";
 import { ACCOUNT_TYPE } from "@prisma/client";
 
 import prisma from "@config/prisma";
-import generate_token from "@utils/verify_signup";
+import { generate_token, check_email } from "@utils/verify_signup";
 import SendEmail from "@utils/send_email";
-import { CheckEmail } from "@utils/index";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -58,7 +57,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (credentials) {
-          const checkemail = await CheckEmail(credentials.email);
+          const checkemail = await check_email(credentials.email);
           if (checkemail) {
             throw `/auth/register/email_exists`;
           }
@@ -140,7 +139,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account }) {
       if (account?.type === "oauth" && user?.email) {
-        const checkemail = await CheckEmail(user?.email);
+        const checkemail = await check_email(user?.email);
         if (!checkemail) {
           await prisma.user.create({
             data: {
