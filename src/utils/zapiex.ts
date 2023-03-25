@@ -79,22 +79,33 @@ export const ZAE_CreateOrder = async (
   products: AEProduct[],
   shippingAddress: ZAE_ShippingAddres
 ) => {
-  const { data } = await axios({
-    method: "post",
-    url: "https://api.zapiex.com/v3/order/create",
-    headers: {
-      "x-api-key": process.env.ZAPIEX_KEY,
-      "Content-Type": "application/json",
-    },
-    data: {
+  const res = await axios.post(
+    "https://api.zapiex.com/v3/order/create",
+    {
       username: process.env.ALIEXPRESS_USERNAME,
       password: process.env.ALIEXPRESS_PASSWORD,
       currency: "EUR",
       products,
       shippingAddress,
     },
-  });
-  return data as { statusCode: number; data: { orderIds: string[] } };
+    {
+      headers: {
+        "x-api-key": process.env.ZAPIEX_KEY,
+        "Content-Type": "application/json",
+        "Accept-Encoding": "application/json", // workaround for an axios@1.2.0 bug
+      },
+    }
+  );
+  console.log(res);
+  return res.data as {
+    statusCode: number;
+    data: {
+      orderIds?: string[];
+      errorType?: string;
+      errorMessage?: string;
+      trace?: any[];
+    };
+  };
 };
 
 export const ZAE_GetOrder = async (id: string) => {

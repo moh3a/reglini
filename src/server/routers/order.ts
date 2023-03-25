@@ -175,8 +175,11 @@ export const orderRouter = router({
               products,
               input.shippingAddress
             );
-            if (data.statusCode === 200) {
-              if (data.data.orderIds.length === 1) {
+            if (
+              data.statusCode === 200 &&
+              typeof data.data.errorType === "undefined"
+            ) {
+              if (data.data.orderIds && data.data.orderIds.length === 1) {
                 await ctx.prisma.order.create({
                   data: {
                     id: data.data.orderIds[0].toString(),
@@ -189,7 +192,11 @@ export const orderRouter = router({
                     },
                   },
                 });
-              } else {
+                return {
+                  success: true,
+                  message: "Successfully created your orders.",
+                };
+              } else if (data.data.orderIds && data.data.orderIds.length > 1) {
                 for (const order_id of data.data.orderIds) {
                   const result = await ctx.zapiex.getOrder(order_id.toString());
                   const product = input.products.find(
@@ -211,14 +218,16 @@ export const orderRouter = router({
                     });
                   }
                 }
+                return {
+                  success: true,
+                  message: "Successfully created your orders.",
+                };
+              } else {
+                return { success: false, error: "Could not create order." };
               }
-              return {
-                success: true,
-                message: "Successfully created your orders.",
-              };
-            } else return { success: false, error: `Couldn't create order.` };
+            } else return { success: false, error: `Could not create order.` };
           } catch (error) {
-            return { success: false, error: JSON.stringify(error) };
+            return { success: false, error: "Could not create order." };
           }
         } else return { success: false, error: "No user was found." };
       } else

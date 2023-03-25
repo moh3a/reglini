@@ -14,7 +14,7 @@ interface BannerProps {
 const Banner = ({ type, message }: BannerProps) => {
   return (
     <div
-      className={`${ROUNDED} ${PADDING} shadow-md w-full z-40 my-3 text-sm text-white font-mono font-bold ${
+      className={`${ROUNDED} ${PADDING} overflow-hidden shadow-md w-full z-40 my-3 text-sm text-white font-mono font-bold ${
         type === "success"
           ? "bg-success shadow-success/50"
           : type === "warning"
