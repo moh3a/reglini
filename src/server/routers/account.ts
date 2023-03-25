@@ -95,12 +95,21 @@ export const accountRouter = router({
           where: { email: ctx.session.user.email! },
           data: {
             address: {
-              update: {
-                commune: input.commune,
-                daira: input.daira,
-                postalCode: input.postalCode,
-                streetName: input.streetName,
-                wilaya: input.wilaya,
+              upsert: {
+                create: {
+                  commune: input.commune,
+                  daira: input.daira,
+                  postalCode: input.postalCode,
+                  streetName: input.streetName,
+                  wilaya: input.wilaya,
+                },
+                update: {
+                  commune: input.commune,
+                  daira: input.daira,
+                  postalCode: input.postalCode,
+                  streetName: input.streetName,
+                  wilaya: input.wilaya,
+                },
               },
             },
           },
