@@ -1,10 +1,12 @@
 # REGLINI-DZ
 
-### Todo
+## Todo
 
+- ae query ?q=tcon -> choosing any product -> client side error (map undefined)
+- call ae https api
 - order create: error -> invalid signature || missing version
 
-### Prerequisites
+## Prerequisites
 
 The machine that will run this app should have installed:
 
@@ -12,7 +14,7 @@ The machine that will run this app should have installed:
 - Git [https://git-scm.com/downloads]
 - Postgres [https://www.postgresql.org/download/]
 
-### Quickstart
+## Quickstart
 
 - Clone the github repo by running the following command:
   - `git clone https://github.com/moh3a/reglini.git`
