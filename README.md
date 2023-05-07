@@ -2,9 +2,9 @@
 
 ## Todo
 
-- ae query ?q=tcon -> choosing any product -> client side error (map undefined)
-- call ae https api
+- check all order api endpoints
 - order create: error -> invalid signature || missing version
+- refactor and deal with performace and bad first time code!!!
 
 ## Prerequisites
 

@@ -33,6 +33,8 @@ export const aeAffiliateRouter = router({
   category: procedure
     .input(z.object({ category_id: z.number() }))
     .mutation(async ({ ctx, input }) => {
-      return await ctx.aliexpress.affiliate.categoryById(input.category_id);
+      return input.category_id
+        ? await ctx.aliexpress.affiliate.categoryById(input.category_id)
+        : undefined;
     }),
 });

@@ -1,8 +1,9 @@
+import { useTranslations } from "next-intl";
+
 import { PADDING, ROUNDED, SHADOW } from "@config/design";
 import { AEProductPrice } from "@reglini-types/index";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
-import { useTranslations } from "next-intl";
 import { SelectedVariation } from "../ProductDetails";
 
 interface ProductPriceProps {
@@ -13,6 +14,7 @@ interface ProductPriceProps {
 const ProductPrice = ({ price, selectedVariation }: ProductPriceProps) => {
   const t = useTranslations("AliexpressPage");
   const { usd, commission } = useFinance();
+
   return (
     <div className="flex justify-center mt-2 title-font font-medium text-xl">
       {selectedVariation && selectedVariation.id ? (
@@ -43,7 +45,17 @@ const ProductPrice = ({ price, selectedVariation }: ProductPriceProps) => {
             </div>
           </div>
         ) : (
-          <>{selectedVariation.sku_price} $</>
+          <div
+            className={`bg-aliexpress hover:bg-red-500 text-center font-bold text-white ${PADDING} ${ROUNDED} ${SHADOW}`}
+          >
+            {t("price", {
+              price: GetPrice(
+                usd ?? 0,
+                commission ?? 0,
+                Number(selectedVariation.sku_price)
+              ),
+            })}
+          </div>
         )
       ) : price.hasDiscount && price.discount && price.discountedPrice ? (
         <div

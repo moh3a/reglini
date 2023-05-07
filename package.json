@@ -1,6 +1,6 @@
 {
   "name": "reglini",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -17,7 +17,7 @@
     "@trpc/next": "^10.4.0",
     "@trpc/react-query": "^10.4.0",
     "@trpc/server": "^10.4.0",
-    "axios": "^1.2.0",
+    "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "cloudinary": "^1.32.0",
     "dotenv": "^16.0.3",

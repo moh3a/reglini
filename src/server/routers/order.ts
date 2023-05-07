@@ -97,7 +97,7 @@ export const orderRouter = router({
   //           const product_items = input.products.map((product) => {
   //             return {
   //               logistics_service_name: product.carrierId,
-  //               order_memo: product.orderMemo,
+  //               order_memo: product.orderMemo ?? "",
   //               product_count: product.quantity,
   //               product_id: parseInt(product.productId),
   //               sku_attr: product.sku,
@@ -117,6 +117,7 @@ export const orderRouter = router({
   //             },
   //             product_items
   //           );
+  //           console.log(result);
   //           if (result.result) {
   //             if (result.result.is_success) {
   //               for (const order_id of result.result.order_list) {

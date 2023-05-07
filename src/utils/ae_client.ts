@@ -7,7 +7,7 @@ import { createHash } from "crypto";
  * @link Overseas environment (HTTP) = http://api.taobao.com/router/rest
  * @link Overseas environment (HTTPS) = 	https://api.taobao.com/router/rest
  */
-export const AE_SERVICE_URL = "http://api.taobao.com/router/rest";
+export const AE_SERVICE_URL = "https://api.taobao.com/router/rest";
 
 /**
  * Signature Algorithm
@@ -41,13 +41,7 @@ export const call = async <T extends PublicParams, K extends object>(
       basestring +=
         symbol + sorted[i] + "=" + params[sorted[i] as keyof typeof params];
   }
-  const { data } = await axios.post<K>(basestring, undefined, {
-    headers: {
-      "content-type": "application/json",
-      Accept: "application/json",
-      "Accept-Encoding": "application/json", // workaround for an axios@1.2.0 bug
-    },
-  });
+  const { data } = await axios.post<K>(basestring, undefined);
   return data;
 };
 

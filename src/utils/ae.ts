@@ -107,13 +107,31 @@ export const AE_DS_createOrder = async (
     sku_attr?: string;
   }[]
 ) => {
+  const new_logistics: any = {};
+  const sorted_logistics = Object.keys(logistics_address).sort();
+  for (let i = 0; i < sorted_logistics.length; i++) {
+    new_logistics[sorted_logistics[i]] =
+      logistics_address[sorted_logistics[i] as keyof typeof logistics_address];
+  }
+
+  const new_products: any[] = [];
+  for (let i = 0; i < product_items.length; i++) {
+    const new_product: any = {};
+    const sorted_product = Object.keys(product_items[i]).sort();
+    for (let j = 0; j < sorted_product.length; j++) {
+      new_product[sorted_product[j]] =
+        product_items[i][sorted_product[j] as keyof (typeof product_items)[0]];
+    }
+    new_products.push(new_product);
+  }
+
   return await execute<
     DS_OrderAPI_Place_Order_Params,
     DS_OrderAPI_Place_Order_Result
   >("ds", "aliexpress.trade.buy.placeorder", {
     param_place_order_request4_open_api_d_t_o: JSON.stringify({
-      logistics_address,
-      product_items,
+      logistics_address: new_logistics,
+      product_items: new_products,
     }),
   });
 };
