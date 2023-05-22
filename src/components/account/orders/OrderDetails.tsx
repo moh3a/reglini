@@ -89,13 +89,13 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
               </span>
             </h2>
             <dl className={`m-auto truncate ${PADDING} ${SHADOW} ${ROUNDED} `}>
-              <div className="p-2 sm:px-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+              <div className="p-1 sm:px-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4">
                 <dt className="text-sm font-bold lg:flex lg:items-center">
                   {t("orderId")}
                 </dt>
                 <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">{id}</dd>
               </div>
-              <div className="p-2 sm:px-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+              <div className="p-1 sm:px-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4">
                 <dt className="text-sm font-bold lg:flex lg:items-center">
                   {t("orderDate")}
                 </dt>
@@ -103,7 +103,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                   {orderQuery.data.result.gmt_create}
                 </dd>
               </div>
-              <div className="p-2 sm:px-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+              <div className="p-1 sm:px-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4">
                 <dt className="text-sm font-bold lg:flex lg:items-center">
                   {t("orderStatus.title")}
                 </dt>
@@ -210,38 +210,40 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                     {t("productInfo")}
                   </span>
                 </h2>
-                {detailsQuery.data.order.products.map((product) => (
-                  <Link
-                    key={product.productId}
-                    href={`/aliexpress/product/${product.productId}`}
-                    target={"_blank"}
-                  >
-                    <dl
-                      className={`m-auto truncate ${PADDING} ${SHADOW} ${ROUNDED} p-2 sm:px-4 sm:py-5 grid grid-cols-5 gap-4`}
+                <dl
+                  className={`m-auto truncate ${PADDING} ${SHADOW} ${ROUNDED} p-2 sm:px-4 sm:py-5 `}
+                >
+                  {detailsQuery.data.order.products.map((product) => (
+                    <Link
+                      key={product.productId}
+                      href={`/aliexpress/product/${product.productId}`}
+                      target={"_blank"}
                     >
-                      <dt className="flex justify-center items-center">
-                        <img
-                          src={product.imageUrl}
-                          alt={product.productId}
-                          className={` ${ROUNDED} w-20`}
-                        />
-                      </dt>
-                      <dd className="text-sm col-span-4">
-                        <p className="font-bold">
-                          {t("productId")}: {product.productId}
-                        </p>
-                        <p className="h-5 overflow-hidden text-ellipsis">
-                          {product.name}
-                        </p>
-                        <p className="font-mono text-aliexpress">
-                          {t("price", {
-                            price: product.totalPrice,
-                          })}
-                        </p>
-                      </dd>
-                    </dl>
-                  </Link>
-                ))}
+                      <div className="py-2 grid grid-cols-5 gap-4">
+                        <dt className="flex justify-center items-center">
+                          <img
+                            src={product.imageUrl}
+                            alt={product.productId}
+                            className={` ${ROUNDED} w-20`}
+                          />
+                        </dt>
+                        <dd className="text-sm col-span-4">
+                          <p className="font-bold">
+                            {t("productId")}: {product.productId}
+                          </p>
+                          <p className="h-5 overflow-hidden text-ellipsis">
+                            {product.name}
+                          </p>
+                          <p className="font-mono text-aliexpress">
+                            {t("price", {
+                              price: product.totalPrice,
+                            })}
+                          </p>
+                        </dd>
+                      </div>
+                    </Link>
+                  ))}
+                </dl>
               </>
             )}
           {detailsQuery.data &&

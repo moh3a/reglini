@@ -116,6 +116,7 @@ model Order {
   shippingAddress Shipping?
   payment         Payment?
   received        PackageReceipt?
+  date            DateTime        @default(now()) @db.Date
 
   @@index([userId])
 }
