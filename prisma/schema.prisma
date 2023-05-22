@@ -93,14 +93,14 @@ model Cart {
 }
 
 model Wishlist {
-  id        String   @id @default(cuid())
-  productId String
-  userId    String
-  user      User     @relation(fields: userId, references: [id])
-  date      DateTime @default(now()) @db.Date
-  name      String
-  imageUrl  String
-  price     Float
+  id       String   @id @default(cuid())
+  // productId String
+  userId   String
+  user     User     @relation(fields: userId, references: [id])
+  date     DateTime @default(now()) @db.Date
+  name     String
+  imageUrl String
+  price    Float
 
   @@index([userId])
 }

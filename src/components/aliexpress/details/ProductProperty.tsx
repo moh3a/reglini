@@ -1,10 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { ROUNDED } from "@config/design";
 import {
   CheckCircleIcon,
   ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
+
+import { ROUNDED } from "@config/design";
 import { ZAE_ProductProperties } from "@reglini-types/zapiex";
 
 interface ProductPropertyProps {

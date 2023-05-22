@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useTranslations } from "next-intl";
 
 import { trpc } from "@utils/trpc";
 import { TEXT_GRADIENT } from "@config/design";
 import Loading from "@components/shared/Loading";
 import Button from "@components/shared/Button";
-import { useTranslations } from "next-intl";
 import { IMessage } from "@reglini-types/index";
 
 interface TrackingProps {

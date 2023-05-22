@@ -1,14 +1,13 @@
 import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW } from "@config/design";
-import { AEProductPrice } from "@reglini-types/index";
+import { AEProductPrice, SelectedProductVariation } from "@reglini-types/index";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
-import { SelectedVariation } from "../ProductDetails";
 
 interface ProductPriceProps {
   price: AEProductPrice;
-  selectedVariation?: SelectedVariation;
+  selectedVariation?: SelectedProductVariation;
 }
 
 const ProductPrice = ({ price, selectedVariation }: ProductPriceProps) => {

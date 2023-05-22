@@ -29,7 +29,7 @@ export const wishlistRouter = router({
   add: procedure
     .input(
       z.object({
-        id: z.string(),
+        productId: z.string(),
         imageUrl: z.string(),
         name: z.string(),
         price: z.number(),
@@ -39,10 +39,13 @@ export const wishlistRouter = router({
       if (ctx.session && ctx.session.user) {
         try {
           await ctx.prisma.wishlist.upsert({
-            where: { id: input.id },
+            where: { id: input.productId },
             update: input,
             create: {
-              ...input,
+              id: input.productId,
+              imageUrl: input.imageUrl,
+              name: input.name,
+              price: input.price,
               user: { connect: { email: ctx.session.user.email! } },
             },
           });

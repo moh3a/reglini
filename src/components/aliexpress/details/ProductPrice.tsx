@@ -1,8 +1,9 @@
+import { useTranslations } from "next-intl";
+
 import { PADDING, ROUNDED, SHADOW } from "@config/design";
 import { ZAE_Product } from "@reglini-types/zapiex";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
-import { useTranslations } from "next-intl";
 import { SelectedVariation } from "../ProductDetails";
 
 interface ProductPriceProps {

@@ -1,10 +1,11 @@
-import { PADDING, ROUNDED } from "@config/design";
+import { ReactNode } from "react";
 import {
   CheckBadgeIcon,
   ExclamationCircleIcon,
   XCircleIcon,
 } from "@heroicons/react/24/outline";
-import { ReactNode } from "react";
+
+import { PADDING, ROUNDED } from "@config/design";
 
 interface BannerProps {
   type?: "success" | "warning" | "error";

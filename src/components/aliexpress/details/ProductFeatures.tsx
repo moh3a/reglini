@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW } from "@config/design";
 import { ZAE_Product } from "@reglini-types/zapiex";
 import StoreInfo from "./StoreInfo";
-import { useTranslations } from "next-intl";
 
 const Item = ({ title, children }: any) => {
   const [isOpen, setIsOpen] = useState(false);

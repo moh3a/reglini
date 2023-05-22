@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
+import { useTranslations } from "next-intl";
 
 import { ZAE_Product, ZAE_ProductPrice } from "@reglini-types/zapiex";
 import Modal from "@components/shared/Modal";
@@ -15,8 +17,6 @@ import ProductFeatures from "./details/ProductFeatures";
 import AddToCart from "./details/AddToCart";
 import AddToWishlist from "./details/AddToWishlist";
 import { trpc } from "@utils/trpc";
-import { useTranslations } from "next-intl";
-import Head from "next/head";
 import { APP_NAME } from "@config/general";
 import { IMessage } from "@reglini-types/index";
 

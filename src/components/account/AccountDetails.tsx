@@ -1,19 +1,19 @@
-import Title from "@components/shared/Title";
-import { PADDING, ROUNDED, SHADOW } from "@config/design";
+import Link from "next/link";
 import {
   CheckBadgeIcon,
   ExclamationTriangleIcon,
   XCircleIcon,
 } from "@heroicons/react/24/outline";
+import { useTranslations } from "next-intl";
 
+import { PADDING, ROUNDED, SHADOW } from "@config/design";
 import { trpc } from "@utils/trpc";
 import Edit from "./details/EditAccount";
 import EditAddress from "./details/EditAddress";
 import EditProfilePicture from "./details/EditProfilePicture";
-import Loading from "../shared/Loading";
-import Link from "next/link";
+import Loading from "@components/shared/Loading";
+import Title from "@components/shared/Title";
 import Button from "@components/shared/Button";
-import { useTranslations } from "next-intl";
 
 const AccountDetails = () => {
   const profile = trpc.account.profile.useQuery();

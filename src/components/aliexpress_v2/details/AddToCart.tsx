@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
-import { SelectedVariation } from "../ProductDetails";
 import Button from "@components/shared/Button";
 import { trpc } from "@utils/trpc";
 import {
@@ -11,7 +11,7 @@ import {
 } from "@reglini-types/ae";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
-import { useTranslations } from "next-intl";
+import { SelectedProductVariation } from "@reglini-types/index";
 
 interface AddToCartProps {
   product: DS_ProductAPI_Product_Details;
@@ -25,7 +25,7 @@ interface AddToCartProps {
       | undefined
     >
   >;
-  selectedVariation?: SelectedVariation;
+  selectedVariation?: SelectedProductVariation;
   selectedShipping?: DS_ShippingAPI_Shipping_Info_Result["result"]["aeop_freight_calculate_result_for_buyer_d_t_o_list"][0];
 }
 

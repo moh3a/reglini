@@ -37,7 +37,7 @@ const ProductCard = ({ product, setMessage }: ProductCardProps) => {
     if (status === "authenticated") {
       await wishlistMutation.mutateAsync(
         {
-          id: product.product_id.toString(),
+          productId: product.product_id.toString(),
           name: product.product_title,
           price: product.target_app_sale_price
             ? GetPrice(

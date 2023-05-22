@@ -2,16 +2,16 @@ import { Dispatch, SetStateAction } from "react";
 import { CursorArrowRaysIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
 
 import Button from "@components/shared/Button";
-import { SelectedVariation } from "../ProductDetails";
 import {
   DS_ProductAPI_Product_Details,
   DS_ShippingAPI_Shipping_Info_Result,
 } from "@reglini-types/ae";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
-import { useTranslations } from "next-intl";
+import { SelectedProductVariation } from "@reglini-types/index";
 
 interface BuyProductProps {
   product: DS_ProductAPI_Product_Details;
@@ -25,7 +25,7 @@ interface BuyProductProps {
       | undefined
     >
   >;
-  selectedVariation?: SelectedVariation;
+  selectedVariation?: SelectedProductVariation;
   selectedShipping?: DS_ShippingAPI_Shipping_Info_Result["result"]["aeop_freight_calculate_result_for_buyer_d_t_o_list"][0];
 }
 

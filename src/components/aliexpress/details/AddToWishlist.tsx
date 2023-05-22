@@ -33,7 +33,7 @@ const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
     if (status === "authenticated") {
       await wishlistMutation.mutateAsync(
         {
-          id: product.productId,
+          productId: product.productId,
           name: product.title,
           price: GetPrice(
             euro ?? 0,

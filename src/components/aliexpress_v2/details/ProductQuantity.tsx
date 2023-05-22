@@ -3,17 +3,17 @@ import {
   ExclamationCircleIcon,
   CheckCircleIcon,
 } from "@heroicons/react/24/outline";
+import { useTranslations } from "next-intl";
 
 import NumberInput from "@components/shared/NumberInput";
-import { SelectedVariation } from "../ProductDetails";
 import { DS_ProductAPI_Product_Details } from "@reglini-types/ae";
-import { useTranslations } from "next-intl";
+import { SelectedProductVariation } from "@reglini-types/index";
 
 interface ProductQuantityProps {
   product: DS_ProductAPI_Product_Details;
   quantity: number;
   setQuantity: Dispatch<SetStateAction<number>>;
-  selectedVariation?: SelectedVariation;
+  selectedVariation?: SelectedProductVariation;
 }
 
 const ProductQuantity = ({

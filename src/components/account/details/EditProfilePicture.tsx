@@ -8,7 +8,7 @@ import {
 import axios, { AxiosRequestConfig } from "axios";
 import { useTranslations } from "next-intl";
 
-import { BG_TRANSPARENT_BACKDROP, SHADOW } from "@config/design";
+import { BG_TRANSPARENT_BACKDROP, SHADOW } from "../../../config/design";
 import Button from "@components/shared/Button";
 import Banner from "@components/shared/Banner";
 import Loading from "@components/shared/Loading";

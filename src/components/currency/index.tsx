@@ -1,7 +1,7 @@
-import { PADDING } from "@config/design";
-import { Tab } from "@headlessui/react";
 import { useRouter } from "next/router";
+import { Tab } from "@headlessui/react";
 
+import { PADDING } from "@config/design";
 import ConvertCurrency from "./ConvertCurrency";
 import HistoricalRates from "./HistoricalRates";
 import LiveRate from "./LiveRate";
