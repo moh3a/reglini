@@ -163,6 +163,32 @@ export interface MDBUser {
   ];
 }
 
+export interface SelectedProductVariation {
+  imageUrl: string;
+  quantity: number;
+  sku_stock: boolean;
+  sku_price: string;
+  sku_code: string;
+  ipm_sku_stock: number;
+  id: string;
+  currency_code: string;
+  aeop_s_k_u_propertys: [
+    {
+      sku_property_id: number;
+      sku_image: string;
+      property_value_id_long: number;
+      property_value_definition_name: string;
+      sku_property_value: string;
+      sku_property_name: string;
+    }
+  ];
+  barcode: string;
+  offer_sale_price: string;
+  offer_bulk_sale_price: string;
+  sku_bulk_order: number;
+  s_k_u_available_stock: number;
+}
+
 export interface AEProduct {
   productId: string;
   quantity: number;

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
+import { useTranslations } from "next-intl";
 
 import Modal from "@components/shared/Modal";
 import Loading from "@components/shared/Loading";
@@ -18,36 +20,8 @@ import {
   Affiliate_Categories_Result,
   DS_ShippingAPI_Shipping_Info_Result,
 } from "@reglini-types/ae";
-import { useTranslations } from "next-intl";
-import Head from "next/head";
+import { IMessage, SelectedProductVariation } from "@reglini-types/index";
 import { APP_NAME } from "@config/general";
-import { IMessage } from "@reglini-types/index";
-
-export interface SelectedVariation {
-  imageUrl: string;
-  quantity: number;
-  sku_stock: boolean;
-  sku_price: string;
-  sku_code: string;
-  ipm_sku_stock: number;
-  id: string;
-  currency_code: string;
-  aeop_s_k_u_propertys: [
-    {
-      sku_property_id: number;
-      sku_image: string;
-      property_value_id_long: number;
-      property_value_definition_name: string;
-      sku_property_value: string;
-      sku_property_name: string;
-    }
-  ];
-  barcode: string;
-  offer_sale_price: string;
-  offer_bulk_sale_price: string;
-  sku_bulk_order: number;
-  s_k_u_available_stock: number;
-}
 
 const ProductDetails = ({ id }: { id: number }) => {
   const router = useRouter();
@@ -118,12 +92,12 @@ const ProductDetails = ({ id }: { id: number }) => {
   }, [product.data, properties]);
 
   const [selectedVariation, setSelectedVariation] =
-    useState<SelectedVariation>();
+    useState<SelectedProductVariation>();
 
   useEffect(() => {
     if (product.data?.result.aeop_ae_product_s_k_us && variation) {
       let imageUrl: any;
-      let theOne: Partial<SelectedVariation> = {};
+      let theOne: Partial<SelectedProductVariation> = {};
       if (product.data.result.aeop_ae_product_s_k_us.length === 1) {
         theOne = product.data.result.aeop_ae_product_s_k_us[0];
       } else if (product.data.result.aeop_ae_product_s_k_us.length > 1) {
@@ -174,7 +148,7 @@ const ProductDetails = ({ id }: { id: number }) => {
         });
       }
       setSelectedVariation({ ...theOne, imageUrl } as
-        | SelectedVariation
+        | SelectedProductVariation
         | undefined);
     }
   }, [product.data, variation, quantity]);
