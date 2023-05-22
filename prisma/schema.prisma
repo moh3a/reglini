@@ -94,13 +94,14 @@ model Cart {
 }
 
 model Wishlist {
-  id       String   @id
-  userId   String
-  user     User     @relation(fields: userId, references: [id])
-  date     DateTime @default(now()) @db.Date
-  name     String
-  imageUrl String
-  price    Float
+  id        String   @id @default(cuid())
+  productId String
+  userId    String
+  user      User     @relation(fields: userId, references: [id])
+  date      DateTime @default(now()) @db.Date
+  name      String
+  imageUrl  String
+  price     Float
 
   @@index([userId])
 }
@@ -111,30 +112,12 @@ model Order {
   user            User            @relation(fields: userId, references: [id])
   cancelled       Boolean         @default(false)
   currency        String?
-  product         Product?
+  products        Product[]
   shippingAddress Shipping?
   payment         Payment?
   received        PackageReceipt?
 
   @@index([userId])
-}
-
-model Product {
-  id            String  @id @default(cuid())
-  productId     String
-  orderId       String  @unique
-  order         Order   @relation(fields: orderId, references: [id])
-  name          String
-  imageUrl      String
-  sku           String?
-  quantity      Int?
-  price         Float
-  originalPrice Float?
-  totalPrice    Float?
-  shippingPrice Float?
-  carrierId     String?
-  orderMemo     String? @default("Please do not put invoices or any other document inside the package. Instead send them to this email address support@reglini-dz.com. Thank you very much.")
-  properties    Json?
 }
 
 model Shipping {
@@ -166,6 +149,26 @@ model Payment {
 enum PAYMENT_METHOD {
   CCP
   CIB
+}
+
+model Product {
+  id            String  @id @default(cuid())
+  productId     String
+  orderId       String
+  order         Order   @relation(fields: orderId, references: [id])
+  name          String
+  imageUrl      String
+  sku           String?
+  quantity      Int?
+  price         Float
+  originalPrice Float?
+  totalPrice    Float?
+  shippingPrice Float?
+  carrierId     String?
+  orderMemo     String? @default("Please do not put invoices or any other document inside the package. Instead send them to this email address support@reglini-dz.com. Thank you very much.")
+  properties    Json?
+
+  @@index([orderId])
 }
 
 model PackageReceipt {

@@ -2,7 +2,6 @@ import { z } from "zod";
 
 import {
   AENOLogisticsAddress,
-  AENOProduct,
   AENOProductItem,
   AEProduct,
 } from "@reglini-types/index";
@@ -17,7 +16,7 @@ export const orderRouter = router({
         where: { user: { email: ctx.session.user.email! } },
         include: {
           payment: true,
-          product: true,
+          products: true,
           received: true,
           shippingAddress: true,
         },
@@ -73,7 +72,7 @@ export const orderRouter = router({
           where: { id: input.order_id },
           include: {
             payment: true,
-            product: true,
+            products: true,
             received: true,
             shippingAddress: true,
           },
@@ -99,6 +98,17 @@ export const orderRouter = router({
         });
         if (user) {
           try {
+            // const products: AEProduct[] = input.products.map((product) => ({
+            //   carrierId: product.carrierId,
+            //   productId: product.productId,
+            //   quantity: product.quantity,
+            //   sku: product.sku,
+            //   orderMemo: "",
+            // }));
+            // const data = await ctx.zapiex.createOrder(
+            //   products,
+            //   input.shippingAddress
+            // );
             const product_items: AENOProductItem[] = input.products.map(
               (product) => {
                 return {
@@ -125,7 +135,6 @@ export const orderRouter = router({
               logistics_address,
               product_items
             );
-            console.log(result);
             if (result.result) {
               if (result.result.is_success) {
                 for (const order_id of result.result.order_list) {
@@ -150,7 +159,7 @@ export const orderRouter = router({
                 error: "Could not create order.",
               };
           } catch (error) {
-            console.log(error)
+            console.log(error);
             return { success: false, error: "Could not create order." };
           }
         } else return { success: false, error: "No user was found." };
@@ -160,92 +169,6 @@ export const orderRouter = router({
           error: "You must be logged in.",
         };
     }),
-  // create: procedure
-  //   .input(
-  //     z.object({
-  //       shippingAddress: z.custom<ZAE_ShippingAddres>(),
-  //       products: z.custom<AENOProduct[]>(),
-  //     })
-  //   )
-  //   .mutation(async ({ ctx, input }) => {
-  //     if (ctx.session && ctx.session.user) {
-  //       const user = await ctx.prisma.user.findUnique({
-  //         where: { email: ctx.session.user.email! },
-  //       });
-  //       const products: AEProduct[] = input.products.map((product) => ({
-  //         carrierId: product.carrierId,
-  //         productId: product.productId,
-  //         quantity: product.quantity,
-  //         sku: product.sku,
-  //         orderMemo: "",
-  //       }));
-  //       if (user) {
-  //         try {
-  //           const data = await ctx.zapiex.createOrder(
-  //             products,
-  //             input.shippingAddress
-  //           );
-  //           if (
-  //             data.statusCode === 200 &&
-  //             typeof data.data.errorType === "undefined"
-  //           ) {
-  //             if (data.data.orderIds && data.data.orderIds.length === 1) {
-  //               await ctx.prisma.order.create({
-  //                 data: {
-  //                   id: data.data.orderIds[0].toString(),
-  //                   userId: user.id,
-  //                   shippingAddress: {
-  //                     create: input.shippingAddress,
-  //                   },
-  //                   product: {
-  //                     create: input.products[0],
-  //                   },
-  //                 },
-  //               });
-  //               return {
-  //                 success: true,
-  //                 message: "Successfully created your orders.",
-  //               };
-  //             } else if (data.data.orderIds && data.data.orderIds.length > 1) {
-  //               for (const order_id of data.data.orderIds) {
-  //                 const result = await ctx.zapiex.getOrder(order_id.toString());
-  //                 const product = input.products.find(
-  //                   (product) =>
-  //                     product.productId === result.products[0].productId
-  //                 );
-  //                 if (product) {
-  //                   await ctx.prisma.order.create({
-  //                     data: {
-  //                       id: order_id.toString(),
-  //                       userId: user.id,
-  //                       shippingAddress: {
-  //                         create: input.shippingAddress,
-  //                       },
-  //                       product: {
-  //                         create: product,
-  //                       },
-  //                     },
-  //                   });
-  //                 }
-  //               }
-  //               return {
-  //                 success: true,
-  //                 message: "Successfully created your orders.",
-  //               };
-  //             } else {
-  //               return { success: false, error: "Could not create order." };
-  //             }
-  //           } else return { success: false, error: `Could not create order.` };
-  //         } catch (error) {
-  //           return { success: false, error: "Could not create order." };
-  //         }
-  //       } else return { success: false, error: "No user was found." };
-  //     } else
-  //       return {
-  //         success: false,
-  //         error: "You must be logged in.",
-  //       };
-  //   }),
   pay: procedure
     .input(
       z.object({
@@ -306,8 +229,8 @@ export const orderRouter = router({
               shippingAddress: {
                 delete: true,
               },
-              product: {
-                delete: true,
+              products: {
+                deleteMany: {},
               },
             },
           });

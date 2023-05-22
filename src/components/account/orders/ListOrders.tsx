@@ -25,43 +25,50 @@ const ListOrders = () => {
         ordersQuery.data.orders.length > 0 ? (
           ordersQuery.data.orders.map((order) => (
             <Link key={order.id} href={`/account/orders/${order.id}`}>
-              <dl
-                className={`m-auto truncate ${PADDING} ${SHADOW} ${ROUNDED} my-10 p-2 sm:px-4 sm:py-5 grid grid-cols-5 gap-4`}
-              >
-                <dt className="flex justify-center items-center">
-                  <img
-                    src={order.product?.imageUrl}
-                    alt={order.product?.productId}
-                    className={` ${ROUNDED} w-20`}
-                  />
-                </dt>
-                <dd className="text-sm col-span-4">
-                  <p className="font-bold">
-                    {t("orderId")}: {order.id}
+              <div className="font-bold">
+                {t("orderId")}: {order.id}
+              </div>
+              {order.products &&
+                order.products.map((product) => (
+                  <dl
+                    key={product.id}
+                    className={`m-auto truncate ${PADDING} ${SHADOW} ${ROUNDED} my-10 p-2 sm:px-4 sm:py-5 grid grid-cols-5 gap-4`}
+                  >
+                    <dt className="flex justify-center items-center">
+                      <img
+                        src={product.imageUrl}
+                        alt={product.productId}
+                        className={` ${ROUNDED} w-20`}
+                      />
+                    </dt>
+                    <dd className="text-sm col-span-4">
+                      <p className="h-5 overflow-hidden text-ellipsis">
+                        {product.name}
+                      </p>
+                      <p className="font-mono text-aliexpress">
+                        {t("price", { price: product.totalPrice })}
+                      </p>
+                    </dd>
+                  </dl>
+                ))}
+
+              <div>
+                {!order.cancelled && order.payment?.receipt && (
+                  <p className="text-success font-bold uppercase">
+                    {t("status.paid")}
                   </p>
-                  <p className="h-5 overflow-hidden text-ellipsis">
-                    {order.product?.name}
+                )}
+                {!order.cancelled && !order.payment?.receipt && (
+                  <p className="text-warning font-bold uppercase">
+                    {t("status.awaiting")}
                   </p>
-                  <p className="font-mono text-aliexpress">
-                    {t("price", { price: order.product?.totalPrice })}
+                )}
+                {order.cancelled && (
+                  <p className="text-danger font-bold uppercase">
+                    {t("status.cancelled")}
                   </p>
-                  {!order.cancelled && order.payment?.receipt && (
-                    <p className="text-success font-bold uppercase">
-                      {t("status.paid")}
-                    </p>
-                  )}
-                  {!order.cancelled && !order.payment?.receipt && (
-                    <p className="text-warning font-bold uppercase">
-                      {t("status.awaiting")}
-                    </p>
-                  )}
-                  {order.cancelled && (
-                    <p className="text-danger font-bold uppercase">
-                      {t("status.cancelled")}
-                    </p>
-                  )}
-                </dd>
-              </dl>
+                )}
+              </div>
             </Link>
           ))
         ) : (

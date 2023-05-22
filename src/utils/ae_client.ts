@@ -25,7 +25,7 @@ export const sign_function = (app_secret: string, params: any) => {
   }
   basestring += app_secret;
   return createHash("md5")
-    .update(basestring, "utf8")
+    .update(basestring, "utf-8")
     .digest("hex")
     .toUpperCase();
 };
@@ -39,7 +39,12 @@ export const call = async <T extends PublicParams, K extends object>(
     let symbol = i === 0 ? "?" : "&";
     if (params[sorted[i] as keyof typeof params])
       basestring +=
-        symbol + sorted[i] + "=" + params[sorted[i] as keyof typeof params];
+        symbol +
+        sorted[i] +
+        "=" +
+        encodeURIComponent(
+          params[sorted[i] as keyof typeof params] as number | string | boolean
+        );
   }
   const { data } = await axios.post<K>(basestring, undefined);
   return data;

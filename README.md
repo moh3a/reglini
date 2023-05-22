@@ -2,8 +2,9 @@
 
 ## Todo
 
-- order create: error -> invalid signature || missing version
+- multi-product order
 - refactor and deal with performace and bad first time code!!!
+- enable RLS in supabase
 
 ## Prerequisites
 
