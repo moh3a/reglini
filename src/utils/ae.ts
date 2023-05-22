@@ -17,6 +17,7 @@ import {
   DS_ShippingAPI_Tracking_Info_Params,
   DS_ShippingAPI_Tracking_Info_Result,
 } from "@reglini-types/ae";
+import { AENOLogisticsAddress, AENOProductItem } from "@reglini-types/index";
 import { execute } from "@utils/ae_client";
 
 export const AE_DS_searchProducts = async (
@@ -88,50 +89,16 @@ export const AE_DS_getTrackingInfo = async (
 };
 
 export const AE_DS_createOrder = async (
-  logistics_address: {
-    address: string;
-    city?: string;
-    contact_person?: string;
-    country?: string;
-    full_name?: string;
-    mobile_no?: string;
-    phone_country?: string;
-    province?: string;
-    zip?: string;
-  },
-  product_items: {
-    logistics_service_name?: string;
-    order_memo?: string;
-    product_count: number;
-    product_id: number;
-    sku_attr?: string;
-  }[]
+  logistics_address: AENOLogisticsAddress,
+  product_items: AENOProductItem[]
 ) => {
-  const new_logistics: any = {};
-  const sorted_logistics = Object.keys(logistics_address).sort();
-  for (let i = 0; i < sorted_logistics.length; i++) {
-    new_logistics[sorted_logistics[i]] =
-      logistics_address[sorted_logistics[i] as keyof typeof logistics_address];
-  }
-
-  const new_products: any[] = [];
-  for (let i = 0; i < product_items.length; i++) {
-    const new_product: any = {};
-    const sorted_product = Object.keys(product_items[i]).sort();
-    for (let j = 0; j < sorted_product.length; j++) {
-      new_product[sorted_product[j]] =
-        product_items[i][sorted_product[j] as keyof (typeof product_items)[0]];
-    }
-    new_products.push(new_product);
-  }
-
   return await execute<
     DS_OrderAPI_Place_Order_Params,
     DS_OrderAPI_Place_Order_Result
   >("ds", "aliexpress.trade.buy.placeorder", {
     param_place_order_request4_open_api_d_t_o: JSON.stringify({
-      logistics_address: new_logistics,
-      product_items: new_products,
+      logistics_address,
+      product_items,
     }),
   });
 };

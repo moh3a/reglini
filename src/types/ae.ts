@@ -155,18 +155,6 @@ export interface DS_ProductAPI_Product_Details {
       ipm_sku_stock: number;
       id: string;
       currency_code: string;
-      // aeop_s_k_u_propertys: {
-      //   aeop_sku_property: [
-      //     {
-      //       sku_property_id: number;
-      //       sku_image: string;
-      //       property_value_id_long: number;
-      //       property_value_definition_name: string;
-      //       sku_property_value: string;
-      //       sku_property_name: string;
-      //     }
-      //   ];
-      // };
       aeop_s_k_u_propertys: [
         {
           sku_property_id: number;
@@ -380,20 +368,6 @@ export interface DS_ShippingAPI_Shipping_Info_Params {
 
 export interface DS_ShippingAPI_Shipping_Info_Result {
   result: {
-    // aeop_freight_calculate_result_for_buyer_d_t_o_list: {
-    //   aeop_freight_calculate_result_for_buyer_dto: [
-    //     {
-    //       error_code: number;
-    //       estimated_delivery_time: string;
-    //       freight: {
-    //         amount: number;
-    //         cent: number;
-    //         currency_code: string;
-    //       };
-    //       service_name: string;
-    //     }
-    //   ];
-    // };
     aeop_freight_calculate_result_for_buyer_d_t_o_list: [
       {
         error_code: number;
