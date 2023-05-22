@@ -201,7 +201,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
             )}
           {detailsQuery.data &&
             detailsQuery.data.order &&
-            detailsQuery.data.order.product && (
+            detailsQuery.data.order.products && (
               <>
                 <h2 className="mt-2">
                   <span
@@ -210,36 +210,38 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                     {t("productInfo")}
                   </span>
                 </h2>
-                <Link
-                  href={`/aliexpress/product/${detailsQuery.data.order.product.productId}`}
-                  target={"_blank"}
-                >
-                  <dl
-                    className={`m-auto truncate ${PADDING} ${SHADOW} ${ROUNDED} p-2 sm:px-4 sm:py-5 grid grid-cols-5 gap-4`}
+                {detailsQuery.data.order.products.map((product) => (
+                  <Link
+                    key={product.productId}
+                    href={`/aliexpress/product/${product.productId}`}
+                    target={"_blank"}
                   >
-                    <dt className="flex justify-center items-center">
-                      <img
-                        src={detailsQuery.data.order.product.imageUrl}
-                        alt={detailsQuery.data.order.product.productId}
-                        className={` ${ROUNDED} w-20`}
-                      />
-                    </dt>
-                    <dd className="text-sm col-span-4">
-                      <p className="font-bold">
-                        {t("productId")}:{" "}
-                        {detailsQuery.data.order.product.productId}
-                      </p>
-                      <p className="h-5 overflow-hidden text-ellipsis">
-                        {detailsQuery.data.order.product.name}
-                      </p>
-                      <p className="font-mono text-aliexpress">
-                        {t("price", {
-                          price: detailsQuery.data.order.product.totalPrice,
-                        })}
-                      </p>
-                    </dd>
-                  </dl>
-                </Link>
+                    <dl
+                      className={`m-auto truncate ${PADDING} ${SHADOW} ${ROUNDED} p-2 sm:px-4 sm:py-5 grid grid-cols-5 gap-4`}
+                    >
+                      <dt className="flex justify-center items-center">
+                        <img
+                          src={product.imageUrl}
+                          alt={product.productId}
+                          className={` ${ROUNDED} w-20`}
+                        />
+                      </dt>
+                      <dd className="text-sm col-span-4">
+                        <p className="font-bold">
+                          {t("productId")}: {product.productId}
+                        </p>
+                        <p className="h-5 overflow-hidden text-ellipsis">
+                          {product.name}
+                        </p>
+                        <p className="font-mono text-aliexpress">
+                          {t("price", {
+                            price: product.totalPrice,
+                          })}
+                        </p>
+                      </dd>
+                    </dl>
+                  </Link>
+                ))}
               </>
             )}
           {detailsQuery.data &&
@@ -286,9 +288,9 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
             setIsOpen={setIsOpen}
             title={info?.toUpperCase()}
           >
-            {info === "payment" && (
+            {info === "payment" && detailsQuery.data?.order?.products && (
               <Pay
-                price={detailsQuery.data?.order?.product?.totalPrice ?? 0}
+                products={detailsQuery.data?.order?.products}
                 order_id={id}
                 setIsOpen={setIsOpen}
               />

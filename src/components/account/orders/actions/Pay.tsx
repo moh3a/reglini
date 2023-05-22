@@ -6,6 +6,7 @@ import {
   SetStateAction,
   useRef,
   useState,
+  useEffect,
 } from "react";
 import Link from "next/link";
 import axios, { AxiosRequestConfig } from "axios";
@@ -30,16 +31,28 @@ import Button from "@components/shared/Button";
 import Loading from "@components/shared/Loading";
 import { trpc } from "@utils/trpc";
 import { IMessage } from "@reglini-types/index";
+import { Product } from "@prisma/client";
 
 interface PaymentProps {
   order_id: string;
-  price: number;
+  products: Product[];
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const PAYMENT_METHODS = ["CIB", "CCP"];
 
-const Pay = ({ order_id, price, setIsOpen }: PaymentProps) => {
+const Pay = ({ order_id, products, setIsOpen }: PaymentProps) => {
+  const [price, setPrice] = useState(0);
+  useEffect(() => {
+    setPrice(() => {
+      let total = 0;
+      for (let i = 0; i < products.length; i++) {
+        total += products[i].totalPrice ?? 0;
+      }
+      return total;
+    });
+  }, [products]);
+
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
