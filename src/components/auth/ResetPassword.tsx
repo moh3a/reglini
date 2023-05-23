@@ -129,7 +129,7 @@ const ResetPassword = ({ token }: { token: string }) => {
       onSubmit={submitHandler}
       className="max-w-lg m-auto"
     >
-      <Title title="Reset your password" />
+      <Title center={true} title="Reset your password" />
       {message?.type && <Banner type={message?.type} message={message?.text} />}
       <div className="my-3">
         <label className="block leading-relaxed" htmlFor="password">

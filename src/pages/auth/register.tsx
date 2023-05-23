@@ -31,7 +31,7 @@ const RegisterPage = ({ csrfToken, providers }: AuthProps) => {
       </Head>
       {status !== "authenticated" && (
         <section className="mx-auto max-w-lg px-6">
-          <Title title={t("title")} />
+          <Title center={true} title={t("title")} />
           <Register csrfToken={csrfToken} />
           <div className="flex items-center justify-between my-4">
             <span className="w-1/5 border-b border-darkTransparent lg:w-1/5"></span>

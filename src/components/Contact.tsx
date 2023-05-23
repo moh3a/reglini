@@ -54,7 +54,7 @@ const Contact = () => {
 
   return (
     <>
-      <Title title={t("title")} />
+      <Title center={true} title={t("title")} />
       <p className="mb-4 font-bold font-mono text-sm text-center">
         {t("subtitle")}
       </p>

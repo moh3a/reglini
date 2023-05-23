@@ -13,7 +13,7 @@ const ListOrders = () => {
 
   return (
     <div className="mx-auto max-w-xl">
-      <Title title={t("title")} />
+      <Title center={true} title={t("title")} />
       <div className="px-3 my-4 space-y-4 lg:space-y-8">
         {ordersQuery.isLoading && (
           <div className="w-full flex justify-center items-center">

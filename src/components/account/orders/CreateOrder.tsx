@@ -100,7 +100,7 @@ const CreateOrder = () => {
 
   return (
     <div className="mb-10">
-      <Title title="Place a new order" />
+      <Title center={true} title="Place a new order" />
       <dl className={`max-w-2xl m-auto ${PADDING} ${SHADOW} ${ROUNDED} `}>
         {profile.isLoading && (
           <div className="w-full flex justify-center items-center">

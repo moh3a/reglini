@@ -106,7 +106,7 @@ const DeleteAccount = () => {
               >
                 <form onSubmit={deleteAccountHandler} className="py-5">
                   <Dialog.Title as="h2">
-                    <Title title="DELETE YOUR ACCOUNT" />
+                    <Title center={true} title="DELETE YOUR ACCOUNT" />
                   </Dialog.Title>
                   <div className="mt-4">
                     <p className="text-sm">{t("dataLoss")}</p>

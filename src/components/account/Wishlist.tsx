@@ -60,7 +60,7 @@ const Wishlist = () => {
         </title>
       </Head>
       <div className="mb-10">
-        <Title title={t("wishlist")} />
+        <Title center={true} title={t("wishlist")} />
         {wishlist.isLoading && (
           <div className="w-full flex justify-center items-center">
             <Loading size="medium" />

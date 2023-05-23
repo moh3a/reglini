@@ -60,7 +60,7 @@ const FAQPage = () => {
         <div className="max-w-xl sm:mx-auto lg:max-w-2xl">
           <div className="flex flex-col mb-16 sm:text-center">
             <div className="max-w-xl md:mx-auto sm:text-center lg:max-w-2xl">
-              <Title title="F.A.Q." />
+              <Title center={true} title="F.A.Q." />
             </div>
           </div>
           <div className="px-4 my-4 space-y-4">
