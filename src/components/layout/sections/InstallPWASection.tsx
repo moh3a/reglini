@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 import { useInstallPWA } from "@utils/store";
-import Button from "../../shared/Button";
-import { useTranslations } from "next-intl";
+import Button from "@components/shared/Button";
 
 const InstallPWASection = () => {
   const t = useTranslations("IndexPage.installHero");

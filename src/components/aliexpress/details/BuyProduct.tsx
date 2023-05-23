@@ -2,13 +2,13 @@ import { Dispatch, SetStateAction } from "react";
 import { CursorArrowRaysIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
 
 import Button from "@components/shared/Button";
 import { ZAE_Product } from "@reglini-types/zapiex";
-import { SelectedVariation } from "../ProductDetails";
+import { SelectedVariation } from "@components/aliexpress/ProductDetails";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
-import { useTranslations } from "next-intl";
 
 interface BuyProductProps {
   product: ZAE_Product;

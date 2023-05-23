@@ -1,22 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import {
   CursorArrowRaysIcon,
   CheckBadgeIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW, TEXT_GRADIENT } from "@config/design";
 import Title from "@components/shared/Title";
 import Loading from "@components/shared/Loading";
 import Button from "@components/shared/Button";
-import Edit from "../details/EditAccount";
-import EditAddress from "../details/EditAddress";
+import Banner from "@components/shared/Banner";
+import Edit from "@components/account/details/EditAccount";
+import EditAddress from "@components/account/details/EditAddress";
 import { trpc } from "@utils/trpc";
 import { AENOProduct, IMessage } from "@reglini-types/index";
-import Banner from "@components/shared/Banner";
-import { useTranslations } from "next-intl";
-import { useRouter } from "next/router";
 
 const CreateOrder = () => {
   const t = useTranslations("AccountPage");

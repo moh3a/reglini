@@ -1,13 +1,13 @@
 import { Dispatch, SetStateAction } from "react";
 import { useSession } from "next-auth/react";
 import { HeartIcon } from "@heroicons/react/24/solid";
+import { useTranslations } from "next-intl";
 
 import { ZAE_Product } from "@reglini-types/zapiex";
 import Button from "@components/shared/Button";
 import { trpc } from "@utils/trpc";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
-import { useTranslations } from "next-intl";
 import { IMessage } from "@reglini-types/index";
 
 interface AddToWishlistProps {

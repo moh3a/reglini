@@ -5,7 +5,7 @@ import { XMarkIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 
-import CartItem from "./CartItem";
+import CartItem from "@components/account/CartItem";
 import Button from "@components/shared/Button";
 import Loading from "@components/shared/Loading";
 import { trpc } from "@utils/trpc";

@@ -1,6 +1,7 @@
 import { Fragment, Dispatch, SetStateAction } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
+import { useTranslations } from "next-intl";
 
 import { Wilaya } from "@prisma/client";
 import {
@@ -9,10 +10,9 @@ import {
   BG_TRANSPARENT_BACKDROP,
   ROUNDED,
   TEXT_INPUT,
-} from "../../../../config/design";
+} from "@config/design";
 import Loading from "@components/shared/Loading";
 import { trpc } from "@utils/trpc";
-import { useTranslations } from "next-intl";
 
 export default function SelectWilaya({
   wilaya,

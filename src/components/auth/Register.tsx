@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
-import Button from "../shared/Button";
-import ValidateEmail from "./register-validation/ValidateEmail";
-import ValidatePassword from "./register-validation/ValidatePassword";
-import TextInput from "../shared/Input";
+import ValidateEmail from "@components/auth/register-validation/ValidateEmail";
+import ValidatePassword from "@components/auth/register-validation/ValidatePassword";
+import Button from "@components/shared/Button";
+import TextInput from "@components/shared/Input";
 
 const Register = ({ csrfToken }: { csrfToken: string }) => {
   const [valid, setValid] = useState(false);

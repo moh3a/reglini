@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import parse from "html-react-parser";
 
 import { PADDING, ROUNDED, SHADOW } from "@config/design";
-import StoreInfo from "./StoreInfo";
+import StoreInfo from "@components/aliexpress_v2/details/StoreInfo";
 import { DS_ProductAPI_Product_Details } from "@reglini-types/ae";
 
 const Item = ({ title, children }: any) => {

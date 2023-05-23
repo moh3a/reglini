@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { useTranslations } from "next-intl";
 
 import { ZAE_Product } from "@reglini-types/zapiex";
-import { useTranslations } from "next-intl";
 
 const StoreInfo = ({ product }: { product: ZAE_Product }) => {
   const t = useTranslations("AliexpressPage.store");

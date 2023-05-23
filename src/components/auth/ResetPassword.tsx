@@ -5,14 +5,14 @@ import {
   CheckBadgeIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { signOut } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 import Banner from "@components/shared/Banner";
 import PasswordInput from "@components/shared/PasswordInput";
 import Title from "@components/shared/Title";
 import Button from "@components/shared/Button";
 import { trpc } from "@utils/trpc";
-import { signOut } from "next-auth/react";
-import { useTranslations } from "next-intl";
 import { IMessage } from "@reglini-types/index";
 
 const ResetPassword = ({ token }: { token: string }) => {

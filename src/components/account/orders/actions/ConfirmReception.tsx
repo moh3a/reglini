@@ -23,7 +23,6 @@ import {
   TEXT_INPUT,
 } from "@config/design";
 import Button from "@components/shared/Button";
-import Banner from "@components/shared/Banner";
 import Loading from "@components/shared/Loading";
 import { trpc } from "@utils/trpc";
 import { IMessage } from "@reglini-types/index";

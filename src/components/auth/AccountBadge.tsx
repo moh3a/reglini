@@ -18,7 +18,7 @@ import {
   ROUNDED,
   SHADOW,
 } from "@config/design";
-import Button from "../shared/Button";
+import Button from "@components/shared/Button";
 import Loading from "@components/shared/Loading";
 
 const AccountBadge = () => {

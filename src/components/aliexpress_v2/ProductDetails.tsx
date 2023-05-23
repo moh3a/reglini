@@ -5,16 +5,16 @@ import { useTranslations } from "next-intl";
 
 import Modal from "@components/shared/Modal";
 import Loading from "@components/shared/Loading";
-import ProductImage from "./details/ProductImage";
-import ProductReviews from "./details/ProductReviews";
-import ProductProperty from "./details/ProductProperty";
-import ProductQuantity from "./details/ProductQuantity";
-import ProductPrice from "./details/ProductPrice";
-import ProductShipping from "./details/ProductShipping";
-import BuyProduct from "./details/BuyProduct";
-import ProductFeatures from "./details/ProductFeatures";
-import AddToCart from "./details/AddToCart";
-import AddToWishlist from "./details/AddToWishlist";
+import ProductImage from "@components/aliexpress_v2/details/ProductImage";
+import ProductReviews from "@components/aliexpress_v2/details/ProductReviews";
+import ProductProperty from "@components/aliexpress_v2/details/ProductProperty";
+import ProductQuantity from "@components/aliexpress_v2/details/ProductQuantity";
+import ProductPrice from "@components/aliexpress_v2/details/ProductPrice";
+import ProductShipping from "@components/aliexpress_v2/details/ProductShipping";
+import BuyProduct from "@components/aliexpress_v2/details/BuyProduct";
+import ProductFeatures from "@components/aliexpress_v2/details/ProductFeatures";
+import AddToCart from "@components/aliexpress_v2/details/AddToCart";
+import AddToWishlist from "@components/aliexpress_v2/details/AddToWishlist";
 import { trpc } from "@utils/trpc";
 import {
   Affiliate_Categories_Result,

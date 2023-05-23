@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 import Banner from "@components/shared/Banner";
 import { trpc } from "@utils/trpc";
-import { useSession } from "next-auth/react";
 import { IMessage } from "@reglini-types/index";
 
 const AccountVerification = ({ token }: { token: string }) => {

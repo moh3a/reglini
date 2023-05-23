@@ -3,11 +3,11 @@ import {
   ExclamationCircleIcon,
   CheckCircleIcon,
 } from "@heroicons/react/24/outline";
+import { useTranslations } from "next-intl";
 
 import NumberInput from "@components/shared/NumberInput";
+import { SelectedVariation } from "@components/aliexpress/ProductDetails";
 import { ZAE_Product } from "@reglini-types/zapiex";
-import { SelectedVariation } from "../ProductDetails";
-import { useTranslations } from "next-intl";
 
 interface ProductQuantityProps {
   product: ZAE_Product;

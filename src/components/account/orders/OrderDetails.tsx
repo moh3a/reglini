@@ -9,11 +9,11 @@ import Button from "@components/shared/Button";
 import Loading from "@components/shared/Loading";
 import Modal from "@components/shared/Modal";
 import Banner from "@components/shared/Banner";
-import Pay from "./actions/Pay";
-import Cancel from "./actions/Cancel";
-import Tracking from "./actions/Tracking";
+import Pay from "@components/account/orders/actions/Pay";
+import Cancel from "@components/account/orders/actions/Cancel";
+import Tracking from "@components/account/orders/actions/Tracking";
+import ConfirmReception from "@components/account/orders/actions/ConfirmReception";
 import { trpc } from "@utils/trpc";
-import ConfirmReception from "./actions/ConfirmReception";
 import { IMessage } from "@reglini-types/index";
 
 interface OrderDetailsProps {

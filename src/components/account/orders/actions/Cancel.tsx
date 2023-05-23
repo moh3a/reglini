@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction } from "react";
 import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
 
 import Button from "@components/shared/Button";
 import { trpc } from "@utils/trpc";
-import { useTranslations } from "next-intl";
 import { IMessage } from "@reglini-types/index";
 
 const Cancel = ({

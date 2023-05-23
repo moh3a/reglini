@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 
 import { TEXT_GRADIENT } from "@config/design";
 import Loading from "@components/shared/Loading";
-import CurrencyCard from "./CurrencyCard";
+import CurrencyCard from "@components/currency/CurrencyCard";
 import { trpc } from "@utils/trpc";
 
 const LiveRate = () => {

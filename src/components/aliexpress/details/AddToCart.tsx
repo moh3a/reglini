@@ -1,14 +1,14 @@
 import { Dispatch, SetStateAction } from "react";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 import { ZAE_Product } from "@reglini-types/zapiex";
-import { SelectedVariation } from "../ProductDetails";
+import { SelectedVariation } from "@components/aliexpress/ProductDetails";
 import Button from "@components/shared/Button";
 import { trpc } from "@utils/trpc";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
-import { useTranslations } from "next-intl";
 
 interface AddToCartProps {
   product: ZAE_Product;

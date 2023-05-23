@@ -8,9 +8,9 @@ import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW } from "@config/design";
 import { trpc } from "@utils/trpc";
-import Edit from "./details/EditAccount";
-import EditAddress from "./details/EditAddress";
-import EditProfilePicture from "./details/EditProfilePicture";
+import Edit from "@components/account/details/EditAccount";
+import EditAddress from "@components/account/details/EditAddress";
+import EditProfilePicture from "@components/account/details/EditProfilePicture";
 import Loading from "@components/shared/Loading";
 import Title from "@components/shared/Title";
 import Button from "@components/shared/Button";

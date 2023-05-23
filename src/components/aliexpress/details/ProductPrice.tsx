@@ -4,7 +4,7 @@ import { PADDING, ROUNDED, SHADOW } from "@config/design";
 import { ZAE_Product } from "@reglini-types/zapiex";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
-import { SelectedVariation } from "../ProductDetails";
+import { SelectedVariation } from "@components/aliexpress/ProductDetails";
 
 interface ProductPriceProps {
   product: ZAE_Product;

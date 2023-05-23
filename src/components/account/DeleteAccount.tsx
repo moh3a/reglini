@@ -4,6 +4,7 @@ import { HomeIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
+import { signOut } from "next-auth/react";
 
 import {
   BG_TRANSPARENT_BACKDROP,
@@ -14,7 +15,6 @@ import {
 import Button from "@components/shared/Button";
 import Title from "@components/shared/Title";
 import { trpc } from "@utils/trpc";
-import { signOut } from "next-auth/react";
 
 const DeleteAccount = () => {
   let [isOpen, setIsOpen] = useState(false);

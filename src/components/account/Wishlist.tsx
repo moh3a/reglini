@@ -1,8 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 import Link from "next/link";
+import Head from "next/head";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 import {
   BG_TRANSPARENT_BACKDROP,
@@ -10,15 +12,13 @@ import {
   ROUNDED,
   SHADOW,
 } from "@config/design";
+import { APP_NAME } from "@config/general";
 import { AliExpressLogo } from "@components/shared/Logos";
 import Button from "@components/shared/Button";
 import Loading from "@components/shared/Loading";
 import Title from "@components/shared/Title";
 import Banner from "@components/shared/Banner";
 import { trpc } from "@utils/trpc";
-import Head from "next/head";
-import { APP_NAME } from "@config/general";
-import { useTranslations } from "next-intl";
 import { IMessage } from "@reglini-types/index";
 
 const Wishlist = () => {

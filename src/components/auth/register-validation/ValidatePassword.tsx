@@ -1,7 +1,8 @@
+import { useState, useEffect } from "react";
 import { CheckBadgeIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
-import { useState, useEffect } from "react";
-import PasswordInput from "../../shared/PasswordInput";
+
+import PasswordInput from "@components/shared/PasswordInput";
 
 const ValidatePassword = ({ setPasswordValidation }: any) => {
   const [password, setPassword] = useState("");

@@ -3,10 +3,10 @@ import { FormEvent, Fragment, useState } from "react";
 import { useRouter } from "next/router";
 import { Dialog, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { useTranslations } from "next-intl";
 
 import Button from "@components/shared/Button";
 import { ROUNDED, TEXT_INPUT } from "@config/design";
-import { useTranslations } from "next-intl";
 
 const SearchButton = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,17 +1,15 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
 import { ROUNDED, SHADOW, TEXT_INPUT } from "@config/design";
-import TextInput from "./shared/Input";
-import Button from "./shared/Button";
-import Title from "./shared/Title";
+import TextInput from "@components/shared/Input";
+import Button from "@components/shared/Button";
+import Title from "@components/shared/Title";
+import Banner from "@components/shared/Banner";
 import { trpc } from "@utils/trpc";
-import Banner from "./shared/Banner";
 
 const Contact = () => {
-  const router = useRouter();
   const emailMutation = trpc.email.useMutation();
 
   const [subject, setSubject] = useState("");

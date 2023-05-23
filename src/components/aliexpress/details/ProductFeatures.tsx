@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW } from "@config/design";
 import { ZAE_Product } from "@reglini-types/zapiex";
-import StoreInfo from "./StoreInfo";
+import StoreInfo from "@components/aliexpress/details/StoreInfo";
 
 const Item = ({ title, children }: any) => {
   const [isOpen, setIsOpen] = useState(false);

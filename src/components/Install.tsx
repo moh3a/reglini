@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 import { useInstallPWA } from "@utils/store";
 import Button from "@components/shared/Button";
 import { CloudArrowDownIcon } from "@heroicons/react/24/outline";
-import { useTranslations } from "next-intl";
 
 const Install = () => {
   const t = useTranslations("Common");

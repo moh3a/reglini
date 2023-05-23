@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
+import { useTranslations } from "next-intl";
 
 import { DS_ProductAPI_Product_Details } from "@reglini-types/ae";
-import { useTranslations } from "next-intl";
 
 const StoreInfo = ({ product }: { product: DS_ProductAPI_Product_Details }) => {
   const t = useTranslations("AliexpressPage.store");

@@ -5,7 +5,7 @@ import Loading from "@components/shared/Loading";
 import Modal from "@components/shared/Modal";
 import AffiliateProductCard from "@components/aliexpress_v2/ProductCard";
 import Pagination from "@components/shared/Pagination";
-import ProductCard from "./ProductCard";
+import ProductCard from "@components/aliexpress/ProductCard";
 import { IMessage } from "@reglini-types/index";
 import { trpc } from "@utils/trpc";
 

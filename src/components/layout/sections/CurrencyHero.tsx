@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 import Button from "@components/shared/Button";
-import { useTranslations } from "next-intl";
 
 const CurrencyHero = () => {
   const t = useTranslations("IndexPage.currencyHero");

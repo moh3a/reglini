@@ -1,6 +1,7 @@
 import { Fragment, useState, useEffect, Dispatch, SetStateAction } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
+import { useTranslations } from "next-intl";
 
 import { ZAE_Product } from "@reglini-types/zapiex";
 import {
@@ -11,7 +12,6 @@ import {
 } from "@config/design";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
-import { useTranslations } from "next-intl";
 
 interface ProductShipping {
   product: ZAE_Product;

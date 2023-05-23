@@ -14,9 +14,9 @@ import {
 import { HeartIcon } from "@heroicons/react/24/solid";
 import { useTranslations } from "next-intl";
 
-import DarkMode from "../DarkMode";
-import Language from "../Language";
 import { BG_GRADIENT } from "@config/design";
+import DarkMode from "@components/DarkMode";
+import Language from "@components/Language";
 import Button from "@components/shared/Button";
 import Install from "@components/Install";
 
