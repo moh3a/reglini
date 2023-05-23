@@ -3,7 +3,7 @@ import * as trpcNext from "@trpc/server/adapters/next";
 import { getSession } from "next-auth/react";
 
 import prisma from "@config/prisma";
-import { ISession } from "../types";
+import { ISession } from "@reglini-types/index";
 import { ZAPIEX } from "@utils/zapiex";
 import { ALIEXPRESS } from "@utils/ae";
 

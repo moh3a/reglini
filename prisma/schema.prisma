@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider     = "postgresql"
   url          = env("DATABASE_URL")
+  directUrl    = env("DIRECT_URL")
   relationMode = "prisma"
 }
 
@@ -93,14 +94,14 @@ model Cart {
 }
 
 model Wishlist {
-  id       String   @id @default(cuid())
-  // productId String
-  userId   String
-  user     User     @relation(fields: userId, references: [id])
-  date     DateTime @default(now()) @db.Date
-  name     String
-  imageUrl String
-  price    Float
+  id        String   @id @default(cuid())
+  productId String
+  userId    String
+  user      User     @relation(fields: userId, references: [id])
+  date      DateTime @default(now()) @db.Date
+  name      String
+  imageUrl  String
+  price     Float
 
   @@index([userId])
 }

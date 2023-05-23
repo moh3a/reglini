@@ -92,7 +92,6 @@ export const ZAE_CreateOrder = async (
       headers: {
         "x-api-key": process.env.ZAPIEX_KEY,
         "Content-Type": "application/json",
-        "Accept-Encoding": "application/json", // workaround for an axios@1.2.0 bug
       },
     }
   );
