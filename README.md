@@ -2,8 +2,8 @@
 
 ## Todo
 
+- cannot run `api` routes in prod
 - multi-product order
-- productid in wishlist
 - refactor and deal with performace and bad first time code!!!
 - enable RLS in supabase
 

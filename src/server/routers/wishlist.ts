@@ -42,7 +42,7 @@ export const wishlistRouter = router({
             where: { id: input.productId },
             update: input,
             create: {
-              id: input.productId,
+              productId: input.productId,
               imageUrl: input.imageUrl,
               name: input.name,
               price: input.price,
