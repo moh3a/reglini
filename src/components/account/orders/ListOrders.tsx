@@ -6,6 +6,7 @@ import { PADDING, ROUNDED, SHADOW } from "@config/design";
 import Loading from "@components/shared/Loading";
 import Title from "@components/shared/Title";
 import { trpc } from "@utils/trpc";
+import ItemProperties from "../ItemProperties";
 
 const ListOrders = () => {
   const ordersQuery = trpc.order.all.useQuery();
@@ -39,7 +40,7 @@ const ListOrders = () => {
                     >
                       <dt className="flex justify-center items-center">
                         <img
-                          src={product.imageUrl}
+                          src={product.imageUrl ?? "/placeholder.png"}
                           alt={product.productId}
                           className={` ${ROUNDED} w-20`}
                         />
@@ -48,6 +49,7 @@ const ListOrders = () => {
                         <p className="h-5 overflow-hidden text-ellipsis">
                           {product.name}
                         </p>
+                        <ItemProperties product={product} />
                         <p className="font-mono text-aliexpress">
                           {t("price", { price: product.totalPrice })}
                         </p>

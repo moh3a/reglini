@@ -131,10 +131,7 @@ export default function Cart() {
                               cartQuery.data.cart &&
                               cartQuery.data.cart.length > 0 ? (
                                 cartQuery.data.cart.map((item) => (
-                                  <CartItem
-                                    key={item.id}
-                                    item={item as AENOProduct}
-                                  />
+                                  <CartItem key={item.id} item={item} />
                                 ))
                               ) : (
                                 <li className={`py-6 flex`}>{t("empty")}</li>

@@ -7,10 +7,12 @@ import { useTranslations } from "next-intl";
 import NumberInput from "@components/shared/NumberInput";
 import Button from "@components/shared/Button";
 import Banner from "@components/shared/Banner";
+import ItemProperties from "@components/account/ItemProperties";
 import { AENOProduct, IMessage } from "@reglini-types/index";
+import { Cart } from "@prisma/client";
 import { trpc } from "@utils/trpc";
 
-const CartItem = ({ item }: { item: AENOProduct }) => {
+const CartItem = ({ item }: { item: AENOProduct | Cart }) => {
   const t = useTranslations("Common.cart");
   const [message, setMessage] = useState<IMessage>();
 
@@ -90,36 +92,8 @@ const CartItem = ({ item }: { item: AENOProduct }) => {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-end justify-between text-xs my-2">
-            {item.properties?.map((property: any) => (
-              <div
-                key={
-                  property.sku_property_id
-                    ? property.sku_property_id
-                    : property.id
-                }
-                className={`hover:underline`}
-              >
-                {property.sku_property_id ? (
-                  <>
-                    {property.sku_property_name}:
-                    <span className="font-bold text-gray-500">
-                      {property.property_value_definition_name
-                        ? property.property_value_definition_name
-                        : property.property_value_id_long}
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    {property.name}:
-                    <span className="font-bold text-gray-500">
-                      {property.value.name}
-                    </span>
-                  </>
-                )}
-              </div>
-            ))}
-          </div>
+          <ItemProperties product={item} />
+
           <div className={`text-xs my-2`}>
             <p>
               {t("shippingCarrier")}:{" "}

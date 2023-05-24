@@ -64,6 +64,7 @@ const MyApp: AppType<{
       </Head>
       <NextIntlProvider
         messages={(pageProps as any).messages}
+        onError={() => {}}
         getMessageFallback={getMessageFallback}
       >
         <ThemeProvider attribute="class">

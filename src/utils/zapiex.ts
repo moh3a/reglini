@@ -95,7 +95,6 @@ export const ZAE_CreateOrder = async (
       },
     }
   );
-  console.log(res);
   return res.data as {
     statusCode: number;
     data: {
@@ -125,19 +124,35 @@ export const ZAE_GetOrder = async (id: string) => {
 };
 
 export const ZAE_CancelOrder = async (id: string) => {
-  const { data } = await axios({
-    method: "post",
-    url: "https://api.zapiex.com/v3/order/cancel",
-    headers: {
-      "x-api-key": process.env.ZAPIEX_KEY,
-      "Content-Type": "application/json",
-    },
-    data: {
+  const { data } = await axios.post(
+    "https://api.zapiex.com/v3/order/cancel",
+    {
       username: process.env.ALIEXPRESS_USERNAME,
       password: process.env.ALIEXPRESS_PASSWORD,
       orderId: id,
     },
-  });
+    {
+      headers: {
+        "x-api-key": process.env.ZAPIEX_KEY,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Accept-Encoding": "application/json",
+      },
+    }
+  );
+  // const { data } = await axios({
+  //   method: "post",
+  //   url: "https://api.zapiex.com/v3/order/cancel",
+  //   headers: {
+  //     "x-api-key": process.env.ZAPIEX_KEY,
+  //     "Content-Type": "application/json",
+  //   },
+  //   data: {
+  //     username: process.env.ALIEXPRESS_USERNAME,
+  //     password: process.env.ALIEXPRESS_PASSWORD,
+  //     orderId: id,
+  //   },
+  // });
   return data.data as { success: boolean };
 };
 

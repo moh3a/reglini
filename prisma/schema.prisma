@@ -158,7 +158,7 @@ model Product {
   orderId       String
   order         Order   @relation(fields: orderId, references: [id])
   name          String
-  imageUrl      String
+  imageUrl      String?
   sku           String?
   quantity      Int?
   price         Float

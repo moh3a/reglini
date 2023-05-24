@@ -45,15 +45,22 @@ export const cartRouter = router({
     .mutation(async ({ ctx, input }) => {
       if (ctx.session && ctx.session.user) {
         try {
-          const item = await ctx.prisma.cart.findFirst({
+          const items = await ctx.prisma.cart.findMany({
             where: {
               user: { email: ctx.session.user.email! },
               productId: input.productId,
             },
           });
-          if (item)
+          let found = false;
+          for (const item of items) {
+            if (item && item.sku === input.sku) {
+              found = true;
+              break;
+            }
+          }
+          if (found) {
             return { success: false, error: "Item is already in cart." };
-          else {
+          } else {
             const updated = await ctx.prisma.cart.create({
               data: {
                 ...input,

@@ -13,6 +13,7 @@ import Pay from "@components/account/orders/actions/Pay";
 import Cancel from "@components/account/orders/actions/Cancel";
 import Tracking from "@components/account/orders/actions/Tracking";
 import ConfirmReception from "@components/account/orders/actions/ConfirmReception";
+import ItemProperties from "@components/account/ItemProperties";
 import { trpc } from "@utils/trpc";
 import { IMessage } from "@reglini-types/index";
 
@@ -222,7 +223,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                       <div className="py-2 grid grid-cols-5 gap-4">
                         <dt className="flex justify-center items-center">
                           <img
-                            src={product.imageUrl}
+                            src={product.imageUrl ?? "/placeholder.png"}
                             alt={product.productId}
                             className={` ${ROUNDED} w-20`}
                           />
@@ -234,6 +235,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                           <p className="h-5 overflow-hidden text-ellipsis">
                             {product.name}
                           </p>
+                          <ItemProperties product={product} />
                           <p className="font-mono text-aliexpress">
                             {t("price", {
                               price: product.totalPrice,

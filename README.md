@@ -3,7 +3,7 @@
 ## Todo
 
 - cannot run `api` routes in prod
-- multi-product order
+- cannot `cancel order`
 - refactor and deal with performace and bad first time code!!!
 - enable RLS in supabase
 

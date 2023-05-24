@@ -76,7 +76,8 @@ const BuyProduct = ({
                 name: product.title,
                 price,
                 originalPrice,
-                imageUrl: selectedVariation.imageUrl,
+                imageUrl:
+                  selectedVariation.imageUrl ?? product.productImages[0],
                 properties: selectedVariation.properties,
                 quantity: selectedVariation.quantity,
                 sku: selectedVariation.sku,

@@ -2,18 +2,22 @@ import { z } from "zod";
 
 import {
   AENOLogisticsAddress,
+  AENOProduct,
   AENOProductItem,
-  AEProduct,
 } from "@reglini-types/index";
 import { ZAE_ShippingAddres } from "@reglini-types/zapiex";
 import { router, procedure } from "../trpc";
 import SendEmail from "@utils/send_email";
+import { Product } from "@prisma/client";
 
 export const orderRouter = router({
   all: procedure.query(async ({ ctx }) => {
     if (ctx.session && ctx.session.user) {
       const orders = await ctx.prisma.order.findMany({
         where: { user: { email: ctx.session.user.email! } },
+        orderBy: {
+          date: "desc",
+        },
         include: {
           payment: true,
           products: true,
@@ -88,7 +92,7 @@ export const orderRouter = router({
     .input(
       z.object({
         shippingAddress: z.custom<ZAE_ShippingAddres>(),
-        products: z.custom<AEProduct[]>(),
+        products: z.custom<AENOProduct[]>(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -135,9 +139,25 @@ export const orderRouter = router({
               logistics_address,
               product_items
             );
+
             if (result.result) {
               if (result.result.is_success) {
                 for (const order_id of result.result.order_list) {
+                  const order = await ctx.aliexpress.ds.getOrder(order_id);
+                  let products: Omit<
+                    Product,
+                    "orderId" | "id" | "properties"
+                  >[] = [];
+                  if (input.products.length === 1) {
+                    products.push(input.products[0]);
+                  } else if (input.products.length > 1) {
+                    order.result.child_order_list.forEach((o) => {
+                      const prdct = input.products.find(
+                        (p) => p.productId === o.product_id.toString()
+                      );
+                      if (prdct) products.push(prdct);
+                    });
+                  }
                   await ctx.prisma.order.create({
                     data: {
                       id: order_id.toString(),
@@ -145,9 +165,15 @@ export const orderRouter = router({
                       shippingAddress: {
                         create: input.shippingAddress,
                       },
+                      products: {
+                        createMany: {
+                          data: products,
+                        },
+                      },
                     },
                   });
                 }
+
                 return {
                   success: true,
                   message: "Successfully created your orders.",

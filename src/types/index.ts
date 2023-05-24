@@ -194,7 +194,7 @@ export interface AEProduct {
   quantity: number;
   sku: string;
   carrierId: string;
-  orderMemo?: string;
+  orderMemo: string | null;
 }
 
 export interface AEProductProperties {
@@ -223,11 +223,11 @@ export interface AENOProduct extends AEProduct {
   id: string;
   name: string;
   imageUrl: string;
-  properties: any; // AEProductProperties[] | ZAE_ProductProperties[] | null;
+  properties: string | null; // AEProductProperties[] | ZAE_ProductProperties[] | null;
   price: number;
-  originalPrice?: number;
-  shippingPrice?: number;
-  totalPrice?: number;
+  originalPrice: number | null;
+  shippingPrice: number | null;
+  totalPrice: number | null;
 }
 
 export interface AENOProductItem {

@@ -35,7 +35,9 @@ const ProductDetails = ({ id }: { id: number }) => {
     },
     {
       onSettled(data, error) {
-        if (error) router.push(`/aliexpress/v1/product/${id}`);
+        console.log(data);
+        if (error || data?.result.currency_code !== "USD")
+          router.push(`/aliexpress/v1/product/${id}`);
         if (data && data.result) {
           setShowImage(data.result.image_u_r_ls.split(";")[0]);
         }
@@ -96,7 +98,7 @@ const ProductDetails = ({ id }: { id: number }) => {
 
   useEffect(() => {
     if (product.data?.result.aeop_ae_product_s_k_us && variation) {
-      let imageUrl: any;
+      let imageUrl: string = "";
       let theOne: Partial<SelectedProductVariation> = {};
       if (product.data.result.aeop_ae_product_s_k_us.length === 1) {
         theOne = product.data.result.aeop_ae_product_s_k_us[0];
@@ -134,11 +136,14 @@ const ProductDetails = ({ id }: { id: number }) => {
               }
             });
             if (!checking.includes(false)) {
-              varia.aeop_s_k_u_propertys.find((sku) => {
+              const sku_with_image = varia.aeop_s_k_u_propertys.find(
+                (sku) => sku.sku_image.length > 0
+              );
+              if (sku_with_image)
                 imageUrl =
-                  sku.sku_image ??
+                  sku_with_image.sku_image ??
                   product.data.result.image_u_r_ls.split(";")[0];
-              });
+              product.data.result.image_u_r_ls.split(";")[0];
               theOne = {
                 ...varia,
                 quantity: varia.s_k_u_available_stock > 0 ? quantity : 0,

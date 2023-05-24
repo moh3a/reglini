@@ -88,7 +88,9 @@ const AddToCart = ({
               name: product.subject,
               price,
               originalPrice,
-              imageUrl: selectedVariation.imageUrl,
+              imageUrl:
+                selectedVariation.imageUrl ??
+                product.image_u_r_ls.split(";")[0],
               properties: selectedVariation.aeop_s_k_u_propertys,
               quantity: selectedVariation.quantity ?? 1,
               sku: selectedVariation.id,

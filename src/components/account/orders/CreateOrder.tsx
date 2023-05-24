@@ -17,6 +17,7 @@ import Edit from "@components/account/details/EditAccount";
 import EditAddress from "@components/account/details/EditAddress";
 import { trpc } from "@utils/trpc";
 import { AENOProduct, IMessage } from "@reglini-types/index";
+import ItemProperties from "../ItemProperties";
 
 const CreateOrder = () => {
   const t = useTranslations("AccountPage");
@@ -34,7 +35,13 @@ const CreateOrder = () => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setProducts(JSON.parse(localStorage.getItem("aeno") ?? "[]"));
+      const products: AENOProduct[] = JSON.parse(
+        localStorage.getItem("aeno") ?? "[]"
+      ).map((p: AENOProduct) => {
+        p.properties = JSON.stringify(p.properties);
+        return p;
+      });
+      setProducts(products);
     }
   }, []);
 
@@ -170,6 +177,7 @@ const CreateOrder = () => {
                 )}
                 <div className="flex flex-col whitespace-normal">
                   <p className="font-bold">{product.name}</p>
+                  <ItemProperties product={product} />
                   <p className="text-sm font-mono">
                     {t("orders.product.productPrice")}:{" "}
                     {t("price", { price: product.price })}
