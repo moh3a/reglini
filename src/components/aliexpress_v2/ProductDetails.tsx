@@ -35,7 +35,6 @@ const ProductDetails = ({ id }: { id: number }) => {
     },
     {
       onSettled(data, error) {
-        console.log(data);
         if (error || data?.result.currency_code !== "USD")
           router.push(`/aliexpress/v1/product/${id}`);
         if (data && data.result) {

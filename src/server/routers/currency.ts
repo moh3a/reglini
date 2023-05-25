@@ -1,6 +1,7 @@
 import { CURRENCIES } from "@prisma/client";
 
 import { router, procedure } from "../trpc";
+import { API_RESPONSE_MESSAGES } from "@config/general";
 
 export const currencyRouter = router({
   currencies: procedure.query(async ({ ctx, input }) => {
@@ -37,13 +38,13 @@ export const currencyRouter = router({
       } else {
         return {
           success: false,
-          error: "Error.",
+          error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
         };
       }
-    } catch (error) {
+    } catch (_) {
       return {
         success: false,
-        error: JSON.stringify(error),
+        error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
       };
     }
   }),
@@ -81,13 +82,13 @@ export const currencyRouter = router({
       } else {
         return {
           success: false,
-          error: "Error.",
+          error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
         };
       }
-    } catch (error) {
+    } catch (_) {
       return {
         success: false,
-        error: JSON.stringify(error),
+        error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
       };
     }
   }),

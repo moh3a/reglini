@@ -2,6 +2,7 @@ import { USER_FROM_TRPC_CTX } from "@utils/index";
 import { z } from "zod";
 
 import { router, procedure } from "../trpc";
+import { API_RESPONSE_MESSAGES } from "@config/general";
 
 export const wishlistRouter = router({
   get: procedure.query(async ({ ctx }) => {
@@ -14,16 +15,16 @@ export const wishlistRouter = router({
           success: true,
           wishlist,
         };
-      } catch (error) {
+      } catch (_) {
         return {
           success: false,
-          error: JSON.stringify(error),
+          error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
         };
       }
     } else
       return {
         success: false,
-        error: "You must be logged in.",
+        error: API_RESPONSE_MESSAGES.LOGGED_IN,
       };
   }),
   add: procedure
@@ -53,16 +54,16 @@ export const wishlistRouter = router({
             success: true,
             message: "Item successfully added to your wishlist.",
           };
-        } catch (error) {
+        } catch (_) {
           return {
             success: false,
-            error: JSON.stringify(error),
+            error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
           };
         }
       } else
         return {
           success: false,
-          error: "You must be logged in.",
+          error: API_RESPONSE_MESSAGES.LOGGED_IN,
         };
     }),
   delete: procedure
@@ -81,16 +82,16 @@ export const wishlistRouter = router({
             success: true,
             message: "Item successfully deleted from your wishlist.",
           };
-        } catch (error) {
+        } catch (_) {
           return {
             success: false,
-            error: JSON.stringify(error),
+            error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
           };
         }
       } else
         return {
           success: false,
-          error: "You must be logged in.",
+          error: API_RESPONSE_MESSAGES.LOGGED_IN,
         };
     }),
 });

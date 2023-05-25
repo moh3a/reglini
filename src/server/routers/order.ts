@@ -9,6 +9,7 @@ import { ZAE_ShippingAddres } from "@reglini-types/zapiex";
 import { router, procedure } from "../trpc";
 import SendEmail from "@utils/send_email";
 import { Product } from "@prisma/client";
+import { API_RESPONSE_MESSAGES } from "@config/general";
 
 export const orderRouter = router({
   all: procedure.query(async ({ ctx }) => {
@@ -29,7 +30,7 @@ export const orderRouter = router({
     } else
       return {
         success: false,
-        error: "You must be logged in.",
+        error: API_RESPONSE_MESSAGES.LOGGED_IN,
       };
   }),
   get: procedure
@@ -56,12 +57,16 @@ export const orderRouter = router({
           );
           if (result.result) {
             return { success: true, result: result.result };
-          } else return { success: false, error: "An error has occured." };
+          } else
+            return {
+              success: false,
+              error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
+            };
         } else return { success: false, error: "No user with this order ID." };
       } else
         return {
           success: false,
-          error: "You must be logged in.",
+          error: API_RESPONSE_MESSAGES.LOGGED_IN,
         };
     }),
   details: procedure
@@ -85,7 +90,7 @@ export const orderRouter = router({
       } else
         return {
           success: false,
-          error: "You must be logged in.",
+          error: API_RESPONSE_MESSAGES.LOGGED_IN,
         };
     }),
   create: procedure
@@ -192,7 +197,7 @@ export const orderRouter = router({
       } else
         return {
           success: false,
-          error: "You must be logged in.",
+          error: API_RESPONSE_MESSAGES.LOGGED_IN,
         };
     }),
   pay: procedure
@@ -235,11 +240,12 @@ export const orderRouter = router({
         });
         if (payment) {
           return { success: true, message: "Payment is successful." };
-        } else return { success: false, error: "An error has occured." };
+        } else
+          return { success: false, error: API_RESPONSE_MESSAGES.ERROR_OCCURED };
       } else
         return {
           success: false,
-          error: "You must be logged in.",
+          error: API_RESPONSE_MESSAGES.LOGGED_IN,
         };
     }),
   cancel: procedure
@@ -264,11 +270,11 @@ export const orderRouter = router({
             success: true,
             message: "Successfully cancelled this order.",
           };
-        } else return { success: false, error: "An error has occured." };
+        } else return { success: false, error: "Cannot cancel order." };
       } else
         return {
           success: false,
-          error: "You must be logged in.",
+          error: API_RESPONSE_MESSAGES.LOGGED_IN,
         };
     }),
   received: procedure
@@ -323,11 +329,12 @@ export const orderRouter = router({
             success: true,
             message: "Successfully terminated this order.",
           };
-        } else return { success: false, error: "An error has occured." };
+        } else
+          return { success: false, error: API_RESPONSE_MESSAGES.ERROR_OCCURED };
       } else
         return {
           success: false,
-          error: "You must be logged in.",
+          error: API_RESPONSE_MESSAGES.LOGGED_IN,
         };
     }),
 });

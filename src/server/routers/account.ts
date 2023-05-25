@@ -4,6 +4,7 @@ import { createHash } from "crypto";
 import { z } from "zod";
 
 import { router, procedure } from "../trpc";
+import { API_RESPONSE_MESSAGES } from "@config/general";
 
 export const accountRouter = router({
   profile: procedure.query(async ({ ctx, input }) => {
@@ -23,13 +24,13 @@ export const accountRouter = router({
       } catch (error) {
         return {
           success: false,
-          error: JSON.stringify(error),
+          error: "User not found",
         };
       }
     } else
       return {
         success: false,
-        error: "You must be logged in.",
+        error: API_RESPONSE_MESSAGES.LOGGED_IN,
       };
   }),
   edit: procedure
@@ -51,7 +52,11 @@ export const accountRouter = router({
             });
             if (user)
               return { success: true, message: "Successfully updated." };
-            else return { success: false, error: "An error occured." };
+            else
+              return {
+                success: false,
+                error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
+              };
           } else {
             const user = await ctx.prisma.user.update({
               where: { email: ctx.session.user.email! },
@@ -65,18 +70,22 @@ export const accountRouter = router({
             });
             if (user)
               return { success: true, message: "Successfully updated." };
-            else return { success: false, error: "An error occured." };
+            else
+              return {
+                success: false,
+                error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
+              };
           }
         } catch (error) {
           return {
             success: false,
-            error: JSON.stringify(error),
+            error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
           };
         }
       } else
         return {
           success: false,
-          error: "You must be logged in.",
+          error: API_RESPONSE_MESSAGES.LOGGED_IN,
         };
     }),
   address: procedure
@@ -119,7 +128,7 @@ export const accountRouter = router({
       } else
         return {
           success: false,
-          message: "You must be logged in.",
+          error: API_RESPONSE_MESSAGES.LOGGED_IN,
         };
     }),
   verification: procedure
@@ -156,18 +165,18 @@ export const accountRouter = router({
           } else
             return {
               success: false,
-              message: "Error with session or token.",
+              error: "Error with session or token.",
             };
         } catch (error) {
           return {
             success: false,
-            message: JSON.stringify(error),
+            error: "Error with the verification.",
           };
         }
       } else
         return {
           success: false,
-          message: "You must be logged in.",
+          error: API_RESPONSE_MESSAGES.LOGGED_IN,
         };
     }),
   delete: procedure.mutation(async ({ ctx }) => {

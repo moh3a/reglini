@@ -2,9 +2,21 @@
 
 ## Todo
 
-- cannot `cancel order`
 - refactor and deal with performace and bad first time code!!!
 - enable RLS in supabase
+
+## Issues
+
+Zapiex API routes requiring AE username and password, return the following error:
+
+```json
+{
+  "statusCode": 400,
+  "errorType": "Zapiex Custom Error",
+  "errorMessage": "Unable to log in to this account. Please log in manually on a browser first.",
+  "requestId": "<!-- requestId string -->"
+}
+```
 
 ## Prerequisites
 

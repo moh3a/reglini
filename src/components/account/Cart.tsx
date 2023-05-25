@@ -9,7 +9,6 @@ import CartItem from "@components/account/CartItem";
 import Button from "@components/shared/Button";
 import Loading from "@components/shared/Loading";
 import { trpc } from "@utils/trpc";
-import { AENOProduct } from "@reglini-types/index";
 
 export default function Cart() {
   const t = useTranslations("Common.cart");

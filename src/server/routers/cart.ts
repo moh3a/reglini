@@ -2,6 +2,7 @@ import { USER_FROM_TRPC_CTX } from "@utils/index";
 import { z } from "zod";
 
 import { router, procedure } from "../trpc";
+import { API_RESPONSE_MESSAGES } from "@config/general";
 
 export const cartRouter = router({
   get: procedure.query(async ({ ctx }) => {
@@ -14,16 +15,16 @@ export const cartRouter = router({
           success: true,
           cart,
         };
-      } catch (error) {
+      } catch (_) {
         return {
           success: false,
-          error: JSON.stringify(error),
+          error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
         };
       }
     } else
       return {
         success: false,
-        error: "You must be logged in.",
+        error: API_RESPONSE_MESSAGES.LOGGED_IN,
       };
   }),
   add: procedure
@@ -75,16 +76,16 @@ export const cartRouter = router({
             else
               return { success: false, error: "Could not add item to cart." };
           }
-        } catch (error) {
+        } catch (_) {
           return {
             success: false,
-            error: JSON.stringify(error),
+            error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
           };
         }
       } else
         return {
           success: false,
-          error: "You must be logged in.",
+          error: API_RESPONSE_MESSAGES.LOGGED_IN,
         };
     }),
   updateQuantity: procedure
@@ -100,16 +101,16 @@ export const cartRouter = router({
             success: true,
             message: "Item quantity successfully updated.",
           };
-        } catch (error) {
+        } catch (_) {
           return {
             success: false,
-            error: JSON.stringify(error),
+            error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
           };
         }
       } else
         return {
           success: false,
-          error: "You must be logged in.",
+          error: API_RESPONSE_MESSAGES.LOGGED_IN,
         };
     }),
   delete: procedure
@@ -128,16 +129,16 @@ export const cartRouter = router({
             success: true,
             message: "Item successfully deleted from your cart.",
           };
-        } catch (error) {
+        } catch (_) {
           return {
             success: false,
-            error: JSON.stringify(error),
+            error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
           };
         }
       } else
         return {
           success: false,
-          error: "You must be logged in.",
+          error: API_RESPONSE_MESSAGES.LOGGED_IN,
         };
     }),
   empty: procedure.mutation(async ({ ctx }) => {
@@ -150,16 +151,16 @@ export const cartRouter = router({
           success: true,
           message: "Items successfully deleted from your cart.",
         };
-      } catch (error) {
+      } catch (_) {
         return {
           success: false,
-          error: JSON.stringify(error),
+          error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
         };
       }
     } else
       return {
         success: false,
-        error: "You must be logged in.",
+        error: API_RESPONSE_MESSAGES.LOGGED_IN,
       };
   }),
 });

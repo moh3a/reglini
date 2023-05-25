@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
+import { API_RESPONSE_MESSAGES } from "@config/general";
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 const storage = new CloudinaryStorage({
@@ -47,12 +48,12 @@ handler.post(async (req: any, res) => {
     } else
       res.status(200).json({
         success: false,
-        message: "Une erreur s'est produite en telechargeant votre image.",
+        message: API_RESPONSE_MESSAGES.ERROR_OCCURED
       });
   } else
     res.status(200).json({
       success: false,
-      message: "Une erreur s'est produite.",
+      message: API_RESPONSE_MESSAGES.ERROR_OCCURED
     });
 });
 

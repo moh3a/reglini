@@ -1,6 +1,7 @@
 import { procedure, router } from "../trpc";
 import { z } from "zod";
 
+import { API_RESPONSE_MESSAGES } from "@config/general";
 import SendEmail from "@utils/send_email";
 import { authRouter } from "./auth";
 import { currencyRouter } from "./currency";
@@ -41,7 +42,7 @@ export const appRouter = router({
           message: `Your message was sent successfully.`,
         };
       } catch (error) {
-        return { success: false, message: JSON.stringify(error) };
+        return { success: false, error: API_RESPONSE_MESSAGES.ERROR_OCCURED };
       }
     }),
   commission: procedure.mutation(async ({ ctx }) => {

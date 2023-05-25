@@ -96,7 +96,10 @@ export const authRouter = router({
             message: "Successfully reset your password.",
           };
         } catch (error) {
-          return { success: false, message: JSON.stringify(error) };
+          return {
+            success: false,
+            message: "Error with resetting your password.",
+          };
         }
       } else
         return {

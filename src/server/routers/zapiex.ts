@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { router, procedure } from "../trpc";
+import { API_RESPONSE_MESSAGES } from "@config/general";
 
 export const zapiexRouter = router({
   product: procedure
@@ -8,8 +9,8 @@ export const zapiexRouter = router({
       try {
         const data = await ctx.zapiex.getProductById(input.id, input.locale);
         return { success: true, data };
-      } catch (error) {
-        return { success: false, error: JSON.stringify(error) };
+      } catch (_) {
+        return { success: false, error: API_RESPONSE_MESSAGES.ERROR_OCCURED };
       }
     }),
   search: procedure
@@ -28,8 +29,8 @@ export const zapiexRouter = router({
           input.page
         );
         return { success: true, data };
-      } catch (error) {
-        return { success: false, error: JSON.stringify(error) };
+      } catch (_) {
+        return { success: false, error: API_RESPONSE_MESSAGES.ERROR_OCCURED };
       }
     }),
 });

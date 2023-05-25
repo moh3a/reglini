@@ -3,6 +3,7 @@ import { NextApiResponse } from "next";
 import { writeFile, readFile } from "fs/promises";
 
 import prisma from "@config/prisma";
+import { API_RESPONSE_MESSAGES } from "@config/general";
 
 const handler = nc({
   onError(error, _, res: NextApiResponse) {
@@ -61,9 +62,13 @@ handler
       });
 
       await writeFile("./data.json", data);
-      res.status(200).json({ message: "successfully fetched all data" });
+      res
+        .status(200)
+        .json({ success: true, message: "successfully fetched all data" });
     } catch (error) {
-      res.status(500).json({ error });
+      res
+        .status(500)
+        .json({ success: false, error: API_RESPONSE_MESSAGES.ERROR_OCCURED });
     }
   })
   .post(async (_, res) => {
@@ -155,9 +160,13 @@ handler
         skipDuplicates: true,
       });
 
-      res.status(200).json({ message: "successfully seeded all data" });
+      res
+        .status(200)
+        .json({ success: true, message: "successfully seeded all data" });
     } catch (error) {
-      res.status(500).json({ error });
+      res
+        .status(500)
+        .json({ success: false, error: API_RESPONSE_MESSAGES.ERROR_OCCURED });
     }
   });
 

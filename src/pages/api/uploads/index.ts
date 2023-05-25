@@ -1,6 +1,7 @@
 import nc from "next-connect";
 import multer from "multer";
 import { NextApiRequest, NextApiResponse } from "next";
+import { API_RESPONSE_MESSAGES } from "@config/general";
 
 const upload = multer({
   storage: multer.diskStorage({
@@ -38,7 +39,7 @@ handler.post((req: any, res) => {
   } else {
     res.status(200).json({
       success: false,
-      message: "Une erreur s'est produite.",
+      message: API_RESPONSE_MESSAGES.ERROR_OCCURED,
     });
   }
 });
