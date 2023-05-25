@@ -1,7 +1,8 @@
 import { GetStaticProps } from "next";
 import Head from "next/head";
+
 import { APP_NAME } from "@config/general";
-import { TEXT_GRADIENT } from "@config/design";
+import TitleXL from "@components/shared/TitleXL";
 
 const InternalError = () => {
   return (
@@ -9,11 +10,7 @@ const InternalError = () => {
       <Head>
         <title>{"Internal Server Error | " + APP_NAME}</title>
       </Head>
-      <div className="flex-col text-center mt-28">
-        <div className="text-6xl font-extrabold select-none">
-          <span className={TEXT_GRADIENT}>500 | Internal Server Error</span> 😱
-        </div>
-      </div>
+      <TitleXL emoji={"😱"} title={"500 | Internal Server Error"} />
     </>
   );
 };

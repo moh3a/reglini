@@ -3,10 +3,10 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW } from "@config/design";
+import ItemProperties from "@components/account/ItemProperties";
 import Loading from "@components/shared/Loading";
 import Title from "@components/shared/Title";
 import { trpc } from "@utils/trpc";
-import ItemProperties from "../ItemProperties";
 
 const ListOrders = () => {
   const ordersQuery = trpc.order.all.useQuery();
@@ -32,7 +32,9 @@ const ListOrders = () => {
                 <div className="font-bold">
                   {t("orderId")}: {order.id}
                 </div>
-                {order.products &&
+                {order &&
+                  order.products &&
+                  order.products.length > 0 &&
                   order.products.map((product) => (
                     <div
                       key={product.id}

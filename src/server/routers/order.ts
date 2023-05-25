@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { Product } from "@prisma/client";
 import {
   AENOLogisticsAddress,
   AENOProduct,
@@ -8,14 +9,14 @@ import {
 import { ZAE_ShippingAddres } from "@reglini-types/zapiex";
 import { router, procedure } from "../trpc";
 import SendEmail from "@utils/send_email";
-import { Product } from "@prisma/client";
 import { API_RESPONSE_MESSAGES } from "@config/general";
+import { USER_FROM_TRPC_CTX } from "@utils/index";
 
 export const orderRouter = router({
   all: procedure.query(async ({ ctx }) => {
     if (ctx.session && ctx.session.user) {
       const orders = await ctx.prisma.order.findMany({
-        where: { user: { email: ctx.session.user.email! } },
+        where: { user: USER_FROM_TRPC_CTX(ctx.session) },
         orderBy: {
           date: "desc",
         },
