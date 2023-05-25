@@ -3,7 +3,6 @@
 ## Todo
 
 - refactor and deal with performace and bad first time code!!!
-- enable RLS in supabase
 
 ## Issues
 

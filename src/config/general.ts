@@ -8,6 +8,7 @@ export const LOGO_URL =
   "https://res.cloudinary.com/dyypyf2sg/image/upload/v1640361409/reglinidz-icon-oval_ykndfi.png";
 
 export const API_RESPONSE_MESSAGES = {
+  NOT_FOUND: (field: string) => `${field} not found.`,
   ERROR_OCCURED: "An error has occured.",
   LOGGED_IN: "You must be logged in to do this action.",
 };

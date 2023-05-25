@@ -24,7 +24,7 @@ export const accountRouter = router({
       } catch (error) {
         return {
           success: false,
-          error: "User not found",
+          error: API_RESPONSE_MESSAGES.NOT_FOUND("User"),
         };
       }
     } else
@@ -124,7 +124,11 @@ export const accountRouter = router({
           },
         });
         if (user) return { success: true, message: "Successfully updated." };
-        else return { success: false, error: "An error occured." };
+        else
+          return {
+            success: false,
+            error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
+          };
       } else
         return {
           success: false,

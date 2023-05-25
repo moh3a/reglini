@@ -4,6 +4,7 @@ import { z } from "zod";
 import { router, procedure } from "../trpc";
 import SendEmail from "@utils/send_email";
 import { genSaltSync, hashSync } from "bcrypt";
+import { API_RESPONSE_MESSAGES } from "@config/general";
 
 export const authRouter = router({
   checkEmail: procedure
@@ -60,10 +61,16 @@ export const authRouter = router({
               resetPasswordExpire: undefined,
             },
           });
-          return { success: false, message: "Error with sending the message." };
+          return {
+            success: false,
+            message: API_RESPONSE_MESSAGES.ERROR_OCCURED,
+          };
         }
       } else
-        return { success: false, message: "No user with this email address." };
+        return {
+          success: false,
+          message: API_RESPONSE_MESSAGES.NOT_FOUND("User"),
+        };
     }),
   resetPassword: procedure
     .input(z.object({ token: z.string(), password: z.string() }))
@@ -98,7 +105,7 @@ export const authRouter = router({
         } catch (error) {
           return {
             success: false,
-            message: "Error with resetting your password.",
+            message: API_RESPONSE_MESSAGES.ERROR_OCCURED,
           };
         }
       } else

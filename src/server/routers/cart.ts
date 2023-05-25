@@ -74,7 +74,10 @@ export const cartRouter = router({
                 message: "Item successfully added to your cart.",
               };
             else
-              return { success: false, error: "Could not add item to cart." };
+              return {
+                success: false,
+                error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
+              };
           }
         } catch (_) {
           return {

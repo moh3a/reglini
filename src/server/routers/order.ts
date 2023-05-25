@@ -62,7 +62,11 @@ export const orderRouter = router({
               success: false,
               error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
             };
-        } else return { success: false, error: "No user with this order ID." };
+        } else
+          return {
+            success: false,
+            error: API_RESPONSE_MESSAGES.NOT_FOUND("User"),
+          };
       } else
         return {
           success: false,
@@ -187,13 +191,20 @@ export const orderRouter = router({
             } else
               return {
                 success: false,
-                error: "Could not create order.",
+                error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
               };
           } catch (error) {
             console.log(error);
-            return { success: false, error: "Could not create order." };
+            return {
+              success: false,
+              error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
+            };
           }
-        } else return { success: false, error: "No user was found." };
+        } else
+          return {
+            success: false,
+            error: API_RESPONSE_MESSAGES.NOT_FOUND("User"),
+          };
       } else
         return {
           success: false,
@@ -252,6 +263,7 @@ export const orderRouter = router({
     .input(z.object({ order_id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       if (ctx.session && ctx.session.user) {
+        // todo: check if order is owned by user before cancelling
         const result = await ctx.zapiex.cancelOrder(input.order_id);
         if (result.success) {
           await ctx.prisma.order.update({
@@ -270,7 +282,11 @@ export const orderRouter = router({
             success: true,
             message: "Successfully cancelled this order.",
           };
-        } else return { success: false, error: "Cannot cancel order." };
+        } else
+          return {
+            success: false,
+            error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
+          };
       } else
         return {
           success: false,
