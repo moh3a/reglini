@@ -22,6 +22,21 @@ export interface EmailOptions {
   text: string;
 }
 
+export interface FinanceStore {
+  commission?: number;
+  euro?: number;
+  usd?: number;
+  set_commission: (data: number) => void;
+  set_currency: (currency: "EUR" | "USD", data: number) => void;
+}
+
+export interface InstallPWAStore {
+  can_install: boolean;
+  set_can_install: (data: boolean) => void;
+  prompt: any;
+  set_prompt: (event: any) => void;
+}
+
 export interface MDBUser {
   _id: string;
   name?: string;
