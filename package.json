@@ -1,10 +1,10 @@
 {
   "name": "reglini",
-  "version": "1.9.6",
+  "version": "1.9.7",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npx prisma generate && next build",
     "start": "next start",
     "lint": "next lint"
   },
