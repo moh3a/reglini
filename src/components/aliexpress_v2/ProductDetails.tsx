@@ -136,7 +136,7 @@ const ProductDetails = ({ id }: { id: number }) => {
             });
             if (!checking.includes(false)) {
               const sku_with_image = varia.aeop_s_k_u_propertys.find(
-                (sku) => sku.sku_image.length > 0
+                (sku) => sku.sku_image && sku.sku_image.length > 0
               );
               if (sku_with_image)
                 imageUrl =
