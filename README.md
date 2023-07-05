@@ -2,6 +2,8 @@
 
 ## Todo
 
+- ae query -> experiencing multiple 500 status response from zapiex (called from the /search route), add aliexpress.ds.recommend.feed.get
+- order status -> remove waiting payment if order details status is finished
 - refactor and deal with performace and bad first time code!!!
 
 ## Issues
