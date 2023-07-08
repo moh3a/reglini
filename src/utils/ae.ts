@@ -1,40 +1,19 @@
-import {
-  Affiliate_Categories_Result,
-  Affiliate_Hotproducts_Params,
-  Affiliate_Hotproducts_Result,
-  Affiliate_Product_Details_Params,
-  Affiliate_Product_Details_Result,
-  DS_OrderAPI_Get_Order_Params,
-  DS_OrderAPI_Get_Order_Result,
-  DS_OrderAPI_Place_Order_Params,
-  DS_OrderAPI_Place_Order_Result,
-  DS_ProductAPI_Product_Detail_Params,
-  DS_ProductAPI_Product_Detail_Result,
-  DS_ProductAPI_Recommended_Products_Params,
-  DS_ProductAPI_Recommended_Products_Result,
-  DS_ShippingAPI_Shipping_Info_Params,
-  DS_ShippingAPI_Shipping_Info_Result,
-  DS_ShippingAPI_Tracking_Info_Params,
-  DS_ShippingAPI_Tracking_Info_Result,
-} from "@reglini-types/ae";
+import { Affiliate_Categories_Result } from "@reglini-types/ae";
 import { AENOLogisticsAddress, AENOProductItem } from "@reglini-types/index";
-import { execute } from "@utils/ae_client";
+import { execute, old_execute } from "@utils/ae_client";
 
 export const AE_DS_searchProducts = async (
   search: string,
   locale?: string,
-  page_size?: number,
-  page_no?: number
+  page_size?: string,
+  page_no?: string
 ) => {
-  return await execute<
-    DS_ProductAPI_Recommended_Products_Params,
-    DS_ProductAPI_Recommended_Products_Result
-  >("ds", "aliexpress.ds.recommend.feed.get", {
+  return await execute("ds", "aliexpress.ds.recommend.feed.get", {
     feed_name: search,
     target_currency: "USD",
     target_language: locale?.toUpperCase() as any,
     country: "DZ",
-    sort: "DSRratingDesc",
+    sort: "DSRratingAsc",
     page_size,
     page_no,
   });
@@ -44,24 +23,22 @@ export const AE_DS_getProductDetail = async (
   product_id: number,
   locale?: string
 ) => {
-  return await execute<
-    DS_ProductAPI_Product_Detail_Params,
-    DS_ProductAPI_Product_Detail_Result
-  >("ds", "aliexpress.postproduct.redefining.findaeproductbyidfordropshipper", {
-    local_country: "DZ",
-    local_language: locale,
-    product_id,
-  });
+  return await execute(
+    "ds",
+    "aliexpress.postproduct.redefining.findaeproductbyidfordropshipper",
+    {
+      local_country: "DZ",
+      local_language: locale,
+      product_id,
+    }
+  );
 };
 
 export const AE_DS_getShippingInfo = async (
   product_id: number,
   quantity: number
 ) => {
-  return await execute<
-    DS_ShippingAPI_Shipping_Info_Params,
-    DS_ShippingAPI_Shipping_Info_Result
-  >("ds", "aliexpress.logistics.buyer.freight.calculate", {
+  return await execute("ds", "aliexpress.logistics.buyer.freight.calculate", {
     param_aeop_freight_calculate_for_buyer_d_t_o: JSON.stringify({
       country_code: "DZ",
       product_id,
@@ -76,10 +53,7 @@ export const AE_DS_getTrackingInfo = async (
   tracking_id: string,
   service_name: string
 ) => {
-  return await execute<
-    DS_ShippingAPI_Tracking_Info_Params,
-    DS_ShippingAPI_Tracking_Info_Result
-  >("ds", "aliexpress.logistics.ds.trackinginfo.query", {
+  return await execute("ds", "aliexpress.logistics.ds.trackinginfo.query", {
     origin: "ESCROW",
     to_area: "DZ",
     out_ref: order_id,
@@ -92,10 +66,7 @@ export const AE_DS_createOrder = async (
   logistics_address: AENOLogisticsAddress,
   product_items: AENOProductItem[]
 ) => {
-  return await execute<
-    DS_OrderAPI_Place_Order_Params,
-    DS_OrderAPI_Place_Order_Result
-  >("ds", "aliexpress.trade.buy.placeorder", {
+  return await execute("ds", "aliexpress.trade.buy.placeorder", {
     param_place_order_request4_open_api_d_t_o: JSON.stringify({
       logistics_address,
       product_items,
@@ -104,10 +75,7 @@ export const AE_DS_createOrder = async (
 };
 
 export const AE_DS_getOrder = async (order_id: number) => {
-  return await execute<
-    DS_OrderAPI_Get_Order_Params,
-    DS_OrderAPI_Get_Order_Result
-  >("ds", "aliexpress.ds.trade.order.get", {
+  return await execute("ds", "aliexpress.ds.trade.order.get", {
     order_id,
   });
 };
@@ -118,10 +86,7 @@ export const AE_Affiliate_Hotproducts = async (
   page_no?: number,
   locale?: string
 ) => {
-  return await execute<
-    Affiliate_Hotproducts_Params,
-    Affiliate_Hotproducts_Result
-  >("affiliate", "aliexpress.affiliate.hotproduct.query", {
+  return await execute("affiliate", "aliexpress.affiliate.hotproduct.query", {
     platform_product_type: "ALL",
     category_ids,
     fields: "app_sale_price,shop_id",
@@ -135,7 +100,7 @@ export const AE_Affiliate_Hotproducts = async (
 };
 
 export const AE_Affiliate_getCategories = async () => {
-  const result = await execute<{}, Affiliate_Categories_Result>(
+  const result = await old_execute<{}, Affiliate_Categories_Result>(
     "affiliate",
     "aliexpress.affiliate.category.get",
     {}
@@ -151,7 +116,7 @@ export const AE_Affiliate_getCategories = async () => {
 };
 
 export const AE_Affiliate_getCategoryById = async (category_id: number) => {
-  const result = await execute<{}, Affiliate_Categories_Result>(
+  const result = await old_execute<{}, Affiliate_Categories_Result>(
     "affiliate",
     "aliexpress.affiliate.category.get",
     {}
@@ -161,14 +126,16 @@ export const AE_Affiliate_getCategoryById = async (category_id: number) => {
   );
 };
 
+// todo
+// export const AE_Affiliate_featuredPromo = async () = {
+
+// }
+
 export const AE_Affiliate_getProductDetails = async (
   product_ids: string,
   locale?: string
 ) => {
-  return await execute<
-    Affiliate_Product_Details_Params,
-    Affiliate_Product_Details_Result
-  >("affiliate", "aliexpress.affiliate.productdetail.get", {
+  return await execute("affiliate", "aliexpress.affiliate.productdetail.get", {
     product_ids,
     fields: "commission_rate,sale_price",
     country: "DZ",

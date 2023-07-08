@@ -65,7 +65,7 @@ model Config {
 model Address {
   id         String  @id @default(cuid())
   userId     String  @unique
-  user       User    @relation(fields: userId, references: [id])
+  user       User    @relation(fields: userId, references: [id], onDelete: Cascade)
   postalCode String?
   wilaya     String?
   daira      String?
@@ -76,7 +76,7 @@ model Address {
 model Cart {
   id            String   @id @default(cuid())
   userId        String
-  user          User     @relation(fields: userId, references: [id])
+  user          User     @relation(fields: userId, references: [id], onDelete: Cascade)
   date          DateTime @default(now()) @db.Date
   productId     String
   name          String
@@ -97,7 +97,7 @@ model Wishlist {
   id        String   @id @default(cuid())
   productId String
   userId    String
-  user      User     @relation(fields: userId, references: [id])
+  user      User     @relation(fields: userId, references: [id], onDelete: Cascade)
   date      DateTime @default(now()) @db.Date
   name      String
   imageUrl  String
@@ -220,7 +220,7 @@ model Daira {
   id       String    @id @default(cuid())
   name     String    @unique
   wilayaId Int
-  wilaya   Wilaya    @relation(fields: wilayaId, references: [id])
+  wilaya   Wilaya    @relation(fields: wilayaId, references: [id], onDelete: Cascade)
   communes Commune[]
 
   @@index([wilayaId])
@@ -231,7 +231,7 @@ model Commune {
   name     String
   code_ons String? @unique
   dairaId  String?
-  daira    Daira?  @relation(fields: [dairaId], references: [id])
+  daira    Daira?  @relation(fields: [dairaId], references: [id], onDelete: Cascade)
   posts    Post[]
 
   @@index([dairaId])
@@ -242,9 +242,9 @@ model Post {
   post      String
   zip_code  String   @unique
   communeId String?
-  commune   Commune? @relation(fields: [communeId], references: [id])
+  commune   Commune? @relation(fields: [communeId], references: [id], onDelete: Cascade)
   wilayaId  Int
-  wilaya    Wilaya   @relation(fields: wilayaId, references: [id])
+  wilaya    Wilaya   @relation(fields: wilayaId, references: [id], onDelete: Cascade)
 
   @@index([wilayaId])
   @@index([communeId])

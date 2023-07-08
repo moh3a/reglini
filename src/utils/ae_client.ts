@@ -1,4 +1,11 @@
-import { AE_API_NAMES, PublicParams } from "@reglini-types/ae";
+import {
+  AE_API_NAMES,
+  AE_EXECUTE_FN_METHODS,
+  AE_EXECUTE_FN_PARAMS,
+  AE_EXECUTE_FN_RESULT,
+  AE_SERVICE,
+  PublicParams,
+} from "@reglini-types/ae";
 import axios from "axios";
 import { createHash } from "crypto";
 
@@ -30,9 +37,7 @@ export const sign_function = (app_secret: string, params: any) => {
     .toUpperCase();
 };
 
-export const call = async <T extends PublicParams, K extends object>(
-  params: T
-) => {
+export const call = async <T extends PublicParams, K>(params: T) => {
   let basestring = AE_SERVICE_URL;
   let sorted = Object.keys(params).sort();
   for (let i = 0; i < sorted.length; i++) {
@@ -93,7 +98,46 @@ export const get_timestamp = (d?: Timestamp) => {
   );
 };
 
-export const execute = async <T, K extends object>(
+export const execute = async <
+  T extends AE_SERVICE,
+  K extends AE_EXECUTE_FN_METHODS<T>
+>(
+  type: T,
+  method: K,
+  params: AE_EXECUTE_FN_PARAMS<K>
+): Promise<AE_EXECUTE_FN_RESULT<K>> => {
+  const app_secret =
+    type === "affiliate"
+      ? process.env.ALIEXPRESS_AFFILIATE_APP_SECRET ?? ""
+      : process.env.ALIEXPRESS_DS_APP_SECRET ?? "";
+
+  const parameters: AE_EXECUTE_FN_PARAMS<K> & PublicParams = {
+    // @ts-ignore
+    ...params,
+    app_key:
+      type === "affiliate"
+        ? process.env.ALIEXPRESS_AFFILIATE_APP_KEY ?? ""
+        : process.env.ALIEXPRESS_DS_APP_KEY ?? "",
+    session:
+      type === "affiliate"
+        ? process.env.ALIEXPRESS_AFFILIATE_ACCESS_TOKEN ?? ""
+        : process.env.ALIEXPRESS_DS_ACCESS_TOKEN ?? "",
+    method,
+    v: "2.0",
+    format: "json",
+    simplify: true,
+    sign_method: "md5",
+    timestamp: get_timestamp(),
+  };
+  parameters.sign = sign_function(app_secret, parameters);
+
+  return await call<
+    AE_EXECUTE_FN_PARAMS<K> & PublicParams,
+    AE_EXECUTE_FN_RESULT<K>
+  >(parameters);
+};
+
+export const old_execute = async <T, K extends object>(
   type: "affiliate" | "ds",
   method: AE_API_NAMES,
   params: T

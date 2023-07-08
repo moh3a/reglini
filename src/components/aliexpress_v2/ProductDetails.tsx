@@ -102,54 +102,60 @@ const ProductDetails = ({ id }: { id: number }) => {
       if (product.data.result.aeop_ae_product_s_k_us.length === 1) {
         theOne = product.data.result.aeop_ae_product_s_k_us[0];
       } else if (product.data.result.aeop_ae_product_s_k_us.length > 1) {
-        product.data.result.aeop_ae_product_s_k_us.map((varia) => {
-          let checking: boolean[] = [];
-          if (varia.aeop_s_k_u_propertys) {
-            varia.aeop_s_k_u_propertys.map((prop, i) => {
-              checking.push(false);
-              if (variation) {
-                const index =
-                  variation[0] === undefined
-                    ? -2
-                    : variation.findIndex(
-                        (el) =>
-                          el?.value ===
-                          (prop.property_value_definition_name
-                            ? prop.property_value_definition_name
-                            : prop.sku_property_value)
-                      );
-                if (
-                  index !== -2 &&
-                  index !== -1 &&
-                  variation[index]?.name === prop.sku_property_name &&
-                  variation[index]?.value ===
-                    (prop.property_value_definition_name
-                      ? prop.property_value_definition_name
-                      : prop.sku_property_value)
-                ) {
-                  checking[i] = true;
-                } else {
-                  checking[i] = false;
+        product.data.result.aeop_ae_product_s_k_us.map(
+          (varia: Partial<SelectedProductVariation>) => {
+            let checking: boolean[] = [];
+            if (varia.aeop_s_k_u_propertys) {
+              varia.aeop_s_k_u_propertys.map((prop, i) => {
+                checking.push(false);
+                if (variation) {
+                  const index =
+                    variation[0] === undefined
+                      ? -2
+                      : variation.findIndex(
+                          (el) =>
+                            el?.value ===
+                            (prop.property_value_definition_name
+                              ? prop.property_value_definition_name
+                              : prop.sku_property_value)
+                        );
+                  if (
+                    index !== -2 &&
+                    index !== -1 &&
+                    variation[index]?.name === prop.sku_property_name &&
+                    variation[index]?.value ===
+                      (prop.property_value_definition_name
+                        ? prop.property_value_definition_name
+                        : prop.sku_property_value)
+                  ) {
+                    checking[i] = true;
+                  } else {
+                    checking[i] = false;
+                  }
+                  i++;
                 }
-                i++;
+              });
+              if (!checking.includes(false)) {
+                const sku_with_image = varia.aeop_s_k_u_propertys.find(
+                  (sku) => sku.sku_image && sku.sku_image.length > 0
+                );
+                if (sku_with_image)
+                  imageUrl =
+                    sku_with_image.sku_image ??
+                    product.data?.result.image_u_r_ls.split(";")[0];
+                product.data?.result.image_u_r_ls.split(";")[0];
+                theOne = {
+                  ...varia,
+                  quantity:
+                    varia.s_k_u_available_stock &&
+                    varia.s_k_u_available_stock > 0
+                      ? quantity
+                      : 0,
+                };
               }
-            });
-            if (!checking.includes(false)) {
-              const sku_with_image = varia.aeop_s_k_u_propertys.find(
-                (sku) => sku.sku_image && sku.sku_image.length > 0
-              );
-              if (sku_with_image)
-                imageUrl =
-                  sku_with_image.sku_image ??
-                  product.data.result.image_u_r_ls.split(";")[0];
-              product.data.result.image_u_r_ls.split(";")[0];
-              theOne = {
-                ...varia,
-                quantity: varia.s_k_u_available_stock > 0 ? quantity : 0,
-              };
             }
           }
-        });
+        );
       }
       setSelectedVariation({ ...theOne, imageUrl } as
         | SelectedProductVariation

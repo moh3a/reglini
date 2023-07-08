@@ -1,3 +1,5 @@
+import { Price } from ".";
+
 export interface ZAE_Product {
   productUrl: string;
   productId: string;
@@ -132,34 +134,39 @@ export interface ZAE_Product {
   htmlDescription: string;
 }
 
+export interface ZAE_Price {
+  value: number;
+  display: string;
+}
+
 export interface ZAE_ProductPrice {
-  originalPrice: { value: number; display: string };
+  originalPrice: ZAE_Price;
   hasDiscount: boolean;
   discountPercentage: number;
-  discountedPrice: { value: number; display: string };
+  discountedPrice: ZAE_Price;
   hasBulkPrice: boolean;
   bulkMinQuantity: number;
   bulkDiscountPercentage: number;
-  bulkPrice: { value: number; display: string };
+  bulkPrice: ZAE_Price;
 }
 
 export interface ZAE_ProductPriceSummary {
   originalPrice: {
-    min: { value: number; display: string };
-    max: { value: number; display: string };
+    min: ZAE_Price;
+    max: ZAE_Price;
   };
   hasDiscount: boolean;
   discountPercentage: number;
   discountedPrice: {
-    min: { value: number; display: string };
-    max: { value: number; display: string };
+    min: ZAE_Price;
+    max: ZAE_Price;
   };
   hasBulkPrice: boolean;
   bulkMinQuantity: number;
   bulkDiscountPercentage: number;
   bulkPrice: {
-    min: { value: number; display: string };
-    max: { value: number; display: string };
+    min: ZAE_Price;
+    max: ZAE_Price;
   };
 }
 
@@ -209,10 +216,7 @@ export interface ZAE_ProductShippingCarrier {
   hasDiscount: boolean;
   discountPercentage: number;
   estimatedDeliveryDate: string;
-  deliveryTimeInDays: {
-    min: number;
-    max: number;
-  };
+  deliveryTimeInDays: Price;
 }
 
 export interface ZAE_ProductProperties {
@@ -334,10 +338,7 @@ export interface ZAE_Order {
         name: string;
       };
       processingTimeInDays: number;
-      deliveryTimeInDays: {
-        min: number;
-        max: number;
-      };
+      deliveryTimeInDays: Price;
       shippingPrice: {
         value: number;
         display: string;

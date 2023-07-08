@@ -3,6 +3,7 @@ import { z } from "zod";
 import { router, procedure } from "../trpc";
 import { ZAE_ProductProperties } from "@reglini-types/zapiex";
 import { AEProductPrice } from "@reglini-types/index";
+import { get_product_price, parse_ae_properties } from "@utils/index";
 
 export const aeDsRouter = router({
   product: procedure
@@ -20,105 +21,24 @@ export const aeDsRouter = router({
         input.locale ?? "FR"
       );
 
-      // PROPERTIES
+      if (response.result.currency_code.toUpperCase() !== "USD") {
+        ctx.res.redirect(`/aliexpress/v1/product/${input.id}`);
+        return;
+      }
+
       if (response.result.aeop_ae_product_s_k_us) {
+        // PROPERTIES
         response.result.aeop_ae_product_s_k_us.map((variations) => {
           if (variations.aeop_s_k_u_propertys) {
             variations.aeop_s_k_u_propertys?.map((props) => {
-              const index = properties.findIndex(
-                (e) => e.id === props.sku_property_id.toString()
-              );
-              if (index !== -1) {
-                const exits = properties[index].values.find(
-                  (e) => e.id === props.property_value_id_long.toString()
-                );
-                if (!exits)
-                  properties[index].values.push({
-                    id: props.property_value_id_long.toString(),
-                    name: props.property_value_definition_name
-                      ? props.property_value_definition_name
-                      : props.sku_property_value,
-                    hasImage: props.sku_image ? true : false,
-                    imageUrl: props.sku_image,
-                    thumbnailImageUrl: props.sku_image,
-                  });
-              } else {
-                properties.push({
-                  id: props.sku_property_id.toString(),
-                  name: props.sku_property_name,
-                  values: [
-                    {
-                      id: props.property_value_id_long.toString(),
-                      name: props.property_value_definition_name
-                        ? props.property_value_definition_name
-                        : props.sku_property_value,
-                      hasImage: props.sku_image ? true : false,
-                      imageUrl: props.sku_image,
-                      thumbnailImageUrl: props.sku_image,
-                    },
-                  ],
-                });
-              }
+              parse_ae_properties(props, properties);
             });
           }
         });
       }
 
       // PRICE
-      let discountedPrice = {
-        min: 1000000000,
-        max: 0,
-      };
-      let originalPrice = {
-        min: 1000000000,
-        max: 0,
-      };
-      response.result.aeop_ae_product_s_k_us.forEach((sku) => {
-        if (originalPrice.max < parseFloat(sku.sku_price)) {
-          originalPrice.max = parseFloat(sku.sku_price);
-        }
-        if (originalPrice.min > parseFloat(sku.sku_price)) {
-          originalPrice.min = parseFloat(sku.sku_price);
-        }
-        if (discountedPrice.max < parseFloat(sku.offer_sale_price)) {
-          discountedPrice.max = parseFloat(sku.offer_sale_price);
-        }
-        if (discountedPrice.min > parseFloat(sku.offer_sale_price)) {
-          discountedPrice.min = parseFloat(sku.offer_sale_price);
-        }
-      });
-
-      if (
-        parseFloat(response.result.aeop_ae_product_s_k_us[0].sku_price) >
-        parseFloat(response.result.aeop_ae_product_s_k_us[0].offer_sale_price)
-      ) {
-        let discount = Math.floor(
-          ((parseFloat(response.result.aeop_ae_product_s_k_us[0].sku_price) -
-            parseFloat(
-              response.result.aeop_ae_product_s_k_us[0].offer_sale_price
-            )) *
-            100) /
-            parseFloat(response.result.aeop_ae_product_s_k_us[0].sku_price)
-        );
-
-        price.hasDiscount = true;
-        price.discount = discount;
-
-        price.discountedPrice = {
-          min: discountedPrice.min,
-          max: discountedPrice.max,
-        };
-        price.originalPrice = {
-          min: originalPrice.min,
-          max: originalPrice.max,
-        };
-      } else {
-        price.hasDiscount = false;
-        price.originalPrice = {
-          min: originalPrice.min,
-          max: originalPrice.max,
-        };
-      }
+      get_product_price(price, response.result.aeop_ae_product_s_k_us);
 
       return { result: response.result, properties, price };
     }),
@@ -127,8 +47,8 @@ export const aeDsRouter = router({
       z.object({
         search: z.string(),
         locale: z.string().optional(),
-        page_size: z.number().optional(),
-        page_no: z.number().optional(),
+        page_size: z.string().optional(),
+        page_no: z.string().optional(),
       })
     )
     .query(async ({ ctx, input }) => {

@@ -37,6 +37,11 @@ export interface InstallPWAStore {
   set_prompt: (event: any) => void;
 }
 
+export interface Price {
+  min: number;
+  max: number;
+}
+
 export interface MDBUser {
   _id: string;
   name?: string;
@@ -178,30 +183,11 @@ export interface MDBUser {
   ];
 }
 
-export interface SelectedProductVariation {
+import { DS_ProductAPI_Product_SKU_Variation } from "./ae";
+export interface SelectedProductVariation
+  extends DS_ProductAPI_Product_SKU_Variation {
   imageUrl: string;
   quantity: number;
-  sku_stock: boolean;
-  sku_price: string;
-  sku_code: string;
-  ipm_sku_stock: number;
-  id: string;
-  currency_code: string;
-  aeop_s_k_u_propertys: [
-    {
-      sku_property_id: number;
-      sku_image: string;
-      property_value_id_long: number;
-      property_value_definition_name: string;
-      sku_property_value: string;
-      sku_property_name: string;
-    }
-  ];
-  barcode: string;
-  offer_sale_price: string;
-  offer_bulk_sale_price: string;
-  sku_bulk_order: number;
-  s_k_u_available_stock: number;
 }
 
 export interface AEProduct {
@@ -224,14 +210,8 @@ export interface AEProductProperties {
 export interface AEProductPrice {
   hasDiscount: boolean;
   discount: number;
-  discountedPrice: {
-    min: number;
-    max: number;
-  };
-  originalPrice: {
-    min: number;
-    max: number;
-  };
+  discountedPrice: Price;
+  originalPrice: Price;
 }
 
 export interface AENOProduct extends AEProduct {
