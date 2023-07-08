@@ -30,6 +30,21 @@ export const aeAffiliateRouter = router({
       );
       return response;
     }),
+  featuredPromo: procedure
+    .input(
+      z.object({
+        locale: z.string().optional(),
+        page_size: z.number().optional(),
+        page_no: z.number().optional(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      return await ctx.aliexpress.affiliate.featuredPromo(
+        input.page_size ?? 20,
+        input.page_no ?? 1,
+        input.locale ?? "FR"
+      );
+    }),
   category: procedure
     .input(z.object({ category_id: z.number() }))
     .mutation(async ({ ctx, input }) => {

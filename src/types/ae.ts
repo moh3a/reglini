@@ -42,6 +42,8 @@ export type AE_AFFILIATE_EXECUTE_FN_PARAMS<T extends AFFILIATE_API_NAMES> =
     ? Affiliate_Product_Details_Params
     : T extends "aliexpress.affiliate.hotproduct.query"
     ? Affiliate_Hotproducts_Params
+    : T extends "aliexpress.affiliate.featuredpromo.products.get"
+    ? Affiliate_Featured_Promo_Products_Params
     : unknown;
 
 export type AE_EXECUTE_FN_PARAMS<T extends AE_API_NAMES> =
@@ -71,6 +73,8 @@ export type AE_AFFILIATE_EXECUTE_FN_RESULT<T extends AFFILIATE_API_NAMES> =
     ? Affiliate_Product_Details_Result
     : T extends "aliexpress.affiliate.hotproduct.query"
     ? Affiliate_Hotproducts_Result
+    : T extends "aliexpress.affiliate.featuredpromo.products.get"
+    ? Affiliate_Featured_Promo_Products_Result
     : unknown;
 
 export type AE_EXECUTE_FN_RESULT<T extends AE_API_NAMES> =
@@ -149,6 +153,8 @@ export interface DS_ProductAPI_Recommended_Products_Params {
   feed_name: string;
 }
 
+export type AE_Platform_Type = "TMALL" | "ALL" | "PLAZA";
+
 export interface DS_ProductAPI_Recommended_Product {
   lastest_volume: number;
   seller_id: number;
@@ -168,7 +174,7 @@ export interface DS_ProductAPI_Recommended_Product {
   product_title: string;
   first_level_category_name: string;
   product_main_image_url: string;
-  platform_product_type: string;
+  platform_product_type: AE_Platform_Type;
   target_original_price_currency: string;
   ship_to_days: string;
   sale_price_currency: string;
@@ -521,7 +527,15 @@ export interface Affiliate_Product_Promo_Code_Info {
   code_promotionurl?: string;
 }
 
-export interface Affiliate_Product_Details {
+export interface Affiliate_Base_Product_Params {
+  app_signature?: string;
+  fields?: string;
+  target_currency?: string;
+  target_language?: string;
+  tracking_id?: string;
+}
+
+export interface Affiliate_Base_Product_Details {
   app_sale_price?: string;
   app_sale_price_currency?: string;
   commission_rate?: string;
@@ -529,11 +543,11 @@ export interface Affiliate_Product_Details {
   evaluate_rate?: string;
   first_level_category_id?: number;
   first_level_category_name?: string;
-  lastest_volume?: number;
   hot_product_commission_rate?: string;
+  lastest_volume?: number;
   original_price?: string;
   original_price_currency?: string;
-  platform_product_type?: "TMALL" | "ALL" | "PLAZA";
+  platform_product_type?: AE_Platform_Type;
   product_detail_url?: string;
   product_id?: number;
   product_main_image_url?: string;
@@ -543,30 +557,30 @@ export interface Affiliate_Product_Details {
   product_title?: string;
   product_video_url?: string;
   promotion_link?: string;
-  sale_price?: string;
-  sale_price_currency?: string;
-  second_level_category_id?: number;
-  second_level_category_name?: string;
-  shop_id?: number;
-  shop_url?: string;
-  target_app_sale_price?: string;
-  target_app_sale_price_currency?: string;
-  target_original_price?: string;
-  target_original_price_currency?: string;
-  target_sale_price?: string;
-  target_sale_price_currency?: string;
-  relevant_market_commission_rate?: string;
-  promo_code_info?: Affiliate_Product_Promo_Code_Info;
+  promo_code_info: Affiliate_Product_Promo_Code_Info;
+  relevant_market_commission_rate: string;
+  sale_price: string;
+  sale_price_currency: string;
+  second_level_category_id: number;
+  second_level_category_name: string;
+  shop_id: number;
+  shop_url: string;
+  target_app_sale_price: string;
+  target_original_price: string;
+  target_sale_price: string;
+  target_original_price_currency: string;
+  target_sale_price_currency: string;
+  target_app_sale_price_currency: string;
+}
+
+export interface Affiliate_Product_Details
+  extends Affiliate_Base_Product_Details {
   ship_to_days?: string;
 }
 
-export interface Affiliate_Product_Details_Params {
-  app_signature?: string;
-  fields?: string;
+export interface Affiliate_Product_Details_Params
+  extends Affiliate_Base_Product_Params {
   product_ids: string;
-  target_currency?: string;
-  target_language?: string;
-  tracking_id?: string;
   country?: string;
 }
 
@@ -590,26 +604,20 @@ export interface Affiliate_Product_Details_Result {
  * HOTPRODUCTS
  */
 
-export interface Affiliate_Hotproducts_Params {
-  app_signature?: string;
+export interface Affiliate_Hotproducts_Params
+  extends Affiliate_Base_Product_Params {
   category_ids?: string;
-  /**
-   * @param {String} fields Respond parameter list, eg: commission_rate,sale_price,app_sale_price,shop_id
-   */
-  fields?: string;
-  /**
-   * @param {String} keywords Filter products by keywords
-   */
   keywords?: string;
   max_sale_price?: string;
   min_sale_price?: string;
   page_no?: string;
   page_size?: string;
-  platform_product_type?: string;
-  sort?: string;
-  target_currency?: string;
-  target_language?: string;
-  tracking_id?: string;
+  platform_product_type?: AE_Platform_Type;
+  sort?:
+    | "SALE_PRICE_ASC"
+    | "SALE_PRICE_DESC"
+    | "LAST_VOLUME_ASC"
+    | "LAST_VOLUME_DESC";
   delivery_days?: string;
   ship_to_country?: string;
 }
@@ -652,4 +660,51 @@ export interface Affiliate_Categories {
 
 export interface Affiliate_Categories_Result {
   resp_result: Affiliate_Categories;
+}
+
+/**
+ * AFFILIATE API
+ * FEATURED PROMO
+ */
+
+export interface Affiliate_Featured_Promo_Products_Params
+  extends Affiliate_Base_Product_Params {
+  category_id?: string;
+  page_no?: string;
+  page_size?: string;
+  promotion_end_time?: string;
+  promotion_name?: string;
+  promotion_start_time?: string;
+  sort?:
+    | "commissionAsc"
+    | "commissionDesc"
+    | "priceAsc"
+    | "priceDesc"
+    | "volumeAsc"
+    | "volumeDesc"
+    | "discountAsc"
+    | "discountDesc"
+    | "ratingAsc"
+    | "ratingDesc"
+    | "promotionTimeAsc"
+    | "promotionTimeDesc";
+  country?: string;
+}
+
+export interface Affiliate_Featured_Promo_Product
+  extends Affiliate_Base_Product_Details {}
+
+export interface Affiliate_Featured_Promo_Products_Result {
+  resp_result: {
+    resp_code: number;
+    resp_msg: string;
+    result: {
+      current_page_no: number;
+      current_record_count: number;
+      total_page_no: number;
+      total_record_count: number;
+      is_finished: boolean;
+      products: Affiliate_Featured_Promo_Product[];
+    };
+  };
 }

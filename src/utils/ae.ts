@@ -87,8 +87,8 @@ export const AE_Affiliate_Hotproducts = async (
   locale?: string
 ) => {
   return await execute("affiliate", "aliexpress.affiliate.hotproduct.query", {
-    platform_product_type: "ALL",
     category_ids,
+    platform_product_type: "ALL",
     fields: "app_sale_price,shop_id",
     tracking_id: "reglinidz",
     page_size: page_size?.toString(),
@@ -126,10 +126,24 @@ export const AE_Affiliate_getCategoryById = async (category_id: number) => {
   );
 };
 
-// todo
-// export const AE_Affiliate_featuredPromo = async () = {
-
-// }
+export const AE_Affiliate_featuredPromo = async (
+  page_size?: number,
+  page_no?: number,
+  locale?: string
+) => {
+  return await execute(
+    "affiliate",
+    "aliexpress.affiliate.featuredpromo.products.get",
+    {
+      fields: "app_sale_price,shop_id",
+      tracking_id: "reglinidz",
+      page_size: page_size?.toString(),
+      page_no: page_no?.toString(),
+      target_language: locale?.toUpperCase(),
+      target_currency: "USD",
+    }
+  );
+};
 
 export const AE_Affiliate_getProductDetails = async (
   product_ids: string,
@@ -157,6 +171,7 @@ export const ALIEXPRESS = {
   affiliate: {
     hotproducts: AE_Affiliate_Hotproducts,
     productDetails: AE_Affiliate_getProductDetails,
+    featuredPromo: AE_Affiliate_featuredPromo,
     categories: AE_Affiliate_getCategories,
     categoryById: AE_Affiliate_getCategoryById,
   },
