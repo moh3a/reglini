@@ -11,6 +11,7 @@ export type DS_API_NAMES =
 
 export type AFFILIATE_API_NAMES =
   | "aliexpress.affiliate.productdetail.get"
+  | "aliexpress.affiliate.product.query"
   | "aliexpress.affiliate.hotproduct.query"
   | "aliexpress.affiliate.featuredpromo.products.get"
   | "aliexpress.affiliate.category.get";
@@ -40,6 +41,8 @@ export type AE_DS_EXECUTE_FN_PARAMS<T extends DS_API_NAMES> =
 export type AE_AFFILIATE_EXECUTE_FN_PARAMS<T extends AFFILIATE_API_NAMES> =
   T extends "aliexpress.affiliate.productdetail.get"
     ? Affiliate_Product_Details_Params
+    : T extends "aliexpress.affiliate.product.query"
+    ? Affiliate_Products_Params
     : T extends "aliexpress.affiliate.hotproduct.query"
     ? Affiliate_Hotproducts_Params
     : T extends "aliexpress.affiliate.featuredpromo.products.get"
@@ -71,6 +74,8 @@ export type AE_DS_EXECUTE_FN_RESULT<T extends DS_API_NAMES> =
 export type AE_AFFILIATE_EXECUTE_FN_RESULT<T extends AFFILIATE_API_NAMES> =
   T extends "aliexpress.affiliate.productdetail.get"
     ? Affiliate_Product_Details_Result
+    : T extends "aliexpress.affiliate.product.query"
+    ? Affiliate_Products_Result
     : T extends "aliexpress.affiliate.hotproduct.query"
     ? Affiliate_Hotproducts_Result
     : T extends "aliexpress.affiliate.featuredpromo.products.get"
@@ -601,10 +606,10 @@ export interface Affiliate_Product_Details_Result {
 
 /**
  * AFFILIATE API
- * HOTPRODUCTS
+ * QUERY PRODUCTS
  */
 
-export interface Affiliate_Hotproducts_Params
+export interface Affiliate_Products_Params
   extends Affiliate_Base_Product_Params {
   category_ids?: string;
   keywords?: string;
@@ -622,7 +627,7 @@ export interface Affiliate_Hotproducts_Params
   ship_to_country?: string;
 }
 
-export interface Affiliate_Hotproducts {
+export interface Affiliate_Products {
   current_page_no: number;
   current_record_count: number;
   products: Affiliate_Product_Details[];
@@ -630,13 +635,26 @@ export interface Affiliate_Hotproducts {
   total_record_count: number;
 }
 
-export interface Affiliate_Hotproducts_Result {
+export interface Affiliate_Products_Result {
   resp_result: {
     resp_code: number;
     resp_msg: string;
     result: Affiliate_Hotproducts;
   };
 }
+
+/**
+ * AFFILIATE API
+ * HOTPRODUCTS
+ */
+
+export interface Affiliate_Hotproducts_Params
+  extends Affiliate_Products_Params {}
+
+export interface Affiliate_Hotproducts extends Affiliate_Products {}
+
+export interface Affiliate_Hotproducts_Result
+  extends Affiliate_Products_Result {}
 
 /**
  * AFFILIATE API

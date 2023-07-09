@@ -80,16 +80,39 @@ export const AE_DS_getOrder = async (order_id: number) => {
   });
 };
 
+export const AE_Affiliate_Query_Products = async (
+  search: string,
+  category_ids?: string,
+  page_size?: number,
+  page_no?: number,
+  locale?: string
+) => {
+  return await execute("affiliate", "aliexpress.affiliate.product.query", {
+    keywords: search,
+    category_ids,
+    platform_product_type: "ALL",
+    fields: "shop_id", // "app_sale_price,shop_id",
+    tracking_id: "reglinidz",
+    page_size: page_size?.toString(),
+    page_no: page_no?.toString(),
+    target_language: locale?.toUpperCase(),
+    target_currency: "USD",
+    ship_to_country: "DZ",
+  });
+};
+
 export const AE_Affiliate_Hotproducts = async (
   category_ids: string,
+  keywords?: string,
   page_size?: number,
   page_no?: number,
   locale?: string
 ) => {
   return await execute("affiliate", "aliexpress.affiliate.hotproduct.query", {
     category_ids,
+    keywords,
     platform_product_type: "ALL",
-    fields: "app_sale_price,shop_id",
+    fields: "shop_id", // "app_sale_price,shop_id",
     tracking_id: "reglinidz",
     page_size: page_size?.toString(),
     page_no: page_no?.toString(),
@@ -135,7 +158,7 @@ export const AE_Affiliate_featuredPromo = async (
     "affiliate",
     "aliexpress.affiliate.featuredpromo.products.get",
     {
-      fields: "app_sale_price,shop_id",
+      fields: "shop_id", // "app_sale_price,shop_id",
       tracking_id: "reglinidz",
       page_size: page_size?.toString(),
       page_no: page_no?.toString(),
@@ -170,6 +193,7 @@ export const ALIEXPRESS = {
   },
   affiliate: {
     hotproducts: AE_Affiliate_Hotproducts,
+    searchProducts: AE_Affiliate_Query_Products,
     productDetails: AE_Affiliate_getProductDetails,
     featuredPromo: AE_Affiliate_featuredPromo,
     categories: AE_Affiliate_getCategories,

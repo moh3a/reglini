@@ -1,6 +1,6 @@
 {
   "name": "reglini",
-  "version": "1.9.9",
+  "version": "1.10.1",
   "private": true,
   "scripts": {
     "dev": "next dev",

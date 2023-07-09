@@ -15,6 +15,7 @@ export const aeAffiliateRouter = router({
   search: procedure
     .input(
       z.object({
+        search: z.string(),
         locale: z.string().optional(),
         page_size: z.number().optional(),
         page_no: z.number().optional(),
@@ -22,12 +23,20 @@ export const aeAffiliateRouter = router({
     )
     .query(async ({ ctx, input }) => {
       const categories = await ctx.aliexpress.affiliate.categories();
-      const response = await ctx.aliexpress.affiliate.hotproducts(
+      const response = await ctx.aliexpress.affiliate.searchProducts(
+        input.search,
         categories,
         input.page_size ?? 20,
         input.page_no ?? 1,
         input.locale ?? "FR"
       );
+      // const response = await ctx.aliexpress.affiliate.hotproducts(
+      //   categories,
+      //   input.search,
+      //   input.page_size ?? 20,
+      //   input.page_no ?? 1,
+      //   input.locale ?? "FR"
+      // );
       return response;
     }),
   featuredPromo: procedure
