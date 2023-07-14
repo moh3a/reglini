@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-import Loading from "@components/shared/Loading";
 import Modal from "@components/shared/Modal";
 import AffiliateProductCard from "@components/aliexpress_v2/ProductCard";
 import { IMessage } from "@reglini-types/index";
 import { trpc } from "@utils/trpc";
+import SkeletonProductsList from "./SkeletonProductsList";
 
 const ProductsList = () => {
   const router = useRouter();
@@ -88,11 +88,7 @@ const ProductsList = () => {
         </>
       ) : ( */}
       <>
-        {searchAffiliateProducts.isLoading && (
-          <div className="w-full flex justify-center items-center">
-            <Loading size="large" />
-          </div>
-        )}
+        {searchAffiliateProducts.isLoading && <SkeletonProductsList />}
         {searchAffiliateProducts.data &&
         searchAffiliateProducts.data.resp_result &&
         searchAffiliateProducts.data.resp_result.result &&

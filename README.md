@@ -2,7 +2,6 @@
 
 ## Todo
 
-- add skeleton when loading ae data
 - try refreshing ae access_token with [taobao.top.auth.token.refresh](https://open.taobao.com/api.htm?docId=25387&docType=2&scopeId=381)
 - refactor and deal with performace and bad first time code!!!
 
