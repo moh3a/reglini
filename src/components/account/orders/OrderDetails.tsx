@@ -5,17 +5,14 @@ import { MapPinIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW, TEXT_GRADIENT } from "@config/design";
-import Button from "@components/shared/Button";
-import Loading from "@components/shared/Loading";
-import Modal from "@components/shared/Modal";
-import Banner from "@components/shared/Banner";
+import { Button, Loading, Modal, Banner } from "@components/shared";
 import Pay from "@components/account/orders/actions/Pay";
 import Cancel from "@components/account/orders/actions/Cancel";
 import Tracking from "@components/account/orders/actions/Tracking";
 import ConfirmReception from "@components/account/orders/actions/ConfirmReception";
 import ItemProperties from "@components/account/ItemProperties";
 import { trpc } from "@utils/trpc";
-import { IMessage } from "@reglini-types/index";
+import type { IMessage } from "@reglini-types/index";
 
 interface OrderDetailsProps {
   id: string;
@@ -28,7 +25,17 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
   >();
   const [message, setMessage] = useState<IMessage>();
 
-  const orderQuery = trpc.order.get.useQuery({ order_id: id });
+  const orderQuery = trpc.order.get.useQuery(
+    { order_id: id },
+    {
+      onSettled(data, error) {
+        if (error)
+          setMessage({ type: "error", text: "Order details fetch error." });
+        if (data && !data.success)
+          setMessage({ type: "error", text: data.error });
+      },
+    }
+  );
   const detailsQuery = trpc.order.details.useQuery({ order_id: id });
 
   const cancelOrderHandler = async () => {

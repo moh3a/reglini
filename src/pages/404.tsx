@@ -2,7 +2,7 @@ import { GetStaticProps } from "next";
 import Head from "next/head";
 
 import { APP_NAME } from "@config/general";
-import TitleXL from "@components/shared/TitleXL";
+import { TitleXL } from "@components/shared";
 
 const NotFound = () => {
   return (

@@ -7,7 +7,7 @@ interface DropdownProps {
   items: ReactNode[];
 }
 
-const Dropdown = ({ parent, items }: DropdownProps) => {
+export const Dropdown = ({ parent, items }: DropdownProps) => {
   return (
     <Menu as="div" className="relative z-100">
       {parent ?? (
@@ -38,5 +38,3 @@ const Dropdown = ({ parent, items }: DropdownProps) => {
     </Menu>
   );
 };
-
-export default Dropdown;

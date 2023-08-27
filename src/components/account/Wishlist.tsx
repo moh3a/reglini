@@ -13,13 +13,15 @@ import {
   SHADOW,
 } from "@config/design";
 import { APP_NAME } from "@config/general";
-import { AliExpressLogo } from "@components/shared/Logos";
-import Button from "@components/shared/Button";
-import Loading from "@components/shared/Loading";
-import Title from "@components/shared/Title";
-import Banner from "@components/shared/Banner";
+import {
+  AliExpressLogo,
+  Button,
+  Loading,
+  Title,
+  Banner,
+} from "@components/shared";
 import { trpc } from "@utils/trpc";
-import { IMessage } from "@reglini-types/index";
+import type { IMessage } from "@reglini-types/index";
 
 const Wishlist = () => {
   const { data: session } = useSession();

@@ -87,7 +87,8 @@
       "status": {
         "paid": "ORDER PAID",
         "awaiting": "AWAITING PAYMENT",
-        "cancelled": "ORDER CANCELLED"
+        "cancelled": "ORDER CANCELLED",
+        "declined": "PAYMENT DECLINED"
       },
       "empty": "You have no orders!",
       "paymentTimout": "A payment should be submitted in less than 3 days or the order will be automatically cancelled. You can pay once the order was created.",

@@ -10,7 +10,7 @@ interface PaginationProps {
   totalUnits: number;
 }
 
-const PageNumber = ({
+export const PageNumber = ({
   children,
   href,
   p,
@@ -32,7 +32,11 @@ const PageNumber = ({
   );
 };
 
-const Pagination = ({ current, totalUnits, unitsPerPage }: PaginationProps) => {
+export const Pagination = ({
+  current,
+  totalUnits,
+  unitsPerPage,
+}: PaginationProps) => {
   const router = useRouter();
 
   return (
@@ -57,5 +61,3 @@ const Pagination = ({ current, totalUnits, unitsPerPage }: PaginationProps) => {
     </div>
   );
 };
-
-export default Pagination;

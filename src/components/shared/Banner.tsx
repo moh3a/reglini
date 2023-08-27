@@ -12,7 +12,7 @@ interface BannerProps {
   message?: ReactNode | string;
 }
 
-const Banner = ({ type, message }: BannerProps) => {
+export const Banner = ({ type, message }: BannerProps) => {
   return (
     <div
       className={`${ROUNDED} ${PADDING} overflow-hidden shadow-md w-full z-40 my-3 text-sm text-white font-mono font-bold ${
@@ -43,5 +43,3 @@ const Banner = ({ type, message }: BannerProps) => {
     </div>
   );
 };
-
-export default Banner;

@@ -1,4 +1,4 @@
-import { Price } from ".";
+import { Price } from "..";
 
 export interface ZAE_Product {
   productUrl: string;
@@ -11,15 +11,15 @@ export interface ZAE_Product {
   title: string;
   totalStock: number;
   totalOrders: number;
-  wishlistCount: number;
-  unitName: string;
-  unitNamePlural: string;
-  unitsPerProduct: number;
-  hasPurchaseLimit: boolean;
-  maxPurchaseLimit: number;
+  wishlistCount?: number;
+  unitName?: string;
+  unitNamePlural?: string;
+  unitsPerProduct?: number;
+  hasPurchaseLimit?: boolean;
+  maxPurchaseLimit?: number;
   processingTimeInDays: number;
   productImages: string[];
-  productCategory: {
+  productCategory?: {
     id: string;
     name: string;
     path: [
@@ -39,7 +39,7 @@ export interface ZAE_Product {
   };
   sellerDetails: {
     sellerDetailsUrl: string;
-    summary: {
+    summary?: {
       contactPerson: string;
       country: string;
       openingDate: string;
@@ -49,7 +49,7 @@ export interface ZAE_Product {
       communication: ZAE_SellerRatings;
       shippingSpeed: ZAE_SellerRatings;
     };
-    ratingsHistory: {
+    ratingsHistory?: {
       total: ZAE_ProductRatings;
       lastMonth: ZAE_ProductRatings;
       lastThreeMonths: ZAE_ProductRatings;
@@ -57,11 +57,11 @@ export interface ZAE_Product {
     };
   };
   hasSinglePrice: boolean;
-  price: {
+  price?: {
     web: ZAE_ProductPrice;
     app: ZAE_ProductPrice;
   };
-  priceSummary: {
+  priceSummary?: {
     web: ZAE_ProductPriceSummary;
     app: ZAE_ProductPriceSummary;
   };
@@ -104,39 +104,41 @@ export interface ZAE_Product {
       percentage: number;
     };
   };
-  hasProperties: true;
+  hasProperties: boolean;
   properties: ZAE_ProductProperties[];
   hasVariations: boolean;
-  variations: {
-    sku: string;
-    stock: number;
-    imageUrl: string;
-    thumbnailImageUrl: string;
-    properties: {
-      id: string;
-      name: string;
-      value: {
-        id: string;
-        name: string;
-      };
-    }[];
-    price: {
-      web: ZAE_ProductPrice;
-      app: ZAE_ProductPrice;
-    };
-  }[];
-  shipping: {
-    shipFrom: string;
-    isAvailableForSelectedCountries: boolean;
-    currency: string;
-    carriers: ZAE_ProductShippingCarrier[];
-  };
+  variations: ZAE_ProductVariation[];
+  shipping?: ZAE_ProductShipping;
   htmlDescription: string;
+}
+
+export interface ZAE_ProductShipping {
+  isAvailableForSelectedCountries: boolean;
+  shipFrom?: string;
+  currency?: string;
+  carriers?: ZAE_ProductShippingCarrier[];
+}
+
+export interface ZAE_ProductVariation {
+  sku: string;
+  stock?: number;
+  imageUrl: string;
+  thumbnailImageUrl: string;
+  properties: ZAE_ProductVariationProperties[];
+  price: {
+    web: ZAE_ProductPrice;
+    app: ZAE_ProductPrice;
+  };
 }
 
 export interface ZAE_Price {
   value: number;
-  display: string;
+  display?: string;
+}
+
+export interface ZAE_PriceInterval {
+  min: ZAE_Price;
+  max: ZAE_Price;
 }
 
 export interface ZAE_ProductPrice {
@@ -144,39 +146,30 @@ export interface ZAE_ProductPrice {
   hasDiscount: boolean;
   discountPercentage: number;
   discountedPrice: ZAE_Price;
-  hasBulkPrice: boolean;
-  bulkMinQuantity: number;
-  bulkDiscountPercentage: number;
-  bulkPrice: ZAE_Price;
+  hasBulkPrice?: boolean;
+  bulkMinQuantity?: number;
+  bulkDiscountPercentage?: number;
+  bulkPrice?: ZAE_Price;
 }
 
 export interface ZAE_ProductPriceSummary {
-  originalPrice: {
-    min: ZAE_Price;
-    max: ZAE_Price;
-  };
+  originalPrice: ZAE_PriceInterval;
   hasDiscount: boolean;
   discountPercentage: number;
-  discountedPrice: {
-    min: ZAE_Price;
-    max: ZAE_Price;
-  };
-  hasBulkPrice: boolean;
-  bulkMinQuantity: number;
-  bulkDiscountPercentage: number;
-  bulkPrice: {
-    min: ZAE_Price;
-    max: ZAE_Price;
-  };
+  discountedPrice: ZAE_PriceInterval;
+  hasBulkPrice?: boolean;
+  bulkMinQuantity?: number;
+  bulkDiscountPercentage?: number;
+  bulkPrice?: ZAE_PriceInterval;
 }
 
 export interface ZAE_SellerRatings {
-  totalCount: number;
+  totalCount?: number;
   rating: {
     value: number;
-    percentage: number;
+    percentage?: number;
   };
-  otherSellersDifference: number;
+  otherSellersDifference?: number;
 }
 
 export interface ZAE_ProductRatings {
@@ -205,32 +198,43 @@ export interface ZAE_ProductAttribute {
 }
 
 export interface ZAE_ProductShippingCarrier {
-  company: {
-    id: string;
-    name: string;
-  };
-  hasTracking: boolean;
-  price: {
-    value: number;
-  };
-  hasDiscount: boolean;
-  discountPercentage: number;
-  estimatedDeliveryDate: string;
-  deliveryTimeInDays: Price;
+  company: ZAE_CarrierInfo;
+  hasTracking?: boolean;
+  price: Omit<ZAE_Price, "display">;
+  hasDiscount?: boolean;
+  discountPercentage?: number;
+  estimatedDeliveryDate?: string;
+  deliveryTimeInDays?: Price;
+}
+
+export interface ZAE_ProductPropertyDetails {
+  id: string;
+  name: string;
+  hasImage?: boolean;
+  imageUrl?: string;
+  thumbnailImageUrl?: string;
 }
 
 export interface ZAE_ProductProperties {
+  id: string;
+  name: string;
+  values: ZAE_ProductPropertyDetails[];
+}
+
+export interface ZAE_ProductVariationProperties {
   id?: string;
   name?: string;
-  values: [
-    {
-      id?: string;
-      name?: string;
-      hasImage?: boolean;
-      imageUrl?: string;
-      thumbnailImageUrl?: string;
-    }
-  ];
+  value: ZAE_ProductPropertyDetails;
+}
+
+export interface ZAE_SearchItem {
+  productId: string;
+  title: string;
+  imageUrl: string;
+  averageRating: number;
+  productMinPrice: Omit<ZAE_Price, "display">;
+  shippingMinPrice?: Omit<ZAE_Price, "display">;
+  totalOrders?: number;
 }
 
 export interface ZAE_Search {
@@ -238,24 +242,10 @@ export interface ZAE_Search {
   numberOfPages: number;
   resultsPerPage: number;
   currency: string;
-  items: [
-    {
-      productId: string;
-      title: string;
-      imageUrl: string;
-      totalOrders: number;
-      averageRating: number;
-      shippingMinPrice: {
-        value: number;
-      };
-      productMinPrice: {
-        value: number;
-      };
-    }
-  ];
-  availableShipFromCountries: [string];
-  refiningAttributes: ZAE_ProductAttribute[];
-  refiningSearchCategories: [
+  items: ZAE_SearchItem[];
+  availableShipFromCountries?: [string];
+  refiningAttributes?: ZAE_ProductAttribute[];
+  refiningSearchCategories?: [
     {
       id: string;
       name: string;
@@ -282,6 +272,40 @@ export interface ZAE_ShippingAddres {
   phoneCountry: "+213";
 }
 
+export interface ZAE_OrderProductDetails {
+  productId: string;
+  title: string;
+  subStatus: string;
+  productImage: string;
+  unitName: string;
+  quantity: number;
+  memo: string;
+  price: {
+    total: ZAE_Price;
+    unit: ZAE_Price;
+  };
+  hasRefund: boolean;
+  carrier: ZAE_CarrierInfo;
+  processingTimeInDays: number;
+  deliveryTimeInDays: Price;
+  shippingPrice: ZAE_Price;
+  hasIssue: boolean;
+  issueStatus: string;
+  sku: string;
+  properties: ZAE_ProductAttribute[];
+  daysUntilBuyerProtectionStart: number;
+  daysUntilBuyerProtectionEnd: number;
+  canOpenDispute: boolean;
+  canSubmitDispute: boolean;
+  canSubmitIssue: boolean;
+  canSubmitWarranty: boolean;
+}
+
+export interface ZAE_CarrierInfo {
+  id: string;
+  name: string;
+}
+
 export interface ZAE_Order {
   orderDetailsUrl: string;
   orderId: string;
@@ -293,18 +317,9 @@ export interface ZAE_Order {
   creationTime: string;
   currency: string;
   totalPrice: {
-    productsPrice: {
-      value: number;
-      display: string;
-    };
-    shippingPrice: {
-      value: number;
-      display: string;
-    };
-    fullOrderPrice: {
-      value: number;
-      display: string;
-    };
+    productsPrice: ZAE_Price;
+    shippingPrice: ZAE_Price;
+    fullOrderPrice: ZAE_Price;
   };
   isPaid: boolean;
   paymentTime: string;
@@ -313,57 +328,7 @@ export interface ZAE_Order {
   endReason: string;
   msUntilAutomaticClosingDate: number;
   shippingAddress: ZAE_ShippingAddres;
-  products: [
-    {
-      productId: string;
-      title: string;
-      subStatus: string;
-      productImage: string;
-      unitName: string;
-      quantity: number;
-      memo: string;
-      price: {
-        total: {
-          value: number;
-          display: string;
-        };
-        unit: {
-          value: number;
-          display: string;
-        };
-      };
-      hasRefund: boolean;
-      carrier: {
-        id: string;
-        name: string;
-      };
-      processingTimeInDays: number;
-      deliveryTimeInDays: Price;
-      shippingPrice: {
-        value: number;
-        display: string;
-      };
-      hasIssue: boolean;
-      issueStatus: string;
-      sku: string;
-      properties: [
-        {
-          id: string;
-          name: string;
-          value: {
-            id: string;
-            name: string;
-          };
-        }
-      ];
-      daysUntilBuyerProtectionStart: number;
-      daysUntilBuyerProtectionEnd: number;
-      canOpenDispute: boolean;
-      canSubmitDispute: boolean;
-      canSubmitIssue: boolean;
-      canSubmitWarranty: boolean;
-    }
-  ];
+  products: ZAE_OrderProductDetails[];
   isFrozen: boolean;
   frozenStatus: string;
   canTracking: boolean;
@@ -378,36 +343,33 @@ export interface ZAE_Order {
   maxExtendDays: number;
 }
 
+export interface ZAE_TrackingCheckpoint {
+  location: string;
+  date: string;
+  caption: string;
+  icon: string;
+}
+
+export interface ZAE_TrackingPackage {
+  caption: string;
+  readyForDispatchTime: string;
+  deliveryTimeRange: {
+    min: string;
+    max: string;
+  };
+  shipTo: string;
+  shipFrom: string;
+  trackingNumber: string;
+  officialWebsite: string;
+  trackingUrl: string;
+  carrier: ZAE_CarrierInfo;
+  progressPercentage: number;
+  hasCheckpoints: boolean;
+  checkpoints: ZAE_TrackingCheckpoint[];
+}
+
 export interface ZAE_Tracking {
   isTrackingAvailable: boolean;
-  packages: [
-    {
-      caption: string;
-      readyForDispatchTime: string;
-      deliveryTimeRange: {
-        min: string;
-        max: string;
-      };
-      shipTo: string;
-      shipFrom: string;
-      trackingNumber: string;
-      officialWebsite: string;
-      trackingUrl: string;
-      carrier: {
-        id: string;
-        name: string;
-      };
-      progressPercentage: number;
-      hasCheckpoints: boolean;
-      checkpoints: [
-        {
-          location: string;
-          date: string;
-          caption: string;
-          icon: string;
-        }
-      ];
-    }
-  ];
+  packages: ZAE_TrackingPackage[];
   shippingAddress: ZAE_ShippingAddres;
 }

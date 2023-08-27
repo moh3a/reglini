@@ -11,10 +11,10 @@ import {
   ROUNDED,
   TEXT_INPUT,
 } from "@config/design";
-import Loading from "@components/shared/Loading";
+import { Loading } from "@components/shared";
 import { trpc } from "@utils/trpc";
 
-export default function SelectDaira({
+export function SelectDaira({
   wilaya,
   daira,
   setDaira,

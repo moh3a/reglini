@@ -6,11 +6,9 @@ import {
 } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 
-import Button from "@components/shared/Button";
-import TextInput from "@components/shared/Input";
-import Banner from "@components/shared/Banner";
+import { Button, TextInput, Banner } from "@components/shared";
 import { trpc } from "@utils/trpc";
-import { IMessage } from "@reglini-types/index";
+import type { IMessage } from "@reglini-types/index";
 
 interface EditAccountProps {
   title: string;

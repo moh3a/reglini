@@ -1,4 +1,10 @@
-const Title = ({ title, center }: { title: string; center?: boolean }) => {
+export const Title = ({
+  title,
+  center,
+}: {
+  title: string;
+  center?: boolean;
+}) => {
   return (
     <h1
       className={`font-extrabold text-4xl w-full ${center && "text-center"} `}
@@ -9,5 +15,3 @@ const Title = ({ title, center }: { title: string; center?: boolean }) => {
     </h1>
   );
 };
-
-export default Title;

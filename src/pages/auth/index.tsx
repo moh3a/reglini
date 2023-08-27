@@ -8,8 +8,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Link from "next/link";
 
-import Button from "@components/shared/Button";
-import Logo from "@components/shared/Logo";
+import { Button, Logo } from "@components/shared";
 
 const AuthPage = () => {
   const { status } = useSession();

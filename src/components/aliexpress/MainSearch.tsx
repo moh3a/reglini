@@ -2,10 +2,9 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
-import SearchInput from "@components/shared/SearchInput";
-import { AliExpressLogo } from "@components/shared/Logos";
+import { AliExpressLogo, SearchInput } from "@components/shared";
 
-const MainSearch = () => {
+export const MainSearch = () => {
   const router = useRouter();
   const { q } = router.query;
   const [url, setUrl] = useState((q as string) ?? "");
@@ -55,5 +54,3 @@ const MainSearch = () => {
     </section>
   );
 };
-
-export default MainSearch;

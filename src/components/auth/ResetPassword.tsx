@@ -8,12 +8,9 @@ import {
 import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
-import Banner from "@components/shared/Banner";
-import PasswordInput from "@components/shared/PasswordInput";
-import Title from "@components/shared/Title";
-import Button from "@components/shared/Button";
+import { Banner, PasswordInput, Title, Button } from "@components/shared";
 import { trpc } from "@utils/trpc";
-import { IMessage } from "@reglini-types/index";
+import type { IMessage } from "@reglini-types/index";
 
 const ResetPassword = ({ token }: { token: string }) => {
   const router = useRouter();

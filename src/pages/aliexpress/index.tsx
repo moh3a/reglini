@@ -2,8 +2,7 @@ import { GetStaticProps } from "next";
 import Head from "next/head";
 
 import { APP_NAME } from "@config/general";
-import MainSearch from "@components/aliexpress/MainSearch";
-import ProductsList from "@components/aliexpress/ProductsList";
+import { MainSearch, ProductsList } from "@components/aliexpress";
 
 const AliexpressPage = () => {
   const t = useTranslations("Common.aliexpress");

@@ -21,7 +21,7 @@ interface InputProps {
   width?: any;
 }
 
-const TextInput = ({
+export const TextInput = ({
   className,
   onBlur,
   onFocus,
@@ -68,5 +68,3 @@ const TextInput = ({
     />
   );
 };
-
-export default TextInput;

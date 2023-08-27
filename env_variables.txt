@@ -1,9 +1,7 @@
 DIRECT_URL="postgresql://postgres:123456@localhost:5432/reglinidb?schema=reglini"
 DATABASE_URL="postgresql://postgres:123456@localhost:5432/reglinidb?schema=reglini?pgbouncer=true"
-MONGO_DB=
 
 JWT_SECRET=
-JWT_EXPIRE=10min
 
 SENDGRID_API_KEY=
 SENDGRID_SMTP_SERVICE=SendGrid

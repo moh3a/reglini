@@ -1,17 +1,20 @@
 import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW } from "@config/design";
-import { ZAE_Product } from "@reglini-types/zapiex";
+import type { ZAE_Product } from "@reglini-types/zapiex";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
-import { SelectedVariation } from "@components/aliexpress/ProductDetails";
+import { SelectedVariation } from "@reglini-types/index";
 
 interface ProductPriceProps {
   product: ZAE_Product;
   selectedVariation?: SelectedVariation;
 }
 
-const ProductPrice = ({ product, selectedVariation }: ProductPriceProps) => {
+export const ProductPrice = ({
+  product,
+  selectedVariation,
+}: ProductPriceProps) => {
   const { euro, commission } = useFinance();
   const t = useTranslations("AliexpressPage");
   return (
@@ -58,7 +61,7 @@ const ProductPrice = ({ product, selectedVariation }: ProductPriceProps) => {
             </>
           )}
         </>
-      ) : product.hasSinglePrice ? (
+      ) : product.hasSinglePrice && product.price ? (
         <>
           {product.price.app.hasDiscount ? (
             <div
@@ -99,35 +102,19 @@ const ProductPrice = ({ product, selectedVariation }: ProductPriceProps) => {
           )}
         </>
       ) : (
-        <>
-          {product.priceSummary.app.hasDiscount ? (
-            <div
-              className={`bg-aliexpress hover:bg-red-500 text-center font-bold text-white ${PADDING} ${ROUNDED} ${SHADOW}`}
-            >
-              <div>
-                {t("price", {
-                  price: GetPrice(
-                    euro ?? 0,
-                    commission ?? 0,
-                    product.priceSummary.app.discountedPrice.min.value
-                  ),
-                })}{" "}
-                -{" "}
-                {t("price", {
-                  price: GetPrice(
-                    euro ?? 0,
-                    commission ?? 0,
-                    product.priceSummary.app.discountedPrice.max.value
-                  ),
-                })}
-              </div>
-              <div className="text-xs lg:text-sm">
-                <span className="line-through mr-4">
+        !product.hasSinglePrice &&
+        product.priceSummary && (
+          <>
+            {product.priceSummary.app.hasDiscount ? (
+              <div
+                className={`bg-aliexpress hover:bg-red-500 text-center font-bold text-white ${PADDING} ${ROUNDED} ${SHADOW}`}
+              >
+                <div>
                   {t("price", {
                     price: GetPrice(
                       euro ?? 0,
                       commission ?? 0,
-                      product.priceSummary.app.originalPrice.min.value
+                      product.priceSummary.app.discountedPrice.min.value
                     ),
                   })}{" "}
                   -{" "}
@@ -135,36 +122,53 @@ const ProductPrice = ({ product, selectedVariation }: ProductPriceProps) => {
                     price: GetPrice(
                       euro ?? 0,
                       commission ?? 0,
-                      product.priceSummary.app.originalPrice.max.value
+                      product.priceSummary.app.discountedPrice.max.value
                     ),
                   })}
-                </span>{" "}
-                {product.priceSummary.app.discountPercentage}% off
+                </div>
+                <div className="text-xs lg:text-sm">
+                  <span className="line-through mr-4">
+                    {t("price", {
+                      price: GetPrice(
+                        euro ?? 0,
+                        commission ?? 0,
+                        product.priceSummary.app.originalPrice.min.value
+                      ),
+                    })}{" "}
+                    -{" "}
+                    {t("price", {
+                      price: GetPrice(
+                        euro ?? 0,
+                        commission ?? 0,
+                        product.priceSummary.app.originalPrice.max.value
+                      ),
+                    })}
+                  </span>{" "}
+                  {product.priceSummary.app.discountPercentage}% off
+                </div>
               </div>
-            </div>
-          ) : (
-            <>
-              {t("price", {
-                price: GetPrice(
-                  euro ?? 0,
-                  commission ?? 0,
-                  product.priceSummary.app.originalPrice.min.value
-                ),
-              })}{" "}
-              -{" "}
-              {t("price", {
-                price: GetPrice(
-                  euro ?? 0,
-                  commission ?? 0,
-                  product.priceSummary.app.originalPrice.max.value
-                ),
-              })}
-            </>
-          )}
-        </>
+            ) : (
+              <>
+                {t("price", {
+                  price: GetPrice(
+                    euro ?? 0,
+                    commission ?? 0,
+                    product.priceSummary.app.originalPrice.min.value
+                  ),
+                })}{" "}
+                -{" "}
+                {t("price", {
+                  price: GetPrice(
+                    euro ?? 0,
+                    commission ?? 0,
+                    product.priceSummary.app.originalPrice.max.value
+                  ),
+                })}
+              </>
+            )}
+          </>
+        )
       )}
     </div>
   );
 };
-
-export default ProductPrice;

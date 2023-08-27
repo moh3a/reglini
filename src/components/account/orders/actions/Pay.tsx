@@ -26,11 +26,9 @@ import {
   SHADOW,
   TEXT_GRADIENT,
 } from "@config/design";
-import Banner from "@components/shared/Banner";
-import Button from "@components/shared/Button";
-import Loading from "@components/shared/Loading";
+import { Banner, Button, Loading } from "@components/shared";
 import { trpc } from "@utils/trpc";
-import { IMessage } from "@reglini-types/index";
+import type { IMessage } from "@reglini-types/index";
 import { Product } from "@prisma/client";
 
 interface PaymentProps {

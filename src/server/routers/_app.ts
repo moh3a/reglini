@@ -9,7 +9,6 @@ import { accountRouter } from "./account";
 import { wishlistRouter } from "./wishlist";
 import { addressRouter } from "./address";
 import { aliexpressRouter } from "./aliexpress";
-import { zapiexRouter } from "./zapiex";
 import { cartRouter } from "./cart";
 import { orderRouter } from "./order";
 
@@ -62,7 +61,6 @@ export const appRouter = router({
   cart: cartRouter,
   address: addressRouter,
   aliexpress: aliexpressRouter,
-  zapiex: zapiexRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 
 import { ROUNDED, SHADOW } from "@config/design";
-import { ZAE_Product } from "@reglini-types/zapiex";
+import type { ZAE_Product } from "@reglini-types/zapiex";
 
 interface ProductImageProps {
   product: ZAE_Product;
@@ -10,7 +10,7 @@ interface ProductImageProps {
   setShowImage: Dispatch<SetStateAction<string>>;
 }
 
-const ProductImage = ({
+export const ProductImage = ({
   product,
   showImage,
   setShowImage,
@@ -46,4 +46,3 @@ const ProductImage = ({
     </div>
   );
 };
-export default ProductImage;

@@ -2,11 +2,8 @@ import { FormEvent, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import { trpc } from "@utils/trpc";
-import Button from "@components/shared/Button";
-import TextInput from "@components/shared/Input";
-import Modal from "@components/shared/Modal";
-import Banner from "@components/shared/Banner";
-import { IMessage } from "@reglini-types/index";
+import { Button, TextInput, Modal, Banner } from "@components/shared";
+import type { IMessage } from "@reglini-types/index";
 
 export default function ForgotPasswordModal() {
   let [isOpen, setIsOpen] = useState(false);

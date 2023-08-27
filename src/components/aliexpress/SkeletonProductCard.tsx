@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-const SkeletonProductCard = () => {
+export const SkeletonProductCard = () => {
   return (
     <motion.div
       initial="hidden"
@@ -13,9 +13,7 @@ const SkeletonProductCard = () => {
           <div className="object-center object-cover hover:opacity-75 rounded-lg shadow-lg" />
         </div>
       </div>
-      <div className="w-full h-5 bg-gray-500 animate-pulse"></div>
+      <div className="w-full h-5 mt-1 bg-gray-500 rounded-lg animate-pulse"></div>
     </motion.div>
   );
 };
-
-export default SkeletonProductCard;

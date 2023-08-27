@@ -10,8 +10,7 @@ import {
   SHADOW,
   TEXT_GRADIENT,
 } from "@config/design";
-import Loading from "@components/shared/Loading";
-import NumberInput from "@components/shared/NumberInput";
+import { Loading, NumberInput } from "@components/shared";
 import { trpc } from "@utils/trpc";
 import { useTranslations } from "next-intl";
 

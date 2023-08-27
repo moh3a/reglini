@@ -18,8 +18,7 @@ import {
   ROUNDED,
   SHADOW,
 } from "@config/design";
-import Button from "@components/shared/Button";
-import Loading from "@components/shared/Loading";
+import { Button, Loading } from "@components/shared";
 
 const AccountBadge = () => {
   const { data: session, status } = useSession();

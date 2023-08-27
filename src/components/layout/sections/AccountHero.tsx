@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 
-import Button from "@components/shared/Button";
+import { Button } from "@components/shared";
 
 const AccountHero = () => {
   const t = useTranslations("IndexPage.accountHero");

@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { APP_NAME } from "@config/general";
 import LoginProviders from "@components/auth/LoginProviders";
 import Register from "@components/auth/Register";
-import Title from "@components/shared/Title";
+import { Title } from "@components/shared";
 
 interface AuthProps {
   csrfToken: any;

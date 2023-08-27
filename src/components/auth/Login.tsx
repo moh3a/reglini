@@ -3,9 +3,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 import ForgotPasswordModal from "@components/auth/ForgotPasswordModal";
-import TextInput from "@components/shared/Input";
-import PasswordInput from "@components/shared/PasswordInput";
-import Button from "@components/shared/Button";
+import { TextInput, PasswordInput, Button } from "@components/shared";
 import { trpc } from "@utils/trpc";
 
 const Login = ({ csrfToken }: { csrfToken: string }) => {

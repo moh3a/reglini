@@ -4,9 +4,8 @@ import { useTranslations } from "next-intl";
 
 import { trpc } from "@utils/trpc";
 import { TEXT_GRADIENT } from "@config/design";
-import Loading from "@components/shared/Loading";
-import Button from "@components/shared/Button";
-import { IMessage } from "@reglini-types/index";
+import { Loading, Button } from "@components/shared";
+import type { IMessage } from "@reglini-types/index";
 
 interface TrackingProps {
   order_id: string;

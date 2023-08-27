@@ -1,12 +1,12 @@
 import { z } from "zod";
 
 import { Product } from "@prisma/client";
-import {
+import type {
   AENOLogisticsAddress,
   AENOProduct,
   AENOProductItem,
 } from "@reglini-types/index";
-import { ZAE_ShippingAddres } from "@reglini-types/zapiex";
+import type { ZAE_ShippingAddres } from "@reglini-types/zapiex";
 import { router, procedure } from "../trpc";
 import SendEmail from "@utils/send_email";
 import { API_RESPONSE_MESSAGES } from "@config/general";
@@ -264,30 +264,39 @@ export const orderRouter = router({
     .input(z.object({ order_id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       if (ctx.session && ctx.session.user) {
-        // todo: check if order is owned by user before cancelling
-        const result = await ctx.zapiex.cancelOrder(input.order_id);
-        if (result.success) {
-          await ctx.prisma.order.update({
-            where: { id: input.order_id },
-            data: {
-              cancelled: true,
-              shippingAddress: {
-                delete: true,
+        const order = await ctx.prisma.order.findUnique({
+          where: { id: input.order_id },
+          select: { user: { select: { email: true } } },
+        });
+        if (order?.user.email === ctx.session.user.email) {
+          const result = await ctx.zapiex.cancelOrder(input.order_id);
+          if (result.success) {
+            await ctx.prisma.order.update({
+              where: { id: input.order_id },
+              data: {
+                cancelled: true,
+                shippingAddress: {
+                  delete: true,
+                },
+                products: {
+                  deleteMany: {},
+                },
               },
-              products: {
-                deleteMany: {},
-              },
-            },
-          });
-          return {
-            success: true,
-            message: "Successfully cancelled this order.",
-          };
-        } else
-          return {
-            success: false,
-            error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
-          };
+            });
+            return {
+              success: true,
+              message: "Successfully cancelled this order.",
+            };
+          } else
+            return {
+              success: false,
+              error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
+            };
+        }
+        return {
+          success: false,
+          error: API_RESPONSE_MESSAGES.UNAUTHORIZED,
+        };
       } else
         return {
           success: false,

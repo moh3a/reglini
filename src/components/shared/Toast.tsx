@@ -1,7 +1,7 @@
 import { ROUNDED, SHADOW } from "@config/design";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Dispatch, ReactNode, SetStateAction } from "react";
-import Button from "./Button";
+import { Button } from "./Button";
 
 interface Message {
   type?: "success" | "warning" | "error";
@@ -10,7 +10,7 @@ interface Message {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const Toast = ({ children, type, isOpen, setIsOpen }: Message) => {
+export const Toast = ({ children, type, isOpen, setIsOpen }: Message) => {
   return (
     <>
       {isOpen && (
@@ -40,5 +40,3 @@ const Toast = ({ children, type, isOpen, setIsOpen }: Message) => {
     </>
   );
 };
-
-export default Toast;

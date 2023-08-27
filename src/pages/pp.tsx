@@ -1,7 +1,6 @@
 import Head from "next/head";
 
-import Logo from "@components/shared/Logo";
-import Title from "@components/shared/Title";
+import { Logo, Title } from "@components/shared";
 
 const PrivacyPolicy = () => {
   return (

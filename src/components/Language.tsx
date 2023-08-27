@@ -7,7 +7,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { LanguageIcon } from "@heroicons/react/24/outline";
 
 import { BG_TRANSPARENT_BACKDROP, ROUNDED, SHADOW } from "@config/design";
-import Button from "@components/shared/Button";
+import { Button } from "@components/shared";
 
 const Badge = ({ text }: { text: string }) => {
   return (

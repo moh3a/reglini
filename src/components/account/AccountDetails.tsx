@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Link from "next/link";
 import {
   CheckBadgeIcon,
@@ -11,12 +12,19 @@ import { trpc } from "@utils/trpc";
 import Edit from "@components/account/details/EditAccount";
 import EditAddress from "@components/account/details/EditAddress";
 import EditProfilePicture from "@components/account/details/EditProfilePicture";
-import Loading from "@components/shared/Loading";
-import Title from "@components/shared/Title";
-import Button from "@components/shared/Button";
+import { Loading, Title, Button, Banner } from "@components/shared";
+import { IMessage } from "@reglini-types/index";
 
 const AccountDetails = () => {
-  const profile = trpc.account.profile.useQuery();
+  const [message, setMessage] = useState<IMessage>();
+  const profile = trpc.account.profile.useQuery(undefined, {
+    onSettled(data, error) {
+      if (error)
+        setMessage({ type: "error", text: "Account details fetch error." });
+      if (data && !data.success)
+        setMessage({ type: "error", text: data.error });
+    },
+  });
   const t = useTranslations("AccountPage.details");
 
   return (
@@ -25,6 +33,7 @@ const AccountDetails = () => {
       <p className="mb-4 font-bold font-mono text-sm text-center">
         {t("subtitle")}
       </p>
+      {message?.type && <Banner type={message?.type} message={message?.text} />}
       {profile.isLoading && (
         <div className="w-full flex justify-center items-center">
           <Loading size="medium" />

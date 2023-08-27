@@ -10,7 +10,7 @@ interface ModalProps {
   transparent?: boolean;
 }
 
-export default function Modal({
+export function Modal({
   type,
   isOpen,
   setIsOpen,

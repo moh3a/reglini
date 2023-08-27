@@ -2,7 +2,7 @@ import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED } from "@config/design";
-import Button from "@components/shared/Button";
+import { Button } from "@components/shared";
 
 const LoginProviders = ({ providers }: { providers: any }) => {
   const t = useTranslations("AuthPage.providers");

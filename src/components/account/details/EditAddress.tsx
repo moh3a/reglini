@@ -6,17 +6,16 @@ import {
 } from "@heroicons/react/24/outline";
 
 import { Address, Commune, Daira, Post, Wilaya } from "@prisma/client";
-import SelectWilaya from "./address/SelectWilaya";
-import SelectDaira from "./address/SelectDaira";
-import SelectCommune from "./address/SelectCommune";
-import SelectPost from "./address/SelectPost";
-import Button from "@components/shared/Button";
-import TextInput from "@components/shared/Input";
-import Banner from "@components/shared/Banner";
-import Loading from "@components/shared/Loading";
+import {
+  SelectPost,
+  SelectCommune,
+  SelectDaira,
+  SelectWilaya,
+} from "@components/account/details/address";
+import { Button, TextInput, Banner, Loading } from "@components/shared";
 import { trpc } from "@utils/trpc";
 import { useTranslations } from "next-intl";
-import { IMessage } from "@reglini-types/index";
+import type { IMessage } from "@reglini-types/index";
 
 const EditAddress = ({
   field,

@@ -1,66 +1,59 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 import {
   CheckCircleIcon,
   ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
 
 import { ROUNDED } from "@config/design";
-import { ZAE_ProductProperties } from "@reglini-types/zapiex";
+import type { ZAE_ProductProperties } from "@reglini-types/zapiex";
+import type { ProductProperty as IProductProperty } from "@reglini-types/index";
 
 interface ProductPropertyProps {
   property: ZAE_ProductProperties;
   setShowImage: Dispatch<SetStateAction<string>>;
-  setProperties: Dispatch<
-    SetStateAction<
-      {
-        name: string;
-        value: string;
-      }[]
-    >
-  >;
+  selectedProperties: IProductProperty[];
+  setSelectedProperties: Dispatch<SetStateAction<IProductProperty[]>>;
 }
 
-const ProductProperty = ({
+export const ProductProperty = ({
   property,
   setShowImage,
-  setProperties,
+  selectedProperties,
+  setSelectedProperties,
 }: ProductPropertyProps) => {
-  const [selectedProperty, setSelectedProperty] = useState({
-    selected: false,
-    name: property.name,
-    value: "",
-  });
+  const [selectedProperty, setSelectedProperty] = useState<string>("");
 
-  useEffect(() => {
-    if (setProperties) {
-      setProperties((properties: any) => [
-        ...properties,
-        { name: selectedProperty.name, value: selectedProperty.value },
-      ]);
-    }
-  }, [setProperties, selectedProperty]);
+  const selectProperty = (value: string) => {
+    setSelectedProperty(value);
+    setSelectedProperties((properties) => [
+      ...properties,
+      { name: property.name, value },
+    ]);
+  };
 
-  const selectHandler = (value: any) => {
-    if (selectedProperty.value === value) {
-      setSelectedProperty({
-        selected: false,
-        name: property.name,
-        value: "",
-      });
+  const unselectProperty = () => {
+    setSelectedProperty("");
+    setSelectedProperties((properties) =>
+      properties.filter((p) => p.name !== property.name)
+    );
+  };
+
+  const selectHandler = (value: string) => {
+    const isPropertySelected = selectedProperties.find(
+      (p) => p.name === property.name && p.value === value
+    );
+    if (isPropertySelected) {
+      unselectProperty();
     } else {
-      setSelectedProperty({
-        selected: true,
-        name: property.name,
-        value: value,
-      });
+      selectProperty(value);
     }
   };
 
   return (
     <div key={property.name} className="mt-4">
       <div>
-        {selectedProperty.value ? (
+        {selectedProperty ? (
           <CheckCircleIcon
             className="h-5 w-5 inline text-success mr-1"
             aria-hidden="true"
@@ -71,7 +64,7 @@ const ProductProperty = ({
             aria-hidden="true"
           />
         )}
-        {property.name} : {selectedProperty.value}
+        {property.name} : {selectedProperty}
       </div>
 
       <div className={`flex flex-wrap`}>
@@ -81,7 +74,7 @@ const ProductProperty = ({
               onClick={() => selectHandler(value.name)}
               key={value.id}
               className={`${
-                selectedProperty.value === value.name
+                selectedProperty === value.name
                   ? "border-aliexpress"
                   : "border-gray-300"
               } ml-2 p-1 border-2 text-center hover:border-aliexpress focus:outline-none cursor-pointer ${ROUNDED}`}
@@ -107,5 +100,3 @@ const ProductProperty = ({
     </div>
   );
 };
-
-export default ProductProperty;

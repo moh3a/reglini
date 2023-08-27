@@ -1,31 +1,26 @@
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
-import { ZAE_Product } from "@reglini-types/zapiex";
-import { SelectedVariation } from "@components/aliexpress/ProductDetails";
-import Button from "@components/shared/Button";
+import type { IMessage, SelectedVariation } from "@reglini-types/index";
+import type {
+  ZAE_Product,
+  ZAE_ProductShippingCarrier,
+} from "@reglini-types/zapiex";
+import { Button } from "@components/shared";
 import { trpc } from "@utils/trpc";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
 
 interface AddToCartProps {
   product: ZAE_Product;
-  setMessage: Dispatch<
-    SetStateAction<
-      | {
-          type?: "success" | "warning" | "error" | undefined;
-          text?: string | undefined;
-        }
-      | undefined
-    >
-  >;
+  setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
   selectedVariation?: SelectedVariation;
-  selectedShipping?: ZAE_Product["shipping"]["carriers"]["0"];
+  selectedShipping?: ZAE_ProductShippingCarrier;
 }
 
-const AddToCart = ({
+export const AddToCart = ({
   product,
   setMessage,
   selectedVariation,
@@ -119,5 +114,3 @@ const AddToCart = ({
     </Button>
   );
 };
-
-export default AddToCart;

@@ -5,10 +5,10 @@ import { Dialog, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 
-import Button from "@components/shared/Button";
+import { Button } from "@components/shared";
 import { ROUNDED, TEXT_INPUT } from "@config/design";
 
-const SearchButton = () => {
+export const SearchButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [url, setUrl] = useState("");
   const router = useRouter();
@@ -105,5 +105,3 @@ const SearchButton = () => {
     </>
   );
 };
-
-export default SearchButton;

@@ -17,7 +17,7 @@ import { useTranslations } from "next-intl";
 import { BG_GRADIENT } from "@config/design";
 import DarkMode from "@components/DarkMode";
 import Language from "@components/Language";
-import Button from "@components/shared/Button";
+import { Button } from "@components/shared";
 import Install from "@components/Install";
 
 export default function Slideover({

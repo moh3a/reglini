@@ -3,13 +3,11 @@ import { ChangeEvent, useState } from "react";
 import Link from "next/link";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
-
-import NumberInput from "@components/shared/NumberInput";
-import Button from "@components/shared/Button";
-import Banner from "@components/shared/Banner";
-import ItemProperties from "@components/account/ItemProperties";
-import { AENOProduct, IMessage } from "@reglini-types/index";
 import { Cart } from "@prisma/client";
+
+import { NumberInput, Button, Banner } from "@components/shared";
+import ItemProperties from "@components/account/ItemProperties";
+import type { AENOProduct, IMessage } from "@reglini-types/index";
 import { trpc } from "@utils/trpc";
 
 const CartItem = ({ item }: { item: AENOProduct | Cart }) => {

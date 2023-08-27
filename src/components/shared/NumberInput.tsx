@@ -29,7 +29,7 @@ interface NumberInputProps {
   disabled?: boolean;
 }
 
-const NumberInput = ({
+export const NumberInput = ({
   className,
   onBlur,
   onFocus,
@@ -83,5 +83,3 @@ const NumberInput = ({
     />
   );
 };
-
-export default NumberInput;

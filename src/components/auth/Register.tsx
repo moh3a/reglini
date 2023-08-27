@@ -4,8 +4,7 @@ import { useTranslations } from "next-intl";
 
 import ValidateEmail from "@components/auth/register-validation/ValidateEmail";
 import ValidatePassword from "@components/auth/register-validation/ValidatePassword";
-import Button from "@components/shared/Button";
-import TextInput from "@components/shared/Input";
+import { Button, TextInput } from "@components/shared";
 
 const Register = ({ csrfToken }: { csrfToken: string }) => {
   const [valid, setValid] = useState(false);

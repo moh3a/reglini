@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 
-import Button from "@components/shared/Button";
+import { Button } from "@components/shared";
 
 const AliexpressHero = () => {
   const t = useTranslations("IndexPage.aliexpressHero");

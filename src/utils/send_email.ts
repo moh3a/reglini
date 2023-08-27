@@ -1,9 +1,9 @@
 import { EmailOptions } from "../types";
-import {createTransport, SendMailOptions} from "nodemailer";
+import { createTransport, SendMailOptions } from "nodemailer";
 
 // USING SMTP RELAY
 
-const SendEmail = ({ from, to, subject, text }: EmailOptions) => {
+const send_email = ({ from, to, subject, text }: EmailOptions) => {
   const date = new Date().toISOString();
 
   const transporter = createTransport({
@@ -67,4 +67,4 @@ const SendEmail = ({ from, to, subject, text }: EmailOptions) => {
   });
 };
 
-export default SendEmail;
+export default send_email;

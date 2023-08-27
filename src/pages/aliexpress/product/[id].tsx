@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 
-import ProductDetails from "@components/aliexpress_v2/ProductDetails";
+import { ProductDetails } from "@components/aliexpress";
 
 const AliexpressProductPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  return <>{id && <ProductDetails id={parseInt(id.toString())} />}</>;
+  return <>{id && <ProductDetails id={id.toString()} />}</>;
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {

@@ -1,31 +1,26 @@
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { CursorArrowRaysIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
-import Button from "@components/shared/Button";
-import { ZAE_Product } from "@reglini-types/zapiex";
-import { SelectedVariation } from "@components/aliexpress/ProductDetails";
+import type {
+  ZAE_Product,
+  ZAE_ProductShippingCarrier,
+} from "@reglini-types/zapiex";
+import type { IMessage, SelectedVariation } from "@reglini-types/index";
+import { Button } from "@components/shared";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
 
 interface BuyProductProps {
   product: ZAE_Product;
-  setMessage: Dispatch<
-    SetStateAction<
-      | {
-          type?: "success" | "warning" | "error" | undefined;
-          text?: string | undefined;
-        }
-      | undefined
-    >
-  >;
+  setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
   selectedVariation?: SelectedVariation;
-  selectedShipping?: ZAE_Product["shipping"]["carriers"]["0"];
+  selectedShipping?: ZAE_ProductShippingCarrier;
 }
 
-const BuyProduct = ({
+export const BuyProduct = ({
   product,
   setMessage,
   selectedVariation,
@@ -112,5 +107,3 @@ const BuyProduct = ({
     </Button>
   );
 };
-
-export default BuyProduct;

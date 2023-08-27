@@ -19,7 +19,7 @@ interface PasswordProps {
   width?: any;
 }
 
-const PasswordInput = ({
+export const PasswordInput = ({
   className,
   onBlur,
   onFocus,
@@ -75,5 +75,3 @@ const PasswordInput = ({
     </div>
   );
 };
-
-export default PasswordInput;

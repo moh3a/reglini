@@ -9,14 +9,11 @@ import {
 import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW, TEXT_GRADIENT } from "@config/design";
-import Title from "@components/shared/Title";
-import Loading from "@components/shared/Loading";
-import Button from "@components/shared/Button";
-import Banner from "@components/shared/Banner";
+import { Title, Loading, Button, Banner } from "@components/shared";
 import Edit from "@components/account/details/EditAccount";
 import EditAddress from "@components/account/details/EditAddress";
 import { trpc } from "@utils/trpc";
-import { AENOProduct, IMessage } from "@reglini-types/index";
+import type { AENOProduct, IMessage } from "@reglini-types/index";
 import ItemProperties from "../ItemProperties";
 
 const CreateOrder = () => {

@@ -1,21 +1,21 @@
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { useSession } from "next-auth/react";
 import { HeartIcon } from "@heroicons/react/24/solid";
 import { useTranslations } from "next-intl";
 
-import { ZAE_Product } from "@reglini-types/zapiex";
-import Button from "@components/shared/Button";
+import type { ZAE_Product } from "@reglini-types/zapiex";
+import type { IMessage } from "@reglini-types/index";
+import { Button } from "@components/shared";
 import { trpc } from "@utils/trpc";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
-import { IMessage } from "@reglini-types/index";
 
 interface AddToWishlistProps {
   product: ZAE_Product;
   setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
 }
 
-const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
+export const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
   const { commission, euro } = useFinance();
   const { status } = useSession();
   const wishlistMutation = trpc.wishlist.add.useMutation();
@@ -30,7 +30,7 @@ const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
         text: "You should be logged in to do this action.",
       });
     }
-    if (status === "authenticated") {
+    if (status === "authenticated" && product.price) {
       await wishlistMutation.mutateAsync(
         {
           productId: product.productId,
@@ -43,7 +43,7 @@ const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
           imageUrl: product.productImages[0],
         },
         {
-          onSettled(data, error, variables, context) {
+          onSettled(data, error) {
             if (error) setMessage({ type: "error", text: error.message });
             if (data) {
               if (!data.success)
@@ -68,5 +68,3 @@ const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
     </Button>
   );
 };
-
-export default AddToWishlist;

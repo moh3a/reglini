@@ -3,10 +3,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 import { ROUNDED, SHADOW, TEXT_INPUT } from "@config/design";
-import TextInput from "@components/shared/Input";
-import Button from "@components/shared/Button";
-import Title from "@components/shared/Title";
-import Banner from "@components/shared/Banner";
+import { TextInput, Button, Title, Banner } from "@components/shared";
 import { trpc } from "@utils/trpc";
 
 const Contact = () => {

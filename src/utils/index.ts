@@ -1,16 +1,15 @@
 import { ACCOUNT_TYPE, AUTH_PROVIDER } from "@prisma/client";
-import { AEProductPrice, ISession, Price } from "../types";
+import type { ISession, ProductProperty } from "@reglini-types/index";
 import {
-  DS_ProductAPI_Product_SKU_Properties,
-  DS_ProductAPI_Product_SKU_Variation,
-} from "@reglini-types/ae";
-import { ZAE_ProductProperties } from "@reglini-types/zapiex";
+  ZAE_ProductVariation,
+  ZAE_ProductVariationProperties,
+} from "@reglini-types/zapiex";
+import { SelectedVariation } from "@reglini-types/index";
 
 export const USER_FROM_TRPC_CTX = (session: ISession | null) => {
-  let email =
-    session && session.user && session.user.email ? session.user.email : "";
+  let email = session?.user?.email ? session.user.email : "";
   let account =
-    session && session.user && session.user.type === "credentials"
+    session?.user?.type === "credentials"
       ? ACCOUNT_TYPE.CREDENTIALS
       : ACCOUNT_TYPE.OAUTH;
 
@@ -43,114 +42,107 @@ export const GetPrice = (
   }
 };
 
-export const parse_ae_properties = (
-  init: DS_ProductAPI_Product_SKU_Properties,
-  parsed_array: ZAE_ProductProperties[]
-) => {
-  const property = {
-    id: init.property_value_id_long.toString(),
-    name: init.property_value_definition_name
-      ? init.property_value_definition_name
-      : init.sku_property_value,
-    hasImage: init.sku_image ? true : false,
-    imageUrl: init.sku_image,
-    thumbnailImageUrl: init.sku_image,
-  };
-
-  const index = parsed_array.findIndex(
-    (e) => e.id === init.sku_property_id.toString()
+export const calculate_discount = (
+  originalPrice: string | number,
+  discountedPrice: string | number
+): number => {
+  return Math.floor(
+    ((Number(originalPrice) - Number(discountedPrice)) * 100) /
+      Number(originalPrice)
   );
+};
 
-  if (index !== -1) {
-    const property_exits = parsed_array[index].values.find(
-      (e) => e.id === init.property_value_id_long.toString()
-    );
-    if (!property_exits) parsed_array[index].values.push(property);
-  } else {
-    parsed_array.push({
-      id: init.sku_property_id.toString(),
-      name: init.sku_property_name,
-      values: [property],
+export const parse_locale = (locale?: string | null) => {
+  if (locale) {
+    if (locale.toLowerCase() === "en") {
+      locale = "en_US";
+    }
+    if (locale.toLowerCase() === "fr") {
+      locale = "fr_FR";
+    }
+    if (locale.toLowerCase() === "ar") {
+      locale = "ar_MA";
+    }
+  } else locale = "en_US";
+  return locale;
+};
+
+export const validate_product_variation_quantity = (
+  product: ZAE_ProductVariation,
+  quantity: number
+) => {
+  if (product.stock && product.stock > 0 && product.stock >= quantity)
+    return quantity;
+  else return 0;
+};
+
+export const check_property = (
+  variation_properties: (ProductProperty | undefined)[],
+  sku_properties: ZAE_ProductVariationProperties,
+  sku_index: number,
+  check: boolean[]
+) => {
+  if (
+    variation_properties.find(
+      (p) =>
+        p?.name === sku_properties.name &&
+        p?.value === sku_properties.value.name
+    )
+  )
+    check[sku_index] = true;
+  else check[sku_index] = false;
+};
+
+export const find_selected_sku = (
+  sku: ZAE_ProductVariation,
+  variation_properties: (ProductProperty | undefined)[],
+  default_image: string,
+  quantity: number
+) => {
+  let check: boolean[] = new Array(sku.properties.length).fill(false);
+  sku.properties.forEach((property, index) => {
+    check_property(variation_properties, property, index, check);
+  });
+  if (!check.includes(false)) {
+    return {
+      success: true,
+      selected: {
+        ...sku,
+        imageUrl: sku.imageUrl ?? default_image,
+        quantity: validate_product_variation_quantity(sku, quantity),
+      },
+    };
+  } else return { success: false };
+};
+
+export const select_product_variation = (
+  product_variations: ZAE_ProductVariation[],
+  variation_properties: (ProductProperty | undefined)[],
+  quantity: number,
+  default_image: string
+) => {
+  let selected: Partial<SelectedVariation> = {};
+
+  if (product_variations.length === 1) {
+    Object.assign(selected, {
+      ...product_variations[0],
+      imageUrl: product_variations[0].imageUrl ?? default_image,
+      quantity: validate_product_variation_quantity(
+        product_variations[0],
+        quantity
+      ),
+    });
+  } else if (product_variations.length > 1) {
+    product_variations.forEach((variation) => {
+      const result = find_selected_sku(
+        variation,
+        variation_properties,
+        default_image,
+        quantity
+      );
+      if (result.success) Object.assign(selected, result.selected);
     });
   }
-};
 
-export const parse_ae_property_price = (
-  sku: DS_ProductAPI_Product_SKU_Variation,
-  originalPrice: Price,
-  discountedPrice: Price
-) => {
-  if (originalPrice.max < parseFloat(sku.sku_price)) {
-    originalPrice.max = parseFloat(sku.sku_price);
-  }
-  if (originalPrice.min > parseFloat(sku.sku_price)) {
-    originalPrice.min = parseFloat(sku.sku_price);
-  }
-  if (discountedPrice.max < parseFloat(sku.offer_sale_price)) {
-    discountedPrice.max = parseFloat(sku.offer_sale_price);
-  }
-  if (discountedPrice.min > parseFloat(sku.offer_sale_price)) {
-    discountedPrice.min = parseFloat(sku.offer_sale_price);
-  }
-};
-
-export const get_product_discount = (
-  variation: DS_ProductAPI_Product_SKU_Variation
-): number => {
-  let discount = 0;
-
-  if (
-    parseFloat(variation.sku_price) > parseFloat(variation.offer_sale_price)
-  ) {
-    discount = Math.floor(
-      ((parseFloat(variation.sku_price) -
-        parseFloat(variation.offer_sale_price)) *
-        100) /
-        parseFloat(variation.sku_price)
-    );
-  } else discount = 0;
-
-  return discount;
-};
-
-export const get_product_price = (
-  price: AEProductPrice,
-  variations: DS_ProductAPI_Product_SKU_Variation[]
-): AEProductPrice => {
-  let discountedPrice = {
-    min: 1000000000,
-    max: 0,
-  };
-  let originalPrice = {
-    min: 1000000000,
-    max: 0,
-  };
-
-  variations.forEach((sku) => {
-    parse_ae_property_price(sku, originalPrice, discountedPrice);
-  });
-
-  const discount = get_product_discount(variations[0]);
-
-  if (discount > 0) {
-    price.hasDiscount = true;
-    price.discount = discount;
-
-    price.discountedPrice = {
-      min: discountedPrice.min,
-      max: discountedPrice.max,
-    };
-    price.originalPrice = {
-      min: originalPrice.min,
-      max: originalPrice.max,
-    };
-  } else {
-    price.hasDiscount = false;
-    price.originalPrice = {
-      min: originalPrice.min,
-      max: originalPrice.max,
-    };
-  }
-
-  return price;
+  return selected;
 };

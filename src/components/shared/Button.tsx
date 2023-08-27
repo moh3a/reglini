@@ -25,7 +25,7 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
-const Button = ({
+export const Button = ({
   variant,
   color,
   width,
@@ -86,5 +86,3 @@ const Button = ({
     </div>
   );
 };
-
-export default Button;

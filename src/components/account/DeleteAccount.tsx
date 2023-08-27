@@ -12,8 +12,7 @@ import {
   ROUNDED,
   SHADOW,
 } from "@config/design";
-import Button from "@components/shared/Button";
-import Title from "@components/shared/Title";
+import { Button, Title } from "@components/shared";
 import { trpc } from "@utils/trpc";
 
 const DeleteAccount = () => {

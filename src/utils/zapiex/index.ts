@@ -2,34 +2,24 @@ import axios from "axios";
 import { config } from "dotenv";
 config();
 
-import { AEProduct } from "@reglini-types/index";
-import {
+import type { AEProduct } from "@reglini-types/index";
+import type {
   ZAE_Order,
   ZAE_Product,
   ZAE_Search,
   ZAE_ShippingAddres,
   ZAE_Tracking,
 } from "@reglini-types/zapiex";
+import { parse_locale } from "..";
+import {
+  API_ZAPIEX_PRODUCT_ARGUMENTS,
+  API_ZAPIEX_PRODUCT_SEARCH_ARGUMENTS,
+} from "@reglini-types/zapiex/pinky";
 
-const parseLocale = (locale?: string | null) => {
-  if (locale) {
-    if (locale.toLowerCase() === "en") {
-      locale = "en_US";
-    }
-    if (locale.toLowerCase() === "fr") {
-      locale = "fr_FR";
-    }
-    if (locale.toLowerCase() === "ar") {
-      locale = "ar_MA";
-    }
-  } else locale = "en_US";
-  return locale;
-};
-
-export const ZAE_getProductById = async (
-  id: string,
-  locale?: string | null
-) => {
+export const ZAE_getProductById = async ({
+  id,
+  locale,
+}: API_ZAPIEX_PRODUCT_ARGUMENTS) => {
   const { data } = await axios({
     method: "post",
     url: "https://api.zapiex.com/v3/product/details",
@@ -37,7 +27,7 @@ export const ZAE_getProductById = async (
       productId: id,
       currency: "EUR",
       shipTo: "DZ",
-      locale: parseLocale(locale),
+      locale: parse_locale(locale),
       shipFrom: "CN",
       getHtmlDescription: true,
       getShipping: true,
@@ -50,17 +40,17 @@ export const ZAE_getProductById = async (
   return data.data as ZAE_Product;
 };
 
-export const ZAE_SearchProduct = async (
-  text: string,
-  locale?: string | null,
-  page?: number | null
-) => {
+export const ZAE_SearchProduct = async ({
+  text,
+  locale,
+  page,
+}: API_ZAPIEX_PRODUCT_SEARCH_ARGUMENTS) => {
   const { data } = await axios({
     method: "post",
     url: "https://api.zapiex.com/v3/search",
     data: {
       text,
-      locale: parseLocale(locale),
+      locale: parse_locale(locale),
       page,
       moreThanFourStarsOnly: true,
       sort: "BEST_MATCH",

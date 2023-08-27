@@ -1,4 +1,7 @@
-import {
+import axios from "axios";
+import { createHash } from "crypto";
+
+import type {
   AE_API_NAMES,
   AE_EXECUTE_FN_METHODS,
   AE_EXECUTE_FN_PARAMS,
@@ -6,8 +9,6 @@ import {
   AE_SERVICE,
   PublicParams,
 } from "@reglini-types/ae";
-import axios from "axios";
-import { createHash } from "crypto";
 
 /**
  * @description Based on the service URL used to invoke APIs, the AliExpress open platform currently provides two environments for ISVs: Chinese environment, and overseas environment. The seller could initiate a performance test before deciding which url to choose.
@@ -164,5 +165,6 @@ export const old_execute = async <T, K extends object>(
     timestamp: get_timestamp(),
   };
   parameters.sign = sign_function(app_secret, parameters);
+
   return await call<T & PublicParams, K>(parameters);
 };

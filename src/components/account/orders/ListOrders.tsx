@@ -4,8 +4,7 @@ import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW } from "@config/design";
 import ItemProperties from "@components/account/ItemProperties";
-import Loading from "@components/shared/Loading";
-import Title from "@components/shared/Title";
+import { Loading, Title } from "@components/shared";
 import { trpc } from "@utils/trpc";
 
 const ListOrders = () => {
@@ -60,14 +59,24 @@ const ListOrders = () => {
                   ))}
 
                 <div>
-                  {!order.cancelled && order.payment?.receipt && (
-                    <p className="text-success font-bold uppercase">
-                      {t("status.paid")}
-                    </p>
-                  )}
-                  {!order.cancelled && !order.payment?.receipt && (
-                    <p className="text-warning font-bold uppercase">
-                      {t("status.awaiting")}
+                  {!order.cancelled &&
+                    order.payment?.receipt &&
+                    !order.payment.wasDeclined &&
+                    order.payment?.isPaymentConfirmed && (
+                      <p className="text-success font-bold uppercase">
+                        {t("status.paid")}
+                      </p>
+                    )}
+                  {!order.cancelled &&
+                    !order.payment?.receipt &&
+                    !order.payment?.isPaymentConfirmed && (
+                      <p className="text-warning font-bold uppercase">
+                        {t("status.awaiting")}
+                      </p>
+                    )}
+                  {!order.cancelled && order.payment?.wasDeclined && (
+                    <p className="text-danger font-bold uppercase">
+                      {t("status.declined")}
                     </p>
                   )}
                   {order.cancelled && (

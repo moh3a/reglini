@@ -1,6 +1,29 @@
+export type Result<T, E extends Error = Error> =
+  | { success: true; result: T }
+  | { success: false; error: E };
+
+export type MessageType = "error" | "warning" | "success";
+
+export interface SetMessageParams {
+  type: MessageType;
+  text: string;
+  duration: number;
+}
+
+export type SetMessageType = (
+  params: Omit<SetMessageParams, "duration">
+) => void;
+export type SetTimedMessageType = (params: SetMessageParams) => void;
+
 export interface IMessage {
-  type?: "success" | "error" | "warning";
+  type?: MessageType;
   text?: string;
+}
+
+export interface MessageStore extends IMessage {
+  setTimedMessage: SetTimedMessageType;
+  setMessage: SetMessageType;
+  resetMessage: () => void;
 }
 
 export interface ISession {
@@ -42,145 +65,14 @@ export interface Price {
   max: number;
 }
 
-export interface MDBUser {
-  _id: string;
-  name?: string;
-  realName?: string;
-  email: string;
-  role: "basic" | "admin";
-  account: "oauth" | "credentials";
-  provider?: "facebook" | "google";
-  verified?: boolean;
-  verifyCredentialsToken?: string;
-  password?: string;
-  resetPasswordToken?: string;
-  resetPasswordExpire?: Date;
-  picture?: any;
-  phoneNumber?: string;
-  address?: {
-    text?: string;
-    postalCode?: string;
-    wilaya?: string;
-    daira?: string;
-    commune?: string;
-    streetName?: string;
-  };
-  cart?: {
-    cartItems: [
-      {
-        productId: string;
-        name: string;
-        sku?: string;
-        price: number;
-        originalPrice?: number;
-        imageUrl: string;
-        properties?: [{}];
-        quantity: number;
-        carrierId: string;
-        shippingPrice?: number;
-        totalPrice?: number;
-      }
-    ];
-    subtotal: number;
-    count: number;
-  };
-  wishlist?: [
-    {
-      productId: string;
-      name: string;
-      imageUrl: string;
-      price: number;
-    }
-  ];
-  orders?: [
-    {
-      orderId: string;
-      product?: {
-        productId?: string;
-        name?: string;
-        sku?: string;
-        price: number;
-        shippingPrice?: number;
-        totalPrice?: number;
-        imageUrl?: string;
-        properties: [{}];
-        quantity: number;
-        carrierId: string;
-        orderMemo: string;
-      };
-      shippingAddress: {
-        name?: string;
-        countryCode?: string;
-        city?: string;
-        zipCode?: string;
-        addressLine1?: string;
-        phoneCountry?: string;
-        mobilePhone?: string;
-        province?: string;
-      };
-      details: {
-        gmt_create?: string;
-        order_status?: string;
-        logistics_status?: string;
-        order_amount?: {
-          amount?: string;
-          currency_code?: string;
-        };
-        child_order_list?: {
-          aeop_child_order_info?: [
-            {
-              product_id?: number;
-              product_price: {
-                amount?: string;
-                currency_code?: string;
-              };
-              product_name?: string;
-              product_count?: number;
-            }
-          ];
-        };
-        logistics_info_list?: {
-          ae_order_logistics_info?: [
-            {
-              logistics_no?: string;
-              logistics_service?: string;
-            }
-          ];
-        };
-        store_info?: {
-          store_id?: number;
-          store_name?: string;
-          store_url?: string;
-        };
-      };
-      tracking?: {
-        hasTracking?: boolean;
-        details?: [
-          {
-            event_desc?: string;
-            signed_name?: string;
-            status?: string;
-            address?: string;
-            event_date?: string;
-          }
-        ];
-        official_website?: string;
-      };
-      currency: string;
-      payment?: {
-        hasTimedOut?: boolean;
-        isPaymentConfirmed?: boolean;
-        wasDeclined?: boolean;
-        receipt?: string;
-        paymentMethod?: "cib" | "ccp";
-        paymentTime?: string;
-      };
-      packageReceived?: {
-        wasReceived: boolean;
-        packagePicture?: string;
-      };
-    }
-  ];
+export interface ProductProperty {
+  name: string;
+  value: string;
+}
+
+import { ZAE_ProductVariation } from "./zapiex";
+export interface SelectedVariation extends ZAE_ProductVariation {
+  quantity?: number;
 }
 
 import { DS_ProductAPI_Product_SKU_Variation } from "./ae";

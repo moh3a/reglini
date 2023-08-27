@@ -22,10 +22,9 @@ import {
   TEXT_GRADIENT,
   TEXT_INPUT,
 } from "@config/design";
-import Button from "@components/shared/Button";
-import Loading from "@components/shared/Loading";
+import { Button, Loading } from "@components/shared";
 import { trpc } from "@utils/trpc";
-import { IMessage } from "@reglini-types/index";
+import type { IMessage } from "@reglini-types/index";
 
 interface ConfirmReceptionProps {
   order_id: string;

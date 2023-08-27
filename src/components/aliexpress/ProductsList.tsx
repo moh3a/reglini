@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-import Modal from "@components/shared/Modal";
-import AffiliateProductCard from "@components/aliexpress_v2/ProductCard";
-import { IMessage } from "@reglini-types/index";
+import { Modal, Pagination } from "@components/shared";
+import { ProductCard, SkeletonProductsList } from "@components/aliexpress";
+import type { IMessage } from "@reglini-types/index";
 import { trpc } from "@utils/trpc";
-import SkeletonProductsList from "./SkeletonProductsList";
+import { API_RESPONSE_MESSAGES } from "@config/general";
 
-const ProductsList = () => {
+export const ProductsList = () => {
   const router = useRouter();
   const { q, p } = router.query;
 
@@ -18,20 +18,22 @@ const ProductsList = () => {
     else setIsOpen(false);
   }, [message?.type]);
 
-  // const searchZapiexProducts = trpc.zapiex.search.useQuery({
-  //   text: q as string,
-  //   locale: router.locale,
-  //   page: parseInt((p as string) ?? "1"),
-  // });
-
-  const searchAffiliateProducts = trpc.aliexpress.affiliate.search.useQuery(
+  const searchProducts = trpc.aliexpress.affiliate.search.useQuery(
     {
-      search: q ? q.toString() : "original",
+      search: q?.toString(),
       locale: router.locale,
+      page_no: p ? parseInt(p.toString()) : undefined,
+      page_size: 20,
     },
     {
       onSettled(data, error) {
-        console.log(data, error);
+        if (error)
+          setMessage({
+            type: "error",
+            text: API_RESPONSE_MESSAGES.ERROR_OCCURED,
+          });
+        if (data && !data.success)
+          setMessage({ type: "error", text: data.error });
       },
     }
   );
@@ -47,75 +49,35 @@ const ProductsList = () => {
         {message?.text}
       </Modal>
 
-      {/* {q ? (
+      {searchProducts.isLoading && <SkeletonProductsList />}
+      {searchProducts.isFetched &&
+      searchProducts.data &&
+      searchProducts.data.data &&
+      searchProducts.data.data.items &&
+      searchProducts.data.data.items.length > 0 ? (
         <>
-          {searchZapiexProducts.isLoading && (
-            <div className="w-full flex justify-center items-center">
-              <Loading size="large" />
-            </div>
-          )}
-          {searchZapiexProducts.isFetched &&
-            searchZapiexProducts.data &&
-            searchZapiexProducts.data.data && (
-              <>
-                {searchZapiexProducts.data.data.items &&
-                searchZapiexProducts.data.data.items.length > 0 ? (
-                  <>
-                    <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-                      {searchZapiexProducts.data.data.items.map((product) => (
-                        <ProductCard
-                          product={product}
-                          setMessage={setMessage}
-                          key={product.productId}
-                        />
-                      ))}
-                    </div>
-                    <Pagination
-                      current={parseInt(p?.toString() ?? "1")}
-                      unitsPerPage={
-                        searchZapiexProducts.data.data.resultsPerPage
-                      }
-                      totalUnits={searchZapiexProducts.data.data.totalCount}
-                    />
-                  </>
-                ) : (
-                  <div className="flex justify-center items-center text-xl font-mono">
-                    No results!
-                  </div>
-                )}
-              </>
-            )}
-        </>
-      ) : ( */}
-      <>
-        {searchAffiliateProducts.isLoading && <SkeletonProductsList />}
-        {searchAffiliateProducts.data &&
-        searchAffiliateProducts.data.resp_result &&
-        searchAffiliateProducts.data.resp_result.result &&
-        searchAffiliateProducts.data.resp_result.result.current_record_count >
-          0 ? (
-          <>
-            <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-              {searchAffiliateProducts.data.resp_result.result.products.map(
-                (product) => (
-                  <AffiliateProductCard
-                    product={product}
-                    setMessage={setMessage}
-                    key={product.product_id}
-                  />
-                )
-              )}
-            </div>
-          </>
-        ) : (
-          <div className="flex justify-center items-center text-xl font-mono">
-            {searchAffiliateProducts.isFetched && "No results!"}
+          <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+            {searchProducts.data.data.items.map((product) => (
+              <ProductCard
+                product={product}
+                setMessage={setMessage}
+                key={product.productId}
+              />
+            ))}
           </div>
-        )}
-      </>
-      {/* )} */}
+          {p && (
+            <Pagination
+              current={parseInt(p.toString())}
+              unitsPerPage={searchProducts.data.data.resultsPerPage}
+              totalUnits={searchProducts.data.data.totalCount}
+            />
+          )}
+        </>
+      ) : (
+        <div className="flex justify-center items-center text-xl font-mono">
+          No results!
+        </div>
+      )}
     </div>
   );
 };
-
-export default ProductsList;

@@ -1,4 +1,4 @@
-const Loading = ({
+export const Loading = ({
   size = "small",
 }: {
   size: "small" | "medium" | "large";
@@ -24,5 +24,3 @@ const Loading = ({
     </svg>
   );
 };
-
-export default Loading;

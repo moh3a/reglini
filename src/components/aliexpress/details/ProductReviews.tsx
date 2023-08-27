@@ -1,7 +1,7 @@
-import { ZAE_Product } from "@reglini-types/zapiex";
+import type { ZAE_Product } from "@reglini-types/zapiex";
 import { useTranslations } from "next-intl";
 
-const ProductReviews = ({ product }: { product: ZAE_Product }) => {
+export const ProductReviews = ({ product }: { product: ZAE_Product }) => {
   const t = useTranslations("AliexpressPage.reviews");
   return (
     <div className={`flex mb-4`}>
@@ -38,4 +38,3 @@ const ProductReviews = ({ product }: { product: ZAE_Product }) => {
     </div>
   );
 };
-export default ProductReviews;

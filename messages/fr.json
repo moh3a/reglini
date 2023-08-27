@@ -87,7 +87,8 @@
       "status": {
         "paid": "COMMANDE PAYÉE",
         "awaiting": "EN ATTENTE DE PAIEMENT",
-        "cancelled": "COMMANDE ANNULÉE"
+        "cancelled": "COMMANDE ANNULÉE",
+        "declined": "PAIEMENT REFUSÉ"
       },
       "empty": "Vous n'avez pas de commandes!",
       "paymentTimout": "Un paiement doit être soumis en moins de 3 jours ou la commande sera automatiquement annulée. Vous pouvez payer une fois la commande créée.",

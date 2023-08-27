@@ -6,18 +6,18 @@ import { HeartIcon } from "@heroicons/react/24/solid";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 
-import { ZAE_Search } from "@reglini-types/zapiex";
+import type { ZAE_Search } from "@reglini-types/zapiex";
+import type { IMessage } from "@reglini-types/index";
 import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
 import { trpc } from "@utils/trpc";
-import { IMessage } from "@reglini-types/index";
 
 interface ProductCardProps {
   product: ZAE_Search["items"][0];
   setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
 }
 
-const ProductCard = ({ product, setMessage }: ProductCardProps) => {
+export const ProductCard = ({ product, setMessage }: ProductCardProps) => {
   const t = useTranslations("AliexpressPage");
   const { euro, commission } = useFinance();
 
@@ -93,8 +93,10 @@ const ProductCard = ({ product, setMessage }: ProductCardProps) => {
                   price: GetPrice(
                     euro ?? 0,
                     commission ?? 0,
-                    product.productMinPrice.value +
-                      product.shippingMinPrice.value
+                    product.shippingMinPrice
+                      ? product.productMinPrice.value +
+                          product.shippingMinPrice.value
+                      : product.productMinPrice.value
                   ),
                 })}
               </p>
@@ -116,5 +118,3 @@ const ProductCard = ({ product, setMessage }: ProductCardProps) => {
     </>
   );
 };
-
-export default ProductCard;

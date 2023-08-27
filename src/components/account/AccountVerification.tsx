@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 
-import Banner from "@components/shared/Banner";
+import { Banner } from "@components/shared";
 import { trpc } from "@utils/trpc";
-import { IMessage } from "@reglini-types/index";
+import type { IMessage } from "@reglini-types/index";
 
 const AccountVerification = ({ token }: { token: string }) => {
   const [message, setMessage] = useState<IMessage>();

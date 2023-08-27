@@ -1,5 +1,9 @@
 import create from "zustand";
-import { FinanceStore, InstallPWAStore } from "@reglini-types/index";
+import type {
+  FinanceStore,
+  InstallPWAStore,
+  MessageStore,
+} from "@reglini-types/index";
 
 export const useFinance = create<FinanceStore>((set, get) => ({
   usd: undefined,
@@ -15,4 +19,19 @@ export const useInstallPWA = create<InstallPWAStore>((set, get) => ({
   set_can_install: (data) => set({ can_install: data }),
   prompt: undefined,
   set_prompt: (event) => set({ prompt: event }),
+}));
+
+export const useMessage = create<MessageStore>((set, get) => ({
+  setMessage({ type, text }) {
+    set({ type, text });
+  },
+  setTimedMessage({ type, text, duration }) {
+    set({ type, text });
+    setTimeout(() => {
+      set({ type: undefined, text: undefined });
+    }, duration);
+  },
+  resetMessage() {
+    set({ type: undefined, text: undefined });
+  },
 }));

@@ -20,7 +20,7 @@ interface SearchInputProps {
   width?: any;
 }
 
-const SearchInput = ({
+export const SearchInput = ({
   className,
   onBlur,
   onFocus,
@@ -71,5 +71,3 @@ const SearchInput = ({
     </div>
   );
 };
-
-export default SearchInput;

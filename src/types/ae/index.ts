@@ -1,4 +1,7 @@
-export type AE_API_NAMES = DS_API_NAMES | AFFILIATE_API_NAMES;
+export type AE_API_NAMES =
+  | DS_API_NAMES
+  | AFFILIATE_API_NAMES
+  | TOP_AUTH_API_NAMES;
 
 export type DS_API_NAMES =
   | "aliexpress.ds.recommend.feed.get"
@@ -16,16 +19,28 @@ export type AFFILIATE_API_NAMES =
   | "aliexpress.affiliate.featuredpromo.products.get"
   | "aliexpress.affiliate.category.get";
 
+export type TOP_AUTH_API_NAMES = "taobao.top.auth.token.refresh";
+
 export type AE_DROPSHIPPING_SERVICE = "ds";
 export type AE_AFFILIATE_SERVICE = "affiliate";
-export type AE_SERVICE = AE_AFFILIATE_SERVICE | AE_DROPSHIPPING_SERVICE;
+export type AE_AUTH_SERVICE = "auth";
+export type AE_SERVICE =
+  | AE_AFFILIATE_SERVICE
+  | AE_DROPSHIPPING_SERVICE
+  | AE_AUTH_SERVICE;
 
 export type AE_EXECUTE_FN_METHODS<T extends AE_SERVICE> =
-  T extends AE_DROPSHIPPING_SERVICE ? DS_API_NAMES : AFFILIATE_API_NAMES;
+  T extends AE_DROPSHIPPING_SERVICE
+    ? DS_API_NAMES
+    : T extends AE_AUTH_SERVICE
+    ? TOP_AUTH_API_NAMES
+    : AFFILIATE_API_NAMES;
 
 export type AE_DS_EXECUTE_FN_PARAMS<T extends DS_API_NAMES> =
   T extends "aliexpress.ds.recommend.feed.get"
     ? DS_ProductAPI_Recommended_Products_Params
+    : T extends "aliexpress.ds.product.get"
+    ? DS_ProductAPI_Product_Params
     : T extends "aliexpress.postproduct.redefining.findaeproductbyidfordropshipper"
     ? DS_ProductAPI_Product_Detail_Params
     : T extends "aliexpress.trade.buy.placeorder"
@@ -54,11 +69,15 @@ export type AE_EXECUTE_FN_PARAMS<T extends AE_API_NAMES> =
     ? AE_DS_EXECUTE_FN_PARAMS<T>
     : T extends AFFILIATE_API_NAMES
     ? AE_AFFILIATE_EXECUTE_FN_PARAMS<T>
+    : T extends TOP_AUTH_API_NAMES
+    ? TOP_Refresh_Token_Params
     : unknown;
 
 export type AE_DS_EXECUTE_FN_RESULT<T extends DS_API_NAMES> =
   T extends "aliexpress.ds.recommend.feed.get"
     ? DS_ProductAPI_Recommended_Products_Result
+    : T extends "aliexpress.ds.product.get"
+    ? DS_ProductAPI_Product_Result
     : T extends "aliexpress.postproduct.redefining.findaeproductbyidfordropshipper"
     ? DS_ProductAPI_Product_Detail_Result
     : T extends "aliexpress.trade.buy.placeorder"
@@ -87,6 +106,8 @@ export type AE_EXECUTE_FN_RESULT<T extends AE_API_NAMES> =
     ? AE_DS_EXECUTE_FN_RESULT<T>
     : T extends AFFILIATE_API_NAMES
     ? AE_AFFILIATE_EXECUTE_FN_RESULT<T>
+    : T extends TOP_AUTH_API_NAMES
+    ? TOP_Refresh_Token_Result
     : unknown;
 
 /**
@@ -119,6 +140,19 @@ export interface AE_Error_Response {
   code: number;
   sub_msg: string;
   sub_code: string;
+}
+
+/**
+ * AUTH SERVICES
+ * REFRESH ACCESS TOKEN
+ */
+export interface TOP_Refresh_Token_Params {
+  refresh_token: string;
+}
+export interface TOP_Refresh_Token_Result {
+  top_auth_token_refresh_response: {
+    token_result: string;
+  };
 }
 
 /**
@@ -204,6 +238,92 @@ export interface DS_ProductAPI_Recommended_Products_Result {
 }
 
 /**
+ * PRODUCT API
+ * DROPSHIPPER PRODUCT DETAILS
+ */
+export interface DS_ProductAPI_Product_Params {
+  product_id: number;
+  ship_to_country?: string;
+  target_currency?: string;
+  target_language?: string;
+}
+
+export interface DS_ProductAPI_Product_Base_Info {
+  product_id: number;
+  category_id: number;
+  subject: string;
+  currency_code: string;
+  product_status_type: string;
+  ws_display: string;
+  ws_offline_date: string;
+  gmt_create: string;
+  gmt_modified: string;
+  owner_member_seq_long: number;
+  evaluation_count: string;
+  avg_evaluation_rating: string;
+  detail: string;
+  mobile_detail: string;
+}
+
+export interface DS_ProductAPI_Product_Shipping_Info {
+  delivery_time: number;
+  ship_to_country: string;
+}
+
+export interface DS_ProductAPI_Product_Package_Info {
+  package_type: boolean;
+  package_length: number;
+  package_height: number;
+  package_width: number;
+  gross_weight: string;
+  base_unit?: number;
+  product_unit?: number;
+}
+
+export interface DS_ProductAPI_Product_Store_Info {
+  store_id: number;
+  store_name: string;
+  item_as_described_rating: string;
+  communication_rating: string;
+  shipping_speed_rating: string;
+}
+
+export interface DS_ProductAPI_Product_Id_Converter {
+  main_product_id: number;
+  sub_product_id: string;
+}
+
+export interface DS_ProductAPI_Product_Multimedia_Videos {
+  ali_member_id: number;
+  media_id: number;
+  media_status: string;
+  media_type: string;
+  poster_url: string;
+}
+
+export interface DS_ProductAPI_Product_Multimedia {
+  ae_video_dtos: DS_ProductAPI_Product_Multimedia_Videos[];
+  image_urls: string;
+}
+
+export interface DS_ProductAPI_Product {
+  ae_item_base_info_dto: DS_ProductAPI_Product_Base_Info;
+  ae_item_sku_info_dtos: DS_ProductAPI_Product_SKU_Variation[];
+  ae_multimedia_info_dto: DS_ProductAPI_Product_Multimedia;
+  package_info_dto: DS_ProductAPI_Product_Package_Info;
+  logistics_info_dto: DS_ProductAPI_Product_Shipping_Info;
+  ae_item_properties: DS_ProductAPI_Product_Attributes[];
+  ae_store_info: DS_ProductAPI_Product_Store_Info;
+  product_id_converter_result: DS_ProductAPI_Product_Id_Converter;
+}
+
+export interface DS_ProductAPI_Product_Result {
+  result: DS_ProductAPI_Product;
+  rsp_msg: string;
+  rsp_code: string;
+}
+
+/**
  *
  * PRODUCT API
  * PRODUCT DETAILS
@@ -225,11 +345,12 @@ export interface DS_ProductAPI_Product_Detail_Params {
 
 export interface DS_ProductAPI_Product_SKU_Properties {
   sku_property_id: number;
-  sku_image: string;
-  property_value_id_long: number;
-  property_value_definition_name: string;
   sku_property_value: string;
   sku_property_name: string;
+  property_value_id: number;
+  property_value_id_long: number;
+  property_value_definition_name?: string;
+  sku_image?: string;
 }
 
 export interface DS_ProductAPI_Product_SKU_Variation {
@@ -244,17 +365,18 @@ export interface DS_ProductAPI_Product_SKU_Variation {
   offer_sale_price: string;
   offer_bulk_sale_price: string;
   sku_bulk_order: number;
-  s_k_u_available_stock: number;
+  sku_available_stock?: number;
+  s_k_u_available_stock?: number;
 }
 
 export interface DS_ProductAPI_Product_Attributes {
-  attr_value_unit: string;
-  attr_value_start: string;
-  attr_value_id: number;
-  attr_value_end: string;
-  attr_value: string;
   attr_name_id: number;
   attr_name: string;
+  attr_value_id: number;
+  attr_value: string;
+  attr_value_unit?: string;
+  attr_value_start?: string;
+  attr_value_end?: string;
 }
 
 export interface DS_ProductAPI_Store_Info {

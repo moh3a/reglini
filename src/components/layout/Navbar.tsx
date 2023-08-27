@@ -15,8 +15,8 @@ import AccountBadge from "@components/auth/AccountBadge";
 import DarkMode from "@components/DarkMode";
 import Language from "@components/Language";
 import Cart from "@components/account/Cart";
-import SearchButton from "@components/aliexpress/SearchButton";
-import Button from "@components/shared/Button";
+import { SearchButton } from "@components/aliexpress";
+import { Button } from "@components/shared";
 import Install from "@components/Install";
 
 const Navbar = () => {

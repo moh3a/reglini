@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW } from "@config/design";
 import { APP_NAME } from "@config/general";
-import Title from "@components/shared/Title";
+import { Title } from "@components/shared";
 
 const Item = ({ title, children }: { title: string; children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
