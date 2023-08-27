@@ -235,6 +235,7 @@ export const parse_ae_product_data = (
       originalPrice: { display: "", value: 0 },
       discountPercentage: 0,
     };
+    get_product_variation_price(variation_price, variation);
 
     variations.push({
       imageUrl,
