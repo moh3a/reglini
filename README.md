@@ -1,5 +1,9 @@
 # REGLINI-DZ
 
+## Todo
+
+- Caching !!!
+
 ## Quickstart
 
 - Clone the github repo by running the following [git](https://git-scm.com/downloads) command:

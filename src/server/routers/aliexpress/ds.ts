@@ -27,13 +27,6 @@ export const aeDsRouter = router({
             });
           }
 
-          const shippingResponse = await api_ae_ds_shipping({
-            method: ctx.aliexpress.ds.shipping,
-            product_id: input.id,
-            quantity: 1,
-          });
-          product.shipping = shippingResponse.data;
-
           return {
             success: true,
             data: product,
@@ -54,7 +47,7 @@ export const aeDsRouter = router({
     }),
   shipping: procedure
     .input(z.object({ id: z.number(), quantity: z.number().optional() }))
-    .mutation(async ({ ctx, input }) =>
+    .query(async ({ ctx, input }) =>
       api_ae_ds_shipping({
         method: ctx.aliexpress.ds.shipping,
         product_id: input.id,

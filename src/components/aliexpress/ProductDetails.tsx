@@ -52,10 +52,38 @@ export const ProductDetails = ({ id }: { id: string }) => {
         if (data && data.data) {
           setShowImage(data.data.productImages[0]);
           if (
-            data.data.shipping?.carriers &&
-            data.data.shipping?.carriers.length > 0
+            data.data.shipping &&
+            data.data.shipping.carriers &&
+            data.data.shipping.carriers.length > 0
           )
             setSelectedShipping(data.data.shipping?.carriers![0]);
+        }
+      },
+    }
+  );
+
+  const shipping = trpc.aliexpress.ds.shipping.useQuery(
+    {
+      id: parseInt(id),
+      quantity,
+    },
+    {
+      onSettled(data, error) {
+        if (error)
+          setMessage({
+            type: "error",
+            text: `Product shipping details [${id}] fetch error.`,
+          });
+        if (data && !data.success)
+          setMessage({ type: "error", text: data.error });
+
+        if (
+          data &&
+          data.data &&
+          data.data.carriers &&
+          !product.data?.data?.shipping
+        ) {
+          setSelectedShipping(data.data.carriers[0]);
         }
       },
     }
@@ -158,7 +186,13 @@ export const ProductDetails = ({ id }: { id: string }) => {
                   />
                   {product.data?.data.shipping && (
                     <ProductShipping
-                      product={product.data?.data}
+                      shipping={product.data?.data.shipping}
+                      setSelectedShipping={setSelectedShipping}
+                    />
+                  )}
+                  {!product.data?.data.shipping && shipping.data?.data && (
+                    <ProductShipping
+                      shipping={shipping.data?.data}
                       setSelectedShipping={setSelectedShipping}
                     />
                   )}

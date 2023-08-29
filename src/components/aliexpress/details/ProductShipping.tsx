@@ -4,7 +4,7 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
 import { useTranslations } from "next-intl";
 
 import type {
-  ZAE_Product,
+  ZAE_ProductShipping,
   ZAE_ProductShippingCarrier,
 } from "@reglini-types/zapiex";
 import {
@@ -17,26 +17,26 @@ import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
 
 interface ProductShippingProps {
-  product: ZAE_Product;
+  shipping: ZAE_ProductShipping;
   setSelectedShipping: Dispatch<
     SetStateAction<ZAE_ProductShippingCarrier | undefined>
   >;
 }
 
 export const ProductShipping = ({
-  product,
+  shipping,
   setSelectedShipping,
 }: ProductShippingProps) => {
   const t = useTranslations("AliexpressPage");
   const { commission, euro } = useFinance();
-  const [selected, setSelected] = useState(product.shipping?.carriers![0]);
+  const [selected, setSelected] = useState(shipping.carriers![0]);
   useEffect(() => {
     if (selected) setSelectedShipping(selected);
   }, [selected, setSelectedShipping]);
 
   return (
     <div className={`z-10 mt-4`}>
-      {product.shipping && product.shipping.isAvailableForSelectedCountries ? (
+      {shipping && shipping.isAvailableForSelectedCountries ? (
         <>
           <p className={`text-success font-mono text-center uppercase`}>
             {t("shipping.shippingAvailable")}
@@ -65,8 +65,8 @@ export const ProductShipping = ({
                   <Listbox.Options
                     className={`absolute w-full py-1 mt-1 ${BG_TRANSPARENT_BACKDROP} ${ROUNDED} ${SHADOW} max-h-60 overflow-auto focus:outline-none text-sm z-100`}
                   >
-                    {product.shipping.carriers &&
-                      product.shipping.carriers.map(
+                    {shipping.carriers &&
+                      shipping.carriers.map(
                         (carrier: any, carrierIdx: number) => (
                           <Listbox.Option
                             key={carrierIdx}

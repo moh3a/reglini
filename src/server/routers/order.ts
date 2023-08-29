@@ -188,7 +188,11 @@ export const orderRouter = router({
                   success: true,
                   message: "Successfully created your orders.",
                 };
-              } else return { success: false, error: result.result.error_msg };
+              } else
+                return {
+                  success: false,
+                  error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
+                };
             } else
               return {
                 success: false,
