@@ -3,6 +3,7 @@
 ## Todo
 
 - Caching !!!
+- switch to scraping aliexpress pages
 
 ## Quickstart
 

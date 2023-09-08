@@ -8,7 +8,7 @@ import type {
   AENOLogisticsAddress,
   AENOProductItem,
 } from "@reglini-types/index";
-import { execute, old_execute } from "@utils/ae/client";
+import { execute } from "@utils/ae/client";
 
 // ! NOT USED
 // todo try refreshing ae access_token with https://open.taobao.com/api.htm?docId=25387&docType=2&scopeId=381
@@ -150,10 +150,10 @@ export const AE_Affiliate_Hotproducts = async (
 };
 
 export const AE_Affiliate_getCategories = async () => {
-  const result = await old_execute<{}, Affiliate_Categories_Result>(
+  const result = await execute(
     "affiliate",
     "aliexpress.affiliate.category.get",
-    {}
+    null
   );
   let categories = "";
   if (
@@ -173,12 +173,12 @@ export const AE_Affiliate_getCategories = async () => {
 
 // ! NOT USED
 export const AE_Affiliate_getCategoryById = async (category_id: number) => {
-  const result = await old_execute<{}, Affiliate_Categories_Result>(
+  const result = await execute(
     "affiliate",
     "aliexpress.affiliate.category.get",
-    {}
+    null
   );
-  return result.resp_result.result.categories.find(
+  return result?.resp_result.result.categories.find(
     (category) => category.category_id === category_id
   );
 };

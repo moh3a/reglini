@@ -6,6 +6,7 @@ import type {
   AE_EXECUTE_FN_METHODS,
   AE_EXECUTE_FN_PARAMS,
   AE_EXECUTE_FN_RESULT,
+  AE_Error_Response,
   AE_SERVICE,
   PublicParams,
 } from "@reglini-types/ae";
@@ -39,21 +40,28 @@ export const sign_function = (app_secret: string, params: any) => {
 };
 
 export const call = async <T extends PublicParams, K>(params: T) => {
-  let basestring = AE_SERVICE_URL;
-  let sorted = Object.keys(params).sort();
-  for (let i = 0; i < sorted.length; i++) {
-    let symbol = i === 0 ? "?" : "&";
-    if (params[sorted[i] as keyof typeof params])
-      basestring +=
-        symbol +
-        sorted[i] +
-        "=" +
-        encodeURIComponent(
-          params[sorted[i] as keyof typeof params] as number | string | boolean
-        );
+  try {
+    let basestring = AE_SERVICE_URL;
+    let sorted = Object.keys(params).sort();
+    for (let i = 0; i < sorted.length; i++) {
+      let symbol = i === 0 ? "?" : "&";
+      if (params[sorted[i] as keyof typeof params])
+        basestring +=
+          symbol +
+          sorted[i] +
+          "=" +
+          encodeURIComponent(
+            params[sorted[i] as keyof typeof params] as
+              | number
+              | string
+              | boolean
+          );
+    }
+    const res = await axios.post<K>(basestring, undefined);
+    return res.data;
+  } catch (error) {
+    console.error(error);
   }
-  const { data } = await axios.post<K>(basestring, undefined);
-  return data;
 };
 
 type Timestamp = string | number | Date;
@@ -106,7 +114,7 @@ export const execute = async <
   type: T,
   method: K,
   params: AE_EXECUTE_FN_PARAMS<K>
-): Promise<AE_EXECUTE_FN_RESULT<K>> => {
+): Promise<AE_EXECUTE_FN_RESULT<K> | undefined> => {
   const app_secret =
     type === "affiliate"
       ? process.env.ALIEXPRESS_AFFILIATE_APP_SECRET ?? ""
@@ -136,35 +144,4 @@ export const execute = async <
     AE_EXECUTE_FN_PARAMS<K> & PublicParams,
     AE_EXECUTE_FN_RESULT<K>
   >(parameters);
-};
-
-export const old_execute = async <T, K extends object>(
-  type: "affiliate" | "ds",
-  method: AE_API_NAMES,
-  params: T
-) => {
-  const app_secret =
-    type === "affiliate"
-      ? process.env.ALIEXPRESS_AFFILIATE_APP_SECRET ?? ""
-      : process.env.ALIEXPRESS_DS_APP_SECRET ?? "";
-  const parameters: T & PublicParams = {
-    ...params,
-    app_key:
-      type === "affiliate"
-        ? process.env.ALIEXPRESS_AFFILIATE_APP_KEY ?? ""
-        : process.env.ALIEXPRESS_DS_APP_KEY ?? "",
-    session:
-      type === "affiliate"
-        ? process.env.ALIEXPRESS_AFFILIATE_ACCESS_TOKEN ?? ""
-        : process.env.ALIEXPRESS_DS_ACCESS_TOKEN ?? "",
-    method,
-    v: "2.0",
-    format: "json",
-    simplify: true,
-    sign_method: "md5",
-    timestamp: get_timestamp(),
-  };
-  parameters.sign = sign_function(app_secret, parameters);
-
-  return await call<T & PublicParams, K>(parameters);
 };

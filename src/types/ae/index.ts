@@ -62,6 +62,8 @@ export type AE_AFFILIATE_EXECUTE_FN_PARAMS<T extends AFFILIATE_API_NAMES> =
     ? Affiliate_Hotproducts_Params
     : T extends "aliexpress.affiliate.featuredpromo.products.get"
     ? Affiliate_Featured_Promo_Products_Params
+    : T extends "aliexpress.affiliate.category.get"
+    ? null
     : unknown;
 
 export type AE_EXECUTE_FN_PARAMS<T extends AE_API_NAMES> =
@@ -99,6 +101,8 @@ export type AE_AFFILIATE_EXECUTE_FN_RESULT<T extends AFFILIATE_API_NAMES> =
     ? Affiliate_Hotproducts_Result
     : T extends "aliexpress.affiliate.featuredpromo.products.get"
     ? Affiliate_Featured_Promo_Products_Result
+    : T extends "aliexpress.affiliate.category.get"
+    ? Affiliate_Categories_Result
     : unknown;
 
 export type AE_EXECUTE_FN_RESULT<T extends AE_API_NAMES> =
@@ -136,10 +140,10 @@ export interface PublicParams {
 }
 
 export interface AE_Error_Response {
-  msg: string;
-  code: number;
-  sub_msg: string;
-  sub_code: string;
+  msg?: string;
+  code?: number;
+  sub_msg?: string;
+  sub_code?: string;
 }
 
 /**

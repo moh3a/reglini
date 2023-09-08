@@ -394,6 +394,10 @@ export const convert_ae_shipping_info = (
   const carriers: ZAE_ProductShippingCarrier[] = shipment_carriers.map(
     (carrier) => {
       return {
+        deliveryTimeInDays: {
+          min: Number(carrier.estimated_delivery_time),
+          max: Number(carrier.estimated_delivery_time),
+        },
         price: { value: carrier.freight.amount },
         company: { id: carrier.service_name, name: carrier.service_name },
         hasDiscount: false,

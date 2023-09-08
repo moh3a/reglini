@@ -66,40 +66,38 @@ export const ProductShipping = ({
                     className={`absolute w-full py-1 mt-1 ${BG_TRANSPARENT_BACKDROP} ${ROUNDED} ${SHADOW} max-h-60 overflow-auto focus:outline-none text-sm z-100`}
                   >
                     {shipping.carriers &&
-                      shipping.carriers.map(
-                        (carrier: any, carrierIdx: number) => (
-                          <Listbox.Option
-                            key={carrierIdx}
-                            className={({ active }) =>
-                              `${active ? "font-extrabold" : ""}
+                      shipping.carriers.map((carrier, carrierIdx) => (
+                        <Listbox.Option
+                          key={carrierIdx}
+                          className={({ active }) =>
+                            `${active ? "font-extrabold" : ""}
                           select-none relative py-2 pl-10 pr-4`
-                            }
-                            value={carrier}
-                          >
-                            {({ selected, active }) => (
-                              <div
-                                className={
-                                  selected ? "font-bold" : "font-normal"
-                                }
-                              >
-                                <div className="flex justify-between">
-                                  <div
-                                    className={`${
-                                      active && "font-extrabold"
-                                    } truncate`}
-                                  >
-                                    {carrier.company.name}
-                                  </div>
-                                  {selected && (
-                                    <div className={`text-success`}>
-                                      <CheckIcon
-                                        className="w-5 h-5"
-                                        aria-hidden="true"
-                                      />
-                                    </div>
-                                  )}
+                          }
+                          value={carrier}
+                        >
+                          {({ selected, active }) => (
+                            <div
+                              className={selected ? "font-bold" : "font-normal"}
+                            >
+                              <div className="flex justify-between">
+                                <div
+                                  className={`${
+                                    active && "font-extrabold"
+                                  } truncate`}
+                                >
+                                  {carrier.company.name}
                                 </div>
-                                <div className="flex justify-between text-xs">
+                                {selected && (
+                                  <div className={`text-success`}>
+                                    <CheckIcon
+                                      className="w-5 h-5"
+                                      aria-hidden="true"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                              <div className="flex justify-between text-xs">
+                                {carrier.deliveryTimeInDays ? (
                                   <div>
                                     {t("shipping.deliveredIn", {
                                       time:
@@ -108,31 +106,33 @@ export const ProductShipping = ({
                                         carrier.deliveryTimeInDays.max,
                                     })}
                                   </div>
-                                  <div>
-                                    {t("price", {
-                                      price: GetPrice(
-                                        euro ?? 0,
-                                        commission ?? 0,
-                                        carrier.price.value
-                                      ),
-                                    })}
-                                  </div>
-                                </div>
-
-                                {carrier.hasTracking ? (
-                                  <span className="text-xs text-success block truncate">
-                                    Carrier has tracking
-                                  </span>
                                 ) : (
-                                  <span className="text-xs text-danger block truncate">
-                                    Carrier does not have tracking
-                                  </span>
+                                  <div>carrier.estimatedDeliveryDate</div>
                                 )}
+                                <div>
+                                  {t("price", {
+                                    price: GetPrice(
+                                      euro ?? 0,
+                                      commission ?? 0,
+                                      carrier.price.value
+                                    ),
+                                  })}
+                                </div>
                               </div>
-                            )}
-                          </Listbox.Option>
-                        )
-                      )}
+
+                              {carrier.hasTracking ? (
+                                <span className="text-xs text-success block truncate">
+                                  Carrier has tracking
+                                </span>
+                              ) : (
+                                <span className="text-xs text-danger block truncate">
+                                  Carrier does not have tracking
+                                </span>
+                              )}
+                            </div>
+                          )}
+                        </Listbox.Option>
+                      ))}
                   </Listbox.Options>
                 </Transition>
               </div>
