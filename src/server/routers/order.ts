@@ -56,7 +56,7 @@ export const orderRouter = router({
           const result = await ctx.aliexpress.ds.getOrder(
             parseInt(input.order_id)
           );
-          if (result.result) {
+          if (result && result.result) {
             return { success: true, result: result.result };
           } else
             return {
@@ -150,7 +150,7 @@ export const orderRouter = router({
               product_items
             );
 
-            if (result.result) {
+            if (result && result.result) {
               if (result.result.is_success) {
                 for (const order_id of result.result.order_list) {
                   const order = await ctx.aliexpress.ds.getOrder(order_id);
@@ -161,7 +161,7 @@ export const orderRouter = router({
                   if (input.products.length === 1) {
                     products.push(input.products[0]);
                   } else if (input.products.length > 1) {
-                    order.result.child_order_list.forEach((o) => {
+                    order?.result.child_order_list.forEach((o) => {
                       const prdct = input.products.find(
                         (p) => p.productId === o.product_id.toString()
                       );

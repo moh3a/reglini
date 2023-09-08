@@ -44,7 +44,7 @@ export const api_ae_ds_tracking = async ({
 }: API_AE_DS_TRACKING_PARAMS) => {
   try {
     const response = await method({ order_id, tracking_id, service_name });
-    if (response.result_success) {
+    if (response && response.result_success) {
       // const result: ZAE_Tracking = {
       //   isTrackingAvailable,
       //   packages,
