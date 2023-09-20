@@ -1,9 +1,5 @@
 # REGLINI-DZ
 
-## Todo
-
-- Fix creating order
-
 ## Quickstart
 
 - Clone the github repo by running the following [git](https://git-scm.com/downloads) command:
@@ -17,4 +13,4 @@
 
 ## Issues
 
-- ALMOST ALL ZAPIEX SERVICES ARE DOWN !!!
+ALMOST ALL ZAPIEX SERVICES ARE DOWN.

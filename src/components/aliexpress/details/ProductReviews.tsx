@@ -30,10 +30,12 @@ export const ProductReviews = ({ product }: { product: ZAE_Product }) => {
             </span>
           </>
         )}
-        <span className={`ml-4`}>
-          <span>{product.totalOrders}</span>{" "}
-          <span className="mr-1">{t("orders")}</span>
-        </span>
+        {product.totalOrders > 0 && (
+          <span className={`ml-4`}>
+            <span>{product.totalOrders}</span>{" "}
+            <span className="mr-1">{t("orders")}</span>
+          </span>
+        )}
       </span>
     </div>
   );

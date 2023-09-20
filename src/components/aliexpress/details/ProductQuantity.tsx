@@ -26,44 +26,48 @@ export const ProductQuantity = ({
   const stock =
     selectedVariation && selectedVariation.sku
       ? selectedVariation.stock
-      : product.totalStock;
+      : product.totalStock > 0
+      ? product.totalStock
+      : 1;
 
   return (
     <div className={`mt-4`}>
       <div>{t("title")}</div>
-      <div className={`flex`}>
-        {stock && stock > 0 && (
-          <NumberInput
-            value={stock < 1 ? 0 : Math.round(quantity)}
-            onChange={(e) => setQuantity(parseInt(e.target.value))}
-            disabled={stock < 1}
-            min={1}
-            step={1}
-            width={90}
-          />
-        )}
-        <span className="relative top-1 ml-2">
-          {stock && stock > 0 ? (
-            <>
-              <CheckCircleIcon
-                className="h-5 w-5 inline text-success mr-1"
-                aria-hidden="true"
-              />
-              <span>
-                {stock} {product.unitNamePlural} {t("available")}
-              </span>
-            </>
-          ) : (
-            <>
-              <ExclamationCircleIcon
-                className="h-5 w-5 inline text-danger mr-1"
-                aria-hidden="true"
-              />
-              <span className="text-danger">{t("outOfStock")}</span>
-            </>
+      {stock && (
+        <div className={`flex`}>
+          {stock > 0 && (
+            <NumberInput
+              value={stock < 1 ? 0 : Math.round(quantity)}
+              onChange={(e) => setQuantity(parseInt(e.target.value))}
+              disabled={stock < 1}
+              min={1}
+              step={1}
+              width={90}
+            />
           )}
-        </span>
-      </div>
+          <span className="relative top-1 ml-2">
+            {stock > 0 ? (
+              <>
+                <CheckCircleIcon
+                  className="h-5 w-5 inline text-success mr-1"
+                  aria-hidden="true"
+                />
+                <span>
+                  {stock} {product.unitNamePlural} {t("available")}
+                </span>
+              </>
+            ) : (
+              <>
+                <ExclamationCircleIcon
+                  className="h-5 w-5 inline text-danger mr-1"
+                  aria-hidden="true"
+                />
+                <span className="text-danger">{t("outOfStock")}</span>
+              </>
+            )}
+          </span>
+        </div>
+      )}
     </div>
   );
 };

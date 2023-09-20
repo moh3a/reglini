@@ -8,6 +8,7 @@ import { router, procedure } from "../trpc";
 import SendEmail from "@utils/send_email";
 import { API_RESPONSE_MESSAGES } from "@config/general";
 import { USER_FROM_TRPC_CTX } from "@utils/index";
+import { ORDER_CREATION_ERRORS } from "@config/constants";
 
 export const orderRouter = router({
   all: procedure.query(async ({ ctx }) => {
@@ -116,15 +117,15 @@ export const orderRouter = router({
         if (user) {
           try {
             const product_items: AE_Product_Item[] = input.products.map(
-              (product) => {
-                return {
-                  logistics_service_name: product.carrierId,
-                  order_memo: product.orderMemo ?? "",
-                  product_count: product.quantity,
-                  product_id: parseInt(product.productId),
-                  sku_attr: product.sku,
-                };
-              }
+              (product) => ({
+                logistics_service_name: product.carrierId,
+                order_memo:
+                  product.orderMemo ??
+                  "Please do not put invoices or any other document inside the package. Instead send them to this email address support@reglini-dz.com. Thank you very much.",
+                product_count: product.quantity,
+                product_id: parseInt(product.productId),
+                sku_attr: product.sku ?? undefined,
+              })
             );
             const logistics_address: AE_Logistics_Address = {
               address: input.shippingAddress.addressLine1,
@@ -192,7 +193,11 @@ export const orderRouter = router({
               } else
                 return {
                   success: false,
-                  error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
+                  error:
+                    ORDER_CREATION_ERRORS[
+                      result.data.aliexpress_trade_buy_placeorder_response
+                        .result.error_code as keyof typeof ORDER_CREATION_ERRORS
+                    ] ?? API_RESPONSE_MESSAGES.ERROR_OCCURED,
                 };
             } else
               return {
