@@ -1,7 +1,9 @@
+import { Result } from "ae_sdk";
+
 import {
   Affiliate_Products_Result,
-  DS_ShippingAPI_Shipping_Info_Result,
-  DS_ShippingAPI_Tracking_Info_Result,
+  DS_Shipping_Info_Result,
+  DS_Tracking_Info_Result,
 } from ".";
 
 export interface API_AE_DS_SHIPPING_ARGUMENTS {
@@ -13,7 +15,7 @@ export interface API_AE_DS_SHIPPING_PARAMS
   extends API_AE_DS_SHIPPING_ARGUMENTS {
   method: (
     args: API_AE_DS_SHIPPING_ARGUMENTS
-  ) => Promise<DS_ShippingAPI_Shipping_Info_Result | undefined>;
+  ) => Result<DS_Shipping_Info_Result>;
 }
 
 export interface API_AE_DS_TRACKING_ARGUMENTS {
@@ -26,7 +28,7 @@ export interface API_AE_DS_TRACKING_PARAMS
   extends API_AE_DS_TRACKING_ARGUMENTS {
   method: (
     args: API_AE_DS_TRACKING_ARGUMENTS
-  ) => Promise<DS_ShippingAPI_Tracking_Info_Result | undefined>;
+  ) => Result<DS_Tracking_Info_Result>;
 }
 
 export interface API_AE_AFFILIATE_PRODUCTS_ARGUMENTS {
@@ -41,6 +43,5 @@ export interface API_AE_AFFILIATE_PRODUCTS_PARAMS
   extends API_AE_AFFILIATE_PRODUCTS_ARGUMENTS {
   method: (
     args: API_AE_AFFILIATE_PRODUCTS_ARGUMENTS
-  ) => Promise<Affiliate_Products_Result | undefined>;
-  categories_method: () => Promise<string>;
+  ) => Result<Affiliate_Products_Result>;
 }

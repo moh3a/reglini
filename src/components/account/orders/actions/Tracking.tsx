@@ -57,7 +57,7 @@ const Tracking = ({
       )}
       {trackingQuery.data &&
         trackingQuery.data.result &&
-        trackingQuery.data.result.details.details.map((event) => (
+        trackingQuery.data.result.details.map((event) => (
           <p key={event.event_date} className="font-semibold">
             {event.event_date}
             {" - "}

@@ -2,12 +2,12 @@
 // to one that is compatible with ZAPIEX to use both apis interchangeably
 
 import type {
-  Affiliate_Hotproducts,
-  DS_ProductAPI_Product_Attributes,
-  DS_ProductAPI_Product_Details,
-  DS_ProductAPI_Product_SKU_Properties,
-  DS_ProductAPI_Product_SKU_Variation,
-  DS_ShippingAPI_Shipping_Details,
+  Affiliate_Products,
+  DS_Product,
+  DS_Product_Attributes,
+  DS_Product_SKU_Properties,
+  DS_Product_SKU_Variation,
+  DS_Shipping_Details,
 } from "@reglini-types/ae";
 import type {
   ZAE_PriceInterval,
@@ -26,7 +26,7 @@ import type {
 import { calculate_discount, parse_locale } from "@utils/index";
 
 export const parse_ae_product_attributes = (
-  initial_array: DS_ProductAPI_Product_Attributes[]
+  initial_array: DS_Product_Attributes[]
 ): ZAE_ProductAttribute[] => {
   return initial_array.map((value) => ({
     id: value.attr_name_id?.toString(),
@@ -39,11 +39,11 @@ export const parse_ae_product_attributes = (
 };
 
 export const parse_ae_product_properties = (
-  init: DS_ProductAPI_Product_SKU_Properties,
+  init: DS_Product_SKU_Properties,
   parsed_array: ZAE_ProductProperties[]
 ) => {
   const property = {
-    id: init.property_value_id_long.toString(),
+    id: (init.property_value_id_long ?? init.property_value_id)?.toString(),
     name: init.property_value_definition_name
       ? init.property_value_definition_name
       : init.sku_property_value,
@@ -53,17 +53,19 @@ export const parse_ae_product_properties = (
   };
 
   const index = parsed_array.findIndex(
-    (e) => e.id === init.sku_property_id.toString()
+    (e) => e.id === init.sku_property_id?.toString()
   );
 
   if (index !== -1) {
     const property_exits = parsed_array[index].values.find(
-      (e) => e.id === init.property_value_id_long.toString()
+      (e) =>
+        e.id ===
+        (init.property_value_id_long ?? init.property_value_id)?.toString()
     );
     if (!property_exits) parsed_array[index].values.push(property);
   } else {
     parsed_array.push({
-      id: init.sku_property_id.toString(),
+      id: init.sku_property_id?.toString(),
       name: init.sku_property_name,
       values: [property],
     });
@@ -71,11 +73,11 @@ export const parse_ae_product_properties = (
 };
 
 export const parse_ae_product_variation_properties = (
-  init: DS_ProductAPI_Product_SKU_Properties,
+  init: DS_Product_SKU_Properties,
   parsed_array: ZAE_ProductVariationProperties[]
 ) => {
   const property = {
-    id: init.property_value_id_long.toString(),
+    id: (init.property_value_id_long ?? init.property_value_id)?.toString(),
     name: init.property_value_definition_name
       ? init.property_value_definition_name
       : init.sku_property_value,
@@ -85,14 +87,14 @@ export const parse_ae_product_variation_properties = (
   };
 
   const index = parsed_array.findIndex(
-    (e) => e.id === init.sku_property_id.toString()
+    (e) => e.id === init.sku_property_id?.toString()
   );
 
   if (index !== -1) {
     parsed_array[index].value = property;
   } else {
     parsed_array.push({
-      id: init.sku_property_id.toString(),
+      id: init.sku_property_id?.toString(),
       name: init.sku_property_name,
       value: property,
     });
@@ -100,7 +102,7 @@ export const parse_ae_product_variation_properties = (
 };
 
 export const parse_ae_property_price = (
-  sku: DS_ProductAPI_Product_SKU_Variation,
+  sku: DS_Product_SKU_Variation,
   originalPrice: ZAE_PriceInterval,
   discountedPrice: ZAE_PriceInterval
 ) => {
@@ -119,7 +121,7 @@ export const parse_ae_property_price = (
 };
 
 export const get_product_discount = (
-  variation: DS_ProductAPI_Product_SKU_Variation
+  variation: DS_Product_SKU_Variation
 ): number => {
   if (
     parseFloat(variation.sku_price) > parseFloat(variation.offer_sale_price)
@@ -130,7 +132,7 @@ export const get_product_discount = (
 
 export const get_product_price_summary = (
   price: ZAE_ProductPriceSummary,
-  variations: DS_ProductAPI_Product_SKU_Variation[]
+  variations: DS_Product_SKU_Variation[]
 ): ZAE_ProductPriceSummary => {
   let discountedPrice: ZAE_ProductPriceSummary["discountedPrice"] = {
     min: { value: 1000000000 },
@@ -172,7 +174,7 @@ export const get_product_price_summary = (
 
 export const get_product_variation_price = (
   price: ZAE_ProductPrice,
-  variation: DS_ProductAPI_Product_SKU_Variation
+  variation: DS_Product_SKU_Variation
 ): ZAE_ProductPrice => {
   const discount = get_product_discount(variation);
   // get original price
@@ -202,19 +204,20 @@ export const get_product_variation_price = (
 };
 
 export const parse_ae_product_data = (
-  data: DS_ProductAPI_Product_Details,
+  data: DS_Product,
   variations: ZAE_ProductVariation[],
-  properties: ZAE_ProductProperties[]
+  properties: ZAE_ProductProperties[],
+  totalStock: number
 ) => {
   const singlePrice: boolean[] = [];
   // VARIATIONS
-  data.aeop_ae_product_s_k_us.forEach((variation) => {
+  data.ae_item_sku_info_dtos.forEach((variation) => {
     const imageUrl =
-      variation.aeop_s_k_u_propertys.find((sku) => sku.sku_image)?.sku_image ??
+      variation.aeop_s_k_u_propertys?.find((sku) => sku.sku_image)?.sku_image ??
       "";
     let variation_properties: ZAE_ProductVariationProperties[] = [];
     if (variation.aeop_s_k_u_propertys) {
-      variation.aeop_s_k_u_propertys?.forEach((props) => {
+      variation.aeop_s_k_u_propertys.forEach((props) => {
         // PROPERTIES
         parse_ae_product_properties(props, properties);
         // CURRENT ITERATION OF VARIATIONS
@@ -224,7 +227,7 @@ export const parse_ae_product_data = (
 
     if (
       variation.offer_sale_price ===
-      data.aeop_ae_product_s_k_us[0].offer_sale_price
+      data.ae_item_sku_info_dtos[0].offer_sale_price
     )
       singlePrice.push(true);
     else singlePrice.push(false);
@@ -237,11 +240,13 @@ export const parse_ae_product_data = (
     };
     get_product_variation_price(variation_price, variation);
 
+    totalStock += variation.sku_available_stock ?? 0;
+
     variations.push({
       imageUrl,
       thumbnailImageUrl: imageUrl,
       sku: variation.id,
-      stock: variation.s_k_u_available_stock,
+      stock: variation.sku_available_stock,
       properties: variation_properties,
       price: {
         web: variation_price,
@@ -255,53 +260,54 @@ export const parse_ae_product_data = (
 };
 
 export const convert_ae_product = (
-  data: DS_ProductAPI_Product_Details,
+  data: DS_Product,
   attributes: ZAE_ProductAttribute[],
   properties: ZAE_ProductProperties[],
   variations: ZAE_ProductVariation[],
   hasSinglePrice: boolean,
   locale: string,
+  totalStock: number,
   price?: ZAE_ProductPrice,
   priceSummary?: ZAE_ProductPriceSummary
 ): ZAE_Product => {
   return {
-    productId: data.product_id.toString(),
-    productUrl: `https://www.aliexpress.com/item/${data.product_id}.html`,
-    title: data.subject,
+    productId: data.ae_item_base_info_dto.product_id.toString(),
+    productUrl: `https://www.aliexpress.com/item/${data.ae_item_base_info_dto.product_id}.html`,
+    title: data.ae_item_base_info_dto.subject,
     locale: parse_locale(locale),
-    status: data.product_status_type,
-    statusId: data.product_status_type,
-    htmlDescription: data.detail,
-    currency: data.currency_code.toUpperCase(),
-    processingTimeInDays: data.delivery_time,
-    totalOrders: data.order_count,
-    productImages: data.image_u_r_ls.split(";"),
-    totalStock: data.total_available_stock,
+    status: data.ae_item_base_info_dto.product_status_type,
+    statusId: data.ae_item_base_info_dto.product_status_type,
+    htmlDescription: data.ae_item_base_info_dto.detail,
+    currency: data.ae_item_base_info_dto.currency_code.toUpperCase(),
+    processingTimeInDays: data.logistics_info_dto.delivery_time,
+    totalOrders: 0,
+    productImages: data.ae_multimedia_info_dto.image_urls.split(";"),
+    totalStock,
     reviewsRatings: {
-      averageRating: Number(data.avg_evaluation_rating),
-      totalCount: data.evaluation_count,
+      averageRating: Number(data.ae_item_base_info_dto.avg_evaluation_rating),
+      totalCount: Number(data.ae_item_base_info_dto.evaluation_count),
     },
     seller: {
-      storeId: data.store_info.store_id.toString(),
-      storeName: data.store_info.store_name,
-      storeUrl: `https://www.aliexpress.com/store/${data.store_info.store_id}`,
+      storeId: data.ae_store_info.store_id.toString(),
+      storeName: data.ae_store_info.store_name,
+      storeUrl: `https://www.aliexpress.com/store/${data.ae_store_info.store_id}`,
     },
     sellerDetails: {
-      sellerDetailsUrl: `https://www.aliexpress.com/store/feedback-score/${data.store_info.store_id}.html`,
+      sellerDetailsUrl: `https://www.aliexpress.com/store/feedback-score/${data.ae_store_info.store_id}.html`,
       detailedRatings: {
         communication: {
           rating: {
-            value: Number(data.store_info.communication_rating),
+            value: Number(data.ae_store_info.communication_rating),
           },
         },
         itemAsDescribed: {
           rating: {
-            value: Number(data.store_info.item_as_descriped_rating),
+            value: Number(data.ae_store_info.item_as_described_rating),
           },
         },
         shippingSpeed: {
           rating: {
-            value: Number(data.store_info.shipping_speed_rating),
+            value: Number(data.ae_store_info.shipping_speed_rating),
           },
         },
       },
@@ -313,7 +319,8 @@ export const convert_ae_product = (
     hasAttributes: attributes.length > 0 ? true : false,
     hasProperties: properties.length > 0 ? true : false,
     hasVariations: variations.length > 0 ? true : false,
-    hasReviewsRatings: data.evaluation_count > 0 ? true : false,
+    hasReviewsRatings:
+      Number(data.ae_item_base_info_dto.evaluation_count) > 0 ? true : false,
     hasSinglePrice,
     price: hasSinglePrice && price ? { app: price, web: price } : undefined,
     priceSummary:
@@ -326,10 +333,7 @@ export const convert_ae_product = (
   };
 };
 
-export const ae_product = (
-  data: DS_ProductAPI_Product_Details,
-  locale: string | undefined
-) => {
+export const ae_product = (data: DS_Product, locale: string | undefined) => {
   let attributes: ZAE_ProductAttribute[] = [];
   const variations: ZAE_ProductVariation[] = [];
   const properties: ZAE_ProductProperties[] = [];
@@ -346,22 +350,28 @@ export const ae_product = (
     originalPrice: { min: { value: 0 }, max: { value: 0 } },
   };
   let hasSinglePrice = true;
+  let totalStock = 0;
 
-  if (data.aeop_ae_product_s_k_us) {
-    hasSinglePrice = parse_ae_product_data(data, variations, properties);
+  if (data.ae_item_sku_info_dtos) {
+    hasSinglePrice = parse_ae_product_data(
+      data,
+      variations,
+      properties,
+      totalStock
+    );
   }
 
   price =
-    data.aeop_ae_product_s_k_us && hasSinglePrice
-      ? get_product_variation_price(price, data.aeop_ae_product_s_k_us[0])
+    data.ae_item_sku_info_dtos && hasSinglePrice
+      ? get_product_variation_price(price, data.ae_item_sku_info_dtos[0])
       : undefined;
   priceSummary =
-    data.aeop_ae_product_s_k_us && !hasSinglePrice
-      ? get_product_price_summary(priceSummary, data.aeop_ae_product_s_k_us)
+    data.ae_item_sku_info_dtos && !hasSinglePrice
+      ? get_product_price_summary(priceSummary, data.ae_item_sku_info_dtos)
       : undefined;
 
-  if (data.aeop_ae_product_propertys) {
-    attributes = parse_ae_product_attributes(data.aeop_ae_product_propertys);
+  if (data.ae_item_sku_info_dtos) {
+    attributes = parse_ae_product_attributes(data.ae_item_properties);
   }
 
   return convert_ae_product(
@@ -371,13 +381,14 @@ export const ae_product = (
     variations,
     hasSinglePrice,
     locale ?? "FR",
+    0,
     price,
     priceSummary
   );
 };
 
 export const ae_shipping = (
-  carriers: DS_ShippingAPI_Shipping_Details[]
+  carriers: DS_Shipping_Details[]
 ): ZAE_ProductShipping => {
   if (carriers.length > 0) {
     return convert_ae_shipping_info(carriers);
@@ -389,7 +400,7 @@ export const ae_shipping = (
 };
 
 export const convert_ae_shipping_info = (
-  shipment_carriers: DS_ShippingAPI_Shipping_Details[]
+  shipment_carriers: DS_Shipping_Details[]
 ): ZAE_ProductShipping => {
   const carriers: ZAE_ProductShippingCarrier[] = shipment_carriers.map(
     (carrier) => {
@@ -414,9 +425,7 @@ export const convert_ae_shipping_info = (
   };
 };
 
-export const ae_affiliate_products = (
-  res: Affiliate_Hotproducts
-): ZAE_Search => {
+export const ae_affiliate_products = (res: Affiliate_Products): ZAE_Search => {
   const items: ZAE_SearchItem[] = res.products.map((product) => {
     return {
       productId: product.product_id?.toString() ?? "",

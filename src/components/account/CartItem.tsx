@@ -3,14 +3,15 @@ import { ChangeEvent, useState } from "react";
 import Link from "next/link";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
-import { Cart } from "@prisma/client";
+
+import type { Cart, Product } from "@prisma/client";
+import type { IMessage } from "@reglini-types/index";
 
 import { NumberInput, Button, Banner } from "@components/shared";
 import ItemProperties from "@components/account/ItemProperties";
-import type { AENOProduct, IMessage } from "@reglini-types/index";
 import { trpc } from "@utils/trpc";
 
-const CartItem = ({ item }: { item: AENOProduct | Cart }) => {
+const CartItem = ({ item }: { item: Omit<Product, "orderId"> | Cart }) => {
   const t = useTranslations("Common.cart");
   const [message, setMessage] = useState<IMessage>();
 

@@ -1,108 +1,79 @@
-import type { Affiliate_Categories_Result } from "@reglini-types/ae";
 import {
+  DropshipperClient,
+  AffiliateClient,
+  type AE_Currency,
+  type AE_Language,
+} from "ae_sdk";
+
+import type {
   API_AE_AFFILIATE_PRODUCTS_ARGUMENTS,
   API_AE_DS_SHIPPING_ARGUMENTS,
   API_AE_DS_TRACKING_ARGUMENTS,
 } from "@reglini-types/ae/pinky";
-import type {
-  AENOLogisticsAddress,
-  AENOProductItem,
-} from "@reglini-types/index";
-import { execute } from "@utils/ae/client";
+import type { AE_Logistics_Address, AE_Product_Item } from "@reglini-types/ae";
+import { shuffle } from "..";
 
-// ! NOT USED
-// todo try refreshing ae access_token with https://open.taobao.com/api.htm?docId=25387&docType=2&scopeId=381
-export const AE_Auth_refreshToken = async (refresh_token: string) =>
-  await execute("auth", "taobao.top.auth.token.refresh", { refresh_token });
+const ds_client = new DropshipperClient({
+  app_key: process.env.ALIEXPRESS_DS_APP_KEY ?? "",
+  app_secret: process.env.ALIEXPRESS_DS_APP_SECRET ?? "",
+  session: process.env.ALIEXPRESS_DS_ACCESS_TOKEN ?? "",
+});
 
-// ! NOT USED
-export const AE_DS_searchProducts = async (
-  search: string,
-  locale?: string,
-  page_size?: string,
-  page_no?: string
-) =>
-  await execute("ds", "aliexpress.ds.recommend.feed.get", {
-    feed_name: search,
-    target_currency: "USD",
-    target_language: locale?.toUpperCase() as any,
-    country: "DZ",
-    sort: "DSRratingAsc",
-    page_size,
-    page_no,
-  });
+const affiliate_client = new AffiliateClient({
+  app_key: process.env.ALIEXPRESS_AFFILIATE_APP_KEY ?? "",
+  app_secret: process.env.ALIEXPRESS_AFFILIATE_APP_SECRET ?? "",
+  session: process.env.ALIEXPRESS_AFFILIATE_ACCESS_TOKEN ?? "",
+});
 
-// ! NOT USED
 export const AE_DS_getProduct = async (
   product_id: number,
   ship_to_country?: string,
-  target_currency?: string,
-  target_language?: string
+  target_currency?: AE_Currency,
+  target_language?: AE_Language
 ) =>
-  await execute("ds", "aliexpress.ds.product.get", {
+  await ds_client.productDetails({
     product_id,
     ship_to_country,
     target_currency,
     target_language,
   });
 
-export const AE_DS_getProductDetail = async (
-  product_id: number,
-  locale?: string
-) => {
-  return await execute(
-    "ds",
-    "aliexpress.postproduct.redefining.findaeproductbyidfordropshipper",
-    {
-      local_country: "DZ",
-      local_language: locale,
-      product_id,
-    }
-  );
-};
-
 export const AE_DS_getShippingInfo = async ({
   product_id,
   quantity,
-}: API_AE_DS_SHIPPING_ARGUMENTS) => {
-  return await execute("ds", "aliexpress.logistics.buyer.freight.calculate", {
-    param_aeop_freight_calculate_for_buyer_d_t_o: JSON.stringify({
-      country_code: "DZ",
-      product_id,
-      product_num: quantity,
-      send_goods_country_code: "CN",
-    }),
+}: API_AE_DS_SHIPPING_ARGUMENTS) =>
+  await ds_client.shippingInfo({
+    country_code: "DZ",
+    product_id,
+    product_num: quantity ?? 1,
+    send_goods_country_code: "CN",
+    price_currency: "USD",
   });
-};
 
 export const AE_DS_getTrackingInfo = async ({
   order_id,
   tracking_id,
   service_name,
-}: API_AE_DS_TRACKING_ARGUMENTS) => {
-  return await execute("ds", "aliexpress.logistics.ds.trackinginfo.query", {
+}: API_AE_DS_TRACKING_ARGUMENTS) =>
+  await ds_client.trackingInfo({
     origin: "ESCROW",
     to_area: "DZ",
     out_ref: order_id,
     logistics_no: tracking_id,
     service_name,
   });
-};
 
 export const AE_DS_createOrder = async (
-  logistics_address: AENOLogisticsAddress,
-  product_items: AENOProductItem[]
-) => {
-  return await execute("ds", "aliexpress.trade.buy.placeorder", {
-    param_place_order_request4_open_api_d_t_o: JSON.stringify({
-      logistics_address,
-      product_items,
-    }),
+  logistics_address: AE_Logistics_Address,
+  product_items: any[] // AE_Product_Item[]
+) =>
+  await ds_client.createOrder({
+    logistics_address,
+    product_items,
   });
-};
 
 export const AE_DS_getOrder = async (order_id: number) =>
-  await execute("ds", "aliexpress.ds.trade.order.get", {
+  await ds_client.orderDetails({
     order_id,
   });
 
@@ -112,20 +83,20 @@ export const AE_Affiliate_Query_Products = async ({
   page_size,
   page_no,
   locale,
-}: API_AE_AFFILIATE_PRODUCTS_ARGUMENTS) => {
-  return await execute("affiliate", "aliexpress.affiliate.product.query", {
+}: API_AE_AFFILIATE_PRODUCTS_ARGUMENTS) =>
+  await affiliate_client.queryProducts({
     keywords: search,
     category_ids,
-    platform_product_type: "ALL",
-    fields: "shop_id", // "app_sale_price,shop_id",
-    tracking_id: "reglinidz",
-    page_size: page_size?.toString(),
+    fields: "commission_rate,sale_price",
     page_no: page_no?.toString(),
-    target_language: locale?.toUpperCase(),
+    page_size: page_size?.toString(),
+    platform_product_type: "ALL",
     target_currency: "USD",
+    target_language: locale?.toUpperCase() as AE_Language,
+    tracking_id: "reglinidz",
     ship_to_country: "DZ",
+    sort: "LAST_VOLUME_DESC",
   });
-};
 
 // ! NOT USED
 export const AE_Affiliate_Hotproducts = async (
@@ -135,92 +106,41 @@ export const AE_Affiliate_Hotproducts = async (
   page_no?: number,
   locale?: string
 ) => {
-  return await execute("affiliate", "aliexpress.affiliate.hotproduct.query", {
+  const result = await affiliate_client.getHotProducts({
     category_ids,
+    fields: "commission_rate,sale_price",
     keywords,
-    platform_product_type: "ALL",
-    fields: "shop_id", // "app_sale_price,shop_id",
-    tracking_id: "reglinidz",
-    page_size: page_size?.toString(),
     page_no: page_no?.toString(),
-    target_language: locale?.toUpperCase(),
+    page_size: page_size?.toString(),
+    platform_product_type: "ALL",
     target_currency: "USD",
+    target_language: locale?.toUpperCase() as AE_Language,
+    tracking_id: "reglinidz",
     ship_to_country: "DZ",
   });
+  return result;
 };
 
 export const AE_Affiliate_getCategories = async () => {
-  const result = await execute(
-    "affiliate",
-    "aliexpress.affiliate.category.get",
-    null
-  );
+  const result = await affiliate_client.getCategories({});
   let categories = "";
-  if (
-    result &&
-    result.resp_result &&
-    result.resp_result.result &&
-    result.resp_result.result.categories.length > 0
-  )
-    result.resp_result.result.categories.forEach((category, index) => {
-      let separation = "";
-      if (index !== 0) separation = ",";
-      if (!category.parent_category_id)
-        categories += separation + category.category_id;
-    });
+  if (result.ok) {
+    const data =
+      result.data.aliexpress_affiliate_category_get_response.resp_result.result;
+    if (data && data.categories.length > 0) {
+      shuffle(data.categories).forEach((category) => {
+        const separation = categories ? "," : "";
+        if (!category.parent_category_id)
+          categories += separation + category.category_id;
+      });
+    }
+  }
   return categories;
 };
 
-// ! NOT USED
-export const AE_Affiliate_getCategoryById = async (category_id: number) => {
-  const result = await execute(
-    "affiliate",
-    "aliexpress.affiliate.category.get",
-    null
-  );
-  return result?.resp_result.result.categories.find(
-    (category) => category.category_id === category_id
-  );
-};
-
-// ! NOT USED
-export const AE_Affiliate_featuredPromo = async (
-  page_size?: number,
-  page_no?: number,
-  locale?: string
-) =>
-  await execute(
-    "affiliate",
-    "aliexpress.affiliate.featuredpromo.products.get",
-    {
-      fields: "shop_id", // "app_sale_price,shop_id",
-      tracking_id: "reglinidz",
-      page_size: page_size?.toString(),
-      page_no: page_no?.toString(),
-      target_language: locale?.toUpperCase(),
-      target_currency: "USD",
-    }
-  );
-
-// ! NOT USED
-export const AE_Affiliate_getProductDetails = async (
-  product_ids: string,
-  locale?: string
-) =>
-  await execute("affiliate", "aliexpress.affiliate.productdetail.get", {
-    product_ids,
-    fields: "commission_rate,sale_price",
-    country: "DZ",
-    tracking_id: "reglinidz",
-    target_currency: "USD",
-    target_language: locale?.toUpperCase(),
-  });
-
 export const ALIEXPRESS = {
   ds: {
-    searchProducts: AE_DS_searchProducts,
     product: AE_DS_getProduct,
-    productDetails: AE_DS_getProductDetail,
     shipping: AE_DS_getShippingInfo,
     tracking: AE_DS_getTrackingInfo,
     createOrder: AE_DS_createOrder,
@@ -229,9 +149,6 @@ export const ALIEXPRESS = {
   affiliate: {
     hotproducts: AE_Affiliate_Hotproducts,
     searchProducts: AE_Affiliate_Query_Products,
-    productDetails: AE_Affiliate_getProductDetails,
-    featuredPromo: AE_Affiliate_featuredPromo,
     categories: AE_Affiliate_getCategories,
-    categoryById: AE_Affiliate_getCategoryById,
   },
 };

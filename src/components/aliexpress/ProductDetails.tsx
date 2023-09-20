@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { useTranslations } from "next-intl";
 
+import type { AE_Language } from "ae_sdk";
 import type { ZAE_ProductShippingCarrier } from "@reglini-types/zapiex";
 import type {
   IMessage,
@@ -37,18 +38,10 @@ export const ProductDetails = ({ id }: { id: string }) => {
   const product = trpc.aliexpress.ds.product.useQuery(
     {
       id: parseInt(id),
-      locale: router.locale?.toUpperCase(),
+      locale: router.locale?.toUpperCase() as AE_Language | undefined,
     },
     {
-      onSettled(data, error) {
-        if (error)
-          setMessage({
-            type: "error",
-            text: `Product details [${id}] fetch error.`,
-          });
-        if (data && !data.success)
-          setMessage({ type: "error", text: data.error });
-
+      onSettled(data) {
         if (data && data.data) {
           setShowImage(data.data.productImages[0]);
           if (
@@ -56,8 +49,12 @@ export const ProductDetails = ({ id }: { id: string }) => {
             data.data.shipping.carriers &&
             data.data.shipping.carriers.length > 0
           )
-            setSelectedShipping(data.data.shipping?.carriers![0]);
-        }
+            setSelectedShipping(data.data.shipping?.carriers[0]);
+        } else
+          setMessage({
+            type: "error",
+            text: `Product details [${id}] fetch error.`,
+          });
       },
     }
   );

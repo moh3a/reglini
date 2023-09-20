@@ -26,10 +26,10 @@ export const ProductProperty = ({
 
   const selectProperty = (value: string) => {
     setSelectedProperty(value);
-    setSelectedProperties((properties) => [
-      ...properties,
-      { name: property.name, value },
-    ]);
+    setSelectedProperties((properties) => {
+      const newprops = properties.filter((p) => p.name !== property.name);
+      return [...newprops, { name: property.name, value }];
+    });
   };
 
   const unselectProperty = () => {
@@ -43,15 +43,12 @@ export const ProductProperty = ({
     const isPropertySelected = selectedProperties.find(
       (p) => p.name === property.name && p.value === value
     );
-    if (isPropertySelected) {
-      unselectProperty();
-    } else {
-      selectProperty(value);
-    }
+    if (isPropertySelected) unselectProperty();
+    else selectProperty(value);
   };
 
   return (
-    <div key={property.name} className="mt-4">
+    <div className="mt-4">
       <div>
         {selectedProperty ? (
           <CheckCircleIcon
@@ -68,34 +65,32 @@ export const ProductProperty = ({
       </div>
 
       <div className={`flex flex-wrap`}>
-        {property.values.map((value) => {
-          return (
-            <div
-              onClick={() => selectHandler(value.name)}
-              key={value.id}
-              className={`${
-                selectedProperty === value.name
-                  ? "border-aliexpress"
-                  : "border-gray-300"
-              } ml-2 p-1 border-2 text-center hover:border-aliexpress focus:outline-none cursor-pointer ${ROUNDED}`}
-            >
-              {value.hasImage ? (
-                <div
-                  className={`h-10 w-10 ${ROUNDED}`}
-                  onClick={() => setShowImage(value.imageUrl ?? "")}
-                >
-                  <img
-                    src={value.thumbnailImageUrl}
-                    alt={value.name}
-                    className={ROUNDED}
-                  />
-                </div>
-              ) : (
-                value.name
-              )}
-            </div>
-          );
-        })}
+        {property.values.map((value) => (
+          <div
+            key={value.id}
+            className={`${
+              selectedProperty === value.name
+                ? "border-aliexpress"
+                : "border-gray-300"
+            } ml-2 p-1 border-2 text-center hover:border-aliexpress focus:outline-none cursor-pointer ${ROUNDED}`}
+            onClick={() => selectHandler(value.name)}
+          >
+            {value.hasImage ? (
+              <div
+                className={`h-10 w-10 ${ROUNDED}`}
+                onClick={() => setShowImage(value.imageUrl ?? "")}
+              >
+                <img
+                  src={value.thumbnailImageUrl}
+                  alt={value.name}
+                  className={ROUNDED}
+                />
+              </div>
+            ) : (
+              value.name
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );

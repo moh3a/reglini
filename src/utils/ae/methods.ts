@@ -1,10 +1,12 @@
 import { API_RESPONSE_MESSAGES } from "@config/general";
-import { ae_affiliate_products, ae_shipping } from "./helpers";
+import { ae_affiliate_products, ae_shipping } from "./convert_to_zapiex";
 import {
   API_AE_AFFILIATE_PRODUCTS_PARAMS,
   API_AE_DS_SHIPPING_PARAMS,
   API_AE_DS_TRACKING_PARAMS,
 } from "@reglini-types/ae/pinky";
+import { DEFAULT_PAGE_SIZE } from "@config/constants";
+import { shuffle } from "..";
 
 export const api_ae_ds_shipping = async ({
   method,
@@ -13,13 +15,17 @@ export const api_ae_ds_shipping = async ({
 }: API_AE_DS_SHIPPING_PARAMS) => {
   try {
     const result = await method({ product_id, quantity: quantity ?? 1 });
+
     if (
-      result &&
-      result.result &&
-      result.result.aeop_freight_calculate_result_for_buyer_d_t_o_list
+      result.ok &&
+      result.data.aliexpress_logistics_buyer_freight_calculate_response.result
+        .success &&
+      result.data.aliexpress_logistics_buyer_freight_calculate_response.result
+        .aeop_freight_calculate_result_for_buyer_d_t_o_list
     ) {
       const shipping = ae_shipping(
-        result.result.aeop_freight_calculate_result_for_buyer_d_t_o_list
+        result.data.aliexpress_logistics_buyer_freight_calculate_response.result
+          .aeop_freight_calculate_result_for_buyer_d_t_o_list
       );
       return { success: true, data: shipping };
     } else
@@ -44,13 +50,18 @@ export const api_ae_ds_tracking = async ({
 }: API_AE_DS_TRACKING_PARAMS) => {
   try {
     const response = await method({ order_id, tracking_id, service_name });
-    if (response && response.result_success) {
-      // const result: ZAE_Tracking = {
-      //   isTrackingAvailable,
-      //   packages,
-      //   shippingAddress,
-      // };
-      return { success: true, result: response };
+    console.log(response);
+
+    if (
+      response.ok &&
+      response.data.aliexpress_logistics_ds_trackinginfo_query_response
+        .result_success
+    ) {
+      return {
+        success: true,
+        result:
+          response.data.aliexpress_logistics_ds_trackinginfo_query_response,
+      };
     } else
       return {
         success: false,
@@ -66,7 +77,6 @@ export const api_ae_ds_tracking = async ({
 };
 
 export const api_ae_affiliate_products = async ({
-  categories_method,
   method,
   search,
   locale,
@@ -74,16 +84,27 @@ export const api_ae_affiliate_products = async ({
   page_size,
 }: API_AE_AFFILIATE_PRODUCTS_PARAMS) => {
   try {
-    const categories = await categories_method();
     const response = await method({
       search,
-      category_ids: categories,
-      page_size: page_size ?? 20,
+      category_ids: shuffle([
+        2, 3, 6, 7, 13, 18, 21, 26, 30, 36, 44, 66, 322, 509, 1511, 1524,
+        200000345, 200000343, 200574005, 200000532, 201768104,
+      ]).join(","),
+      page_size: page_size ?? DEFAULT_PAGE_SIZE,
       page_no: page_no ?? 1,
       locale: locale ?? "FR",
     });
-    if (response && response.resp_result && response.resp_result.result) {
-      const data = ae_affiliate_products(response.resp_result.result);
+
+    if (
+      response.ok &&
+      response.data.aliexpress_affiliate_product_query_response.resp_result &&
+      response.data.aliexpress_affiliate_product_query_response.resp_result
+        .result
+    ) {
+      const data = ae_affiliate_products(
+        response.data.aliexpress_affiliate_product_query_response.resp_result
+          .result
+      );
       return { success: true, data };
     } else
       return {

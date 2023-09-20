@@ -17,7 +17,7 @@ import { GetPrice } from "@utils/index";
 import { useFinance } from "@utils/store";
 
 interface ProductShippingProps {
-  shipping: ZAE_ProductShipping;
+  shipping?: ZAE_ProductShipping;
   setSelectedShipping: Dispatch<
     SetStateAction<ZAE_ProductShippingCarrier | undefined>
   >;
@@ -29,7 +29,13 @@ export const ProductShipping = ({
 }: ProductShippingProps) => {
   const t = useTranslations("AliexpressPage");
   const { commission, euro } = useFinance();
-  const [selected, setSelected] = useState(shipping.carriers![0]);
+  const [selected, setSelected] = useState<
+    ZAE_ProductShippingCarrier | undefined
+  >(
+    shipping && shipping.carriers && shipping.carriers.length > 0
+      ? shipping.carriers[0]
+      : undefined
+  );
   useEffect(() => {
     if (selected) setSelectedShipping(selected);
   }, [selected, setSelectedShipping]);

@@ -6,6 +6,7 @@ import { ProductCard, SkeletonProductsList } from "@components/aliexpress";
 import type { IMessage } from "@reglini-types/index";
 import { trpc } from "@utils/trpc";
 import { API_RESPONSE_MESSAGES } from "@config/general";
+import { DEFAULT_PAGE_SIZE } from "@config/constants";
 
 export const ProductsList = () => {
   const router = useRouter();
@@ -23,7 +24,7 @@ export const ProductsList = () => {
       search: q?.toString(),
       locale: router.locale,
       page_no: p ? parseInt(p.toString()) : undefined,
-      page_size: 20,
+      page_size: DEFAULT_PAGE_SIZE,
     },
     {
       onSettled(data, error) {

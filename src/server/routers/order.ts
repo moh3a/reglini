@@ -1,12 +1,9 @@
 import { z } from "zod";
 
-import { Product } from "@prisma/client";
-import type {
-  AENOLogisticsAddress,
-  AENOProduct,
-  AENOProductItem,
-} from "@reglini-types/index";
+import type { Product } from "@prisma/client";
+import type { AE_Logistics_Address, AE_Product_Item } from "@reglini-types/ae";
 import type { ZAE_ShippingAddres } from "@reglini-types/zapiex";
+
 import { router, procedure } from "../trpc";
 import SendEmail from "@utils/send_email";
 import { API_RESPONSE_MESSAGES } from "@config/general";
@@ -56,8 +53,14 @@ export const orderRouter = router({
           const result = await ctx.aliexpress.ds.getOrder(
             parseInt(input.order_id)
           );
-          if (result && result.result) {
-            return { success: true, result: result.result };
+          if (
+            result.ok &&
+            result.data.aliexpress_trade_ds_order_get_response.result
+          ) {
+            return {
+              success: true,
+              result: result.data.aliexpress_trade_ds_order_get_response.result,
+            };
           } else
             return {
               success: false,
@@ -102,7 +105,7 @@ export const orderRouter = router({
     .input(
       z.object({
         shippingAddress: z.custom<ZAE_ShippingAddres>(),
-        products: z.custom<AENOProduct[]>(),
+        products: z.custom<Omit<Product, "orderId">[]>(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -112,18 +115,7 @@ export const orderRouter = router({
         });
         if (user) {
           try {
-            // const products: AEProduct[] = input.products.map((product) => ({
-            //   carrierId: product.carrierId,
-            //   productId: product.productId,
-            //   quantity: product.quantity,
-            //   sku: product.sku,
-            //   orderMemo: "",
-            // }));
-            // const data = await ctx.zapiex.createOrder(
-            //   products,
-            //   input.shippingAddress
-            // );
-            const product_items: AENOProductItem[] = input.products.map(
+            const product_items: AE_Product_Item[] = input.products.map(
               (product) => {
                 return {
                   logistics_service_name: product.carrierId,
@@ -134,7 +126,7 @@ export const orderRouter = router({
                 };
               }
             );
-            const logistics_address: AENOLogisticsAddress = {
+            const logistics_address: AE_Logistics_Address = {
               address: input.shippingAddress.addressLine1,
               city: input.shippingAddress.city,
               contact_person: input.shippingAddress.name,
@@ -150,23 +142,32 @@ export const orderRouter = router({
               product_items
             );
 
-            if (result && result.result) {
-              if (result.result.is_success) {
-                for (const order_id of result.result.order_list) {
+            if (
+              result.ok &&
+              result.data.aliexpress_trade_buy_placeorder_response.result
+            ) {
+              if (
+                result.data.aliexpress_trade_buy_placeorder_response.result
+                  .is_success
+              ) {
+                for (const order_id of result.data
+                  .aliexpress_trade_buy_placeorder_response.result.order_list) {
                   const order = await ctx.aliexpress.ds.getOrder(order_id);
                   let products: Omit<
                     Product,
                     "orderId" | "id" | "properties"
                   >[] = [];
-                  if (input.products.length === 1) {
+                  if (order.ok && input.products.length === 1) {
                     products.push(input.products[0]);
-                  } else if (input.products.length > 1) {
-                    order?.result.child_order_list.forEach((o) => {
-                      const prdct = input.products.find(
-                        (p) => p.productId === o.product_id.toString()
-                      );
-                      if (prdct) products.push(prdct);
-                    });
+                  } else if (order.ok && input.products.length > 1) {
+                    order.data.aliexpress_trade_ds_order_get_response.result.child_order_list.forEach(
+                      (o) => {
+                        const prdct = input.products.find(
+                          (p) => p.productId === o.product_id.toString()
+                        );
+                        if (prdct) products.push(prdct);
+                      }
+                    );
                   }
                   await ctx.prisma.order.create({
                     data: {

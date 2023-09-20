@@ -13,8 +13,10 @@ import { Title, Loading, Button, Banner } from "@components/shared";
 import Edit from "@components/account/details/EditAccount";
 import EditAddress from "@components/account/details/EditAddress";
 import { trpc } from "@utils/trpc";
-import type { AENOProduct, IMessage } from "@reglini-types/index";
 import ItemProperties from "../ItemProperties";
+
+import type { IMessage } from "@reglini-types/index";
+import type { Product } from "@prisma/client";
 
 const CreateOrder = () => {
   const t = useTranslations("AccountPage");
@@ -26,19 +28,21 @@ const CreateOrder = () => {
   const emptyCartMutation = trpc.cart.empty.useMutation();
   const createOrderMutation = trpc.order.create.useMutation();
 
-  const [products, setProducts] = useState<AENOProduct[] | undefined>();
+  const [products, setProducts] = useState<
+    Omit<Product, "orderId">[] | undefined
+  >();
   const [message, setMessage] = useState<IMessage>();
   const [valid, setValid] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const products: AENOProduct[] = JSON.parse(
+      const nproducts: Omit<Product, "orderId">[] = JSON.parse(
         localStorage.getItem("aeno") ?? "[]"
-      ).map((p: AENOProduct) => {
+      ).map((p: Omit<Product, "orderId">) => {
         p.properties = JSON.stringify(p.properties);
         return p;
       });
-      setProducts(products);
+      setProducts(nproducts);
     }
   }, []);
 

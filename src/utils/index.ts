@@ -42,6 +42,20 @@ export const GetPrice = (
   }
 };
 
+export const shuffle = <T>(array: T[]): T[] => {
+  let currentIndex = array.length,
+    randomIndex: number;
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+  return array;
+};
+
 export const calculate_discount = (
   originalPrice: string | number,
   discountedPrice: string | number
@@ -77,19 +91,16 @@ export const validate_product_variation_quantity = (
 };
 
 export const check_property = (
-  variation_properties: (ProductProperty | undefined)[],
-  sku_properties: ZAE_ProductVariationProperties,
-  sku_index: number,
+  selected_property: ProductProperty | undefined,
+  sku_properties: ZAE_ProductVariationProperties[],
   check: boolean[]
 ) => {
-  if (
-    variation_properties.find(
-      (p) =>
-        p?.name === sku_properties.name &&
-        p?.value === sku_properties.value.name
-    )
-  )
-    check[sku_index] = true;
+  const sku_index = sku_properties.findIndex(
+    (sku) =>
+      sku.name === selected_property?.name &&
+      sku.value.name === selected_property?.value
+  );
+  if (sku_index > -1) check[sku_index] = true;
   else check[sku_index] = false;
 };
 
@@ -100,9 +111,11 @@ export const find_selected_sku = (
   quantity: number
 ) => {
   let check: boolean[] = new Array(sku.properties.length).fill(false);
-  sku.properties.forEach((property, index) => {
-    check_property(variation_properties, property, index, check);
+
+  variation_properties.forEach((selected_property) => {
+    check_property(selected_property, sku.properties, check);
   });
+
   if (!check.includes(false)) {
     return {
       success: true,
