@@ -63,13 +63,13 @@ export const authRouter = router({
           });
           return {
             success: false,
-            message: API_RESPONSE_MESSAGES.ERROR_OCCURED,
+            error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
           };
         }
       } else
         return {
           success: false,
-          message: API_RESPONSE_MESSAGES.NOT_FOUND("User"),
+          error: API_RESPONSE_MESSAGES.NOT_FOUND("User"),
         };
     }),
   resetPassword: procedure
@@ -105,13 +105,13 @@ export const authRouter = router({
         } catch (error) {
           return {
             success: false,
-            message: API_RESPONSE_MESSAGES.ERROR_OCCURED,
+            error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
           };
         }
       } else
         return {
           success: false,
-          message: "Invalid reset token.",
+          error: "Invalid reset token.",
         };
     }),
 });

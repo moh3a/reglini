@@ -406,8 +406,7 @@ export const convert_ae_shipping_info = (
     (carrier) => {
       return {
         deliveryTimeInDays: {
-          min: Number(carrier.estimated_delivery_time),
-          max: Number(carrier.estimated_delivery_time),
+          min: carrier.estimated_delivery_time as any,
         },
         price: { value: carrier.freight.amount },
         company: { id: carrier.service_name, name: carrier.service_name },

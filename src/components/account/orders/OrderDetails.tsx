@@ -29,6 +29,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
     { order_id: id },
     {
       onSettled(data, error) {
+        console.log(data);
         if (error)
           setMessage({ type: "error", text: "Order details fetch error." });
         if (data && !data.success)
@@ -103,14 +104,16 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                 </dt>
                 <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">{id}</dd>
               </div>
-              <div className="p-1 sm:px-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4">
-                <dt className="text-sm font-bold lg:flex lg:items-center">
-                  {t("orderDate")}
-                </dt>
-                <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
-                  {orderQuery.data.result.gmt_create}
-                </dd>
-              </div>
+              {orderQuery.data.result.gmt_create && (
+                <div className="p-1 sm:px-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                  <dt className="text-sm font-bold lg:flex lg:items-center">
+                    {t("orderDate")}
+                  </dt>
+                  <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
+                    {orderQuery.data.result.gmt_create}
+                  </dd>
+                </div>
+              )}
               <div className="p-1 sm:px-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4">
                 <dt className="text-sm font-bold lg:flex lg:items-center">
                   {t("orderStatus.title")}
@@ -119,8 +122,6 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                   <span className={"text-aliexpress font-bold uppercase"}>
                     {orderQuery.data.result.order_status ===
                       "PLACE_ORDER_SUCCESS" &&
-                      orderQuery.data.result.logistics_status ===
-                        "NO_LOGISTICS" &&
                       !detailsQuery.data?.order?.payment?.receipt &&
                       t("orderStatus.awaitingPayment")}
                     {orderQuery.data.result.order_status ===

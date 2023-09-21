@@ -6,15 +6,15 @@ import {
 } from "@reglini-types/zapiex";
 import { SelectedVariation } from "@reglini-types/index";
 
-export const USER_FROM_TRPC_CTX = (session: ISession | null) => {
-  let email = session?.user?.email ? session.user.email : "";
+export const USER_FROM_TRPC_CTX = (session: ISession) => {
+  let email = session.user?.email ?? "";
   let account =
     session?.user?.type === "credentials"
       ? ACCOUNT_TYPE.CREDENTIALS
       : ACCOUNT_TYPE.OAUTH;
 
   let provider: "FACEBOOK" | "GOOGLE" | undefined = undefined;
-  if (account === "OAUTH" && session && session.user) {
+  if (account === "OAUTH" && session.user) {
     if (session.user.provider === "facebook") provider = AUTH_PROVIDER.FACEBOOK;
     else if (session.user.provider === "google")
       provider = AUTH_PROVIDER.GOOGLE;

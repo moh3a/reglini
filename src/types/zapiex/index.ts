@@ -204,7 +204,7 @@ export interface ZAE_ProductShippingCarrier {
   hasDiscount?: boolean;
   discountPercentage?: number;
   estimatedDeliveryDate?: string;
-  deliveryTimeInDays?: Price;
+  deliveryTimeInDays?: Partial<Price>;
 }
 
 export interface ZAE_ProductPropertyDetails {

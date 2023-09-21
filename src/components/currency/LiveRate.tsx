@@ -34,25 +34,31 @@ const LiveRate = () => {
               {t("purchase")}
             </h2>
             <div className="flex justify-around select-none">
-              {currencies.data.currencies.map((currency) => (
-                <CurrencyCard
-                  key={currency.id}
-                  currency={currency}
-                  market="parallel_purchase"
-                />
-              ))}
+              {currencies.data.currencies.map(
+                (currency) =>
+                  currency && (
+                    <CurrencyCard
+                      key={currency.id}
+                      currency={currency}
+                      market="parallel_purchase"
+                    />
+                  )
+              )}
             </div>
             <h2 className="text-lg lg:text-xl font-semibold underline font-mono">
               {t("sale")}
             </h2>
             <div className="flex flex-wrap flex-center select-none">
-              {currencies.data.currencies.map((currency) => (
-                <CurrencyCard
-                  key={currency.id}
-                  currency={currency}
-                  market="parallel_sale"
-                />
-              ))}
+              {currencies.data.currencies.map(
+                (currency) =>
+                  currency && (
+                    <CurrencyCard
+                      key={currency.id}
+                      currency={currency}
+                      market="parallel_sale"
+                    />
+                  )
+              )}
             </div>
           </div>
           <div className="py-8 lg:py-16 px-2 flex flex-col items-center">
@@ -68,13 +74,16 @@ const LiveRate = () => {
               {t("desc", { market: t("official") })}
             </div>
             <div className="flex flex-wrap flex-center select-none">
-              {currencies.data.currencies.map((currency) => (
-                <CurrencyCard
-                  key={currency.id}
-                  currency={currency}
-                  market="official_rate"
-                />
-              ))}
+              {currencies.data.currencies.map(
+                (currency) =>
+                  currency && (
+                    <CurrencyCard
+                      key={currency.id}
+                      currency={currency}
+                      market="official_rate"
+                    />
+                  )
+              )}
             </div>
           </div>
         </>

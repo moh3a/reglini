@@ -25,7 +25,11 @@ const ConvertCurrency = () => {
 
   const currenciesQuery = trpc.currency.currencies.useQuery();
   useEffect(() => {
-    if (currenciesQuery.data && currenciesQuery.data.currencies) {
+    if (
+      currenciesQuery.data &&
+      currenciesQuery.data.currencies &&
+      currenciesQuery.data.currencies[0]
+    ) {
       setMoney({
         dzd: currenciesQuery.data.currencies[0].parallel_sale ?? 0,
         devise: currenciesQuery.data.currencies[0].parallel_sale ? 1 : 0,
@@ -37,10 +41,10 @@ const ConvertCurrency = () => {
   useEffect(() => {
     if (currenciesQuery.data && currenciesQuery.data.currencies) {
       const index = currenciesQuery.data.currencies.findIndex(
-        (e) => e.exchange === selectedDevise.exchange
+        (e) => e?.exchange === selectedDevise.exchange
       );
-      if (index !== -1)
-        setRate(currenciesQuery.data.currencies[index].parallel_sale ?? 0);
+      if (currenciesQuery.data.currencies[index] && index !== -1)
+        setRate(currenciesQuery.data.currencies[index]?.parallel_sale ?? 0);
     }
   }, [currenciesQuery.data, selectedDevise.exchange]);
 
@@ -141,42 +145,45 @@ const ConvertCurrency = () => {
                   <Listbox.Options
                     className={`absolute py-1 mt-1 overflow-auto text-base max-h-60 sm:text-sm ${SHADOW} ${ROUNDED} ${BG_TRANSPARENT_BACKDROP}`}
                   >
-                    {currenciesQuery.data.currencies.map((currency) => (
-                      <Listbox.Option
-                        key={currency.exchange}
-                        className={({ selected }) =>
-                          `${
-                            selected
-                              ? "font-extrabold bg-aliexpress text-white"
-                              : ""
-                          }
+                    {currenciesQuery.data.currencies.map(
+                      (currency) =>
+                        currency && (
+                          <Listbox.Option
+                            key={currency.exchange}
+                            className={({ selected }) =>
+                              `${
+                                selected
+                                  ? "font-extrabold bg-aliexpress text-white"
+                                  : ""
+                              }
                           cursor-pointer hover:bg-black/5 dark:hover:bg-black/50 select-none relative py-1 pl-8 pr-2`
-                        }
-                        value={currency.exchange}
-                      >
-                        {({ selected }) => (
-                          <>
-                            <span
-                              className={`${
-                                selected ? "font-bold" : "font-normal"
-                              } block truncate`}
-                            >
-                              {currency.exchange}
-                            </span>
-                            {selected ? (
-                              <span
-                                className={`text-white absolute inset-y-0 left-0 flex items-center pl-2`}
-                              >
-                                <CheckIcon
-                                  className="w-5 h-5"
-                                  aria-hidden="true"
-                                />
-                              </span>
-                            ) : null}
-                          </>
-                        )}
-                      </Listbox.Option>
-                    ))}
+                            }
+                            value={currency.exchange}
+                          >
+                            {({ selected }) => (
+                              <>
+                                <span
+                                  className={`${
+                                    selected ? "font-bold" : "font-normal"
+                                  } block truncate`}
+                                >
+                                  {currency.exchange}
+                                </span>
+                                {selected ? (
+                                  <span
+                                    className={`text-white absolute inset-y-0 left-0 flex items-center pl-2`}
+                                  >
+                                    <CheckIcon
+                                      className="w-5 h-5"
+                                      aria-hidden="true"
+                                    />
+                                  </span>
+                                ) : null}
+                              </>
+                            )}
+                          </Listbox.Option>
+                        )
+                    )}
                   </Listbox.Options>
                 </Transition>
               </div>
