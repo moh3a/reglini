@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import { Modal, Pagination } from "@components/shared";
-import { ProductCard, SkeletonProductsList } from "@components/aliexpress";
+import {
+  ProductCard,
+  SkeletonProductsColumn,
+  SkeletonProductsList,
+} from "@components/aliexpress";
 import type { IMessage } from "@reglini-types/index";
 import { trpc } from "@utils/trpc";
 import { API_RESPONSE_MESSAGES } from "@config/general";
@@ -49,6 +53,8 @@ export const ProductsList = () => {
       >
         {message?.text}
       </Modal>
+
+      {/* {!q && !p && <SkeletonProductsColumn />} */}
 
       {searchProducts.isLoading && <SkeletonProductsList />}
       {searchProducts.isFetched &&

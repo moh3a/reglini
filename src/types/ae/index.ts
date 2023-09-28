@@ -1,5 +1,6 @@
 import type {
   AE_Currency,
+  AE_Language,
   AE_Logistics_Status,
   AE_Order_Status,
   AE_Platform_Type,
@@ -254,6 +255,14 @@ export interface Affiliate_Product_Promo_Code_Info {
   code_quantity?: string;
   code_promotionurl?: string;
 }
+export interface Affiliate_Base_Product_Params {
+  app_signature?: string;
+  /** Respond parameter list. eg: commission_rate,sale_price */
+  fields?: string;
+  target_currency?: AE_Currency;
+  target_language?: AE_Language;
+  tracking_id?: string;
+}
 
 export interface Affiliate_Base_Product_Details {
   app_sale_price?: string;
@@ -275,8 +284,8 @@ export interface Affiliate_Base_Product_Details {
   product_title?: string;
   product_video_url?: string;
   promotion_link?: string;
-  promo_code_info: Affiliate_Product_Promo_Code_Info;
-  relevant_market_commission_rate: string;
+  promo_code_info?: Affiliate_Product_Promo_Code_Info;
+  relevant_market_commission_rate?: string;
   sale_price: string;
   sale_price_currency: AE_Currency;
   second_level_category_id: number;
@@ -289,29 +298,26 @@ export interface Affiliate_Base_Product_Details {
   target_original_price_currency: AE_Currency;
   target_sale_price_currency: AE_Currency;
   target_app_sale_price_currency: AE_Currency;
-}
-
-export interface Affiliate_Product_Details
-  extends Affiliate_Base_Product_Details {
   ship_to_days?: string;
 }
 
-export interface Affiliate_Products {
-  current_page_no: number;
-  current_record_count: number;
-  products: Affiliate_Product_Details[];
-  total_page_no: number;
-  total_record_count: number;
+export interface Affiliate_Base_Products_Cursor {
+  products?: Affiliate_Base_Product_Details[];
+  current_record_count?: number;
+  current_page_no?: number;
+  total_page_no?: number;
+  total_record_count?: number;
+  is_finished?: boolean;
 }
 
-export interface Affiliate_Products_Response {
+export interface Affiliate_Base_Products_Cursor_Response {
   resp_result: {
-    resp_code: number;
-    resp_msg: string;
-    result: Affiliate_Products;
+    result: Affiliate_Base_Products_Cursor;
+    resp_code?: number;
+    resp_msg?: string;
   };
 }
 
 export interface Affiliate_Products_Result {
-  aliexpress_affiliate_product_query_response: Affiliate_Products_Response;
+  aliexpress_affiliate_product_query_response: Affiliate_Base_Products_Cursor_Response;
 }

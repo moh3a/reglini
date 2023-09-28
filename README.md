@@ -3,7 +3,6 @@
 ## Todo
 
 - Add featured promotions, hotproducts and smart match
-- Check: aliexpress.ds.member.orderdata.submit
 
 ## Quickstart
 

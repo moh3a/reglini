@@ -2,7 +2,7 @@
 // to one that is compatible with ZAPIEX to use both apis interchangeably
 
 import type {
-  Affiliate_Products,
+  Affiliate_Base_Products_Cursor,
   DS_Product,
   DS_Product_Attributes,
   DS_Product_SKU_Properties,
@@ -424,8 +424,10 @@ export const convert_ae_shipping_info = (
   };
 };
 
-export const ae_affiliate_products = (res: Affiliate_Products): ZAE_Search => {
-  const items: ZAE_SearchItem[] = res.products.map((product) => {
+export const ae_affiliate_products = (
+  res: Affiliate_Base_Products_Cursor
+): ZAE_Search => {
+  const items: ZAE_SearchItem[] | undefined = res.products?.map((product) => {
     return {
       productId: product.product_id?.toString() ?? "",
       title: product.product_title ?? "",
@@ -435,10 +437,10 @@ export const ae_affiliate_products = (res: Affiliate_Products): ZAE_Search => {
     };
   });
   return {
-    totalCount: res.total_record_count,
-    numberOfPages: res.total_page_no,
-    resultsPerPage: res.current_record_count,
-    currency: res.products[0].target_sale_price_currency,
-    items,
+    totalCount: res.total_record_count ?? 0,
+    numberOfPages: res.total_page_no ?? 0,
+    resultsPerPage: res.current_record_count ?? 0,
+    currency: res.products ? res.products[0].target_sale_price_currency : "USD",
+    items: items ?? [],
   };
 };
