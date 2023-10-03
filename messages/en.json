@@ -184,7 +184,7 @@
       "carriers": "Shipping Carriers",
       "shippingAvailable": "Item available for shipping to Algeria.",
       "shippingNotAvailable": "Item not available for shipping to Algeria.",
-      "deliveredIn": "Delivered in {time} days"
+      "deliveredIn": "Estimated delivery time: {time}"
     },
     "quantity": {
       "title": "Quantity",

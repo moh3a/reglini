@@ -403,17 +403,13 @@ export const convert_ae_shipping_info = (
   shipment_carriers: DS_Shipping_Details[]
 ): ZAE_ProductShipping => {
   const carriers: ZAE_ProductShippingCarrier[] = shipment_carriers.map(
-    (carrier) => {
-      return {
-        deliveryTimeInDays: {
-          min: carrier.estimated_delivery_time as any,
-        },
-        price: { value: carrier.freight.amount },
-        company: { id: carrier.service_name, name: carrier.service_name },
-        hasDiscount: false,
-        estimatedDeliveryDate: carrier.estimated_delivery_time,
-      };
-    }
+    (carrier) => ({
+      price: { value: carrier.freight.amount },
+      company: { id: carrier.service_name, name: carrier.service_name },
+      hasDiscount: false,
+      estimatedDeliveryDate: carrier.estimated_delivery_time,
+      hasTracking: carrier.tracking_available === "true" ? true : false,
+    })
   );
   return {
     isAvailableForSelectedCountries: true,

@@ -184,7 +184,7 @@
       "carriers": "Transporteurs",
       "shippingAvailable": "Article disponible pour expédition en Algérie.",
       "shippingNotAvailable": "Article non disponible pour l'expédition en Algérie.",
-      "deliveredIn": "Livré en {time} jours"
+      "deliveredIn": "Temps de livraison estimé: {time}"
     },
     "quantity": {
       "title": "Quantité",

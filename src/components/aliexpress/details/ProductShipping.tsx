@@ -103,10 +103,10 @@ export const ProductShipping = ({
                                 )}
                               </div>
                               <div className="flex justify-between text-xs">
-                                {carrier.deliveryTimeInDays ? (
+                                {carrier.estimatedDeliveryDate ? (
                                   <div>
                                     {t("shipping.deliveredIn", {
-                                      time: carrier.deliveryTimeInDays.min,
+                                      time: carrier.estimatedDeliveryDate,
                                     })}
                                   </div>
                                 ) : (
@@ -145,10 +145,7 @@ export const ProductShipping = ({
             <div className="flex justify-between text-xs z-0">
               <div>
                 {t("shipping.deliveredIn", {
-                  time:
-                    selected.deliveryTimeInDays?.min +
-                    " - " +
-                    selected.deliveryTimeInDays?.max,
+                  time: selected.estimatedDeliveryDate,
                 })}
               </div>
               <div>

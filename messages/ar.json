@@ -184,7 +184,7 @@
       "carriers": "شركات الشحن",
       "shippingAvailable": "المنتج متاح للشحن إلى الجزائر",
       "shippingNotAvailable": "المنتج غير متوفر للشحن إلى الجزائر",
-      "deliveredIn": "تسليم في {time} يوم"
+      "deliveredIn": "وقت التسليم المقدر: {time}"
     },
     "quantity": {
       "title": "الكمية",
