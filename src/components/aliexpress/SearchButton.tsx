@@ -5,8 +5,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 
-import { Button } from "@components/shared";
-import { ROUNDED, TEXT_INPUT } from "@config/design";
+import { Button } from "~/components/shared";
+import { ROUNDED, TEXT_INPUT } from "~/config/design";
 
 export const SearchButton = () => {
   const [isOpen, setIsOpen] = useState(false);

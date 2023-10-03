@@ -3,12 +3,12 @@ import { useSession } from "next-auth/react";
 import { HeartIcon } from "@heroicons/react/24/solid";
 import { useTranslations } from "next-intl";
 
-import type { ZAE_Product } from "@reglini-types/zapiex";
-import type { IMessage } from "@reglini-types/index";
-import { Button } from "@components/shared";
-import { trpc } from "@utils/trpc";
-import { GetPrice } from "@utils/index";
-import { useFinance } from "@utils/store";
+import type { ZAE_Product } from "~/types/zapiex";
+import type { IMessage } from "~/types/index";
+import { Button } from "~/components/shared";
+import { trpc } from "~/utils/trpc";
+import { GetPrice } from "~/utils/index";
+import { useFinance } from "~/utils/store";
 
 interface AddToWishlistProps {
   product: ZAE_Product;

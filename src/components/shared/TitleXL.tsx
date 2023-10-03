@@ -1,4 +1,4 @@
-import { TEXT_GRADIENT } from "@config/design";
+import { TEXT_GRADIENT } from "~/config/design";
 
 export const TitleXL = ({ title, emoji }: { title: string; emoji: string }) => {
   return (

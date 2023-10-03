@@ -2,9 +2,9 @@ import { createHash, randomBytes } from "crypto";
 import { z } from "zod";
 
 import { router, procedure } from "../trpc";
-import SendEmail from "@utils/send_email";
+import SendEmail from "~/utils/send_email";
 import { genSaltSync, hashSync } from "bcrypt";
-import { API_RESPONSE_MESSAGES } from "@config/general";
+import { API_RESPONSE_MESSAGES } from "~/config/constants";
 
 export const authRouter = router({
   checkEmail: procedure

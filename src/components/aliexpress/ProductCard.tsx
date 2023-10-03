@@ -6,11 +6,11 @@ import { HeartIcon } from "@heroicons/react/24/solid";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 
-import type { ZAE_Search } from "@reglini-types/zapiex";
-import type { IMessage } from "@reglini-types/index";
-import { GetPrice } from "@utils/index";
-import { useFinance } from "@utils/store";
-import { trpc } from "@utils/trpc";
+import type { ZAE_Search } from "~/types/zapiex";
+import type { IMessage } from "~/types/index";
+import { GetPrice } from "~/utils/index";
+import { useFinance } from "~/utils/store";
+import { trpc } from "~/utils/trpc";
 
 interface ProductCardProps {
   product: ZAE_Search["items"][0];

@@ -1,10 +1,10 @@
 import { ACCOUNT_TYPE, AUTH_PROVIDER } from "@prisma/client";
-import type { ISession, ProductProperty } from "@reglini-types/index";
+import type { ISession, ProductProperty } from "~/types/index";
 import {
   ZAE_ProductVariation,
   ZAE_ProductVariationProperties,
-} from "@reglini-types/zapiex";
-import { SelectedVariation } from "@reglini-types/index";
+} from "~/types/zapiex";
+import { SelectedVariation } from "~/types/index";
 
 export const USER_FROM_TRPC_CTX = (session: ISession) => {
   let email = session.user?.email ?? "";

@@ -4,13 +4,13 @@ import Head from "next/head";
 import { useTranslations } from "next-intl";
 
 import type { AE_Language } from "ae_sdk";
-import type { ZAE_ProductShippingCarrier } from "@reglini-types/zapiex";
+import type { ZAE_ProductShippingCarrier } from "~/types/zapiex";
 import type {
   IMessage,
   ProductProperty as IProductProperty,
   SelectedVariation,
-} from "@reglini-types/index";
-import { Loading, Banner } from "@components/shared";
+} from "~/types/index";
+import { Loading, Banner } from "~/components/shared";
 import {
   AddToCart,
   AddToWishlist,
@@ -22,10 +22,10 @@ import {
   ProductQuantity,
   ProductReviews,
   ProductShipping,
-} from "@components/aliexpress/details";
-import { trpc } from "@utils/trpc";
-import { APP_NAME } from "@config/general";
-import { select_product_variation } from "@utils/index";
+} from "~/components/aliexpress/details";
+import { trpc } from "~/utils/trpc";
+import { API_RESPONSE_MESSAGES, APP_NAME } from "~/config/constants";
+import { select_product_variation } from "~/utils/index";
 
 export const ProductDetails = ({ id }: { id: string }) => {
   const router = useRouter();
@@ -63,6 +63,7 @@ export const ProductDetails = ({ id }: { id: string }) => {
     {
       id: parseInt(id),
       quantity,
+      sku: product.data?.data?.properties[0].id,
     },
     {
       onSettled(data, error) {
@@ -71,8 +72,15 @@ export const ProductDetails = ({ id }: { id: string }) => {
             type: "error",
             text: `Product shipping details [${id}] fetch error.`,
           });
-        if (data && !data.success)
-          setMessage({ type: "error", text: data.error });
+        if (data && !data.success) {
+          if (
+            data.error ===
+              API_RESPONSE_MESSAGES.AE_DS_PRODUCT_SHIPPING_SKU_ID_REQUIRED &&
+            product.data?.data?.properties[0].id
+          ) {
+            shipping.refetch();
+          } else setMessage({ type: "error", text: data.error });
+        }
 
         if (
           data &&

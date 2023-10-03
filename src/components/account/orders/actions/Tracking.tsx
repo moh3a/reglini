@@ -2,10 +2,10 @@ import { Dispatch, SetStateAction } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 
-import { trpc } from "@utils/trpc";
-import { TEXT_GRADIENT } from "@config/design";
-import { Loading, Button } from "@components/shared";
-import type { IMessage } from "@reglini-types/index";
+import { trpc } from "~/utils/trpc";
+import { TEXT_GRADIENT } from "~/config/design";
+import { Loading, Button } from "~/components/shared";
+import type { IMessage } from "~/types/index";
 
 interface TrackingProps {
   order_id: string;

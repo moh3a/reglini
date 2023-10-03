@@ -21,10 +21,10 @@ import {
   SHADOW,
   TEXT_GRADIENT,
   TEXT_INPUT,
-} from "@config/design";
-import { Button, Loading } from "@components/shared";
-import { trpc } from "@utils/trpc";
-import type { IMessage } from "@reglini-types/index";
+} from "~/config/design";
+import { Button, Loading } from "~/components/shared";
+import { trpc } from "~/utils/trpc";
+import type { IMessage } from "~/types/index";
 
 interface ConfirmReceptionProps {
   order_id: string;

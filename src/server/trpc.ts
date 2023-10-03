@@ -4,12 +4,12 @@ import { ZodError } from "zod";
 import * as trpc from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
 
-import prisma from "@config/prisma";
-import { API_RESPONSE_MESSAGES } from "@config/general";
-import type { ISession } from "@reglini-types/index";
+import prisma from "~/config/prisma";
+import { API_RESPONSE_MESSAGES } from "~/config/constants";
+import type { ISession } from "~/types/index";
 import { TRPCError, initTRPC } from "@trpc/server";
-import { ALIEXPRESS } from "@utils/ae";
-import { ZAPIEX } from "@utils/zapiex";
+import { ALIEXPRESS } from "~/utils/ae";
+import { ZAPIEX } from "~/utils/zapiex";
 
 export const createContext = async ({
   req,

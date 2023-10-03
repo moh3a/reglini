@@ -1,6 +1,6 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { TEXT_INPUT } from "@config/design";
+import { TEXT_INPUT } from "~/config/design";
 
 interface SearchInputProps {
   id?: string;

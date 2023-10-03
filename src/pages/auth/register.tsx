@@ -5,10 +5,10 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
-import { APP_NAME } from "@config/general";
-import LoginProviders from "@components/auth/LoginProviders";
-import Register from "@components/auth/Register";
-import { Title } from "@components/shared";
+import { APP_NAME } from "~/config/constants";
+import LoginProviders from "~/components/auth/LoginProviders";
+import Register from "~/components/auth/Register";
+import { Title } from "~/components/shared";
 
 interface AuthProps {
   csrfToken: any;
@@ -60,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-import Layout from "@components/layout/Layout";
+import Layout from "~/components/layout/Layout";
 RegisterPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };

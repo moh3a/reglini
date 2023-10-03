@@ -6,15 +6,15 @@ import { useTranslations } from "next-intl";
 import type {
   ZAE_ProductShipping,
   ZAE_ProductShippingCarrier,
-} from "@reglini-types/zapiex";
+} from "~/types/zapiex";
 import {
   BG_TRANSPARENT_BACKDROP,
   ROUNDED,
   SHADOW,
   TEXT_INPUT,
-} from "@config/design";
-import { GetPrice } from "@utils/index";
-import { useFinance } from "@utils/store";
+} from "~/config/design";
+import { GetPrice } from "~/utils/index";
+import { useFinance } from "~/utils/store";
 
 interface ProductShippingProps {
   shipping?: ZAE_ProductShipping;
@@ -106,10 +106,7 @@ export const ProductShipping = ({
                                 {carrier.deliveryTimeInDays ? (
                                   <div>
                                     {t("shipping.deliveredIn", {
-                                      time:
-                                        carrier.deliveryTimeInDays.min +
-                                        " - " +
-                                        carrier.deliveryTimeInDays.max,
+                                      time: carrier.deliveryTimeInDays.min,
                                     })}
                                   </div>
                                 ) : (

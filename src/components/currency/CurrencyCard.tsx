@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Fragment } from "react";
 import { Currency } from "@prisma/client";
-import { BG_TRANSPARENT_BACKDROP, SHADOW } from "@config/design";
+import { BG_TRANSPARENT_BACKDROP, SHADOW } from "~/config/design";
 import { useTranslations } from "next-intl";
 
 const CurrencyCard = ({

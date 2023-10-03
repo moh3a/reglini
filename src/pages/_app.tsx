@@ -10,8 +10,8 @@ import { NextIntlProvider, IntlErrorCode } from "next-intl";
 import nProgress from "nprogress";
 
 import type { AppType } from "next/dist/shared/lib/utils";
-import { trpc } from "@utils/trpc";
-import { APP_NAME } from "@config/general";
+import { trpc } from "~/utils/trpc";
+import { APP_NAME } from "~/config/constants";
 
 const MyApp: AppType<{
   session: Session | null;

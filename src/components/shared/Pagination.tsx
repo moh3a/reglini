@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { useRouter } from "next/router";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
-import { SHADOW } from "@config/design";
+import { SHADOW } from "~/config/design";
 
 interface PaginationProps {
   current: number;

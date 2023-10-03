@@ -1,7 +1,7 @@
 import { CURRENCIES } from "@prisma/client";
 
 import { router, procedure } from "../trpc";
-import { API_RESPONSE_MESSAGES } from "@config/general";
+import { API_RESPONSE_MESSAGES } from "~/config/constants";
 
 export const currencyRouter = router({
   currencies: procedure.query(async ({ ctx, input }) => {

@@ -2,9 +2,9 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
-import { ROUNDED, SHADOW, TEXT_INPUT } from "@config/design";
-import { TextInput, Button, Title, Banner } from "@components/shared";
-import { trpc } from "@utils/trpc";
+import { ROUNDED, SHADOW, TEXT_INPUT } from "~/config/design";
+import { TextInput, Button, Title, Banner } from "~/components/shared";
+import { trpc } from "~/utils/trpc";
 
 const Contact = () => {
   const emailMutation = trpc.email.useMutation();

@@ -1,11 +1,11 @@
 import { z } from "zod";
 import { AE_Language } from "ae_sdk";
 
-import { router, procedure } from "@server/trpc";
-import { API_RESPONSE_MESSAGES } from "@config/general";
-import { ae_product } from "@utils/ae/convert_to_zapiex";
-import { api_ae_ds_shipping, api_ae_ds_tracking } from "@utils/ae/methods";
-import { api_zapiex_product } from "@utils/zapiex/methods";
+import { router, procedure } from "~/server/trpc";
+import { API_RESPONSE_MESSAGES } from "~/config/constants";
+import { ae_product } from "~/utils/ae/convert_to_zapiex";
+import { api_ae_ds_shipping, api_ae_ds_tracking } from "~/utils/ae/methods";
+import { api_zapiex_product } from "~/utils/zapiex/methods";
 
 export const aeDsRouter = router({
   product: procedure
@@ -47,13 +47,20 @@ export const aeDsRouter = router({
       }
     }),
   shipping: procedure
-    .input(z.object({ id: z.number(), quantity: z.number().optional() }))
+    .input(
+      z.object({
+        id: z.number(),
+        quantity: z.number().optional(),
+        sku: z.string().optional(),
+      })
+    )
     .query(
       async ({ ctx, input }) =>
         await api_ae_ds_shipping({
           method: ctx.aliexpress.ds.shipping,
           product_id: input.id,
           quantity: input.quantity,
+          sku: input.sku,
         })
     ),
   tracking: procedure

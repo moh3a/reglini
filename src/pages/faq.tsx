@@ -4,9 +4,9 @@ import Head from "next/head";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
-import { PADDING, ROUNDED, SHADOW } from "@config/design";
-import { APP_NAME } from "@config/general";
-import { Title } from "@components/shared";
+import { PADDING, ROUNDED, SHADOW } from "~/config/design";
+import { APP_NAME } from "~/config/constants";
+import { Title } from "~/components/shared";
 
 const Item = ({ title, children }: { title: string; children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -109,7 +109,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-import Layout from "@components/layout/Layout";
+import Layout from "~/components/layout/Layout";
 FAQPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };

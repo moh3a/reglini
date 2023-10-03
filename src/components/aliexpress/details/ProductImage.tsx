@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Dispatch, SetStateAction } from "react";
 
-import { ROUNDED, SHADOW } from "@config/design";
-import type { ZAE_Product } from "@reglini-types/zapiex";
+import { ROUNDED, SHADOW } from "~/config/design";
+import type { ZAE_Product } from "~/types/zapiex";
 
 interface ProductImageProps {
   product: ZAE_Product;

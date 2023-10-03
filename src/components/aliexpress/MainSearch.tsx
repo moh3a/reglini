@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
-import { AliExpressLogo, SearchInput } from "@components/shared";
+import { AliExpressLogo, SearchInput } from "~/components/shared";
 
 export const MainSearch = () => {
   const router = useRouter();

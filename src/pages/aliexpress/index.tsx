@@ -1,8 +1,8 @@
 import { GetStaticProps } from "next";
 import Head from "next/head";
 
-import { APP_NAME } from "@config/general";
-import { MainSearch, ProductsList } from "@components/aliexpress";
+import { APP_NAME } from "~/config/constants";
+import { MainSearch, ProductsList } from "~/components/aliexpress";
 
 const AliexpressPage = () => {
   const t = useTranslations("Common.aliexpress");
@@ -25,7 +25,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-import Layout from "@components/layout/Layout";
+import Layout from "~/components/layout/Layout";
 import { useTranslations } from "next-intl";
 AliexpressPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;

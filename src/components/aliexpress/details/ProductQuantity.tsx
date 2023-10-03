@@ -5,9 +5,9 @@ import {
 } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 
-import { NumberInput } from "@components/shared";
-import type { ZAE_Product } from "@reglini-types/zapiex";
-import { SelectedVariation } from "@reglini-types/index";
+import { NumberInput } from "~/components/shared";
+import type { ZAE_Product } from "~/types/zapiex";
+import { SelectedVariation } from "~/types/index";
 
 interface ProductQuantityProps {
   product: ZAE_Product;

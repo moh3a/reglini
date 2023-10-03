@@ -1,4 +1,4 @@
-import { Title } from "@components/shared";
+import { Title } from "~/components/shared";
 import { useTranslations } from "next-intl";
 
 const HistoricalRates = () => {

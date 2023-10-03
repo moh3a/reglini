@@ -4,7 +4,7 @@ import {
   PADDING,
   ROUNDED,
   SHADOW,
-} from "@config/design";
+} from "~/config/design";
 import { ReactNode, useState } from "react";
 
 interface ButtonProps {

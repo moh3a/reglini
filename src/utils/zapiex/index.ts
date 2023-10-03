@@ -2,12 +2,12 @@ import axios from "axios";
 import { config } from "dotenv";
 config();
 
-import type { ZAE_Product, ZAE_Search } from "@reglini-types/zapiex";
+import type { ZAE_Product, ZAE_Search } from "~/types/zapiex";
 import { parse_locale } from "..";
 import {
   API_ZAPIEX_PRODUCT_ARGUMENTS,
   API_ZAPIEX_PRODUCT_SEARCH_ARGUMENTS,
-} from "@reglini-types/zapiex/pinky";
+} from "~/types/zapiex/pinky";
 
 export const ZAE_getProductById = async ({
   id,

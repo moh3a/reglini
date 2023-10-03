@@ -9,9 +9,9 @@ import {
   ROUNDED,
   SHADOW,
   TEXT_GRADIENT,
-} from "@config/design";
-import { Loading, NumberInput } from "@components/shared";
-import { trpc } from "@utils/trpc";
+} from "~/config/design";
+import { Loading, NumberInput } from "~/components/shared";
+import { trpc } from "~/utils/trpc";
 import { useTranslations } from "next-intl";
 
 const ConvertCurrency = () => {

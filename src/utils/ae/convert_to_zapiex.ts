@@ -8,7 +8,7 @@ import type {
   DS_Product_SKU_Properties,
   DS_Product_SKU_Variation,
   DS_Shipping_Details,
-} from "@reglini-types/ae";
+} from "~/types/ae";
 import type {
   ZAE_PriceInterval,
   ZAE_Product,
@@ -22,8 +22,8 @@ import type {
   ZAE_ProductVariationProperties,
   ZAE_Search,
   ZAE_SearchItem,
-} from "@reglini-types/zapiex";
-import { calculate_discount, parse_locale } from "@utils/index";
+} from "~/types/zapiex";
+import { calculate_discount, parse_locale } from "~/utils/index";
 
 export const parse_ae_product_attributes = (
   initial_array: DS_Product_Attributes[]

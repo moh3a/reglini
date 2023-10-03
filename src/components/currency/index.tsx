@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { Tab } from "@headlessui/react";
 
-import { PADDING } from "@config/design";
-import ConvertCurrency from "@components/currency/ConvertCurrency";
-import HistoricalRates from "@components/currency/HistoricalRates";
+import { PADDING } from "~/config/design";
+import ConvertCurrency from "~/components/currency/ConvertCurrency";
+import HistoricalRates from "~/components/currency/HistoricalRates";
 import LiveRate from "./LiveRate";
 
 const TABS = [

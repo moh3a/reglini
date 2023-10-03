@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
-import { TEXT_INPUT } from "@config/design";
+import { TEXT_INPUT } from "~/config/design";
 
 interface InputProps {
   id?: string;

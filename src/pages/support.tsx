@@ -2,8 +2,8 @@ import { GetStaticProps } from "next";
 import Head from "next/head";
 import { useTranslations } from "next-intl";
 
-import { APP_NAME } from "@config/general";
-import Contact from "@components/Contact";
+import { APP_NAME } from "~/config/constants";
+import Contact from "~/components/Contact";
 
 const SupportPage = () => {
   const t = useTranslations("SupportPage");
@@ -25,7 +25,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-import Layout from "@components/layout/Layout";
+import Layout from "~/components/layout/Layout";
 SupportPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };

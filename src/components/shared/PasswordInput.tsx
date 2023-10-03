@@ -1,6 +1,6 @@
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/outline";
 import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
-import { TEXT_INPUT } from "@config/design";
+import { TEXT_INPUT } from "~/config/design";
 
 interface PasswordProps {
   id?: string;

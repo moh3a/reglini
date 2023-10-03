@@ -4,7 +4,7 @@ import {
   KeyboardEventHandler,
   SetStateAction,
 } from "react";
-import { TEXT_INPUT } from "@config/design";
+import { TEXT_INPUT } from "~/config/design";
 
 interface NumberInputProps {
   id?: string;

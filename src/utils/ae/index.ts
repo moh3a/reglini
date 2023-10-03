@@ -9,8 +9,8 @@ import type {
   API_AE_AFFILIATE_PRODUCTS_ARGUMENTS,
   API_AE_DS_SHIPPING_ARGUMENTS,
   API_AE_DS_TRACKING_ARGUMENTS,
-} from "@reglini-types/ae/pinky";
-import type { AE_Logistics_Address, AE_Product_Item } from "@reglini-types/ae";
+} from "~/types/ae/pinky";
+import type { AE_Logistics_Address, AE_Product_Item } from "~/types/ae";
 import { shuffle } from "..";
 
 const ds_client = new DropshipperClient({
@@ -41,6 +41,7 @@ export const AE_DS_getProduct = async (
 export const AE_DS_getShippingInfo = async ({
   product_id,
   quantity,
+  sku,
 }: API_AE_DS_SHIPPING_ARGUMENTS) =>
   await ds_client.shippingInfo({
     country_code: "DZ",
@@ -48,6 +49,7 @@ export const AE_DS_getShippingInfo = async ({
     product_num: quantity ?? 1,
     send_goods_country_code: "CN",
     price_currency: "USD",
+    sku_id: sku,
   });
 
 export const AE_DS_getTrackingInfo = async ({

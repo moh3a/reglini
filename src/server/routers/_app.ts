@@ -1,8 +1,8 @@
 import { procedure, router } from "../trpc";
 import { z } from "zod";
 
-import { API_RESPONSE_MESSAGES } from "@config/general";
-import SendEmail from "@utils/send_email";
+import { API_RESPONSE_MESSAGES } from "~/config/constants";
+import SendEmail from "~/utils/send_email";
 import { authRouter } from "./auth";
 import { currencyRouter } from "./currency";
 import { accountRouter } from "./account";

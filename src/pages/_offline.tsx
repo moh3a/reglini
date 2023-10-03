@@ -1,7 +1,7 @@
 import { GetStaticProps } from "next";
 import Head from "next/head";
-import { APP_NAME } from "@config/general";
-import { TEXT_GRADIENT } from "@config/design";
+import { APP_NAME } from "~/config/constants";
+import { TEXT_GRADIENT } from "~/config/design";
 
 const OfflinePage = () => {
   return (

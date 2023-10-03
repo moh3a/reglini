@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-import { Modal, Pagination } from "@components/shared";
+import { Modal, Pagination } from "~/components/shared";
 import {
   ProductCard,
   SkeletonProductsColumn,
   SkeletonProductsList,
-} from "@components/aliexpress";
-import type { IMessage } from "@reglini-types/index";
-import { trpc } from "@utils/trpc";
-import { API_RESPONSE_MESSAGES } from "@config/general";
-import { DEFAULT_PAGE_SIZE } from "@config/constants";
+} from "~/components/aliexpress";
+import type { IMessage } from "~/types/index";
+import { trpc } from "~/utils/trpc";
+import { API_RESPONSE_MESSAGES } from "~/config/constants";
+import { DEFAULT_PAGE_SIZE } from "~/config/constants";
 
 export const ProductsList = () => {
   const router = useRouter();

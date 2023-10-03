@@ -5,9 +5,9 @@ import {
   ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
 
-import { ROUNDED } from "@config/design";
-import type { ZAE_ProductProperties } from "@reglini-types/zapiex";
-import type { ProductProperty as IProductProperty } from "@reglini-types/index";
+import { ROUNDED } from "~/config/design";
+import type { ZAE_ProductProperties } from "~/types/zapiex";
+import type { ProductProperty as IProductProperty } from "~/types/index";
 
 interface ProductPropertyProps {
   property: ZAE_ProductProperties;

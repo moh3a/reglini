@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Link from "next/link";
 
-import { Button, Logo } from "@components/shared";
+import { Button, Logo } from "~/components/shared";
 
 const AuthPage = () => {
   const { status } = useSession();
@@ -69,7 +69,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-import Layout from "@components/layout/Layout";
+import Layout from "~/components/layout/Layout";
 AuthPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };

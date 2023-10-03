@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
-import { API_RESPONSE_MESSAGES } from "@config/general";
+import { API_RESPONSE_MESSAGES } from "~/config/constants";
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 const storage = new CloudinaryStorage({
@@ -48,12 +48,12 @@ handler.post(async (req: any, res) => {
     } else
       res.status(200).json({
         success: false,
-        message: API_RESPONSE_MESSAGES.ERROR_OCCURED
+        message: API_RESPONSE_MESSAGES.ERROR_OCCURED,
       });
   } else
     res.status(200).json({
       success: false,
-      message: API_RESPONSE_MESSAGES.ERROR_OCCURED
+      message: API_RESPONSE_MESSAGES.ERROR_OCCURED,
     });
 });
 

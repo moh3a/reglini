@@ -3,7 +3,7 @@ import type {
   FinanceStore,
   InstallPWAStore,
   MessageStore,
-} from "@reglini-types/index";
+} from "~/types/index";
 
 export const useFinance = create<FinanceStore>((set, get) => ({
   usd: undefined,

@@ -2,8 +2,8 @@
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 
-import { useInstallPWA } from "@utils/store";
-import { Button } from "@components/shared";
+import { useInstallPWA } from "~/utils/store";
+import { Button } from "~/components/shared";
 
 const InstallPWASection = () => {
   const t = useTranslations("IndexPage.installHero");

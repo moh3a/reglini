@@ -10,9 +10,9 @@ import {
   BG_TRANSPARENT_BACKDROP,
   ROUNDED,
   TEXT_INPUT,
-} from "@config/design";
-import { Loading } from "@components/shared";
-import { trpc } from "@utils/trpc";
+} from "~/config/design";
+import { Loading } from "~/components/shared";
+import { trpc } from "~/utils/trpc";
 
 export function SelectPost({
   commune,

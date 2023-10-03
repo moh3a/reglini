@@ -1,4 +1,4 @@
-import { BG_TRANSPARENT_BACKDROP } from "@config/design";
+import { BG_TRANSPARENT_BACKDROP } from "~/config/design";
 import { FolderOpenIcon } from "@heroicons/react/24/outline";
 import { ChangeEvent, useRef } from "react";
 

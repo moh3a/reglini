@@ -2,6 +2,7 @@
 
 ## Todo
 
+- Shipping details error
 - Add featured promotions, hotproducts and smart match
 
 ## Quickstart

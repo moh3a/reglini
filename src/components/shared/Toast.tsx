@@ -1,4 +1,4 @@
-import { ROUNDED, SHADOW } from "@config/design";
+import { ROUNDED, SHADOW } from "~/config/design";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Dispatch, ReactNode, SetStateAction } from "react";
 import { Button } from "./Button";

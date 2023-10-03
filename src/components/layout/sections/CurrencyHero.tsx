@@ -3,7 +3,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 
-import { Button } from "@components/shared";
+import { Button } from "~/components/shared";
 
 const CurrencyHero = () => {
   const t = useTranslations("IndexPage.currencyHero");

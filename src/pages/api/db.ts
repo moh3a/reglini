@@ -2,8 +2,8 @@ import nc from "next-connect";
 import { NextApiResponse } from "next";
 import { writeFile, readFile } from "fs/promises";
 
-import prisma from "@config/prisma";
-import { API_RESPONSE_MESSAGES } from "@config/general";
+import prisma from "~/config/prisma";
+import { API_RESPONSE_MESSAGES } from "~/config/constants";
 
 const handler = nc({
   onError(error, _, res: NextApiResponse) {

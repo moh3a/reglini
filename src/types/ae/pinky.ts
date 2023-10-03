@@ -9,6 +9,7 @@ import {
 export interface API_AE_DS_SHIPPING_ARGUMENTS {
   product_id: number;
   quantity?: number;
+  sku?: string;
 }
 
 export interface API_AE_DS_SHIPPING_PARAMS

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 
-import { ProductDetails } from "@components/aliexpress";
+import { ProductDetails } from "~/components/aliexpress";
 
 const AliexpressProductPage = () => {
   const router = useRouter();
@@ -18,7 +18,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   };
 };
 
-import Layout from "@components/layout/Layout";
+import Layout from "~/components/layout/Layout";
 AliexpressProductPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };

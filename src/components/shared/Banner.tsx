@@ -5,7 +5,7 @@ import {
   XCircleIcon,
 } from "@heroicons/react/24/outline";
 
-import { PADDING, ROUNDED } from "@config/design";
+import { PADDING, ROUNDED } from "~/config/design";
 
 interface BannerProps {
   type?: "success" | "warning" | "error";

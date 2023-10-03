@@ -1,4 +1,4 @@
-import { router } from "@server/trpc";
+import { router } from "~/server/trpc";
 import { aeAffiliateRouter } from "./affiliate";
 import { aeDsRouter } from "./ds";
 

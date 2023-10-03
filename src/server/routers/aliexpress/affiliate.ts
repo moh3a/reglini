@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { router, procedure } from "@server/trpc";
-import { api_ae_affiliate_products } from "@utils/ae/methods";
+import { router, procedure } from "~/server/trpc";
+import { api_ae_affiliate_products } from "~/utils/ae/methods";
 
 export const aeAffiliateRouter = router({
   search: procedure

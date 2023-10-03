@@ -3,7 +3,7 @@ module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
-    "./config/*.{js,ts,jsx,tsx}",
+    "./src/config/*.{js,ts,jsx,tsx}",
   ],
   darkMode: "class", // or 'media'
   theme: {
@@ -30,6 +30,5 @@ module.exports = {
   plugins: [
     require("@tailwindcss/forms"),
     require("@tailwindcss/aspect-ratio"),
-    require("@tailwindcss/typography"),
   ],
 };

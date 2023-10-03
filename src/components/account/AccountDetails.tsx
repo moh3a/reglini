@@ -7,13 +7,13 @@ import {
 } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 
-import { PADDING, ROUNDED, SHADOW } from "@config/design";
-import { trpc } from "@utils/trpc";
-import Edit from "@components/account/details/EditAccount";
-import EditAddress from "@components/account/details/EditAddress";
-import EditProfilePicture from "@components/account/details/EditProfilePicture";
-import { Loading, Title, Button, Banner } from "@components/shared";
-import { IMessage } from "@reglini-types/index";
+import { PADDING, ROUNDED, SHADOW } from "~/config/design";
+import { trpc } from "~/utils/trpc";
+import Edit from "~/components/account/details/EditAccount";
+import EditAddress from "~/components/account/details/EditAddress";
+import EditProfilePicture from "~/components/account/details/EditProfilePicture";
+import { Loading, Title, Button, Banner } from "~/components/shared";
+import { IMessage } from "~/types/index";
 
 const AccountDetails = () => {
   const [message, setMessage] = useState<IMessage>();

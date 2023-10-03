@@ -5,9 +5,9 @@ import { XMarkIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 
-import CartItem from "@components/account/CartItem";
-import { Button, Loading } from "@components/shared";
-import { trpc } from "@utils/trpc";
+import CartItem from "~/components/account/CartItem";
+import { Button, Loading } from "~/components/shared";
+import { trpc } from "~/utils/trpc";
 
 export default function Cart() {
   const t = useTranslations("Common.cart");

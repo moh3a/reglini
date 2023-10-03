@@ -11,11 +11,11 @@ import {
   SelectCommune,
   SelectDaira,
   SelectWilaya,
-} from "@components/account/details/address";
-import { Button, TextInput, Banner, Loading } from "@components/shared";
-import { trpc } from "@utils/trpc";
+} from "~/components/account/details/address";
+import { Button, TextInput, Banner, Loading } from "~/components/shared";
+import { trpc } from "~/utils/trpc";
 import { useTranslations } from "next-intl";
-import type { IMessage } from "@reglini-types/index";
+import type { IMessage } from "~/types/index";
 
 const EditAddress = ({
   field,

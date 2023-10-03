@@ -1,9 +1,9 @@
 import { ReactNode, useCallback, useEffect } from "react";
 
-import Navbar from "@components/layout/Navbar";
-import Footer from "@components/layout/Footer";
-import { useFinance } from "@utils/store";
-import { trpc } from "@utils/trpc";
+import Navbar from "~/components/layout/Navbar";
+import Footer from "~/components/layout/Footer";
+import { useFinance } from "~/utils/store";
+import { trpc } from "~/utils/trpc";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const { set_currency, set_commission, commission, euro, usd } = useFinance();

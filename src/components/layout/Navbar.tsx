@@ -9,15 +9,15 @@ import {
   QuestionMarkCircleIcon,
 } from "@heroicons/react/24/solid";
 
-import { APP_NAME } from "@config/general";
-import Slideover from "@components/layout/Slideover";
-import AccountBadge from "@components/auth/AccountBadge";
-import DarkMode from "@components/DarkMode";
-import Language from "@components/Language";
-import Cart from "@components/account/Cart";
-import { SearchButton } from "@components/aliexpress";
-import { Button } from "@components/shared";
-import Install from "@components/Install";
+import { APP_NAME } from "~/config/constants";
+import Slideover from "~/components/layout/Slideover";
+import AccountBadge from "~/components/auth/AccountBadge";
+import DarkMode from "~/components/DarkMode";
+import Language from "~/components/Language";
+import Cart from "~/components/account/Cart";
+import { SearchButton } from "~/components/aliexpress";
+import { Button } from "~/components/shared";
+import Install from "~/components/Install";
 
 const Navbar = () => {
   const t = useTranslations("Common.navigation");
@@ -25,7 +25,9 @@ const Navbar = () => {
   const [sideOpen, setSideOpen] = useState(false);
 
   return (
-    <div className="mb-8 lg:mb-0">
+    <div
+      className={`border-t-4 md:border-t-8 border-t-aliexpress mb-8 lg:mb-0`}
+    >
       <div className="h-14 p-4 flex justify-between">
         {/* hamburger menu icon */}
         <div

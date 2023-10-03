@@ -1,8 +1,8 @@
 import { GetStaticProps } from "next";
 import Head from "next/head";
 
-import { APP_NAME } from "@config/general";
-import { TitleXL } from "@components/shared";
+import { APP_NAME } from "~/config/constants";
+import { TitleXL } from "~/components/shared";
 
 const InternalError = () => {
   return (

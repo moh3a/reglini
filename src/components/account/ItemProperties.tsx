@@ -1,5 +1,5 @@
 import type { Prisma, Cart, Product } from "@prisma/client";
-import type { ZAE_ProductVariationProperties } from "@reglini-types/zapiex";
+import type { ZAE_ProductVariationProperties } from "~/types/zapiex";
 
 import { isArray } from "lodash";
 

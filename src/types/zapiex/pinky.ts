@@ -1,4 +1,4 @@
-import { ZAE_Product, ZAE_Search } from "@reglini-types/zapiex";
+import { ZAE_Product, ZAE_Search } from "~/types/zapiex";
 
 export interface API_ZAPIEX_PRODUCT_ARGUMENTS {
   id: string;

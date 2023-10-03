@@ -4,7 +4,7 @@ import {
   APP_SLOGAN,
   APP_URL,
   LOGO_URL,
-} from "@config/general";
+} from "~/config/constants";
 import Document, {
   Html,
   Head,

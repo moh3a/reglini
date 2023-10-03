@@ -1,10 +1,10 @@
 import { AxiosError } from "axios";
 
-import { API_RESPONSE_MESSAGES } from "@config/general";
+import { API_RESPONSE_MESSAGES } from "~/config/constants";
 import {
   API_ZAPIEX_PRODUCT_PARAMS,
   API_ZAPIEX_PRODUCT_SEARCH_PARAMS,
-} from "@reglini-types/zapiex/pinky";
+} from "~/types/zapiex/pinky";
 
 export const api_zapiex_product = async ({
   method,

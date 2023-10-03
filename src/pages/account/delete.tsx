@@ -4,8 +4,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 
-import { APP_NAME } from "@config/general";
-import DeleteAccount from "@components/account/DeleteAccount";
+import { APP_NAME } from "~/config/constants";
+import DeleteAccount from "~/components/account/DeleteAccount";
 
 const DeleteAccountPage = () => {
   const router = useRouter();

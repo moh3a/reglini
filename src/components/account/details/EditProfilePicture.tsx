@@ -8,10 +8,10 @@ import {
 import axios, { AxiosRequestConfig } from "axios";
 import { useTranslations } from "next-intl";
 
-import { BG_TRANSPARENT_BACKDROP, SHADOW } from "@config/design";
-import { Button, Banner, Loading } from "@components/shared";
-import { trpc } from "@utils/trpc";
-import type { IMessage } from "@reglini-types/index";
+import { BG_TRANSPARENT_BACKDROP, SHADOW } from "~/config/design";
+import { Button, Banner, Loading } from "~/components/shared";
+import { trpc } from "~/utils/trpc";
+import type { IMessage } from "~/types/index";
 
 /* eslint-disable @next/next/no-img-element */
 const EditProfilePicture = ({

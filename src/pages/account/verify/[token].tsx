@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
 
-import { APP_NAME } from "@config/general";
-import AccountVerification from "@components/account/AccountVerification";
+import { APP_NAME } from "~/config/constants";
+import AccountVerification from "~/components/account/AccountVerification";
 
 const AccountVerificationPage = () => {
   const router = useRouter();
@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   };
 };
 
-import Layout from "@components/layout/Layout";
+import Layout from "~/components/layout/Layout";
 AccountVerificationPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };

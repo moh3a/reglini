@@ -1,33 +1,50 @@
-import { API_RESPONSE_MESSAGES } from "@config/general";
+import { API_RESPONSE_MESSAGES } from "~/config/constants";
 import { ae_affiliate_products, ae_shipping } from "./convert_to_zapiex";
 import {
   API_AE_AFFILIATE_PRODUCTS_PARAMS,
   API_AE_DS_SHIPPING_PARAMS,
   API_AE_DS_TRACKING_PARAMS,
-} from "@reglini-types/ae/pinky";
-import { DEFAULT_PAGE_SIZE } from "@config/constants";
+} from "~/types/ae/pinky";
+import { DEFAULT_PAGE_SIZE } from "~/config/constants";
 import { shuffle } from "..";
 
 export const api_ae_ds_shipping = async ({
   method,
   product_id,
   quantity,
+  sku,
 }: API_AE_DS_SHIPPING_PARAMS) => {
   try {
-    const result = await method({ product_id, quantity: quantity ?? 1 });
+    const result = await method({ product_id, quantity: quantity ?? 1, sku });
 
-    if (
-      result.ok &&
-      result.data.aliexpress_logistics_buyer_freight_calculate_response.result
-        .success &&
-      result.data.aliexpress_logistics_buyer_freight_calculate_response.result
-        .aeop_freight_calculate_result_for_buyer_d_t_o_list
-    ) {
-      const shipping = ae_shipping(
+    if (result.ok) {
+      if (
+        result.data.aliexpress_logistics_buyer_freight_calculate_response.result
+          .success &&
         result.data.aliexpress_logistics_buyer_freight_calculate_response.result
           .aeop_freight_calculate_result_for_buyer_d_t_o_list
-      );
-      return { success: true, data: shipping };
+      ) {
+        const shipping = ae_shipping(
+          result.data.aliexpress_logistics_buyer_freight_calculate_response
+            .result.aeop_freight_calculate_result_for_buyer_d_t_o_list
+        );
+        return { success: true, data: shipping };
+      } else if (
+        !result.data.aliexpress_logistics_buyer_freight_calculate_response
+          .result.success &&
+        result.data.aliexpress_logistics_buyer_freight_calculate_response.result.error_desc.includes(
+          "sku"
+        )
+      ) {
+        return {
+          success: false,
+          error: API_RESPONSE_MESSAGES.AE_DS_PRODUCT_SHIPPING_SKU_ID_REQUIRED,
+        };
+      } else
+        return {
+          success: false,
+          error: API_RESPONSE_MESSAGES.AE_DS_PRODUCT_SHIPPING_DETAILS_FAIL,
+        };
     } else
       return {
         success: false,

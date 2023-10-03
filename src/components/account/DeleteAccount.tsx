@@ -11,9 +11,9 @@ import {
   PADDING,
   ROUNDED,
   SHADOW,
-} from "@config/design";
-import { Button, Title } from "@components/shared";
-import { trpc } from "@utils/trpc";
+} from "~/config/design";
+import { Button, Title } from "~/components/shared";
+import { trpc } from "~/utils/trpc";
 
 const DeleteAccount = () => {
   let [isOpen, setIsOpen] = useState(false);

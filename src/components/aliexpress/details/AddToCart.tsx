@@ -3,15 +3,12 @@ import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
-import type { IMessage, SelectedVariation } from "@reglini-types/index";
-import type {
-  ZAE_Product,
-  ZAE_ProductShippingCarrier,
-} from "@reglini-types/zapiex";
-import { Button } from "@components/shared";
-import { trpc } from "@utils/trpc";
-import { GetPrice } from "@utils/index";
-import { useFinance } from "@utils/store";
+import type { IMessage, SelectedVariation } from "~/types/index";
+import type { ZAE_Product, ZAE_ProductShippingCarrier } from "~/types/zapiex";
+import { Button } from "~/components/shared";
+import { trpc } from "~/utils/trpc";
+import { GetPrice } from "~/utils/index";
+import { useFinance } from "~/utils/store";
 
 interface AddToCartProps {
   product: ZAE_Product;

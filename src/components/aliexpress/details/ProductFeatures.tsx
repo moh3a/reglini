@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 
-import { PADDING, ROUNDED, SHADOW } from "@config/design";
-import type { ZAE_Product } from "@reglini-types/zapiex";
-import { StoreInfo } from "@components/aliexpress/details";
+import { PADDING, ROUNDED, SHADOW } from "~/config/design";
+import type { ZAE_Product } from "~/types/zapiex";
+import { StoreInfo } from "~/components/aliexpress/details";
 
 const Item = ({ title, children }: any) => {
   const [isOpen, setIsOpen] = useState(false);

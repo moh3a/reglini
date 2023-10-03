@@ -6,8 +6,8 @@ import Cookies from "js-cookie";
 import { Menu, Transition } from "@headlessui/react";
 import { LanguageIcon } from "@heroicons/react/24/outline";
 
-import { BG_TRANSPARENT_BACKDROP, ROUNDED, SHADOW } from "@config/design";
-import { Button } from "@components/shared";
+import { BG_TRANSPARENT_BACKDROP, ROUNDED, SHADOW } from "~/config/design";
+import { Button } from "~/components/shared";
 
 const Badge = ({ text }: { text: string }) => {
   return (

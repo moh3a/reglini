@@ -2,10 +2,10 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
-import { PADDING, ROUNDED, SHADOW } from "@config/design";
-import ItemProperties from "@components/account/ItemProperties";
-import { Loading, Title } from "@components/shared";
-import { trpc } from "@utils/trpc";
+import { PADDING, ROUNDED, SHADOW } from "~/config/design";
+import ItemProperties from "~/components/account/ItemProperties";
+import { Loading, Title } from "~/components/shared";
+import { trpc } from "~/utils/trpc";
 
 const ListOrders = () => {
   const ordersQuery = trpc.order.all.useQuery();

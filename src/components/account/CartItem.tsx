@@ -5,11 +5,11 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 
 import type { Cart, Product } from "@prisma/client";
-import type { IMessage } from "@reglini-types/index";
+import type { IMessage } from "~/types/index";
 
-import { NumberInput, Button, Banner } from "@components/shared";
-import ItemProperties from "@components/account/ItemProperties";
-import { trpc } from "@utils/trpc";
+import { NumberInput, Button, Banner } from "~/components/shared";
+import ItemProperties from "~/components/account/ItemProperties";
+import { trpc } from "~/utils/trpc";
 
 const CartItem = ({ item }: { item: Omit<Product, "orderId"> | Cart }) => {
   const t = useTranslations("Common.cart");

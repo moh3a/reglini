@@ -4,14 +4,11 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
-import type {
-  ZAE_Product,
-  ZAE_ProductShippingCarrier,
-} from "@reglini-types/zapiex";
-import type { IMessage, SelectedVariation } from "@reglini-types/index";
-import { Button } from "@components/shared";
-import { GetPrice } from "@utils/index";
-import { useFinance } from "@utils/store";
+import type { ZAE_Product, ZAE_ProductShippingCarrier } from "~/types/zapiex";
+import type { IMessage, SelectedVariation } from "~/types/index";
+import { Button } from "~/components/shared";
+import { GetPrice } from "~/utils/index";
+import { useFinance } from "~/utils/store";
 
 interface BuyProductProps {
   product: ZAE_Product;

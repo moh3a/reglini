@@ -1,8 +1,8 @@
 import { GetStaticProps } from "next";
-import AliexpressHero from "@components/layout/sections/AliexpressHero";
-import CurrencyHero from "@components/layout/sections/CurrencyHero";
-import AccountHero from "@components/layout/sections/AccountHero";
-import InstallPWASection from "@components/layout/sections/InstallPWASection";
+import AliexpressHero from "~/components/layout/sections/AliexpressHero";
+import CurrencyHero from "~/components/layout/sections/CurrencyHero";
+import AccountHero from "~/components/layout/sections/AccountHero";
+import InstallPWASection from "~/components/layout/sections/InstallPWASection";
 
 const IndexPage = () => {
   return (
@@ -23,7 +23,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-import Layout from "@components/layout/Layout";
+import Layout from "~/components/layout/Layout";
 IndexPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };

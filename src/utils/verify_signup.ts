@@ -1,4 +1,4 @@
-import prisma from "@config/prisma";
+import prisma from "~/config/prisma";
 import { createHash, randomBytes } from "crypto";
 
 export const generate_token = () => {

@@ -2,9 +2,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
-import ForgotPasswordModal from "@components/auth/ForgotPasswordModal";
-import { TextInput, PasswordInput, Button } from "@components/shared";
-import { trpc } from "@utils/trpc";
+import ForgotPasswordModal from "~/components/auth/ForgotPasswordModal";
+import { TextInput, PasswordInput, Button } from "~/components/shared";
+import { trpc } from "~/utils/trpc";
 
 const Login = ({ csrfToken }: { csrfToken: string }) => {
   const [email, setEmail] = useState("");

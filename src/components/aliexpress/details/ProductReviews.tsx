@@ -1,4 +1,4 @@
-import type { ZAE_Product } from "@reglini-types/zapiex";
+import type { ZAE_Product } from "~/types/zapiex";
 import { useTranslations } from "next-intl";
 
 export const ProductReviews = ({ product }: { product: ZAE_Product }) => {

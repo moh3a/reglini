@@ -1,14 +1,14 @@
 import { z } from "zod";
 
 import type { Product } from "@prisma/client";
-import type { AE_Logistics_Address, AE_Product_Item } from "@reglini-types/ae";
-import type { ZAE_ShippingAddres } from "@reglini-types/zapiex";
+import type { AE_Logistics_Address, AE_Product_Item } from "~/types/ae";
+import type { ZAE_ShippingAddres } from "~/types/zapiex";
 
 import { router, protectedProcedure } from "../trpc";
-import SendEmail from "@utils/send_email";
-import { API_RESPONSE_MESSAGES } from "@config/general";
-import { USER_FROM_TRPC_CTX } from "@utils/index";
-import { ORDER_CREATION_ERRORS } from "@config/constants";
+import SendEmail from "~/utils/send_email";
+import { API_RESPONSE_MESSAGES } from "~/config/constants";
+import { USER_FROM_TRPC_CTX } from "~/utils/index";
+import { ORDER_CREATION_ERRORS } from "~/config/constants";
 
 export const orderRouter = router({
   all: protectedProcedure.query(async ({ ctx }) => {

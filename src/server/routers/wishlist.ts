@@ -1,8 +1,8 @@
-import { USER_FROM_TRPC_CTX } from "@utils/index";
+import { USER_FROM_TRPC_CTX } from "~/utils/index";
 import { z } from "zod";
 
 import { router, protectedProcedure } from "../trpc";
-import { API_RESPONSE_MESSAGES } from "@config/general";
+import { API_RESPONSE_MESSAGES } from "~/config/constants";
 
 export const wishlistRouter = router({
   get: protectedProcedure.query(async ({ ctx }) => {

@@ -4,8 +4,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 
-import { APP_NAME } from "@config/general";
-import OrderDetails from "@components/account/orders/OrderDetails";
+import { APP_NAME } from "~/config/constants";
+import OrderDetails from "~/components/account/orders/OrderDetails";
 
 const OrderDetailsPage = () => {
   const router = useRouter();
@@ -34,7 +34,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   };
 };
 
-import Layout from "@components/layout/Layout";
+import Layout from "~/components/layout/Layout";
 OrderDetailsPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };

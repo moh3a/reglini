@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import { Logo, Title } from "@components/shared";
+import { Logo, Title } from "~/components/shared";
 
 const PrivacyPolicy = () => {
   return (
@@ -641,7 +641,7 @@ export const getStaticProps: GetStaticProps = ({ locale }) => {
   };
 };
 
-import Layout from "@components/layout/Layout";
+import Layout from "~/components/layout/Layout";
 PrivacyPolicy.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };

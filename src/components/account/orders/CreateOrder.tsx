@@ -8,14 +8,14 @@ import {
 } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 
-import { PADDING, ROUNDED, SHADOW, TEXT_GRADIENT } from "@config/design";
-import { Title, Loading, Button, Banner } from "@components/shared";
-import Edit from "@components/account/details/EditAccount";
-import EditAddress from "@components/account/details/EditAddress";
-import { trpc } from "@utils/trpc";
+import { PADDING, ROUNDED, SHADOW, TEXT_GRADIENT } from "~/config/design";
+import { Title, Loading, Button, Banner } from "~/components/shared";
+import Edit from "~/components/account/details/EditAccount";
+import EditAddress from "~/components/account/details/EditAddress";
+import { trpc } from "~/utils/trpc";
 import ItemProperties from "../ItemProperties";
 
-import type { IMessage } from "@reglini-types/index";
+import type { IMessage } from "~/types/index";
 import type { Product } from "@prisma/client";
 
 const CreateOrder = () => {

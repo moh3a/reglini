@@ -3,9 +3,9 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { useTranslations } from "next-intl";
 
-import { TEXT_GRADIENT } from "@config/design";
-import { APP_NAME } from "@config/general";
-import ResetPassword from "@components/auth/ResetPassword";
+import { TEXT_GRADIENT } from "~/config/design";
+import { APP_NAME } from "~/config/constants";
+import ResetPassword from "~/components/auth/ResetPassword";
 
 const ResetPasswordPage = () => {
   const router = useRouter();
@@ -38,7 +38,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   };
 };
 
-import Layout from "@components/layout/Layout";
+import Layout from "~/components/layout/Layout";
 ResetPasswordPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };

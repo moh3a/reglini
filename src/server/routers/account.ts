@@ -1,10 +1,10 @@
 import { ACCOUNT_TYPE } from "@prisma/client";
-import { USER_FROM_TRPC_CTX } from "@utils/index";
+import { USER_FROM_TRPC_CTX } from "~/utils/index";
 import { createHash } from "crypto";
 import { z } from "zod";
 
 import { router, protectedProcedure } from "../trpc";
-import { API_RESPONSE_MESSAGES } from "@config/general";
+import { API_RESPONSE_MESSAGES } from "~/config/constants";
 
 export const accountRouter = router({
   profile: protectedProcedure.query(async ({ ctx }) => {

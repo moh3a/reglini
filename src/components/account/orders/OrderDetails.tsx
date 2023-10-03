@@ -4,15 +4,15 @@ import Link from "next/link";
 import { MapPinIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 
-import { PADDING, ROUNDED, SHADOW, TEXT_GRADIENT } from "@config/design";
-import { Button, Loading, Modal, Banner } from "@components/shared";
-import Pay from "@components/account/orders/actions/Pay";
-import Cancel from "@components/account/orders/actions/Cancel";
-import Tracking from "@components/account/orders/actions/Tracking";
-import ConfirmReception from "@components/account/orders/actions/ConfirmReception";
-import ItemProperties from "@components/account/ItemProperties";
-import { trpc } from "@utils/trpc";
-import type { IMessage } from "@reglini-types/index";
+import { PADDING, ROUNDED, SHADOW, TEXT_GRADIENT } from "~/config/design";
+import { Button, Loading, Modal, Banner } from "~/components/shared";
+import Pay from "~/components/account/orders/actions/Pay";
+import Cancel from "~/components/account/orders/actions/Cancel";
+import Tracking from "~/components/account/orders/actions/Tracking";
+import ConfirmReception from "~/components/account/orders/actions/ConfirmReception";
+import ItemProperties from "~/components/account/ItemProperties";
+import { trpc } from "~/utils/trpc";
+import type { IMessage } from "~/types/index";
 
 interface OrderDetailsProps {
   id: string;

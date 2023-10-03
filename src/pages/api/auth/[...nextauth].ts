@@ -6,9 +6,9 @@ import { compareSync, genSaltSync, hashSync } from "bcrypt";
 import slugify from "slugify";
 import { ACCOUNT_TYPE } from "@prisma/client";
 
-import prisma from "@config/prisma";
-import { generate_token, check_email } from "@utils/verify_signup";
-import SendEmail from "@utils/send_email";
+import prisma from "~/config/prisma";
+import { generate_token, check_email } from "~/utils/verify_signup";
+import SendEmail from "~/utils/send_email";
 
 export const authOptions: NextAuthOptions = {
   providers: [

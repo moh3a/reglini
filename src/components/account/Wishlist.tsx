@@ -11,17 +11,17 @@ import {
   PADDING,
   ROUNDED,
   SHADOW,
-} from "@config/design";
-import { APP_NAME } from "@config/general";
+} from "~/config/design";
+import { APP_NAME } from "~/config/constants";
 import {
   AliExpressLogo,
   Button,
   Loading,
   Title,
   Banner,
-} from "@components/shared";
-import { trpc } from "@utils/trpc";
-import type { IMessage } from "@reglini-types/index";
+} from "~/components/shared";
+import { trpc } from "~/utils/trpc";
+import type { IMessage } from "~/types/index";
 
 const Wishlist = () => {
   const { data: session } = useSession();

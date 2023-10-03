@@ -1,7 +1,7 @@
 import nc from "next-connect";
 import multer from "multer";
 import { NextApiRequest, NextApiResponse } from "next";
-import { API_RESPONSE_MESSAGES } from "@config/general";
+import { API_RESPONSE_MESSAGES } from "~/config/constants";
 
 const upload = multer({
   storage: multer.diskStorage({

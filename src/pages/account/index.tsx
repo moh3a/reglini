@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
 
-import { APP_NAME } from "@config/general";
-import AccountDetails from "@components/account/AccountDetails";
+import { APP_NAME } from "~/config/constants";
+import AccountDetails from "~/components/account/AccountDetails";
 
 const AccountPage = () => {
   const router = useRouter();
@@ -37,7 +37,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
-import Layout from "@components/layout/Layout";
+import Layout from "~/components/layout/Layout";
 AccountPage.getLayout = function getLayout(page: any) {
   return <Layout>{page}</Layout>;
 };
