@@ -3,12 +3,12 @@ import { useTranslations } from "next-intl";
 
 import { TextInput } from "~/components/shared";
 import type { IMessage } from "~/types/index";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 
 const ValidateEmail = ({ setEmailValidation }: any) => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState<IMessage>();
-  const emailExistsMutation = trpc.auth.checkEmail.useMutation();
+  const emailExistsMutation = api.auth.checkEmail.useMutation();
 
   useEffect(() => {
     if (email && message?.type !== "error") {

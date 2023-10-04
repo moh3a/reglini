@@ -9,7 +9,7 @@ import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
 import { Banner, PasswordInput, Title, Button } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import type { IMessage } from "~/types/index";
 
 const ResetPassword = ({ token }: { token: string }) => {
@@ -93,7 +93,7 @@ const ResetPassword = ({ token }: { token: string }) => {
     setPasswordValidation,
   ]);
 
-  const resetMutation = trpc.auth.resetPassword.useMutation();
+  const resetMutation = api.auth.resetPassword.useMutation();
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
     if (passwordValidation) {

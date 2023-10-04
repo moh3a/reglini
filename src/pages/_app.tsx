@@ -1,6 +1,7 @@
 import "../styles/globals.css";
-import { NextPage } from "next";
 import { useEffect } from "react";
+import { NextPage } from "next";
+import type { AppType } from "next/dist/shared/lib/utils";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import type { Session } from "next-auth";
@@ -9,8 +10,7 @@ import { ThemeProvider } from "next-themes";
 import { NextIntlProvider, IntlErrorCode } from "next-intl";
 import nProgress from "nprogress";
 
-import type { AppType } from "next/dist/shared/lib/utils";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import { APP_NAME } from "~/config/constants";
 
 const MyApp: AppType<{
@@ -78,7 +78,7 @@ const MyApp: AppType<{
   );
 };
 
-export default trpc.withTRPC(MyApp);
+export default api.withTRPC(MyApp);
 
 function getMessageFallback({ namespace, key, error }: any) {
   const path = [namespace, key].filter((part) => part != null).join(".");

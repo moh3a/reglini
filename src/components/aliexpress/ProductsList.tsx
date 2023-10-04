@@ -8,7 +8,7 @@ import {
   SkeletonProductsList,
 } from "~/components/aliexpress";
 import type { IMessage } from "~/types/index";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
 import { DEFAULT_PAGE_SIZE } from "~/config/constants";
 
@@ -23,7 +23,7 @@ export const ProductsList = () => {
     else setIsOpen(false);
   }, [message?.type]);
 
-  const searchProducts = trpc.aliexpress.affiliate.search.useQuery(
+  const searchProducts = api.aliexpress.affiliate.search.useQuery(
     {
       search: q?.toString(),
       locale: router.locale,

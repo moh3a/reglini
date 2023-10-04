@@ -1,13 +1,13 @@
 import { USER_FROM_TRPC_CTX } from "~/utils/index";
 import { z } from "zod";
 
-import { router, protectedProcedure } from "../trpc";
+import { router, protectedProcedure } from "~/server/trpc";
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
 
 export const cartRouter = router({
   get: protectedProcedure.query(async ({ ctx }) => {
     try {
-      const cart = await ctx.prisma.cart.findMany({
+      const cart = await ctx.db.cart.findMany({
         where: { user: USER_FROM_TRPC_CTX(ctx.session) },
       });
       return {
@@ -39,7 +39,7 @@ export const cartRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        const items = await ctx.prisma.cart.findMany({
+        const items = await ctx.db.cart.findMany({
           where: {
             user: { email: ctx.session.user.email! },
             productId: input.productId,
@@ -55,7 +55,7 @@ export const cartRouter = router({
         if (found) {
           return { success: false, error: "Item is already in cart." };
         } else {
-          const updated = await ctx.prisma.cart.create({
+          const updated = await ctx.db.cart.create({
             data: {
               ...input,
               user: { connect: { email: ctx.session.user.email! } },
@@ -83,7 +83,7 @@ export const cartRouter = router({
     .input(z.object({ id: z.string(), quantity: z.number().min(1) }))
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.cart.update({
+        await ctx.db.cart.update({
           where: { id: input.id },
           data: { quantity: input.quantity },
         });
@@ -106,7 +106,7 @@ export const cartRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.cart.delete({
+        await ctx.db.cart.delete({
           where: { id: input.id },
         });
         return {
@@ -122,7 +122,7 @@ export const cartRouter = router({
     }),
   empty: protectedProcedure.mutation(async ({ ctx }) => {
     try {
-      await ctx.prisma.cart.deleteMany({
+      await ctx.db.cart.deleteMany({
         where: { user: { email: ctx.session.user.email! } },
       });
       return {

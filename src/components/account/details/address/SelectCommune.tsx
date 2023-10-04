@@ -3,7 +3,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
 import { useTranslations } from "next-intl";
 
-import { Commune } from "@prisma/client";
+import type { Commune } from "@prisma/client";
 import {
   SHADOW,
   PADDING,
@@ -12,7 +12,7 @@ import {
   TEXT_INPUT,
 } from "~/config/design";
 import { Loading } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 
 export function SelectCommune({
   daira,
@@ -23,7 +23,7 @@ export function SelectCommune({
   commune?: Commune;
   setCommune: Dispatch<SetStateAction<Commune | undefined>>;
 }) {
-  const communesQuery = trpc.address.communes.useQuery({ daira });
+  const communesQuery = api.address.communes.useQuery({ daira });
   const t = useTranslations("AccountPage.details.address");
 
   return (

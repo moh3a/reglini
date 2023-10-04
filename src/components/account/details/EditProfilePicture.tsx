@@ -10,7 +10,7 @@ import { useTranslations } from "next-intl";
 
 import { BG_TRANSPARENT_BACKDROP, SHADOW } from "~/config/design";
 import { Button, Banner, Loading } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import type { IMessage } from "~/types/index";
 
 /* eslint-disable @next/next/no-img-element */
@@ -53,8 +53,8 @@ const EditProfilePicture = ({
     }
   };
 
-  const editMutation = trpc.account.edit.useMutation();
-  const utils = trpc.useContext();
+  const editMutation = api.account.edit.useMutation();
+  const utils = api.useContext();
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
     if (newPicType === "generate" && newValue) {

@@ -57,12 +57,12 @@ export const parse_ae_product_properties = (
   );
 
   if (index !== -1) {
-    const property_exits = parsed_array[index].values.find(
+    const property_exits = parsed_array[index]?.values.find(
       (e) =>
         e.id ===
         (init.property_value_id_long ?? init.property_value_id)?.toString()
     );
-    if (!property_exits) parsed_array[index].values.push(property);
+    if (!property_exits) parsed_array[index]?.values.push(property);
   } else {
     parsed_array.push({
       id: init.sku_property_id?.toString(),
@@ -90,8 +90,8 @@ export const parse_ae_product_variation_properties = (
     (e) => e.id === init.sku_property_id?.toString()
   );
 
-  if (index !== -1) {
-    parsed_array[index].value = property;
+  if (index !== -1 && parsed_array[index]) {
+    (parsed_array[index] as any).value = property;
   } else {
     parsed_array.push({
       id: init.sku_property_id?.toString(),
@@ -121,9 +121,9 @@ export const parse_ae_property_price = (
 };
 
 export const get_product_discount = (
-  variation: DS_Product_SKU_Variation
+  variation?: DS_Product_SKU_Variation
 ): number => {
-  if (
+  if ( variation &&
     parseFloat(variation.sku_price) > parseFloat(variation.offer_sale_price)
   ) {
     return calculate_discount(variation.sku_price, variation.offer_sale_price);
@@ -227,7 +227,7 @@ export const parse_ae_product_data = (
 
     if (
       variation.offer_sale_price ===
-      data.ae_item_sku_info_dtos[0].offer_sale_price
+      data.ae_item_sku_info_dtos[0]?.offer_sale_price
     )
       singlePrice.push(true);
     else singlePrice.push(false);
@@ -362,8 +362,8 @@ export const ae_product = (data: DS_Product, locale: string | undefined) => {
   }
 
   price =
-    data.ae_item_sku_info_dtos && hasSinglePrice
-      ? get_product_variation_price(price, data.ae_item_sku_info_dtos[0])
+    data.ae_item_sku_info_dtos && data.ae_item_sku_info_dtos.length > 0 && hasSinglePrice
+      ? get_product_variation_price(price, data.ae_item_sku_info_dtos[0]!)
       : undefined;
   priceSummary =
     data.ae_item_sku_info_dtos && !hasSinglePrice
@@ -415,7 +415,7 @@ export const convert_ae_shipping_info = (
     isAvailableForSelectedCountries: true,
     shipFrom: "CN",
     currency:
-      shipment_carriers[0].freight?.currency_code?.toUpperCase() ?? "USD",
+      shipment_carriers[0]?.freight?.currency_code?.toUpperCase() ?? "USD",
     carriers,
   };
 };
@@ -436,7 +436,7 @@ export const ae_affiliate_products = (
     totalCount: res.total_record_count ?? 0,
     numberOfPages: res.total_page_no ?? 0,
     resultsPerPage: res.current_record_count ?? 0,
-    currency: res.products ? res.products[0].target_sale_price_currency : "USD",
+    currency: res.products && res.products[0] ? res.products[0].target_sale_price_currency : "USD",
     items: items ?? [],
   };
 };

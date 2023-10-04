@@ -3,6 +3,7 @@
 ## Todo
 
 - Shipping details error
+- Fix all eslint errors
 - Add featured promotions, hotproducts and smart match
 
 ## Quickstart

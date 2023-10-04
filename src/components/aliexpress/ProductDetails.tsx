@@ -23,7 +23,7 @@ import {
   ProductReviews,
   ProductShipping,
 } from "~/components/aliexpress/details";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import { API_RESPONSE_MESSAGES, APP_NAME } from "~/config/constants";
 import { select_product_variation } from "~/utils/index";
 
@@ -35,7 +35,7 @@ export const ProductDetails = ({ id }: { id: string }) => {
     ZAE_ProductShippingCarrier | undefined
   >();
 
-  const product = trpc.aliexpress.ds.product.useQuery(
+  const product = api.aliexpress.ds.product.useQuery(
     {
       id: parseInt(id),
       locale: router.locale?.toUpperCase() as AE_Language | undefined,
@@ -43,7 +43,7 @@ export const ProductDetails = ({ id }: { id: string }) => {
     {
       onSettled(data) {
         if (data && data.data) {
-          setShowImage(data.data.productImages[0]);
+          if (data.data.productImages[0])setShowImage(data.data.productImages[0]);
           if (
             data.data.shipping &&
             data.data.shipping.carriers &&
@@ -59,11 +59,11 @@ export const ProductDetails = ({ id }: { id: string }) => {
     }
   );
 
-  const shipping = trpc.aliexpress.ds.shipping.useQuery(
+  const shipping = api.aliexpress.ds.shipping.useQuery(
     {
       id: parseInt(id),
       quantity,
-      sku: product.data?.data?.properties[0].id,
+      sku: product.data?.data?.properties[0]?.id,
     },
     {
       onSettled(data, error) {
@@ -76,7 +76,7 @@ export const ProductDetails = ({ id }: { id: string }) => {
           if (
             data.error ===
               API_RESPONSE_MESSAGES.AE_DS_PRODUCT_SHIPPING_SKU_ID_REQUIRED &&
-            product.data?.data?.properties[0].id
+            product.data?.data?.properties[0]?.id
           ) {
             shipping.refetch();
           } else setMessage({ type: "error", text: data.error });
@@ -115,7 +115,7 @@ export const ProductDetails = ({ id }: { id: string }) => {
         product.data?.data.variations,
         selectedProperties,
         quantity,
-        product.data?.data.productImages[0]
+        product.data?.data.productImages[0] ?? ""
       ) as SelectedVariation | undefined;
       setSelectedVariation(selected);
     }
@@ -155,7 +155,7 @@ export const ProductDetails = ({ id }: { id: string }) => {
                   className={`lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0`}
                 >
                   <h2 className={`text-sm font-mono tracking-widest`}>
-                    {product.data?.data.attributes[0].value.name}
+                    {product.data?.data.attributes[0]?.value.name}
                   </h2>
                   <h1 className="text-xl font-medium mb-1">
                     {product.data?.data.title}

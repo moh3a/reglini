@@ -1,13 +1,13 @@
 import { CURRENCIES } from "@prisma/client";
 
-import { router, procedure } from "../trpc";
+import { router, procedure } from "~/server/trpc";
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
 
 export const currencyRouter = router({
-  currencies: procedure.query(async ({ ctx, input }) => {
+  currencies: procedure.query(async ({ ctx }) => {
     try {
-      const currencies = await ctx.prisma.$transaction([
-        ctx.prisma.currency.findFirst({
+      const currencies = await ctx.db.$transaction([
+        ctx.db.currency.findFirst({
           where: {
             exchange: CURRENCIES.EUR,
           },
@@ -15,7 +15,7 @@ export const currencyRouter = router({
             date: "desc",
           },
         }),
-        ctx.prisma.currency.findFirst({
+        ctx.db.currency.findFirst({
           where: {
             exchange: CURRENCIES.GBP,
           },
@@ -23,7 +23,7 @@ export const currencyRouter = router({
             date: "desc",
           },
         }),
-        ctx.prisma.currency.findFirst({
+        ctx.db.currency.findFirst({
           where: {
             exchange: CURRENCIES.USD,
           },
@@ -52,8 +52,8 @@ export const currencyRouter = router({
   }),
   currenciesObject: procedure.mutation(async ({ ctx }) => {
     try {
-      const currencies = await ctx.prisma.$transaction([
-        ctx.prisma.currency.findFirst({
+      const currencies = await ctx.db.$transaction([
+        ctx.db.currency.findFirst({
           where: {
             exchange: CURRENCIES.EUR,
           },
@@ -61,7 +61,7 @@ export const currencyRouter = router({
             date: "desc",
           },
         }),
-        ctx.prisma.currency.findFirst({
+        ctx.db.currency.findFirst({
           where: {
             exchange: CURRENCIES.GBP,
           },
@@ -69,7 +69,7 @@ export const currencyRouter = router({
             date: "desc",
           },
         }),
-        ctx.prisma.currency.findFirst({
+        ctx.db.currency.findFirst({
           where: {
             exchange: CURRENCIES.USD,
           },

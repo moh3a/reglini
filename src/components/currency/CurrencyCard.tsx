@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { Fragment } from "react";
-import { Currency } from "@prisma/client";
+import type { Currency } from "@prisma/client";
 import { BG_TRANSPARENT_BACKDROP, SHADOW } from "~/config/design";
 import { useTranslations } from "next-intl";
 
@@ -54,7 +54,10 @@ const CurrencyCard = ({
 const FlagEU = () => {
   return (
     <div className="w-6 h-6 inline rounded-full">
-      <img src="/flag-eu.png" alt="EU flag" />
+      <img
+        src="https://res.cloudinary.com/dyypyf2sg/image/upload/v1696445088/i97t9r640g95qnp4srm1.png"
+        alt="EU flag"
+      />
     </div>
   );
 };

@@ -11,7 +11,7 @@ import {
   TEXT_GRADIENT,
 } from "~/config/design";
 import { Loading, NumberInput } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import { useTranslations } from "next-intl";
 
 const ConvertCurrency = () => {
@@ -23,7 +23,7 @@ const ConvertCurrency = () => {
   const [rate, setRate] = useState<number>(1);
   const [money, setMoney] = useState({ dzd: 0, devise: 0 });
 
-  const currenciesQuery = trpc.currency.currencies.useQuery();
+  const currenciesQuery = api.currency.currencies.useQuery();
   useEffect(() => {
     if (
       currenciesQuery.data &&

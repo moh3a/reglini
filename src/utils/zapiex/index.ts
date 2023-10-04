@@ -1,10 +1,8 @@
 import axios from "axios";
-import { config } from "dotenv";
-config();
 
 import type { ZAE_Product, ZAE_Search } from "~/types/zapiex";
 import { parse_locale } from "..";
-import {
+import type {
   API_ZAPIEX_PRODUCT_ARGUMENTS,
   API_ZAPIEX_PRODUCT_SEARCH_ARGUMENTS,
 } from "~/types/zapiex/pinky";

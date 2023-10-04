@@ -20,7 +20,7 @@ import {
   Title,
   Banner,
 } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import type { IMessage } from "~/types/index";
 
 const Wishlist = () => {
@@ -28,9 +28,9 @@ const Wishlist = () => {
   const t = useTranslations("AccountPage");
 
   const [message, setMessage] = useState<IMessage>();
-  const wishlist = trpc.wishlist.get.useQuery();
-  const deleteMutation = trpc.wishlist.delete.useMutation();
-  const utils = trpc.useContext();
+  const wishlist = api.wishlist.get.useQuery();
+  const deleteMutation = api.wishlist.delete.useMutation();
+  const utils = api.useContext();
 
   const deleteHandler = async (id: string) => {
     await deleteMutation.mutateAsync(

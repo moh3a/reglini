@@ -1,6 +1,6 @@
-import { Result } from "ae_sdk";
+import type { Result } from "ae_sdk";
 
-import {
+import type{
   Affiliate_Products_Result,
   DS_Shipping_Info_Result,
   DS_Tracking_Info_Result,

@@ -1,4 +1,4 @@
-import { config } from "dotenv";
+import {useStore} from 'zustand'
 declare let self: ServiceWorkerGlobalScope;
 
 // To disable all workbox logging during development, you can set self.__WB_DISABLE_DEV_LOGS to true
@@ -7,7 +7,7 @@ declare let self: ServiceWorkerGlobalScope;
 self.__WB_DISABLE_DEV_LOGS = true;
 
 // listen to message event from window
-self.addEventListener("message", async (event) => {
+self.addEventListener("message", (event) => {
   // HOW TO TEST THIS?
   // Run this in your browser console:
   //     window.navigator.serviceWorker.controller.postMessage({command: 'log', message: 'hello world'})
@@ -19,18 +19,18 @@ self.addEventListener("message", async (event) => {
    * purpose of this code block found in this link
    * https://github.com/shadowwalker/next-pwa/tree/master/examples/cache-on-front-end-nav
    */
-  if (event?.data && event.data.action === "CACHE_NEW_ROUTE") {
+  if (event?.data && event.data?.action === "CACHE_NEW_ROUTE") {
     caches.open("others").then((cache) =>
       cache.match(event.source?.url).then((res) => {
         if (res === undefined) {
           return cache.add(event.source.url);
         }
       })
-    );
+    ).catch(error => console.error(error));
   }
 });
 
-self.addEventListener("appinstalled", (event) => {
+self.addEventListener("appinstalled", () => {
   new Notification("reglini app", {
     body: "The reglini app was installed successfully",
     icon: "/icon-192x192.png",
@@ -38,10 +38,10 @@ self.addEventListener("appinstalled", (event) => {
 });
 
 self.addEventListener("push", (event) => {
-  const data = JSON.parse(event?.data.text() || "{}");
+  const data = JSON.parse(event?.data.text() ?? "{}");
   event?.waitUntil(
-    self.registration.showNotification(data.title, {
-      body: data.message,
+    self.registration.showNotification(data?.title, {
+      body: data?.message,
       icon: "/icon-192x192.png",
     })
   );
@@ -55,12 +55,12 @@ self.addEventListener("notificationclick", (event) => {
       .then(function (clientList) {
         if (clientList.length > 0) {
           let client = clientList[0];
-          for (let i = 0; i < clientList.length; i++) {
-            if (clientList[i].focused) {
-              client = clientList[i];
+          for (const c of clientList) {
+            if (c?.focused) {
+              client = c;
             }
           }
-          return client.focus();
+          return client?.focus();
         }
         return self.clients.openWindow("/");
       })

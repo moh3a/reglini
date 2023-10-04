@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import type { IMessage, SelectedVariation } from "~/types/index";
 import type { ZAE_Product, ZAE_ProductShippingCarrier } from "~/types/zapiex";
 import { Button } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import { GetPrice } from "~/utils/index";
 import { useFinance } from "~/utils/store";
 
@@ -25,8 +25,8 @@ export const AddToCart = ({
 }: AddToCartProps) => {
   const { euro, commission } = useFinance();
   const { status } = useSession();
-  const cartMutation = trpc.cart.add.useMutation();
-  const utils = trpc.useContext();
+  const cartMutation = api.cart.add.useMutation();
+  const utils = api.useContext();
 
   const cartHandler = async () => {
     if (selectedVariation && selectedShipping) {

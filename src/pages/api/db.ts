@@ -2,7 +2,7 @@ import nc from "next-connect";
 import { NextApiResponse } from "next";
 import { writeFile, readFile } from "fs/promises";
 
-import prisma from "~/config/prisma";
+import { db } from "~/server/db";
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
 
 const handler = nc({
@@ -23,23 +23,23 @@ const handler = nc({
 
 handler
   .get(async (_, res) => {
-    const address = await prisma.address.findMany();
-    const cart = await prisma.cart.findMany();
-    const commune = await prisma.commune.findMany();
-    const config = await prisma.config.findMany();
-    const currency = await prisma.currency.findMany();
-    const daira = await prisma.daira.findMany();
-    const feedback = await prisma.feedback.findMany();
-    const order = await prisma.order.findMany();
-    const packageReceipt = await prisma.packageReceipt.findMany();
-    const payment = await prisma.payment.findMany();
-    const post = await prisma.post.findMany();
-    const product = await prisma.product.findMany();
-    const profile = await prisma.profile.findMany();
-    const shipping = await prisma.shipping.findMany();
-    const user = await prisma.user.findMany();
-    const wilaya = await prisma.wilaya.findMany();
-    const wishlist = await prisma.wishlist.findMany();
+    const address = await db.address.findMany();
+    const cart = await db.cart.findMany();
+    const commune = await db.commune.findMany();
+    const config = await db.config.findMany();
+    const currency = await db.currency.findMany();
+    const daira = await db.daira.findMany();
+    const feedback = await db.feedback.findMany();
+    const order = await db.order.findMany();
+    const packageReceipt = await db.packageReceipt.findMany();
+    const payment = await db.payment.findMany();
+    const post = await db.post.findMany();
+    const product = await db.product.findMany();
+    const profile = await db.profile.findMany();
+    const shipping = await db.shipping.findMany();
+    const user = await db.user.findMany();
+    const wilaya = await db.wilaya.findMany();
+    const wishlist = await db.wishlist.findMany();
     try {
       const data = JSON.stringify({
         address,
@@ -85,7 +85,7 @@ handler
         item.properties = JSON.stringify(item.properties);
         return item;
       });
-      await prisma.product.createMany({
+      await db.product.createMany({
         data: product,
         skipDuplicates: true,
       });
@@ -94,68 +94,68 @@ handler
         item.properties = JSON.stringify(item.properties);
         return item;
       });
-      await prisma.cart.createMany({
+      await db.cart.createMany({
         data: cart,
         skipDuplicates: true,
       });
 
-      await prisma.address.createMany({
+      await db.address.createMany({
         data: parsed.address,
         skipDuplicates: true,
       });
-      await prisma.commune.createMany({
+      await db.commune.createMany({
         data: parsed.commune,
         skipDuplicates: true,
       });
-      await prisma.config.createMany({
+      await db.config.createMany({
         data: parsed.config,
         skipDuplicates: true,
       });
-      await prisma.currency.createMany({
+      await db.currency.createMany({
         data: parsed.currency,
         skipDuplicates: true,
       });
-      await prisma.daira.createMany({
+      await db.daira.createMany({
         data: parsed.daira,
         skipDuplicates: true,
       });
-      await prisma.feedback.createMany({
+      await db.feedback.createMany({
         data: parsed.feedback,
         skipDuplicates: true,
       });
-      await prisma.order.createMany({
+      await db.order.createMany({
         data: parsed.order,
         skipDuplicates: true,
       });
-      await prisma.packageReceipt.createMany({
+      await db.packageReceipt.createMany({
         data: parsed.packageReceipt,
         skipDuplicates: true,
       });
-      await prisma.payment.createMany({
+      await db.payment.createMany({
         data: parsed.payment,
         skipDuplicates: true,
       });
-      await prisma.post.createMany({
+      await db.post.createMany({
         data: parsed.post,
         skipDuplicates: true,
       });
-      await prisma.profile.createMany({
+      await db.profile.createMany({
         data: parsed.profile,
         skipDuplicates: true,
       });
-      await prisma.shipping.createMany({
+      await db.shipping.createMany({
         data: parsed.shipping,
         skipDuplicates: true,
       });
-      await prisma.user.createMany({
+      await db.user.createMany({
         data: parsed.user,
         skipDuplicates: true,
       });
-      await prisma.wilaya.createMany({
+      await db.wilaya.createMany({
         data: parsed.wilaya,
         skipDuplicates: true,
       });
-      await prisma.wishlist.createMany({
+      await db.wishlist.createMany({
         data: parsed.wishlist,
         skipDuplicates: true,
       });

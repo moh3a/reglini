@@ -1,4 +1,4 @@
-import { GetStaticProps } from "next";
+import type { GetStaticProps } from "next";
 import Head from "next/head";
 import { APP_NAME } from "~/config/constants";
 import { TEXT_GRADIENT } from "~/config/design";

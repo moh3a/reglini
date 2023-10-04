@@ -1,4 +1,4 @@
-import { Price } from "..";
+import type { Price } from "..";
 
 export interface ZAE_Product {
   productUrl: string;

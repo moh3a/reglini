@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import { useTranslations } from "next-intl";
 
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import { Button, TextInput, Modal, Banner } from "~/components/shared";
 import type { IMessage } from "~/types/index";
 
@@ -9,7 +9,7 @@ export default function ForgotPasswordModal() {
   let [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState<IMessage>();
-  const forgotPasswordMutation = trpc.auth.forgotPasswordHandler.useMutation();
+  const forgotPasswordMutation = api.auth.forgotPasswordHandler.useMutation();
 
   function closeModal() {
     setIsOpen(false);

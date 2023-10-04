@@ -1,13 +1,13 @@
-module.exports = {
-  mode: "jit",
+import { type Config } from "tailwindcss";
+
+export default {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
     "./src/config/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: "class", // or 'media'
+  darkMode: "class",
   theme: {
-    typography: (theme) => ({}),
     extend: {
       colors: {
         facebook: "#1876f2",
@@ -20,7 +20,7 @@ module.exports = {
         darkTransparent: "rgb(0 0 0 / 0.5)",
       },
       zIndex: {
-        100: 100,
+        "100": "100",
       },
     },
   },
@@ -31,4 +31,4 @@ module.exports = {
     require("@tailwindcss/forms"),
     require("@tailwindcss/aspect-ratio"),
   ],
-};
+} satisfies Config;

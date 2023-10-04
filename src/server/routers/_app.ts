@@ -1,16 +1,16 @@
-import { procedure, router } from "../trpc";
+import { procedure, router } from "~/server/trpc";
 import { z } from "zod";
 
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
 import SendEmail from "~/utils/send_email";
-import { authRouter } from "./auth";
-import { currencyRouter } from "./currency";
-import { accountRouter } from "./account";
-import { wishlistRouter } from "./wishlist";
-import { addressRouter } from "./address";
-import { aliexpressRouter } from "./aliexpress";
-import { cartRouter } from "./cart";
-import { orderRouter } from "./order";
+import { authRouter } from "~/server/routers/auth";
+import { currencyRouter } from "~/server/routers/currency";
+import { accountRouter } from "~/server/routers/account";
+import { wishlistRouter } from "~/server/routers/wishlist";
+import { addressRouter } from "~/server/routers/address";
+import { aliexpressRouter } from "~/server/routers/aliexpress";
+import { cartRouter } from "~/server/routers/cart";
+import { orderRouter } from "~/server/routers/order";
 
 export const appRouter = router({
   email: procedure
@@ -23,7 +23,7 @@ export const appRouter = router({
     .mutation(({ ctx, input }) => {
       try {
         const userinfo =
-          ctx.session && ctx.session.user
+          ctx.session?.user
             ? `
             <h2>username: ${ctx.session.user.name}</h2>
             <h3>email: ${ctx.session.user.email}</h3>
@@ -45,11 +45,11 @@ export const appRouter = router({
       }
     }),
   commission: procedure.mutation(async ({ ctx }) => {
-    const config = await ctx.prisma.config.findUnique({
+    const config = await ctx.db.config.findUnique({
       where: { id: "config" },
       select: { commission: true },
     });
-    if (config && config.commission)
+    if (config?.commission)
       return { success: true, commission: config.commission };
     else return { success: false };
   }),

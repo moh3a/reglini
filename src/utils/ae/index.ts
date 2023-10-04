@@ -10,7 +10,7 @@ import type {
   API_AE_DS_SHIPPING_ARGUMENTS,
   API_AE_DS_TRACKING_ARGUMENTS,
 } from "~/types/ae/pinky";
-import type { AE_Logistics_Address, AE_Product_Item } from "~/types/ae";
+import type { AE_Logistics_Address } from "~/types/ae";
 import { shuffle } from "..";
 
 const ds_client = new DropshipperClient({

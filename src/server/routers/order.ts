@@ -4,7 +4,7 @@ import type { Product } from "@prisma/client";
 import type { AE_Logistics_Address, AE_Product_Item } from "~/types/ae";
 import type { ZAE_ShippingAddres } from "~/types/zapiex";
 
-import { router, protectedProcedure } from "../trpc";
+import { router, protectedProcedure } from "~/server/trpc";
 import SendEmail from "~/utils/send_email";
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
 import { USER_FROM_TRPC_CTX } from "~/utils/index";
@@ -13,7 +13,7 @@ import { ORDER_CREATION_ERRORS } from "~/config/constants";
 export const orderRouter = router({
   all: protectedProcedure.query(async ({ ctx }) => {
     try {
-      const orders = await ctx.prisma.order.findMany({
+      const orders = await ctx.db.order.findMany({
         where: { user: USER_FROM_TRPC_CTX(ctx.session) },
         orderBy: {
           date: "desc",
@@ -37,7 +37,7 @@ export const orderRouter = router({
       })
     )
     .query(async ({ ctx, input }) => {
-      const user = await ctx.prisma.user.findFirst({
+      const user = await ctx.db.user.findFirst({
         where: {
           email: ctx.session.user.email!,
           orders: {
@@ -78,7 +78,7 @@ export const orderRouter = router({
     )
     .query(async ({ ctx, input }) => {
       try {
-        const order = await ctx.prisma.order.findUnique({
+        const order = await ctx.db.order.findUnique({
           where: { id: input.order_id },
           include: {
             payment: true,
@@ -100,7 +100,7 @@ export const orderRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const user = await ctx.prisma.user.findUnique({
+      const user = await ctx.db.user.findUnique({
         where: { email: ctx.session.user.email! },
       });
       if (user) {
@@ -142,9 +142,9 @@ export const orderRouter = router({
             if (data.is_success) {
               for (const order_id of data.order_list) {
                 const order = await ctx.aliexpress.ds.getOrder(order_id);
-                let products: Omit<Product, "orderId" | "id" | "properties">[] =
+                const products: Omit<Product, "orderId" | "id" | "properties">[] =
                   [];
-                if (order.ok && input.products.length === 1) {
+                if (order.ok && input.products.length === 1 && input.products[0]) {
                   products.push(input.products[0]);
                 } else if (order.ok && input.products.length > 1) {
                   order.data.aliexpress_trade_ds_order_get_response.result.child_order_list.forEach(
@@ -156,7 +156,7 @@ export const orderRouter = router({
                     }
                   );
                 }
-                await ctx.prisma.order.create({
+                await ctx.db.order.create({
                   data: {
                     id: order_id.toString(),
                     userId: user.id,
@@ -219,7 +219,7 @@ export const orderRouter = router({
         receipt: input.receipt_url,
         wasDeclined: false,
       };
-      const payment = await ctx.prisma.payment.upsert({
+      const payment = await ctx.db.payment.upsert({
         where: { orderId: input.order_id },
         update: data,
         create: { ...data, orderId: input.order_id },
@@ -247,14 +247,14 @@ export const orderRouter = router({
   cancel: protectedProcedure
     .input(z.object({ order_id: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const order = await ctx.prisma.order.findUnique({
+      const order = await ctx.db.order.findUnique({
         where: { id: input.order_id },
         select: { user: { select: { email: true } } },
       });
       if (order?.user.email === ctx.session.user.email) {
         const result = await ctx.zapiex.cancelOrder(input.order_id);
         if (result.success) {
-          await ctx.prisma.order.update({
+          await ctx.db.order.update({
             where: { id: input.order_id },
             data: {
               cancelled: true,
@@ -291,8 +291,8 @@ export const orderRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      if (input.rating || input.feedback) {
-        await ctx.prisma.feedback.create({
+      if (input.rating ?? input.feedback) {
+        await ctx.db.feedback.create({
           data: {
             user: {
               connect: {
@@ -309,7 +309,7 @@ export const orderRouter = router({
         wasReceived: true,
         packagePicture: input.package_pic,
       };
-      const received = await ctx.prisma.packageReceipt.upsert({
+      const received = await ctx.db.packageReceipt.upsert({
         where: { orderId: input.order_id },
         update: RECEIVED_OBJECT,
         create: { ...RECEIVED_OBJECT, orderId: input.order_id },

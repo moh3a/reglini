@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import type { ZAE_Product } from "~/types/zapiex";
 import type { IMessage } from "~/types/index";
 import { Button } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import { GetPrice } from "~/utils/index";
 import { useFinance } from "~/utils/store";
 
@@ -18,7 +18,7 @@ interface AddToWishlistProps {
 export const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
   const { commission, euro } = useFinance();
   const { status } = useSession();
-  const wishlistMutation = trpc.wishlist.add.useMutation();
+  const wishlistMutation = api.wishlist.add.useMutation();
 
   const wishlistHandler = async () => {
     if (status === "unauthenticated") {
@@ -40,7 +40,7 @@ export const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
             commission ?? 0,
             product.price.app.originalPrice.value
           ),
-          imageUrl: product.productImages[0],
+          imageUrl: product.productImages[0] ?? "",
         },
         {
           onSettled(data, error) {

@@ -1,11 +1,11 @@
-import create from "zustand";
+import {create} from "zustand";
 import type {
   FinanceStore,
   InstallPWAStore,
   MessageStore,
 } from "~/types/index";
 
-export const useFinance = create<FinanceStore>((set, get) => ({
+export const useFinance = create<FinanceStore>((set) => ({
   usd: undefined,
   euro: undefined,
   commission: undefined,
@@ -14,14 +14,14 @@ export const useFinance = create<FinanceStore>((set, get) => ({
     currency === "EUR" ? set({ euro: data }) : set({ usd: data }),
 }));
 
-export const useInstallPWA = create<InstallPWAStore>((set, get) => ({
+export const useInstallPWA = create<InstallPWAStore>((set) => ({
   can_install: false,
   set_can_install: (data) => set({ can_install: data }),
   prompt: undefined,
   set_prompt: (event) => set({ prompt: event }),
 }));
 
-export const useMessage = create<MessageStore>((set, get) => ({
+export const useMessage = create<MessageStore>((set) => ({
   setMessage({ type, text }) {
     set({ type, text });
   },

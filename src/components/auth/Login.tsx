@@ -4,13 +4,13 @@ import { useTranslations } from "next-intl";
 
 import ForgotPasswordModal from "~/components/auth/ForgotPasswordModal";
 import { TextInput, PasswordInput, Button } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 
 const Login = ({ csrfToken }: { csrfToken: string }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const emailExistsMutation = trpc.auth.checkEmail.useMutation();
+  const emailExistsMutation = api.auth.checkEmail.useMutation();
 
   const checkEmail = async () => {
     if (!email) return setError("Email cannot be blank.");

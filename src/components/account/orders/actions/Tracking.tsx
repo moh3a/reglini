@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import { TEXT_GRADIENT } from "~/config/design";
 import { Loading, Button } from "~/components/shared";
 import type { IMessage } from "~/types/index";
@@ -22,7 +22,7 @@ const Tracking = ({
   setMessage,
   setIsOpen,
 }: TrackingProps) => {
-  const trackingQuery = trpc.aliexpress.ds.tracking.useQuery(
+  const trackingQuery = api.aliexpress.ds.tracking.useQuery(
     {
       order_id,
       tracking_id,

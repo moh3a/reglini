@@ -1,6 +1,6 @@
 import { router } from "~/server/trpc";
-import { aeAffiliateRouter } from "./affiliate";
-import { aeDsRouter } from "./ds";
+import { aeAffiliateRouter } from "~/server/routers/aliexpress/affiliate";
+import { aeDsRouter } from "~/server/routers/aliexpress/ds";
 
 export const aliexpressRouter = router({
   ds: aeDsRouter,

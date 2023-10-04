@@ -5,7 +5,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 
-import { Address, Commune, Daira, Post, Wilaya } from "@prisma/client";
+import type { Address, Commune, Daira, Post, Wilaya } from "@prisma/client";
 import {
   SelectPost,
   SelectCommune,
@@ -13,7 +13,7 @@ import {
   SelectWilaya,
 } from "~/components/account/details/address";
 import { Button, TextInput, Banner, Loading } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import { useTranslations } from "next-intl";
 import type { IMessage } from "~/types/index";
 
@@ -52,8 +52,8 @@ const EditAddress = ({
     setStreetName("");
   }, [postalCode]);
 
-  const utils = trpc.useContext();
-  const addressMutation = trpc.account.address.useMutation();
+  const utils = api.useContext();
+  const addressMutation = api.account.address.useMutation();
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
     if (wilaya && daira && commune && postalCode && streetName) {

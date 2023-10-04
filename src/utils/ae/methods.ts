@@ -1,12 +1,12 @@
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
-import { ae_affiliate_products, ae_shipping } from "./convert_to_zapiex";
-import {
+import { ae_affiliate_products, ae_shipping } from "~/utils/ae/convert_to_zapiex";
+import type {
   API_AE_AFFILIATE_PRODUCTS_PARAMS,
   API_AE_DS_SHIPPING_PARAMS,
   API_AE_DS_TRACKING_PARAMS,
 } from "~/types/ae/pinky";
 import { DEFAULT_PAGE_SIZE } from "~/config/constants";
-import { shuffle } from "..";
+import { shuffle } from "~/utils";
 
 export const api_ae_ds_shipping = async ({
   method,
@@ -114,9 +114,7 @@ export const api_ae_affiliate_products = async ({
 
     if (
       response.ok &&
-      response.data.aliexpress_affiliate_product_query_response.resp_result &&
-      response.data.aliexpress_affiliate_product_query_response.resp_result
-        .result
+      response.data.aliexpress_affiliate_product_query_response.resp_result?.result
     ) {
       const data = ae_affiliate_products(
         response.data.aliexpress_affiliate_product_query_response.resp_result

@@ -70,7 +70,7 @@ export interface ProductProperty {
   value: string;
 }
 
-import { ZAE_ProductVariation } from "./zapiex";
+import type { ZAE_ProductVariation } from "~/types/zapiex";
 export interface SelectedVariation extends ZAE_ProductVariation {
   quantity?: number;
 }

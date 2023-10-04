@@ -3,10 +3,10 @@ import { useTranslations } from "next-intl";
 import { TEXT_GRADIENT } from "~/config/design";
 import { Loading } from "~/components/shared";
 import CurrencyCard from "~/components/currency/CurrencyCard";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 
 const LiveRate = () => {
-  const currencies = trpc.currency.currencies.useQuery();
+  const currencies = api.currency.currencies.useQuery();
   const t = useTranslations("CurrencyPage.liveRate");
 
   return (

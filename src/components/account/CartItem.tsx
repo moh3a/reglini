@@ -9,14 +9,14 @@ import type { IMessage } from "~/types/index";
 
 import { NumberInput, Button, Banner } from "~/components/shared";
 import ItemProperties from "~/components/account/ItemProperties";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 
 const CartItem = ({ item }: { item: Omit<Product, "orderId"> | Cart }) => {
   const t = useTranslations("Common.cart");
   const [message, setMessage] = useState<IMessage>();
 
-  const utils = trpc.useContext();
-  const deleteItemMutation = trpc.cart.delete.useMutation();
+  const utils = api.useContext();
+  const deleteItemMutation = api.cart.delete.useMutation();
   const deleteHanlder = async () => {
     if (item.id) {
       await deleteItemMutation.mutateAsync(
@@ -40,7 +40,7 @@ const CartItem = ({ item }: { item: Omit<Product, "orderId"> | Cart }) => {
     }
   };
 
-  const quantityUpdateMutation = trpc.cart.updateQuantity.useMutation();
+  const quantityUpdateMutation = api.cart.updateQuantity.useMutation();
   const quantityHandler = async (event: ChangeEvent<HTMLInputElement>) => {
     await quantityUpdateMutation.mutateAsync(
       { id: item.id, quantity: parseInt(event.target.value ?? 1) },

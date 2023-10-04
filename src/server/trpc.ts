@@ -1,10 +1,10 @@
 import { getSession } from "next-auth/react";
 import superjson from "superjson";
 import { ZodError } from "zod";
-import * as trpc from "@trpc/server";
-import * as trpcNext from "@trpc/server/adapters/next";
+import type * as trpc from "@trpc/server";
+import type * as trpcNext from "@trpc/server/adapters/next";
 
-import prisma from "~/config/prisma";
+import { db } from "~/server/db";
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
 import type { ISession } from "~/types/index";
 import { TRPCError, initTRPC } from "@trpc/server";
@@ -19,7 +19,7 @@ export const createContext = async ({
   return {
     req,
     res,
-    prisma,
+    db,
     session: session as ISession | null,
     aliexpress: ALIEXPRESS,
     zapiex: ZAPIEX,
@@ -42,7 +42,7 @@ const t = initTRPC.context<Context>().create({
   },
 });
 
-const enforceUserIsAuthed = t.middleware(async ({ ctx, meta, next }) => {
+const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
   if (!ctx.session?.user) {
     throw new TRPCError({
       code: "UNAUTHORIZED",

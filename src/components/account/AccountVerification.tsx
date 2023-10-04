@@ -3,14 +3,14 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 
 import { Banner } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import type { IMessage } from "~/types/index";
 
 const AccountVerification = ({ token }: { token: string }) => {
   const [message, setMessage] = useState<IMessage>();
   const router = useRouter();
   const { status } = useSession();
-  const verificationQuery = trpc.account.verification.useQuery({ token });
+  const verificationQuery = api.account.verification.useQuery({ token });
 
   useEffect(() => {
     if (verificationQuery.isLoading) {

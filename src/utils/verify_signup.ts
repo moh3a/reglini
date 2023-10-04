@@ -1,4 +1,4 @@
-import prisma from "~/config/prisma";
+import { db } from "~/server/db";
 import { createHash, randomBytes } from "crypto";
 
 export const generate_token = () => {
@@ -10,7 +10,7 @@ export const generate_token = () => {
 };
 
 export const check_email = async (email: string) => {
-  const user = await prisma.user.findFirst({
+  const user = await db.user.findFirst({
     where: {
       email,
     },

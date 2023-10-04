@@ -13,12 +13,12 @@ import {
   SHADOW,
 } from "~/config/design";
 import { Button, Title } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 
 const DeleteAccount = () => {
   let [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-  const deleteMutation = trpc.account.delete.useMutation();
+  const deleteMutation = api.account.delete.useMutation();
 
   function closeModal() {
     setIsOpen(false);

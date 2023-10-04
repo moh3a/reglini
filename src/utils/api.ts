@@ -1,26 +1,25 @@
-import { httpBatchLink } from "@trpc/client";
+import { httpBatchLink, loggerLink } from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
+import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 import superjson from "superjson";
-import type { AppRouter } from "../server/routers/_app";
 
-function getBaseUrl() {
-  if (typeof window !== "undefined")
-    // browser should use relative path
-    return "";
-  if (process.env.VERCEL_URL)
-    // reference for vercel.com
-    return `https://${process.env.VERCEL_URL}`;
-  if (process.env.RENDER_INTERNAL_HOSTNAME)
-    // reference for render.com
-    return `http://${process.env.RENDER_INTERNAL_HOSTNAME}:${process.env.PORT}`;
-  // assume localhost
-  return `http://localhost:${process.env.PORT ?? 3000}`;
-}
+import type { AppRouter } from "~/server/routers/_app";
 
-export const trpc = createTRPCNext<AppRouter>({
+const getBaseUrl = () => {
+  if (typeof window !== "undefined") return ""; // browser should use relative url
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
+  return `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
+};
+
+export const api = createTRPCNext<AppRouter>({
   config({ ctx }) {
     return {
       links: [
+        loggerLink({
+          enabled: (opts) =>
+            process.env.NODE_ENV === "development" ||
+            (opts.direction === "down" && opts.result instanceof Error),
+        }),
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
           headers() {
@@ -44,10 +43,10 @@ export const trpc = createTRPCNext<AppRouter>({
     };
   },
   ssr: true,
-  responseMeta({ ctx, clientErrors }) {
+  responseMeta({ clientErrors }) {
     if (clientErrors.length) {
       return {
-        status: clientErrors[0].data?.httpStatus ?? 500,
+        status: clientErrors[0]?.data?.httpStatus ?? 500,
       };
     }
     const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
@@ -56,3 +55,17 @@ export const trpc = createTRPCNext<AppRouter>({
     };
   },
 });
+
+/**
+ * Inference helper for inputs.
+ *
+ * @example type HelloInput = RouterInputs['example']['hello']
+ */
+export type RouterInputs = inferRouterInputs<AppRouter>;
+
+/**
+ * Inference helper for outputs.
+ *
+ * @example type HelloOutput = RouterOutputs['example']['hello']
+ */
+export type RouterOutputs = inferRouterOutputs<AppRouter>;

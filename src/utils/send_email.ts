@@ -1,5 +1,5 @@
-import { EmailOptions } from "../types";
-import { createTransport, SendMailOptions } from "nodemailer";
+import type { EmailOptions } from "~/types";
+import { createTransport, type SendMailOptions } from "nodemailer";
 
 // USING SMTP RELAY
 
@@ -60,7 +60,7 @@ const send_email = ({ from, to, subject, text }: EmailOptions) => {
       </div>
     `,
   };
-  transporter.sendMail(mailOptions, function (err: any, info: any) {
+  transporter.sendMail(mailOptions, function (err) {
     if (err) {
       console.log(err);
     }

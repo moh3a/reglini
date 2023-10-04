@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
-import {
+import type {
   API_ZAPIEX_PRODUCT_PARAMS,
   API_ZAPIEX_PRODUCT_SEARCH_PARAMS,
 } from "~/types/zapiex/pinky";

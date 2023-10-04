@@ -8,7 +8,7 @@ import {
 import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW } from "~/config/design";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import Edit from "~/components/account/details/EditAccount";
 import EditAddress from "~/components/account/details/EditAddress";
 import EditProfilePicture from "~/components/account/details/EditProfilePicture";
@@ -17,7 +17,7 @@ import { IMessage } from "~/types/index";
 
 const AccountDetails = () => {
   const [message, setMessage] = useState<IMessage>();
-  const profile = trpc.account.profile.useQuery(undefined, {
+  const profile = api.account.profile.useQuery(undefined, {
     onSettled(data, error) {
       if (error)
         setMessage({ type: "error", text: "Account details fetch error." });

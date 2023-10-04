@@ -1,13 +1,13 @@
 import { USER_FROM_TRPC_CTX } from "~/utils/index";
 import { z } from "zod";
 
-import { router, protectedProcedure } from "../trpc";
+import { router, protectedProcedure } from "~/server/trpc";
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
 
 export const wishlistRouter = router({
   get: protectedProcedure.query(async ({ ctx }) => {
     try {
-      const wishlist = await ctx.prisma.wishlist.findMany({
+      const wishlist = await ctx.db.wishlist.findMany({
         where: { user: USER_FROM_TRPC_CTX(ctx.session) },
       });
       return {
@@ -32,7 +32,7 @@ export const wishlistRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.wishlist.upsert({
+        await ctx.db.wishlist.upsert({
           where: { id: input.productId },
           update: input,
           create: {
@@ -62,7 +62,7 @@ export const wishlistRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.wishlist.delete({
+        await ctx.db.wishlist.delete({
           where: { id: input.id },
         });
         return {

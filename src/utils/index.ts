@@ -1,14 +1,14 @@
 import { ACCOUNT_TYPE, AUTH_PROVIDER } from "@prisma/client";
 import type { ISession, ProductProperty } from "~/types/index";
-import {
+import type{
   ZAE_ProductVariation,
   ZAE_ProductVariationProperties,
 } from "~/types/zapiex";
-import { SelectedVariation } from "~/types/index";
+import type { SelectedVariation } from "~/types/index";
 
 export const USER_FROM_TRPC_CTX = (session: ISession) => {
-  let email = session.user?.email ?? "";
-  let account =
+  const email = session.user?.email ?? "";
+  const account =
     session?.user?.type === "credentials"
       ? ACCOUNT_TYPE.CREDENTIALS
       : ACCOUNT_TYPE.OAUTH;
@@ -48,6 +48,7 @@ export const shuffle = <T>(array: T[]): T[] => {
   while (currentIndex != 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
+    // @ts-ignore
     [array[currentIndex], array[randomIndex]] = [
       array[randomIndex],
       array[currentIndex],
@@ -110,7 +111,7 @@ export const find_selected_sku = (
   default_image: string,
   quantity: number
 ) => {
-  let check: boolean[] = new Array(sku.properties.length).fill(false);
+  let check = new Array<boolean>(sku.properties.length).fill(false);
 
   variation_properties.forEach((selected_property) => {
     check_property(selected_property, sku.properties, check);
@@ -136,7 +137,7 @@ export const select_product_variation = (
 ) => {
   let selected: Partial<SelectedVariation> = {};
 
-  if (product_variations.length === 1) {
+  if (product_variations.length === 1 && product_variations[0]) {
     Object.assign(selected, {
       ...product_variations[0],
       imageUrl: product_variations[0].imageUrl ?? default_image,

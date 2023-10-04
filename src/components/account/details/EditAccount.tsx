@@ -7,7 +7,7 @@ import {
 import { useTranslations } from "next-intl";
 
 import { Button, TextInput, Banner } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import type { IMessage } from "~/types/index";
 
 interface EditAccountProps {
@@ -22,8 +22,8 @@ const Edit = ({ title, field, value, type, editHandler }: EditAccountProps) => {
   const [edit, setEdit] = useState(false);
   const [state, setState] = useState(value);
   const [message, setMessage] = useState<IMessage>();
-  const editMutation = trpc.account.edit.useMutation();
-  const utils = trpc.useContext();
+  const editMutation = api.account.edit.useMutation();
+  const utils = api.useContext();
 
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();

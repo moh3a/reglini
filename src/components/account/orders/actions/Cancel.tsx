@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
 import { Button } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import type { IMessage } from "~/types/index";
 
 const Cancel = ({
@@ -16,7 +16,7 @@ const Cancel = ({
   setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
 }) => {
   const router = useRouter();
-  const cancelMutation = trpc.order.cancel.useMutation();
+  const cancelMutation = api.order.cancel.useMutation();
   const cancelHandler = async () => {
     await cancelMutation.mutateAsync(
       { order_id: orderId },

@@ -17,8 +17,8 @@ export const SearchButton = () => {
     event.preventDefault();
     if (url.includes("aliexpress.com/item/")) {
       const firstSplit = url.split("/item/");
-      const secondSplit = firstSplit[1].split(".html");
-      router.push(`/aliexpress/product/${secondSplit[0]}`);
+      const secondSplit = firstSplit[1]?.split(".html");
+      if (secondSplit) router.push(`/aliexpress/product/${secondSplit[0]}`);
     } else {
       router.push(`/aliexpress?q=${url}`);
     }

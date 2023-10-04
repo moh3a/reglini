@@ -3,7 +3,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
 import { useTranslations } from "next-intl";
 
-import { Daira } from "@prisma/client";
+import type { Daira } from "@prisma/client";
 import {
   SHADOW,
   PADDING,
@@ -12,7 +12,7 @@ import {
   TEXT_INPUT,
 } from "~/config/design";
 import { Loading } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 
 export function SelectDaira({
   wilaya,
@@ -23,7 +23,7 @@ export function SelectDaira({
   daira?: Daira;
   setDaira: Dispatch<SetStateAction<Daira | undefined>>;
 }) {
-  const dairasQuery = trpc.address.dairas.useQuery({ wilaya });
+  const dairasQuery = api.address.dairas.useQuery({ wilaya });
   const t = useTranslations("AccountPage.details.address");
 
   return (

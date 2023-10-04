@@ -3,7 +3,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
 import { useTranslations } from "next-intl";
 
-import { Post } from "@prisma/client";
+import type { Post } from "@prisma/client";
 import {
   SHADOW,
   PADDING,
@@ -12,7 +12,7 @@ import {
   TEXT_INPUT,
 } from "~/config/design";
 import { Loading } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 
 export function SelectPost({
   commune,
@@ -25,7 +25,7 @@ export function SelectPost({
   postalCode?: Post;
   setPostalCode: Dispatch<SetStateAction<Post | undefined>>;
 }) {
-  const postsQuery = trpc.address.posts.useQuery(
+  const postsQuery = api.address.posts.useQuery(
     { commune, wilaya },
     {
       onSettled(data) {

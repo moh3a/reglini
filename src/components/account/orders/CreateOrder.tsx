@@ -12,8 +12,8 @@ import { PADDING, ROUNDED, SHADOW, TEXT_GRADIENT } from "~/config/design";
 import { Title, Loading, Button, Banner } from "~/components/shared";
 import Edit from "~/components/account/details/EditAccount";
 import EditAddress from "~/components/account/details/EditAddress";
-import { trpc } from "~/utils/trpc";
-import ItemProperties from "../ItemProperties";
+import ItemProperties from "~/components/account/ItemProperties";
+import { api } from "~/utils/api";
 
 import type { IMessage } from "~/types/index";
 import type { Product } from "@prisma/client";
@@ -24,9 +24,9 @@ const CreateOrder = () => {
   const router = useRouter();
   const { ref } = router.query;
 
-  const profile = trpc.account.profile.useQuery();
-  const emptyCartMutation = trpc.cart.empty.useMutation();
-  const createOrderMutation = trpc.order.create.useMutation();
+  const profile = api.account.profile.useQuery();
+  const emptyCartMutation = api.cart.empty.useMutation();
+  const createOrderMutation = api.order.create.useMutation();
 
   const [products, setProducts] = useState<
     Omit<Product, "orderId">[] | undefined

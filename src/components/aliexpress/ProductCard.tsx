@@ -10,7 +10,7 @@ import type { ZAE_Search } from "~/types/zapiex";
 import type { IMessage } from "~/types/index";
 import { GetPrice } from "~/utils/index";
 import { useFinance } from "~/utils/store";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 
 interface ProductCardProps {
   product: ZAE_Search["items"][0];
@@ -22,7 +22,7 @@ export const ProductCard = ({ product, setMessage }: ProductCardProps) => {
   const { euro, commission } = useFinance();
 
   const { status } = useSession();
-  const wishlistMutation = trpc.wishlist.add.useMutation();
+  const wishlistMutation = api.wishlist.add.useMutation();
 
   const wishlistHandler = async (product: any) => {
     if (status === "unauthenticated") {

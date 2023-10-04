@@ -4,10 +4,10 @@ import { useTranslations } from "next-intl";
 
 import { ROUNDED, SHADOW, TEXT_INPUT } from "~/config/design";
 import { TextInput, Button, Title, Banner } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 
 const Contact = () => {
-  const emailMutation = trpc.email.useMutation();
+  const emailMutation = api.email.useMutation();
 
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");

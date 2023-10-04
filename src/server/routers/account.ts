@@ -3,13 +3,13 @@ import { USER_FROM_TRPC_CTX } from "~/utils/index";
 import { createHash } from "crypto";
 import { z } from "zod";
 
-import { router, protectedProcedure } from "../trpc";
+import { router, protectedProcedure } from "~/server/trpc";
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
 
 export const accountRouter = router({
   profile: protectedProcedure.query(async ({ ctx }) => {
     try {
-      const user = await ctx.prisma.user.findFirst({
+      const user = await ctx.db.user.findFirst({
         where: USER_FROM_TRPC_CTX(ctx.session),
         include: {
           address: true,
@@ -37,7 +37,7 @@ export const accountRouter = router({
     .mutation(async ({ ctx, input }) => {
       try {
         if (input.field === "name") {
-          const user = await ctx.prisma.user.update({
+          const user = await ctx.db.user.update({
             where: { email: ctx.session.user.email! },
             data: {
               name: input.value,
@@ -50,7 +50,7 @@ export const accountRouter = router({
               error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
             };
         } else {
-          const user = await ctx.prisma.user.update({
+          const user = await ctx.db.user.update({
             where: { email: ctx.session.user.email! },
             data: {
               profile: {
@@ -85,7 +85,7 @@ export const accountRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const user = await ctx.prisma.user.update({
+      const user = await ctx.db.user.update({
         where: { email: ctx.session.user.email! },
         data: {
           address: {
@@ -123,7 +123,7 @@ export const accountRouter = router({
           .update(input.token)
           .digest("hex");
 
-        const user = await ctx.prisma.user.findFirst({
+        const user = await ctx.db.user.findFirst({
           where: {
             email: ctx.session.user.email!,
             account: ACCOUNT_TYPE.CREDENTIALS,
@@ -132,7 +132,7 @@ export const accountRouter = router({
           },
         });
         if (user) {
-          await ctx.prisma.user.update({
+          await ctx.db.user.update({
             where: {
               email: ctx.session.user.email!,
             },
@@ -159,7 +159,7 @@ export const accountRouter = router({
     }),
   delete: protectedProcedure.mutation(async ({ ctx }) => {
     try {
-      await ctx.prisma.user.delete({
+      await ctx.db.user.delete({
         where: {
           email: ctx.session.user.email!,
         },

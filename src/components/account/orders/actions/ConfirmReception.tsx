@@ -23,7 +23,7 @@ import {
   TEXT_INPUT,
 } from "~/config/design";
 import { Button, Loading } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import type { IMessage } from "~/types/index";
 
 interface ConfirmReceptionProps {
@@ -54,8 +54,8 @@ const ConfirmReception = ({
 
   const [rating, setRating] = useState(0);
   const [feedbackMessage, setFeedbackMessage] = useState("");
-  const receivedMutation = trpc.order.received.useMutation();
-  const utils = trpc.useContext();
+  const receivedMutation = api.order.received.useMutation();
+  const utils = api.useContext();
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
     let image_resp: any;

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { AE_Language } from "ae_sdk";
+import type { AE_Language } from "ae_sdk";
 
 import { router, procedure } from "~/server/trpc";
 import { API_RESPONSE_MESSAGES } from "~/config/constants";

@@ -18,6 +18,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { RadioGroup } from "@headlessui/react";
 import { useTranslations } from "next-intl";
+import type { Product } from "@prisma/client";
 
 import {
   BG_GRADIENT,
@@ -27,9 +28,8 @@ import {
   TEXT_GRADIENT,
 } from "~/config/design";
 import { Banner, Button, Loading } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import type { IMessage } from "~/types/index";
-import { Product } from "@prisma/client";
 
 interface PaymentProps {
   order_id: string;
@@ -45,7 +45,7 @@ const Pay = ({ order_id, products, setIsOpen }: PaymentProps) => {
     setPrice(() => {
       let total = 0;
       for (let i = 0; i < products.length; i++) {
-        total += products[i].totalPrice ?? 0;
+        total += products[i]?.totalPrice ?? 0;
       }
       return total;
     });
@@ -68,8 +68,8 @@ const Pay = ({ order_id, products, setIsOpen }: PaymentProps) => {
   };
 
   const [method, setMethod] = useState<"CIB" | "CCP">("CIB");
-  const payMutation = trpc.order.pay.useMutation();
-  const utils = trpc.useContext();
+  const payMutation = api.order.pay.useMutation();
+  const utils = api.useContext();
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
     const formData = new FormData();

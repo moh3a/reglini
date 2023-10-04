@@ -1,9 +1,9 @@
 import { createHash, randomBytes } from "crypto";
 import { z } from "zod";
-
-import { router, procedure } from "../trpc";
-import SendEmail from "~/utils/send_email";
 import { genSaltSync, hashSync } from "bcrypt";
+
+import { router, procedure } from "~/server/trpc";
+import SendEmail from "~/utils/send_email";
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
 
 export const authRouter = router({
@@ -14,7 +14,7 @@ export const authRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const user = await ctx.prisma.user.findUnique({
+      const user = await ctx.db.user.findUnique({
         where: { email: input.email },
       });
       if (user) {
@@ -28,7 +28,7 @@ export const authRouter = router({
     .input(z.object({ email: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const token = randomBytes(20).toString("hex");
-      const user = await ctx.prisma.user.update({
+      const user = await ctx.db.user.update({
         where: { email: input.email },
         data: {
           resetPasswordToken: createHash("sha256").update(token).digest("hex"),
@@ -54,7 +54,7 @@ export const authRouter = router({
             message: "Email successfully sent.",
           };
         } catch (error) {
-          await ctx.prisma.user.update({
+          await ctx.db.user.update({
             where: { email: input.email },
             data: {
               resetPasswordToken: undefined,
@@ -78,7 +78,7 @@ export const authRouter = router({
       const resetPasswordToken = createHash("sha256")
         .update(input.token)
         .digest("hex");
-      const user = await ctx.prisma.user.findFirst({
+      const user = await ctx.db.user.findFirst({
         where: {
           resetPasswordToken,
           resetPasswordExpire: {
@@ -89,8 +89,8 @@ export const authRouter = router({
       if (user) {
         try {
           const salt = genSaltSync();
-          let password = hashSync(input.password, salt);
-          await ctx.prisma.user.update({
+          const password = hashSync(input.password, salt);
+          await ctx.db.user.update({
             where: { id: user.id },
             data: {
               resetPasswordExpire: undefined,

@@ -11,7 +11,7 @@ import Cancel from "~/components/account/orders/actions/Cancel";
 import Tracking from "~/components/account/orders/actions/Tracking";
 import ConfirmReception from "~/components/account/orders/actions/ConfirmReception";
 import ItemProperties from "~/components/account/ItemProperties";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 import type { IMessage } from "~/types/index";
 
 interface OrderDetailsProps {
@@ -25,7 +25,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
   >();
   const [message, setMessage] = useState<IMessage>();
 
-  const orderQuery = trpc.order.get.useQuery(
+  const orderQuery = api.order.get.useQuery(
     { order_id: id },
     {
       onSettled(data, error) {
@@ -37,7 +37,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
       },
     }
   );
-  const detailsQuery = trpc.order.details.useQuery({ order_id: id });
+  const detailsQuery = api.order.details.useQuery({ order_id: id });
 
   const cancelOrderHandler = async () => {
     if (orderQuery.data?.result?.order_status === "PLACE_ORDER_SUCCESS") {
@@ -313,11 +313,10 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                 setMessage={setMessage}
                 order_id={id}
                 tracking_id={
-                  orderQuery.data.result.logistics_info_list[0].logistics_no
+                  orderQuery.data.result.logistics_info_list[0]?.logistics_no ?? ''
                 }
                 service_name={
-                  orderQuery.data.result.logistics_info_list[0]
-                    .logistics_service
+                  orderQuery.data.result.logistics_info_list[0]?.logistics_service ?? ""
                 }
               />
             )}

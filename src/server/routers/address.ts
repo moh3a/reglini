@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { router, procedure } from "../trpc";
+import { router, procedure } from "~/server/trpc";
 
 export const addressRouter = router({
   wilayas: procedure.query(async ({ ctx }) => {
-    const wilayas = await ctx.prisma.wilaya.findMany();
+    const wilayas = await ctx.db.wilaya.findMany();
     return {
       wilayas,
     };
@@ -11,7 +11,7 @@ export const addressRouter = router({
   dairas: procedure
     .input(z.object({ wilaya: z.string() }))
     .query(async ({ ctx, input }) => {
-      const dairas = await ctx.prisma.daira.findMany({
+      const dairas = await ctx.db.daira.findMany({
         where: {
           wilaya: {
             name: input.wilaya,
@@ -25,7 +25,7 @@ export const addressRouter = router({
   communes: procedure
     .input(z.object({ daira: z.string() }))
     .query(async ({ ctx, input }) => {
-      const communes = await ctx.prisma.commune.findMany({
+      const communes = await ctx.db.commune.findMany({
         where: {
           daira: {
             name: input.daira,
@@ -44,7 +44,7 @@ export const addressRouter = router({
       })
     )
     .query(async ({ ctx, input }) => {
-      const posts = await ctx.prisma.post.findMany({
+      const posts = await ctx.db.post.findMany({
         where: {
           commune: {
             name: input.commune,

@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 
 import CartItem from "~/components/account/CartItem";
 import { Button, Loading } from "~/components/shared";
-import { trpc } from "~/utils/trpc";
+import { api } from "~/utils/api";
 
 export default function Cart() {
   const t = useTranslations("Common.cart");
@@ -17,7 +17,7 @@ export default function Cart() {
   const { status } = useSession();
   const [subtotal, setSubtotal] = useState(0);
 
-  const cartQuery = trpc.cart.get.useQuery(undefined, {
+  const cartQuery = api.cart.get.useQuery(undefined, {
     onSettled(data) {
       if (data && data.cart) {
         let subs = 0;
