@@ -11,7 +11,7 @@ export interface SetMessageParams {
 }
 
 export type SetMessageType = (
-  params: Omit<SetMessageParams, "duration">
+  params: Omit<SetMessageParams, "duration">,
 ) => void;
 export type SetTimedMessageType = (params: SetMessageParams) => void;
 
@@ -24,18 +24,6 @@ export interface MessageStore extends IMessage {
   setTimedMessage: SetTimedMessageType;
   setMessage: SetMessageType;
   resetMessage: () => void;
-}
-
-export interface ISession {
-  expires: string;
-  user?: {
-    name?: string | null;
-    email?: string | null;
-    image?: string | null;
-    type?: "oauth" | "credentials" | null;
-    provider?: "google" | "facebook" | null;
-    access_token?: string | null;
-  };
 }
 
 export interface EmailOptions {

@@ -12,24 +12,25 @@ import type {
 } from "~/types/ae/pinky";
 import type { AE_Logistics_Address } from "~/types/ae";
 import { shuffle } from "..";
+import { env } from "~/env.mjs";
 
 const ds_client = new DropshipperClient({
-  app_key: process.env.ALIEXPRESS_DS_APP_KEY ?? "",
-  app_secret: process.env.ALIEXPRESS_DS_APP_SECRET ?? "",
-  session: process.env.ALIEXPRESS_DS_ACCESS_TOKEN ?? "",
+  app_key: env.ALIEXPRESS_DS_APP_KEY ?? "",
+  app_secret: env.ALIEXPRESS_DS_APP_SECRET ?? "",
+  session: env.ALIEXPRESS_DS_ACCESS_TOKEN ?? "",
 });
 
 const affiliate_client = new AffiliateClient({
-  app_key: process.env.ALIEXPRESS_AFFILIATE_APP_KEY ?? "",
-  app_secret: process.env.ALIEXPRESS_AFFILIATE_APP_SECRET ?? "",
-  session: process.env.ALIEXPRESS_AFFILIATE_ACCESS_TOKEN ?? "",
+  app_key: env.ALIEXPRESS_AFFILIATE_APP_KEY ?? "",
+  app_secret: env.ALIEXPRESS_AFFILIATE_APP_SECRET ?? "",
+  session: env.ALIEXPRESS_AFFILIATE_ACCESS_TOKEN ?? "",
 });
 
 export const AE_DS_getProduct = async (
   product_id: number,
   ship_to_country?: string,
   target_currency?: AE_Currency,
-  target_language?: AE_Language
+  target_language?: AE_Language,
 ) =>
   await ds_client.productDetails({
     product_id,
@@ -67,7 +68,7 @@ export const AE_DS_getTrackingInfo = async ({
 
 export const AE_DS_createOrder = async (
   logistics_address: AE_Logistics_Address,
-  product_items: any[] // AE_Product_Item[]
+  product_items: any[], // AE_Product_Item[]
 ) =>
   await ds_client.createOrder({
     logistics_address,
@@ -106,7 +107,7 @@ export const AE_Affiliate_Hotproducts = async (
   keywords?: string,
   page_size?: number,
   page_no?: number,
-  locale?: string
+  locale?: string,
 ) => {
   const result = await affiliate_client.getHotProducts({
     category_ids,

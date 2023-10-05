@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useEffect } from "react";
+import { type ReactNode, useCallback, useEffect } from "react";
 
 import Navbar from "~/components/layout/Navbar";
 import Footer from "~/components/layout/Footer";

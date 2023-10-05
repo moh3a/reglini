@@ -1,8 +1,6 @@
-import { procedure, router } from "~/server/trpc";
 import { z } from "zod";
 
-import { API_RESPONSE_MESSAGES } from "~/config/constants";
-import SendEmail from "~/utils/send_email";
+import { procedure, router } from "~/server/trpc";
 import { authRouter } from "~/server/routers/auth";
 import { currencyRouter } from "~/server/routers/currency";
 import { accountRouter } from "~/server/routers/account";
@@ -11,6 +9,9 @@ import { addressRouter } from "~/server/routers/address";
 import { aliexpressRouter } from "~/server/routers/aliexpress";
 import { cartRouter } from "~/server/routers/cart";
 import { orderRouter } from "~/server/routers/order";
+import { API_RESPONSE_MESSAGES } from "~/config/constants";
+import SendEmail from "~/utils/send_email";
+import { env } from "~/env.mjs";
 
 export const appRouter = router({
   email: procedure
@@ -18,20 +19,19 @@ export const appRouter = router({
       z.object({
         message: z.string(),
         subject: z.string(),
-      })
+      }),
     )
     .mutation(({ ctx, input }) => {
       try {
-        const userinfo =
-          ctx.session?.user
-            ? `
+        const userinfo = ctx.session?.user
+          ? `
             <h2>username: ${ctx.session.user.name}</h2>
             <h3>email: ${ctx.session.user.email}</h3>
             <h3>account type: ${ctx.session.user.type}</h3>`
-            : ``;
+          : ``;
         const text = `<h3>A client in reglini-dz have sent this email.</h3>${userinfo}<div>${input.message}</div>`;
         SendEmail({
-          from: process.env.SENDGRID_FROM,
+          from: env.SENDGRID_FROM,
           to: "admin@reglini-dz.com",
           subject: input.subject,
           text,

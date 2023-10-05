@@ -35,7 +35,7 @@ export const cartRouter = router({
         sku: z.string(),
         totalPrice: z.number().optional(),
         properties: z.any(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       try {
@@ -102,7 +102,7 @@ export const cartRouter = router({
     .input(
       z.object({
         id: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       try {

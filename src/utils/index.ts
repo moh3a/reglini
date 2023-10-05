@@ -1,12 +1,14 @@
+import type { Session } from "next-auth";
 import { ACCOUNT_TYPE, AUTH_PROVIDER } from "@prisma/client";
-import type { ISession, ProductProperty } from "~/types/index";
-import type{
+
+import type { ProductProperty } from "~/types/index";
+import type {
   ZAE_ProductVariation,
   ZAE_ProductVariationProperties,
 } from "~/types/zapiex";
 import type { SelectedVariation } from "~/types/index";
 
-export const USER_FROM_TRPC_CTX = (session: ISession) => {
+export const USER_FROM_TRPC_CTX = (session: Session) => {
   const email = session.user?.email ?? "";
   const account =
     session?.user?.type === "credentials"
@@ -31,7 +33,7 @@ export const USER_FROM_TRPC_CTX = (session: ISession) => {
 export const GetPrice = (
   currency: number,
   commission: number,
-  amount: number
+  amount: number,
 ) => {
   if (currency && commission) {
     return (
@@ -59,11 +61,11 @@ export const shuffle = <T>(array: T[]): T[] => {
 
 export const calculate_discount = (
   originalPrice: string | number,
-  discountedPrice: string | number
+  discountedPrice: string | number,
 ): number => {
   return Math.floor(
     ((Number(originalPrice) - Number(discountedPrice)) * 100) /
-      Number(originalPrice)
+      Number(originalPrice),
   );
 };
 
@@ -84,7 +86,7 @@ export const parse_locale = (locale?: string | null) => {
 
 export const validate_product_variation_quantity = (
   product: ZAE_ProductVariation,
-  quantity: number
+  quantity: number,
 ) => {
   if (product.stock && product.stock > 0 && product.stock >= quantity)
     return quantity;
@@ -94,12 +96,12 @@ export const validate_product_variation_quantity = (
 export const check_property = (
   selected_property: ProductProperty | undefined,
   sku_properties: ZAE_ProductVariationProperties[],
-  check: boolean[]
+  check: boolean[],
 ) => {
   const sku_index = sku_properties.findIndex(
     (sku) =>
       sku.name === selected_property?.name &&
-      sku.value.name === selected_property?.value
+      sku.value.name === selected_property?.value,
   );
   if (sku_index > -1) check[sku_index] = true;
   else check[sku_index] = false;
@@ -109,7 +111,7 @@ export const find_selected_sku = (
   sku: ZAE_ProductVariation,
   variation_properties: (ProductProperty | undefined)[],
   default_image: string,
-  quantity: number
+  quantity: number,
 ) => {
   let check = new Array<boolean>(sku.properties.length).fill(false);
 
@@ -133,7 +135,7 @@ export const select_product_variation = (
   product_variations: ZAE_ProductVariation[],
   variation_properties: (ProductProperty | undefined)[],
   quantity: number,
-  default_image: string
+  default_image: string,
 ) => {
   let selected: Partial<SelectedVariation> = {};
 
@@ -143,7 +145,7 @@ export const select_product_variation = (
       imageUrl: product_variations[0].imageUrl ?? default_image,
       quantity: validate_product_variation_quantity(
         product_variations[0],
-        quantity
+        quantity,
       ),
     });
   } else if (product_variations.length > 1) {
@@ -152,7 +154,7 @@ export const select_product_variation = (
         variation,
         variation_properties,
         default_image,
-        quantity
+        quantity,
       );
       if (result.success) Object.assign(selected, result.selected);
     });

@@ -5,13 +5,14 @@ import { genSaltSync, hashSync } from "bcrypt";
 import { router, procedure } from "~/server/trpc";
 import SendEmail from "~/utils/send_email";
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
+import { env } from "~/env.mjs";
 
 export const authRouter = router({
   checkEmail: procedure
     .input(
       z.object({
         email: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const user = await ctx.db.user.findUnique({
@@ -36,7 +37,7 @@ export const authRouter = router({
         },
       });
       if (user) {
-        const envUrl = process.env.NEXTAUTH_URL;
+        const envUrl = env.NEXTAUTH_URL;
         const resetUrl = `${envUrl}/auth/resetpassword/${token}`;
         const message = `
           <h1>You have requested a password reset</h1>
@@ -44,7 +45,7 @@ export const authRouter = router({
           `;
         try {
           SendEmail({
-            from: process.env.SENDGRID_FROM,
+            from: env.SENDGRID_FROM,
             to: user.email,
             subject: "Password Reset Request",
             text: message,

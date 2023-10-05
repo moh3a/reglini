@@ -1,4 +1,10 @@
-import type { NextAuthOptions } from "next-auth";
+import type { GetServerSidePropsContext } from "next";
+import {
+  getServerSession,
+  type DefaultSession,
+  type NextAuthOptions,
+} from "next-auth";
+import type { DefaultJWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
@@ -6,9 +12,35 @@ import { compareSync, genSaltSync, hashSync } from "bcrypt";
 import slugify from "slugify";
 import { ACCOUNT_TYPE } from "@prisma/client";
 
+import { env } from "~/env.mjs";
 import { db } from "~/server/db";
 import { generate_token, check_email } from "~/utils/verify_signup";
 import SendEmail from "~/utils/send_email";
+
+interface ExtendedUser {
+  type?: "oauth" | "credentials" | null;
+  provider?: "google" | "facebook" | null;
+  access_token?: string | null;
+}
+
+/**
+ * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
+ * object and keep type safety.
+ *
+ * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
+ */
+declare module "next-auth" {
+  interface Session extends DefaultSession {
+    user: DefaultSession["user"] & ExtendedUser;
+  }
+}
+
+declare module "next-auth/jwt" {
+  /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
+  interface JWT extends DefaultJWT, ExtendedUser {
+    image?: string | null;
+  }
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -95,7 +127,7 @@ export const authOptions: NextAuthOptions = {
             },
           });
 
-          const url = `${process.env.NEXTAUTH_URL}/account/verify/${token.verifyToken}`;
+          const url = `${env.NEXTAUTH_URL}/account/verify/${token.verifyToken}`;
           const message = `
       <h1>Hello ${user.name},</h1>
       <p>In order to verify your account, you can simply follow <a href=${url} target='_blank' clicktracking='off'>this link</a>.</p>
@@ -103,7 +135,7 @@ export const authOptions: NextAuthOptions = {
 
           try {
             SendEmail({
-              from: process.env.SENDGRID_FROM,
+              from: env.SENDGRID_FROM,
               to: user.email,
               subject: "Account Verification",
               text: message,
@@ -128,12 +160,12 @@ export const authOptions: NextAuthOptions = {
       },
     }),
     FacebookProvider({
-      clientId: process.env.FACEBOOK_CLIENT_ID ?? "",
-      clientSecret: process.env.FACEBOOK_SECRET ?? "",
+      clientId: env.FACEBOOK_CLIENT_ID,
+      clientSecret: env.FACEBOOK_SECRET,
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-      clientSecret: process.env.GOOGLE_SECRET ?? "",
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_SECRET,
     }),
   ],
   callbacks: {
@@ -157,7 +189,7 @@ export const authOptions: NextAuthOptions = {
       }
       return true;
     },
-     jwt({ token, account, user }) {
+    jwt({ token, account, user }) {
       if (account && user) {
         const { type } = account;
         if (type === "credentials") {
@@ -167,11 +199,10 @@ export const authOptions: NextAuthOptions = {
             image: (user as any).profile?.picture,
           };
         } else if (type === "oauth") {
-          const { provider } = account;
           token = {
             ...token,
             type,
-            provider,
+            provider: account.provider as any,
             access_token: account.access_token,
             image: user.image,
           };
@@ -179,11 +210,11 @@ export const authOptions: NextAuthOptions = {
       }
       return token;
     },
-     session({ session, token }) {
+    session({ session, token }) {
       session.user = token;
       return session;
     },
-     redirect({ url, baseUrl }) {
+    redirect({ url, baseUrl }) {
       return url.startsWith(baseUrl) ? url : baseUrl;
     },
   },
@@ -196,6 +227,18 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   jwt: {
-    secret: process.env.JWT_SECRET,
+    secret: env.JWT_SECRET,
   },
+};
+
+/**
+ * Wrapper for `getServerSession` so that you don't need to import the `authOptions` in every file.
+ *
+ * @see https://next-auth.js.org/configuration/nextjs
+ */
+export const getServerAuthSession = (ctx: {
+  req: GetServerSidePropsContext["req"];
+  res: GetServerSidePropsContext["res"];
+}) => {
+  return getServerSession(ctx.req, ctx.res, authOptions);
 };

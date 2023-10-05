@@ -6,6 +6,7 @@ import type {
   API_ZAPIEX_PRODUCT_ARGUMENTS,
   API_ZAPIEX_PRODUCT_SEARCH_ARGUMENTS,
 } from "~/types/zapiex/pinky";
+import { env } from "~/env.mjs";
 
 export const ZAE_getProductById = async ({
   id,
@@ -25,7 +26,7 @@ export const ZAE_getProductById = async ({
       getSellerDetails: true,
     },
     headers: {
-      "x-api-key": process.env.ZAPIEX_KEY,
+      "x-api-key": env.ZAPIEX_KEY,
     },
   });
   return data.data as ZAE_Product;
@@ -50,7 +51,7 @@ export const ZAE_SearchProduct = async ({
       shipTo: "DZ",
     },
     headers: {
-      "x-api-key": process.env.ZAPIEX_KEY,
+      "x-api-key": env.ZAPIEX_KEY,
     },
   });
   return data.data as ZAE_Search;
@@ -61,18 +62,18 @@ export const ZAE_CancelOrder = async (id: string) => {
     const { data } = await axios.post(
       "https://api.zapiex.com/v3/order/cancel",
       {
-        username: process.env.ALIEXPRESS_USERNAME,
-        password: process.env.ALIEXPRESS_PASSWORD,
+        username: env.ALIEXPRESS_USERNAME,
+        password: env.ALIEXPRESS_PASSWORD,
         orderId: id,
       },
       {
         headers: {
-          "x-api-key": process.env.ZAPIEX_KEY,
+          "x-api-key": env.ZAPIEX_KEY,
           "Content-Type": "application/json",
           Accept: "application/json",
           "Accept-Encoding": "application/json",
         },
-      }
+      },
     );
     console.log(data);
   } catch (error) {

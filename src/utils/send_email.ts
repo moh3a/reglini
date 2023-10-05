@@ -1,5 +1,7 @@
-import type { EmailOptions } from "~/types";
 import { createTransport, type SendMailOptions } from "nodemailer";
+
+import type { EmailOptions } from "~/types";
+import { env } from "~/env.mjs";
 
 // USING SMTP RELAY
 
@@ -7,10 +9,10 @@ const send_email = ({ from, to, subject, text }: EmailOptions) => {
   const date = new Date().toISOString();
 
   const transporter = createTransport({
-    service: process.env.SENDGRID_SMTP_SERVICE,
+    service: env.SENDGRID_SMTP_SERVICE,
     auth: {
-      user: process.env.SENDGRID_SMTP_USERNAME,
-      pass: process.env.SENDGRID_SMTP_PASSWORD,
+      user: env.SENDGRID_SMTP_USERNAME,
+      pass: env.SENDGRID_SMTP_PASSWORD,
     },
   });
   const mailOptions: SendMailOptions = {
@@ -53,9 +55,9 @@ const send_email = ({ from, to, subject, text }: EmailOptions) => {
           "
         >
           sent by the admin on ${date.substring(0, 10)} ${date.substring(
-      11,
-      16
-    )} GMT
+            11,
+            16,
+          )} GMT
         </div>
       </div>
     `,
