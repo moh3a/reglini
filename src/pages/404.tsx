@@ -15,18 +15,25 @@ const NotFound = () => {
 };
 
 import type { GetStaticProps } from "next";
+import type { ReactElement } from "react";
+import pick from "lodash/pick";
+
+import Layout from "../components/layout/Layout";
+NotFound.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+NotFound.messages = Layout.messages;
+
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      messages: (await import(`../../messages/${locale}.json`)).default,
+      messages: pick(
+        await import(`../../messages/${locale}.json`),
+        NotFound.messages,
+      ),
     },
   };
-};
-
-import Layout from "../components/layout/Layout";
-import type { ReactElement } from "react";
-NotFound.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
 };
 
 export default NotFound;

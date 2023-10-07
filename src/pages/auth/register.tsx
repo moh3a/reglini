@@ -43,6 +43,14 @@ const RegisterPage = ({ csrfToken, providers }: AuthProps) => {
   );
 };
 
+import pick from "lodash/pick";
+import Layout from "~/components/layout/Layout";
+RegisterPage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+RegisterPage.messages = ["AuthPage.register", Layout.messages].flat();
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const csrfToken = await getCsrfToken(context);
   const providers = await getProviders();
@@ -50,15 +58,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       csrfToken,
       providers,
-      messages: (await import(`../../../messages/${context.locale}.json`))
-        .default,
+      messages: pick(
+        await import(`../../../messages/${context.locale}.json`),
+        RegisterPage.messages,
+      ),
     },
   };
-};
-
-import Layout from "~/components/layout/Layout";
-RegisterPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
 };
 
 export default RegisterPage;

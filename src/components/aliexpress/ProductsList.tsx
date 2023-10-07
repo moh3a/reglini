@@ -66,13 +66,12 @@ export const ProductsList = () => {
               />
             ))}
           </div>
-          {p && (
-            <Pagination
-              current={parseInt(p.toString())}
-              unitsPerPage={searchProducts.data.data.resultsPerPage}
-              totalUnits={searchProducts.data.data.totalCount}
-            />
-          )}
+
+          <Pagination
+            current={p ? parseInt(p.toString()) : 1}
+            unitsPerPage={searchProducts.data.data.resultsPerPage}
+            totalUnits={searchProducts.data.data.totalCount}
+          />
         </>
       ) : (
         <div className="flex items-center justify-center font-mono text-xl">

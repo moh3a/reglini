@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import type { GetServerSideProps } from "next";
 
 import { ProductDetails } from "~/components/aliexpress";
 
@@ -10,18 +9,26 @@ const AliexpressProductPage = () => {
   return <>{id && <ProductDetails id={id.toString()} />}</>;
 };
 
+import type { ReactElement } from "react";
+import type { GetServerSideProps } from "next";
+import pick from "lodash/pick";
+
+import Layout from "~/components/layout/Layout";
+AliexpressProductPage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+AliexpressProductPage.messages = ["AliexpressPage", Layout.messages].flat();
+
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
-      messages: (await import(`../../../../messages/${locale}.json`)).default,
+      messages: pick(
+        await import(`../../../../messages/${locale}.json`),
+        AliexpressProductPage.messages,
+      ),
     },
   };
-};
-
-import Layout from "~/components/layout/Layout";
-import type { ReactElement } from "react";
-AliexpressProductPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
 };
 
 export default AliexpressProductPage;

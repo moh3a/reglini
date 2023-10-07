@@ -632,19 +632,26 @@ const PrivacyPolicy = () => {
   );
 };
 
-import type{ GetStaticProps } from "next";
-export const getStaticProps: GetStaticProps = ({ locale }) => {
-  return {
-    props: {
-      messages: require(`../../messages/${locale}.json`),
-    },
-  };
-};
+import type { GetStaticProps } from "next";
+import type { ReactElement } from "react";
+import pick from "lodash/pick";
 
 import Layout from "~/components/layout/Layout";
-import type{ ReactElement } from "react";
 PrivacyPolicy.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
+};
+
+PrivacyPolicy.messages = Layout.messages;
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      messages: pick(
+        await import(`../../messages/${locale}.json`),
+        PrivacyPolicy.messages,
+      ),
+    },
+  };
 };
 
 export default PrivacyPolicy;

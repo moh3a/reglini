@@ -1,5 +1,5 @@
 import "../styles/globals.css";
-import { useEffect } from "react";
+import { type ReactElement, useEffect } from "react";
 import type { NextPage } from "next";
 import type { AppType } from "next/dist/shared/lib/utils";
 import { useRouter } from "next/router";
@@ -7,7 +7,12 @@ import Head from "next/head";
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
-import { NextIntlProvider, IntlErrorCode, type IntlError } from "next-intl";
+import {
+  NextIntlProvider,
+  IntlErrorCode,
+  type IntlError,
+  type AbstractIntlMessages,
+} from "next-intl";
 import nProgress from "nprogress";
 
 import { api } from "~/utils/api";
@@ -15,10 +20,9 @@ import { APP_NAME } from "~/config/constants";
 
 const MyApp: AppType<{
   session: Session | null;
-}> = ({ Component, pageProps: { session, ...pageProps } }) => {
-  const getLayout = (Component as any).getLayout || ((page: NextPage) => page);
+  messages: AbstractIntlMessages | undefined;
+}> = ({ Component, pageProps: { session, messages, ...pageProps } }) => {
   const router = useRouter();
-
   useEffect(() => {
     nProgress.configure({
       showSpinner: false,
@@ -48,6 +52,14 @@ const MyApp: AppType<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+  const getLayout =
+    (
+      Component as unknown as ReactElement & {
+        getLayout: (page: ReactElement) => JSX.Element;
+      }
+    ).getLayout || ((page: NextPage) => page);
+
   return (
     <>
       <Head>
@@ -62,8 +74,8 @@ const MyApp: AppType<{
         />
       </Head>
       <NextIntlProvider
-        messages={(pageProps as any).messages}
-        onError={() => {}}
+        messages={messages}
+        onError={() => undefined}
         getMessageFallback={getMessageFallback}
       >
         <ThemeProvider attribute="class">

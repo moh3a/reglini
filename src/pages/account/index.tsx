@@ -1,4 +1,4 @@
-import { useEffect, type ReactElement } from "react";
+import { type ReactElement } from "react";
 import type { GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -9,17 +9,18 @@ import AccountDetails from "~/components/account/AccountDetails";
 
 const AccountPage = () => {
   const router = useRouter();
-  const { data: session, status } = useSession();
-
-  useEffect(() => {
-    if (status === "unauthenticated") void router.replace("/");
-  }, [router, status]);
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      void router.replace("/");
+    },
+  });
 
   return (
     <>
       <Head>
         <title>
-          {session && session.user?.name
+          {session?.user?.name
             ? `${session.user.name}'s account settings | `
             : `Account | ` + APP_NAME}
         </title>
@@ -29,17 +30,23 @@ const AccountPage = () => {
   );
 };
 
+import Layout from "~/components/layout/Layout";
+import pick from "lodash/pick";
+AccountPage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+AccountPage.messages = ["AccountPage.details", Layout.messages].flat();
+
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      messages: (await import(`../../../messages/${locale}.json`)).default,
+      messages: pick(
+        await import(`../../../messages/${locale}.json`),
+        AccountPage.messages,
+      ),
     },
   };
-};
-
-import Layout from "~/components/layout/Layout";
-AccountPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
 };
 
 export default AccountPage;

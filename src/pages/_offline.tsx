@@ -1,4 +1,3 @@
-import type { GetStaticProps } from "next";
 import Head from "next/head";
 import { APP_NAME } from "~/config/constants";
 import { TEXT_GRADIENT } from "~/config/design";
@@ -18,18 +17,25 @@ const OfflinePage = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  return {
-    props: {
-      messages: (await import(`../../messages/${locale}.json`)).default,
-    },
-  };
-};
+import type { GetStaticProps } from "next";
+import type { ReactElement } from "react";
+import pick from "lodash/pick";
 
 import Layout from "../components/layout/Layout";
-import type { ReactElement } from "react";
 OfflinePage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
+OfflinePage.messages = Layout.messages;
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      messages: pick(
+        await import(`../../messages/${locale}.json`),
+        OfflinePage.messages,
+      ),
+    },
+  };
+};
 export default OfflinePage;

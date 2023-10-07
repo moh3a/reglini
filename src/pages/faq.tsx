@@ -77,13 +77,25 @@ const FAQPage = () => {
               </ul>
             </Item>
             <Item title={t("f4.question")}>
-              <div dangerouslySetInnerHTML={{ __html: t.raw("f4.answer") }} />
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: t.raw("f4.answer") as string,
+                }}
+              />
             </Item>
             <Item title={t("f5.question")}>
-              <div dangerouslySetInnerHTML={{ __html: t.raw("f5.answer") }} />
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: t.raw("f5.answer") as string,
+                }}
+              />
             </Item>
             <Item title={t("f6.question")}>
-              <div dangerouslySetInnerHTML={{ __html: t.raw("f6.answer") }} />
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: t.raw("f6.answer") as string,
+                }}
+              />
             </Item>
             <Item title={t("f7.question")}>{t("f7.answer")}</Item>
             <div className="text-center text-base md:text-lg">
@@ -101,17 +113,24 @@ const FAQPage = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  return {
-    props: {
-      messages: (await import(`../../messages/${locale}.json`)).default,
-    },
-  };
-};
+import pick from "lodash/pick";
 
 import Layout from "~/components/layout/Layout";
 FAQPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
+};
+
+FAQPage.messages = ["FAQPage", Layout.messages].flat();
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      messages: pick(
+        await import(`../../messages/${locale}.json`),
+        FAQPage.messages,
+      ),
+    },
+  };
 };
 
 export default FAQPage;

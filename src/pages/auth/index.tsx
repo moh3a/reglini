@@ -61,17 +61,23 @@ const AuthPage = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  return {
-    props: {
-      messages: (await import(`../../../messages/${locale}.json`)).default,
-    },
-  };
-};
-
+import pick from "lodash/pick";
 import Layout from "~/components/layout/Layout";
 AuthPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
+};
+
+AuthPage.messages = ["AuthPage", Layout.messages].flat();
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      messages: pick(
+        await import(`../../../messages/${locale}.json`),
+        AuthPage.messages,
+      ),
+    },
+  };
 };
 
 export default AuthPage;

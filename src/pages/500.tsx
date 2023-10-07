@@ -15,18 +15,25 @@ const InternalError = () => {
 };
 
 import type { GetStaticProps } from "next";
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  return {
-    props: {
-      messages: (await import(`../../messages/${locale}.json`)).default,
-    },
-  };
-};
-
 import type { ReactElement } from "react";
+import pick from "lodash/pick";
+
 import Layout from "../components/layout/Layout";
 InternalError.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
+};
+
+InternalError.messages = Layout.messages;
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      messages: pick(
+        await import(`../../messages/${locale}.json`),
+        InternalError.messages,
+      ),
+    },
+  };
 };
 
 export default InternalError;

@@ -373,18 +373,25 @@ const TermsOfService = () => {
 };
 
 import type { GetStaticProps } from "next";
-export const getStaticProps: GetStaticProps = ({ locale }) => {
-  return {
-    props: {
-      messages: require(`../../messages/${locale}.json`),
-    },
-  };
-};
+import type { ReactElement } from "react";
+import pick from "lodash/pick";
 
 import Layout from "~/components/layout/Layout";
-import type { ReactElement } from "react";
 TermsOfService.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
+};
+
+TermsOfService.messages = Layout.messages;
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      messages: pick(
+        await import(`../../messages/${locale}.json`),
+        TermsOfService.messages,
+      ),
+    },
+  };
 };
 
 export default TermsOfService;

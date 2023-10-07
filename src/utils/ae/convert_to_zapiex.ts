@@ -208,7 +208,6 @@ export const parse_ae_product_data = (
   data: DS_Product,
   variations: ZAE_ProductVariation[],
   properties: ZAE_ProductProperties[],
-  totalStock: number,
 ) => {
   const singlePrice: boolean[] = [];
   // VARIATIONS
@@ -240,8 +239,6 @@ export const parse_ae_product_data = (
       discountPercentage: 0,
     };
     get_product_variation_price(variation_price, variation);
-
-    totalStock += variation.sku_available_stock ?? 0;
 
     variations.push({
       imageUrl,
@@ -351,15 +348,14 @@ export const ae_product = (data: DS_Product, locale: string | undefined) => {
     originalPrice: { min: { value: 0 }, max: { value: 0 } },
   };
   let hasSinglePrice = true;
-  let totalStock = 0;
+
+  const totalStock =
+    data.ae_item_sku_info_dtos
+      .map((variation) => variation.sku_available_stock)
+      .reduce((previous, current) => (previous ?? 0) + (current ?? 0), 0) ?? 0;
 
   if (data.ae_item_sku_info_dtos) {
-    hasSinglePrice = parse_ae_product_data(
-      data,
-      variations,
-      properties,
-      totalStock,
-    );
+    hasSinglePrice = parse_ae_product_data(data, variations, properties);
   }
 
   price =
@@ -384,7 +380,7 @@ export const ae_product = (data: DS_Product, locale: string | undefined) => {
     variations,
     hasSinglePrice,
     locale ?? "FR",
-    0,
+    totalStock,
     price,
     priceSummary,
   );

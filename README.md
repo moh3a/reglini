@@ -2,10 +2,6 @@
 
 ## Todo
 
-- Page access: /account, remove useEffect
-- [Internationalization](https://next-intl-docs.vercel.app/docs/getting-started/pages-router)
-- Optimization
-- Shipping details error
 - Add featured promotions, hotproducts and smart match
 
 ## Quickstart

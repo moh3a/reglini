@@ -1,4 +1,4 @@
-import { useEffect, type ReactElement } from "react";
+import { type ReactElement } from "react";
 import type { GetStaticProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -9,11 +9,12 @@ import CreateOrder from "~/components/account/orders/CreateOrder";
 
 const NewOrderPage = () => {
   const router = useRouter();
-  const { status } = useSession();
-
-  useEffect(() => {
-    if (status === "unauthenticated") void router.replace("/");
-  }, [router, status]);
+  useSession({
+    required: true,
+    onUnauthenticated() {
+      void router.replace("/");
+    },
+  });
 
   return (
     <>
@@ -25,17 +26,28 @@ const NewOrderPage = () => {
   );
 };
 
+import Layout from "~/components/layout/Layout";
+import pick from "lodash/pick";
+NewOrderPage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+NewOrderPage.messages = [
+  "AccountPage.orders",
+  "AccountPage.details",
+  "AccountPage.price",
+  Layout.messages,
+].flat();
+
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      messages: (await import(`../../../../messages/${locale}.json`)).default,
+      messages: pick(
+        await import(`../../../../messages/${locale}.json`),
+        NewOrderPage.messages,
+      ),
     },
   };
-};
-
-import Layout from "~/components/layout/Layout";
-NewOrderPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
 };
 
 export default NewOrderPage;

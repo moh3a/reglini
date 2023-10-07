@@ -30,18 +30,28 @@ const ResetPasswordPage = () => {
   );
 };
 
+import type { ReactElement } from "react";
+import pick from "lodash/pick";
+
+import Layout from "~/components/layout/Layout";
+ResetPasswordPage.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+
+ResetPasswordPage.messages = [
+  "AuthPage.resetYourPassword",
+  Layout.messages,
+].flat();
+
 export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
   return {
     props: {
-      messages: (await import(`../../../../messages/${locale}.json`)).default,
+      messages: pick(
+        await import(`../../../../messages/${locale}.json`),
+        ResetPasswordPage.messages,
+      ),
     },
   };
-};
-
-import Layout from "~/components/layout/Layout";
-import type { ReactElement } from "react";
-ResetPasswordPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
 };
 
 export default ResetPasswordPage;

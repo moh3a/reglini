@@ -11,14 +11,16 @@ export const aeAffiliateRouter = router({
         locale: z.string().optional(),
         page_size: z.number().optional(),
         page_no: z.number().optional(),
-      })
+      }),
     )
     .query(
       async ({ ctx, input }) =>
         await api_ae_affiliate_products({
           method: ctx.aliexpress.affiliate.searchProducts,
           ...input,
-          search: input.search ?? "new,hot,best",
-        })
+          search:
+            input.search ??
+            ["best", "hot", "new"][Math.floor(Math.random() * 3)],
+        }),
     ),
 });

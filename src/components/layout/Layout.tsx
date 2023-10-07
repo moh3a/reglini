@@ -45,4 +45,6 @@ const Layout = ({ children }: { children: ReactNode }) => {
   );
 };
 
+Layout.messages = ["Common"];
+
 export default Layout;
