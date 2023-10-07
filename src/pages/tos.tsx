@@ -11,10 +11,10 @@ const TermsOfService = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="my-10 mx-2 md:mx-20">
-        <div className="flex justify-center items-center">
+      <div className="mx-2 my-10 md:mx-20">
+        <div className="flex items-center justify-center">
           <Logo width="80" height="80" />
-          <h1 className="text-4xl font-semibold my-2">Terms of Service</h1>
+          <h1 className="my-2 text-4xl font-semibold">Terms of Service</h1>
         </div>
         <div className="my-10">
           <p>Last updated: 2022-05-31</p>
@@ -372,7 +372,7 @@ const TermsOfService = () => {
   );
 };
 
-import { GetStaticProps } from "next";
+import type { GetStaticProps } from "next";
 export const getStaticProps: GetStaticProps = ({ locale }) => {
   return {
     props: {
@@ -382,7 +382,8 @@ export const getStaticProps: GetStaticProps = ({ locale }) => {
 };
 
 import Layout from "~/components/layout/Layout";
-TermsOfService.getLayout = function getLayout(page: any) {
+import type { ReactElement } from "react";
+TermsOfService.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 

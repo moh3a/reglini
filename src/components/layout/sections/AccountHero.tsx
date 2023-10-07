@@ -6,30 +6,30 @@ import { useTranslations } from "next-intl";
 
 import { Button } from "~/components/shared";
 
-const AccountHero = () => {
+export const AccountHero = () => {
   const t = useTranslations("IndexPage.accountHero");
   const { status } = useSession();
   return (
-    <div className="h-screen py-24 md:py-36 mx-auto max-w-6xl flex items-center">
+    <div className="mx-auto flex h-screen max-w-6xl items-center py-24 md:py-36">
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         whileInView={{ opacity: 1, scale: 1 }}
       >
         <div>
           <div
-            className={`relative px-6 flex flex-col md:flex-row justify-between`}
+            className={`relative flex flex-col justify-between px-6 md:flex-row`}
           >
             <div className="z-20 md:basis-3/4">
               <h2 className="font-mono">{t("subtitle")}</h2>
-              <h1 className="text-3xl sm:text-5xl font-bold z-50">
+              <h1 className="z-50 text-3xl font-bold sm:text-5xl">
                 {t("title")}
               </h1>
             </div>
             <div
-              className={`z-0 relative flex justify-center items-center md:basis-1/4`}
+              className={`relative z-0 flex items-center justify-center md:basis-1/4`}
             >
-              <div className="absolute ltr:-rotate-[5deg] rtl:rotate-[5deg] bg-gradient-to-t blur-3xl rounded-3xl from-teal-600 to-indigo-600 ltr:left-64 ltr:md:-left-14 ltr:lg:-left-5 ltr:xl:left-5 rtl:left-0 rtl:md:right-14 rtl:lg:right-32 rtl:xl:right-40 -top-6 w-[160px] md:w-[300px] h-[220px] md:h-[400px] " />
-              <div className="absolute ltr:-rotate-[5deg] rtl:rotate-[5deg] ltr:hover:-rotate-[4deg] rtl:hover:rotate-[4deg] transition-transform duration-200 ease-in ltr:left-72 ltr:md:-left-14 ltr:lg:-left-5 ltr:xl:left-5 rtl:left-0 rtl:md:right-14 rtl:lg:right-32 rtl:xl:right-40 -top-5 w-[150px] md:w-[300px]">
+              <div className="absolute -top-6 h-[220px] w-[160px] rounded-3xl bg-gradient-to-t from-teal-600 to-indigo-600 blur-3xl ltr:left-64 ltr:-rotate-[5deg] rtl:left-0 rtl:rotate-[5deg] md:h-[400px] md:w-[300px] ltr:md:-left-14 rtl:md:right-14 ltr:lg:-left-5 rtl:lg:right-32 ltr:xl:left-5 rtl:xl:right-40 " />
+              <div className="absolute -top-5 w-[150px] transition-transform duration-200 ease-in ltr:left-72 ltr:-rotate-[5deg] ltr:hover:-rotate-[4deg] rtl:left-0 rtl:rotate-[5deg] rtl:hover:rotate-[4deg] md:w-[300px] ltr:md:-left-14 rtl:md:right-14 ltr:lg:-left-5 rtl:lg:right-32 ltr:xl:left-5 rtl:xl:right-40">
                 <img
                   className="w-full"
                   src="/screenshots/reglini-tablet.png"
@@ -51,5 +51,3 @@ const AccountHero = () => {
     </div>
   );
 };
-
-export default AccountHero;

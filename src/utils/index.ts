@@ -50,6 +50,7 @@ export const shuffle = <T>(array: T[]): T[] => {
   while (currentIndex != 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     [array[currentIndex], array[randomIndex]] = [
       array[randomIndex],
@@ -113,7 +114,7 @@ export const find_selected_sku = (
   default_image: string,
   quantity: number,
 ) => {
-  let check = new Array<boolean>(sku.properties.length).fill(false);
+  const check = new Array<boolean>(sku.properties.length).fill(false);
 
   variation_properties.forEach((selected_property) => {
     check_property(selected_property, sku.properties, check);
@@ -137,7 +138,7 @@ export const select_product_variation = (
   quantity: number,
   default_image: string,
 ) => {
-  let selected: Partial<SelectedVariation> = {};
+  const selected: Partial<SelectedVariation> = {};
 
   if (product_variations.length === 1 && product_variations[0]) {
     Object.assign(selected, {
@@ -161,4 +162,16 @@ export const select_product_variation = (
   }
 
   return selected;
+};
+
+export const install_pwa_handler = (
+  prompt: BeforeInstallPromptEvent,
+  cb: () => void,
+) => {
+  if (prompt) {
+    prompt.prompt();
+    prompt.userChoice
+      .then(cb)
+      .catch(() => console.log(`Error with catching user's choice.`));
+  }
 };

@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { type FormEvent, useState } from "react";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
@@ -9,37 +9,38 @@ export const MainSearch = () => {
   const { q } = router.query;
   const [url, setUrl] = useState((q as string) ?? "");
 
-  const submitHandler = async (event: FormEvent) => {
+  const submitHandler = (event: FormEvent) => {
     event.preventDefault();
     if (url.includes("aliexpress.com/item/")) {
       const firstSplit = url.split("/item/");
       const secondSplit = firstSplit[1]?.split(".html");
-      if (secondSplit) router.push(`/aliexpress/product/${secondSplit[0]}`);
+      if (secondSplit)
+        void router.push(`/aliexpress/product/${secondSplit[0]}`);
     } else {
-      router.push(`/aliexpress?q=${url}`);
+      void router.push(`/aliexpress?q=${url}`);
     }
   };
   const t = useTranslations("AliexpressPage");
 
   return (
     <section className="px-4">
-      <p className="text-center text-sm font-bold font-mono my-2">
+      <p className="my-2 text-center font-mono text-sm font-bold">
         {t("hereStartsEverything")}
       </p>
-      <div className="flex justify-center items-center">
+      <div className="flex items-center justify-center">
         <AliExpressLogo width={400} />
       </div>
-      <h1 className="select-none font-extrabold text-4xl font-mono w-full text-center">
-        <span className="uppercase bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-aliexpress">
+      <h1 className="w-full select-none text-center font-mono text-4xl font-extrabold">
+        <span className="bg-gradient-to-r from-amber-500 to-aliexpress bg-clip-text uppercase text-transparent">
           {t("betweenYourHands")}
         </span>
       </h1>
 
       <form
         onSubmit={submitHandler}
-        className="flex justify-center items-center w-full"
+        className="flex w-full items-center justify-center"
       >
-        <div className="w-full mx-2 mt-8 max-w-2xl lg:mx-auto lg:w-1/2">
+        <div className="mx-2 mt-8 w-full max-w-2xl lg:mx-auto lg:w-1/2">
           <SearchInput
             autocomplete={false}
             id="url"

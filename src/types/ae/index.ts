@@ -119,11 +119,11 @@ export interface DS_Product {
  */
 
 export interface AE_Product_Item {
-  logistics_service_name?: string | null;
-  order_memo?: string | null;
-  product_count: number | null;
+  logistics_service_name?: string;
+  order_memo?: string;
+  product_count: number;
   product_id: number;
-  sku_attr?: string | null;
+  sku_attr?: string;
 }
 
 export interface AE_Logistics_Address {

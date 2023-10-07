@@ -5,7 +5,7 @@ import {
   ROUNDED,
   SHADOW,
 } from "~/config/design";
-import { ReactNode, useState } from "react";
+import { type ReactNode, useState } from "react";
 
 interface ButtonProps {
   variant?: "solid" | "outline";
@@ -45,7 +45,7 @@ export const Button = ({
   const [isShown, setIsShown] = useState(false);
 
   return (
-    <div className="inline relative">
+    <div className="relative inline">
       {tooltip && isShown && (
         <div
           className={`absolute bottom-10 z-100 max-w-lg ${BG_TRANSPARENT_BACKDROP} ${PADDING} ${ROUNDED} `}
@@ -63,7 +63,7 @@ export const Button = ({
             : className) +
           (withShadow ? " " + SHADOW : "") +
           (className ? className : ` ${PADDING} ${ROUNDED} `) +
-          " disabled:bg-gray-500 disabled:text-gray-300 disabled:cursor-not-allowed"
+          " disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300"
         }
         onMouseEnter={() => tooltip && setIsShown(true)}
         onMouseLeave={() => tooltip && setIsShown(false)}

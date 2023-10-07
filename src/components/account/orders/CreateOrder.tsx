@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import {
   CursorArrowRaysIcon,
@@ -10,8 +10,7 @@ import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW, TEXT_GRADIENT } from "~/config/design";
 import { Title, Loading, Button, Banner } from "~/components/shared";
-import Edit from "~/components/account/details/EditAccount";
-import EditAddress from "~/components/account/details/EditAddress";
+import { Edit, EditAddress } from "~/components/account/details";
 import ItemProperties from "~/components/account/ItemProperties";
 import { api } from "~/utils/api";
 
@@ -28,40 +27,40 @@ const CreateOrder = () => {
   const emptyCartMutation = api.cart.empty.useMutation();
   const createOrderMutation = api.order.create.useMutation();
 
-  const [products, setProducts] = useState<
-    Omit<Product, "orderId">[] | undefined
-  >();
+  const products = useMemo(
+    () =>
+      typeof window !== "undefined"
+        ? (
+            JSON.parse(
+              localStorage.getItem("aeno")
+                ? localStorage.getItem("aeno")!
+                : "[]",
+            ) as Omit<Product, "orderId">[]
+          ).map((p) => {
+            p.properties = JSON.stringify(p.properties);
+            return p;
+          })
+        : [],
+    [],
+  );
+
   const [message, setMessage] = useState<IMessage>();
   const [valid, setValid] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const nproducts: Omit<Product, "orderId">[] = JSON.parse(
-        localStorage.getItem("aeno") ?? "[]"
-      ).map((p: Omit<Product, "orderId">) => {
-        p.properties = JSON.stringify(p.properties);
-        return p;
-      });
-      setProducts(nproducts);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (profile.data && profile.data.user) {
-      if (products && products.length > 0) {
-        setValid(true);
-      } else setValid(false);
+    if (profile.data && profile.data.user && products && products.length > 0) {
+      setValid(true);
     } else setValid(false);
   }, [products, profile.data]);
 
-  const createOrderHandler = async () => {
+  const createOrderHandler = () => {
     if (profile.data && profile.data.user && products) {
       if (
         profile.data.user.profile?.phoneNumber &&
         profile.data.user.profile?.realName &&
         profile.data.user.address?.postalCode
       ) {
-        await createOrderMutation.mutateAsync(
+        createOrderMutation.mutate(
           {
             products,
             shippingAddress: {
@@ -70,7 +69,7 @@ const CreateOrder = () => {
               phoneCountry: "+213",
               mobilePhone: profile.data.user.profile?.phoneNumber.replace(
                 "+213",
-                "0"
+                "0",
               ),
               city: profile.data.user.address?.commune ?? "",
               addressLine1: profile.data.user.address?.streetName ?? "",
@@ -87,15 +86,15 @@ const CreateOrder = () => {
                     emptyCartMutation.mutate();
                   }
                   setMessage({ type: "success", text: data.message });
-                  router.push("/account/orders");
+                  void router.push("/account/orders");
                 } else setMessage({ type: "error", text: data.error });
               }
               setTimeout(
                 () => setMessage({ type: undefined, text: undefined }),
-                3000
+                3000,
               );
             },
-          }
+          },
         );
       } else {
         setMessage({ type: "error", text: "Fill the required fields." });
@@ -109,45 +108,49 @@ const CreateOrder = () => {
   return (
     <div className="mb-10">
       <Title center={true} title="Place a new order" />
-      <dl className={`max-w-2xl m-auto ${PADDING} ${SHADOW} ${ROUNDED} `}>
+      <dl className={`m-auto max-w-2xl ${PADDING} ${SHADOW} ${ROUNDED} `}>
         {profile.isLoading && (
-          <div className="w-full flex justify-center items-center">
+          <div className="flex w-full items-center justify-center">
             <Loading size="medium" />
           </div>
         )}
         {profile.data && profile.data.user && (
           <>
-            <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 ">
-              <dt className="text-sm font-bold lg:flex lg:items-center">
-                {t("details.fullName")}
-              </dt>
-              <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
-                <Edit
-                  title={t("details.fullName")}
-                  field="realName"
-                  type="text"
-                  value={profile.data.user.profile?.realName}
-                />
-              </dd>
-            </div>
-            <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 ">
-              <dt className="text-sm font-bold lg:flex lg:items-center">
-                {t("details.phoneNumber")}
-              </dt>
-              <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
-                <Edit
-                  title={t("details.phoneNumber")}
-                  field="phoneNumber"
-                  type="text"
-                  value={profile.data.user.profile?.phoneNumber}
-                />
-              </dd>
-            </div>
+            {profile.data.user.profile?.realName && (
+              <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 ">
+                <dt className="text-sm font-bold lg:flex lg:items-center">
+                  {t("details.fullName")}
+                </dt>
+                <dd className="mt-1 text-sm sm:col-span-2 sm:mt-0">
+                  <Edit
+                    title={t("details.fullName")}
+                    field="realName"
+                    type="text"
+                    value={profile.data.user.profile?.realName}
+                  />
+                </dd>
+              </div>
+            )}
+            {profile.data.user.profile?.phoneNumber && (
+              <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 ">
+                <dt className="text-sm font-bold lg:flex lg:items-center">
+                  {t("details.phoneNumber")}
+                </dt>
+                <dd className="mt-1 text-sm sm:col-span-2 sm:mt-0">
+                  <Edit
+                    title={t("details.phoneNumber")}
+                    field="phoneNumber"
+                    type="text"
+                    value={profile.data.user.profile?.phoneNumber}
+                  />
+                </dd>
+              </div>
+            )}
             <div className="px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 ">
               <dt className="text-sm font-bold lg:flex lg:items-center">
                 {t("details.address.title")}
               </dt>
-              <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
+              <dd className="mt-1 text-sm sm:col-span-2 sm:mt-0">
                 <EditAddress
                   field="address"
                   value={profile.data.user.address}
@@ -156,49 +159,48 @@ const CreateOrder = () => {
             </div>
           </>
         )}
-        <div className="px-4 py-5 font-bold font-mono text-sm text-center whitespace-normal">
+        <div className="whitespace-normal px-4 py-5 text-center font-mono text-sm font-bold">
           {t("orders.paymentTimout")}
         </div>
         <div className="px-4 py-5">
           <dt className="text-sm font-bold lg:flex lg:items-center">
             {t("orders.product.title")}
           </dt>
-          {products &&
-            products.map((product, index) => (
-              <dd key={index} className="flex space-x-2">
-                {product.imageUrl && (
-                  <div>
-                    <img
-                      src={product.imageUrl}
-                      alt={product.name ?? "product image"}
-                      width={200}
-                      className={`${ROUNDED} ${SHADOW}`}
-                    />
-                  </div>
-                )}
-                <div className="flex flex-col whitespace-normal">
-                  <p className="font-bold">{product.name}</p>
-                  <ItemProperties product={product} />
-                  <p className="text-sm font-mono">
-                    {t("orders.product.productPrice")}:{" "}
-                    {t("price", { price: product.price })}
-                  </p>
-                  <p className="text-sm font-mono">
-                    {t("orders.product.shippingPrice")}:{" "}
-                    {t("price", { price: product.shippingPrice })}
-                  </p>
-                  <p className="text-sm font-mono">
-                    {t("orders.product.quantity")}: {product.quantity}
-                  </p>
-                  <p className={`text-sm font-mono`}>
-                    <span className={TEXT_GRADIENT + " font-extrabold"}>
-                      {t("orders.product.total")}:{" "}
-                      {t("price", { price: product.totalPrice })}
-                    </span>
-                  </p>
+          {products?.map((product, index) => (
+            <dd key={index} className="flex space-x-2">
+              {product.imageUrl && (
+                <div>
+                  <img
+                    src={product.imageUrl}
+                    alt={product.name ?? "product image"}
+                    width={200}
+                    className={`${ROUNDED} ${SHADOW}`}
+                  />
                 </div>
-              </dd>
-            ))}
+              )}
+              <div className="flex flex-col whitespace-normal">
+                <p className="font-bold">{product.name}</p>
+                <ItemProperties product={product} />
+                <p className="font-mono text-sm">
+                  {t("orders.product.productPrice")}:{" "}
+                  {t("price", { price: product.price })}
+                </p>
+                <p className="font-mono text-sm">
+                  {t("orders.product.shippingPrice")}:{" "}
+                  {t("price", { price: product.shippingPrice })}
+                </p>
+                <p className="font-mono text-sm">
+                  {t("orders.product.quantity")}: {product.quantity}
+                </p>
+                <p className={`font-mono text-sm`}>
+                  <span className={TEXT_GRADIENT + " font-extrabold"}>
+                    {t("orders.product.total")}:{" "}
+                    {t("price", { price: product.totalPrice })}
+                  </span>
+                </p>
+              </div>
+            </dd>
+          ))}
         </div>
         {message?.type && (
           <Banner type={message?.type} message={message?.text} />
@@ -207,7 +209,7 @@ const CreateOrder = () => {
           <Button
             icon={
               <CursorArrowRaysIcon
-                className="h-5 w-5 inline mr-1"
+                className="mr-1 inline h-5 w-5"
                 aria-hidden="true"
               />
             }
@@ -219,12 +221,12 @@ const CreateOrder = () => {
                     <li>
                       {profile.data.user.profile?.phoneNumber ? (
                         <CheckBadgeIcon
-                          className="h-5 w-5 text-success inline mr-1"
+                          className="mr-1 inline h-5 w-5 text-success"
                           aria-hidden="true"
                         />
                       ) : (
                         <XMarkIcon
-                          className="h-5 w-5 text-danger inline mr-1"
+                          className="mr-1 inline h-5 w-5 text-danger"
                           aria-hidden="true"
                         />
                       )}
@@ -233,12 +235,12 @@ const CreateOrder = () => {
                     <li>
                       {profile.data.user.profile?.realName ? (
                         <CheckBadgeIcon
-                          className="h-5 w-5 text-success inline mr-1"
+                          className="mr-1 inline h-5 w-5 text-success"
                           aria-hidden="true"
                         />
                       ) : (
                         <XMarkIcon
-                          className="h-5 w-5 text-danger inline mr-1"
+                          className="mr-1 inline h-5 w-5 text-danger"
                           aria-hidden="true"
                         />
                       )}
@@ -247,12 +249,12 @@ const CreateOrder = () => {
                     <li>
                       {profile.data.user.address?.postalCode ? (
                         <CheckBadgeIcon
-                          className="h-5 w-5 text-success inline mr-1"
+                          className="mr-1 inline h-5 w-5 text-success"
                           aria-hidden="true"
                         />
                       ) : (
                         <XMarkIcon
-                          className="h-5 w-5 text-danger inline mr-1"
+                          className="mr-1 inline h-5 w-5 text-danger"
                           aria-hidden="true"
                         />
                       )}

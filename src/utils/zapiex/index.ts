@@ -12,7 +12,7 @@ export const ZAE_getProductById = async ({
   id,
   locale,
 }: API_ZAPIEX_PRODUCT_ARGUMENTS) => {
-  const { data } = await axios({
+  const response = await axios<{ data: ZAE_Product }>({
     method: "post",
     url: "https://api.zapiex.com/v3/product/details",
     data: {
@@ -29,7 +29,7 @@ export const ZAE_getProductById = async ({
       "x-api-key": env.ZAPIEX_KEY,
     },
   });
-  return data.data as ZAE_Product;
+  return response?.data?.data;
 };
 
 export const ZAE_SearchProduct = async ({
@@ -37,7 +37,7 @@ export const ZAE_SearchProduct = async ({
   locale,
   page,
 }: API_ZAPIEX_PRODUCT_SEARCH_ARGUMENTS) => {
-  const { data } = await axios({
+  const response = await axios<{ data: ZAE_Search }>({
     method: "post",
     url: "https://api.zapiex.com/v3/search",
     data: {
@@ -54,12 +54,12 @@ export const ZAE_SearchProduct = async ({
       "x-api-key": env.ZAPIEX_KEY,
     },
   });
-  return data.data as ZAE_Search;
+  return response.data?.data;
 };
 
 export const ZAE_CancelOrder = async (id: string) => {
   try {
-    const { data } = await axios.post(
+    const response = await axios.post(
       "https://api.zapiex.com/v3/order/cancel",
       {
         username: env.ALIEXPRESS_USERNAME,
@@ -75,7 +75,7 @@ export const ZAE_CancelOrder = async (id: string) => {
         },
       },
     );
-    console.log(data);
+    console.log(response.data);
   } catch (error) {
     console.log(error);
   }

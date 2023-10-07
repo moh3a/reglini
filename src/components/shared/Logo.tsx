@@ -1,4 +1,10 @@
-export const Logo = ({ width, height }: any) => {
+export const Logo = ({
+  width,
+  height,
+}: {
+  width?: string | number;
+  height?: string | number;
+}) => {
   return (
     <>
       <svg

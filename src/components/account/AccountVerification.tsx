@@ -20,7 +20,7 @@ const AccountVerification = ({ token }: { token: string }) => {
     } else if (verificationQuery.data) {
       if (verificationQuery.data.success) {
         setMessage({ type: "success", text: verificationQuery.data.message });
-        router.push("/account");
+        void router.push("/account");
       } else {
         setMessage({ type: "error", text: verificationQuery.data.message });
       }

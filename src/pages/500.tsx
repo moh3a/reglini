@@ -1,4 +1,3 @@
-import { GetStaticProps } from "next";
 import Head from "next/head";
 
 import { APP_NAME } from "~/config/constants";
@@ -15,6 +14,7 @@ const InternalError = () => {
   );
 };
 
+import type { GetStaticProps } from "next";
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
@@ -23,8 +23,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   };
 };
 
+import type { ReactElement } from "react";
 import Layout from "../components/layout/Layout";
-InternalError.getLayout = function getLayout(page: any) {
+InternalError.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 

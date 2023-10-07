@@ -1,4 +1,3 @@
-import { GetStaticProps } from "next";
 import Head from "next/head";
 
 import { APP_NAME } from "~/config/constants";
@@ -15,6 +14,7 @@ const NotFound = () => {
   );
 };
 
+import type { GetStaticProps } from "next";
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
@@ -24,7 +24,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 };
 
 import Layout from "../components/layout/Layout";
-NotFound.getLayout = function getLayout(page: any) {
+import type { ReactElement } from "react";
+NotFound.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 

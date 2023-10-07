@@ -1,4 +1,5 @@
-import {useStore} from 'zustand'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Result } from "~/types/index";
 declare let self: ServiceWorkerGlobalScope;
 
 // To disable all workbox logging during development, you can set self.__WB_DISABLE_DEV_LOGS to true
@@ -19,14 +20,17 @@ self.addEventListener("message", (event) => {
    * purpose of this code block found in this link
    * https://github.com/shadowwalker/next-pwa/tree/master/examples/cache-on-front-end-nav
    */
-  if (event?.data && event.data?.action === "CACHE_NEW_ROUTE") {
-    caches.open("others").then((cache) =>
-      cache.match(event.source?.url).then((res) => {
-        if (res === undefined) {
-          return cache.add(event.source.url);
-        }
-      })
-    ).catch(error => console.error(error));
+  if (event?.data?.action === "CACHE_NEW_ROUTE") {
+    caches
+      .open("others")
+      .then((cache) =>
+        cache.match(event.source?.url).then((res) => {
+          if (res === undefined) {
+            return cache.add(event.source.url);
+          }
+        }),
+      )
+      .catch((error) => console.error(error));
   }
 });
 
@@ -38,12 +42,12 @@ self.addEventListener("appinstalled", () => {
 });
 
 self.addEventListener("push", (event) => {
-  const data = JSON.parse(event?.data.text() ?? "{}");
+  const data = JSON.parse(event?.data.text() ?? "{}") as Record<string, string>;
   event?.waitUntil(
-    self.registration.showNotification(data?.title, {
+    self.registration.showNotification(data?.title ?? "Notification", {
       body: data?.message,
       icon: "/icon-192x192.png",
-    })
+    }),
   );
 });
 
@@ -63,7 +67,7 @@ self.addEventListener("notificationclick", (event) => {
           return client?.focus();
         }
         return self.clients.openWindow("/");
-      })
+      }),
   );
 });
 

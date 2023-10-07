@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import type{ GetServerSideProps } from "next";
+import { useEffect, type ReactElement } from "react";
+import type { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
@@ -13,7 +13,7 @@ const AccountVerificationPage = () => {
   const { token } = router.query;
 
   useEffect(() => {
-    if (status === "unauthenticated") router.replace("/");
+    if (status === "unauthenticated") void router.replace("/");
   }, [router, status]);
 
   return (
@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
 };
 
 import Layout from "~/components/layout/Layout";
-AccountVerificationPage.getLayout = function getLayout(page: any) {
+AccountVerificationPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 export default AccountVerificationPage;

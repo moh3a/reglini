@@ -1,25 +1,25 @@
-import { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { type ChangeEvent, type FormEvent, useRef, useState } from "react";
 import {
   CheckBadgeIcon,
   CloudArrowDownIcon,
   PencilIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { type AxiosRequestConfig } from "axios";
 import { useTranslations } from "next-intl";
 
 import { BG_TRANSPARENT_BACKDROP, SHADOW } from "~/config/design";
 import { Button, Banner, Loading } from "~/components/shared";
 import { api } from "~/utils/api";
-import type { IMessage } from "~/types/index";
+import type { IMessage, ImageUploadApiResponse } from "~/types/index";
 
 /* eslint-disable @next/next/no-img-element */
-const EditProfilePicture = ({
+export const EditProfilePicture = ({
   field,
   value,
 }: {
   field: string;
-  value: any;
+  value: string;
 }) => {
   const [edit, setEdit] = useState(false);
   const [newPicType, setNewPicType] = useState<
@@ -33,8 +33,8 @@ const EditProfilePicture = ({
   // RANDOM STRING FOR DICEBEAR AVATAR
   const generateRandomString = (length: number) => {
     let result = "";
-    let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    let charactersLength = characters.length;
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
@@ -42,12 +42,12 @@ const EditProfilePicture = ({
   };
 
   // UPLOAD NEW PROFILE PICTURE
-  const [image, setImage] = useState<any>();
+  const [image, setImage] = useState<File>();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const onChangeHandler = async (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      const i = event.target.files[0];
+  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event?.target?.files?.[0]) {
+      const i = event?.target?.files[0];
       setImage(i);
       setNewValue(URL.createObjectURL(i));
     }
@@ -55,6 +55,7 @@ const EditProfilePicture = ({
 
   const editMutation = api.account.edit.useMutation();
   const utils = api.useContext();
+
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
     if (newPicType === "generate" && newValue) {
@@ -67,14 +68,14 @@ const EditProfilePicture = ({
             if (data) {
               if (data.success) {
                 setMessage({ type: "success", text: data.message });
-                utils.account.profile.invalidate();
+                void utils.account.profile.invalidate();
               } else setMessage({ type: "error", text: data.error });
             }
             setTimeout(() => {
               setMessage({ type: undefined, text: undefined });
             }, 3000);
           },
-        }
+        },
       );
     } else if (newPicType === "upload" && newValue && image) {
       const formData = new FormData();
@@ -87,7 +88,11 @@ const EditProfilePicture = ({
           setProgress(Math.round((event.loaded * 100) / (event.total ?? 1)));
         },
       };
-      const { data } = await axios.post("/api/uploads/image", formData, config);
+      const { data } = await axios.post<ImageUploadApiResponse>(
+        "/api/uploads/image",
+        formData,
+        config,
+      );
       if (data.success) {
         setProgress(0);
         setLoading(true);
@@ -99,14 +104,14 @@ const EditProfilePicture = ({
               if (data) {
                 if (data.success) {
                   setMessage({ type: "success", text: data.message });
-                  utils.account.profile.invalidate();
+                  void utils.account.profile.invalidate();
                 } else setMessage({ type: "error", text: data.error });
               }
               setTimeout(() => {
                 setMessage({ type: undefined, text: undefined });
               }, 3000);
             },
-          }
+          },
         );
       } else {
         setMessage({ type: "error", text: data.message });
@@ -128,17 +133,18 @@ const EditProfilePicture = ({
       )}
       {progress !== 0 && (
         <div
-          className={` ${BG_TRANSPARENT_BACKDROP} mx-auto max-w-md rounded-full h-2.5 mt-4 `}
+          className={` ${BG_TRANSPARENT_BACKDROP} mx-auto mt-4 h-2.5 max-w-md rounded-full `}
         >
           <div
-            className="bg-aliexpress h-2.5 rounded-full"
+            className="h-2.5 rounded-full bg-aliexpress"
             style={{ width: progress + "%" }}
           />
         </div>
       )}
       {edit ? (
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         <form onSubmit={submitHandler}>
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <div className="flex-1">
               {!newPicType && (
                 <div className="font-mono">{t("profilePicture.desc")}</div>
@@ -147,7 +153,7 @@ const EditProfilePicture = ({
                 <img
                   src={newValue}
                   alt="generated profile picture"
-                  className={`m-1 h-32 w-32 rounded-full truncate ${SHADOW}`}
+                  className={`m-1 h-32 w-32 truncate rounded-full ${SHADOW}`}
                 />
               </div>
             </div>
@@ -164,7 +170,7 @@ const EditProfilePicture = ({
                   icon={
                     newPicType === "upload" && (
                       <CheckBadgeIcon
-                        className="h-6 w-6 inline mr-1"
+                        className="mr-1 inline h-6 w-6"
                         aria-hidden="true"
                       />
                     )
@@ -188,8 +194,8 @@ const EditProfilePicture = ({
                     setNewPicType("generate");
                     setNewValue(
                       `https://avatars.dicebear.com/api/bottts/${generateRandomString(
-                        6
-                      )}.svg`
+                        6,
+                      )}.svg`,
                     );
                   }}
                   variant="solid"
@@ -197,7 +203,7 @@ const EditProfilePicture = ({
                   icon={
                     newPicType === "generate" && (
                       <CheckBadgeIcon
-                        className="h-6 w-6 inline mr-1"
+                        className="mr-1 inline h-6 w-6"
                         aria-hidden="true"
                       />
                     )
@@ -212,7 +218,7 @@ const EditProfilePicture = ({
             <Button
               variant="outline"
               icon={
-                <XMarkIcon className="inline h-5 w-5 mr-2" aria-hidden="true" />
+                <XMarkIcon className="mr-2 inline h-5 w-5" aria-hidden="true" />
               }
               onClick={() => setEdit(false)}
               type="button"
@@ -225,7 +231,7 @@ const EditProfilePicture = ({
               variant="outline"
               icon={
                 <CloudArrowDownIcon
-                  className="inline h-5 w-5 mr-2"
+                  className="mr-2 inline h-5 w-5"
                   aria-hidden="true"
                 />
               }
@@ -247,7 +253,7 @@ const EditProfilePicture = ({
           <Button
             variant="outline"
             icon={
-              <PencilIcon className="inline h-5 w-5 mr-2" aria-hidden="true" />
+              <PencilIcon className="mr-2 inline h-5 w-5" aria-hidden="true" />
             }
             onClick={() => setEdit(true)}
           >
@@ -258,5 +264,3 @@ const EditProfilePicture = ({
     </>
   );
 };
-
-export default EditProfilePicture;

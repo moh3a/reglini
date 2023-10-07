@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import {
   CheckBadgeIcon,
   ExclamationCircleIcon,
@@ -15,7 +15,7 @@ interface BannerProps {
 export const Banner = ({ type, message }: BannerProps) => {
   return (
     <div
-      className={`${ROUNDED} ${PADDING} overflow-hidden shadow-md w-full z-40 my-3 text-sm text-white font-mono font-bold ${
+      className={`${ROUNDED} ${PADDING} z-40 my-3 w-full overflow-hidden font-mono text-sm font-bold text-white shadow-md ${
         type === "success"
           ? "bg-success shadow-success/50"
           : type === "warning"
@@ -23,20 +23,20 @@ export const Banner = ({ type, message }: BannerProps) => {
           : type === "error"
           ? "bg-danger shadow-danger/50"
           : "bg-grim shadow-black/50"
-      } h-12 flex items-center`}
+      } flex h-12 items-center`}
       role="alert"
     >
       {type === "success" && (
-        <CheckBadgeIcon className="h-6 w-6 inline mr-2" aria-hidden="true" />
+        <CheckBadgeIcon className="mr-2 inline h-6 w-6" aria-hidden="true" />
       )}
       {type === "warning" && (
         <ExclamationCircleIcon
-          className="h-6 w-6 inline mr-2"
+          className="mr-2 inline h-6 w-6"
           aria-hidden="true"
         />
       )}
       {type === "error" && (
-        <XCircleIcon className="h-6 w-6 inline mr-2" aria-hidden="true" />
+        <XCircleIcon className="mr-2 inline h-6 w-6" aria-hidden="true" />
       )}
 
       {message}

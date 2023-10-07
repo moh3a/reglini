@@ -10,7 +10,7 @@ import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
 import { compareSync, genSaltSync, hashSync } from "bcrypt";
 import slugify from "slugify";
-import { ACCOUNT_TYPE } from "@prisma/client";
+import { ACCOUNT_TYPE, type Profile, type User } from "@prisma/client";
 
 import { env } from "~/env.mjs";
 import { db } from "~/server/db";
@@ -196,13 +196,17 @@ export const authOptions: NextAuthOptions = {
           token = {
             ...token,
             type,
-            image: (user as any).profile?.picture,
+            image: (user as User & { profile?: Profile }).profile?.picture,
           };
         } else if (type === "oauth") {
           token = {
             ...token,
             type,
-            provider: account.provider as any,
+            provider: account.provider as
+              | "google"
+              | "facebook"
+              | null
+              | undefined,
             access_token: account.access_token,
             image: user.image,
           };

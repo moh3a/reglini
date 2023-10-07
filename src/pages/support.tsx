@@ -1,4 +1,4 @@
-import { GetStaticProps } from "next";
+import type { GetStaticProps } from "next";
 import Head from "next/head";
 import { useTranslations } from "next-intl";
 
@@ -26,7 +26,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 };
 
 import Layout from "~/components/layout/Layout";
-SupportPage.getLayout = function getLayout(page: any) {
+import type { ReactElement } from "react";
+SupportPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 

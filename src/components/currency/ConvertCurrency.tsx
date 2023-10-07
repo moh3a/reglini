@@ -1,7 +1,7 @@
 import { Fragment, useState, useEffect } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
-import { CURRENCIES } from "@prisma/client";
+import type { CURRENCIES } from "@prisma/client";
 
 import {
   BG_TRANSPARENT_BACKDROP,
@@ -25,11 +25,7 @@ const ConvertCurrency = () => {
 
   const currenciesQuery = api.currency.currencies.useQuery();
   useEffect(() => {
-    if (
-      currenciesQuery.data &&
-      currenciesQuery.data.currencies &&
-      currenciesQuery.data.currencies[0]
-    ) {
+    if (currenciesQuery?.data?.currencies?.[0]) {
       setMoney({
         dzd: currenciesQuery.data.currencies[0].parallel_sale ?? 0,
         devise: currenciesQuery.data.currencies[0].parallel_sale ? 1 : 0,
@@ -39,9 +35,9 @@ const ConvertCurrency = () => {
   }, []);
 
   useEffect(() => {
-    if (currenciesQuery.data && currenciesQuery.data.currencies) {
+    if (currenciesQuery.data?.currencies) {
       const index = currenciesQuery.data.currencies.findIndex(
-        (e) => e?.exchange === selectedDevise.exchange
+        (e) => e?.exchange === selectedDevise.exchange,
       );
       if (currenciesQuery.data.currencies[index] && index !== -1)
         setRate(currenciesQuery.data.currencies[index]?.parallel_sale ?? 0);
@@ -57,17 +53,17 @@ const ConvertCurrency = () => {
   return (
     <>
       {currenciesQuery.isLoading && (
-        <div className="w-full flex justify-center items-center">
+        <div className="flex w-full items-center justify-center">
           <Loading size="large" />
         </div>
       )}
-      {currenciesQuery.data && currenciesQuery.data.currencies && (
-        <div className="py-32 lg:py-44 px-4 flex flex-col items-center">
-          <h1 className="text-center text-xl lg:text-4xl font-bold">
+      {currenciesQuery.data?.currencies && (
+        <div className="flex flex-col items-center px-4 py-32 lg:py-44">
+          <h1 className="text-center text-xl font-bold lg:text-4xl">
             {t.rich("intro", {
               exchange: selectedDevise.exchange,
               gradient: (chunks) => (
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-red-400">
+                <span className="bg-gradient-to-r from-green-600 to-red-400 bg-clip-text text-transparent">
                   {chunks}
                 </span>
               ),
@@ -76,7 +72,7 @@ const ConvertCurrency = () => {
               ),
             })}
           </h1>
-          <form className="mt-8 mx-auto lg:min-w-128 flex flex-col items-center lg:flex-row lg:justify-around">
+          <form className="lg:min-w-128 mx-auto mt-8 flex flex-col items-center lg:flex-row lg:justify-around">
             <div className="relative m-2">
               <label htmlFor="dzd" className="sr-only">
                 From Algerian Dinars
@@ -94,7 +90,7 @@ const ConvertCurrency = () => {
                   });
                 }}
               />
-              <span className="absolute inset-y-0 right-5 pr-2 flex items-center pointer-events-none text-gray-500">
+              <span className="pointer-events-none absolute inset-y-0 right-5 flex items-center pr-2 text-gray-500">
                 DZD
               </span>
             </div>
@@ -113,7 +109,7 @@ const ConvertCurrency = () => {
                   });
                 }}
               />
-              <span className="absolute inset-y-0 right-5 pr-2 flex items-center pointer-events-none text-gray-500">
+              <span className="pointer-events-none absolute inset-y-0 right-5 flex items-center pr-2 text-gray-500">
                 {selectedDevise.exchange === "EUR"
                   ? "€"
                   : selectedDevise.exchange === "USD"
@@ -127,13 +123,13 @@ const ConvertCurrency = () => {
             >
               <div className="relative">
                 <Listbox.Button
-                  className={`cursor-pointer border-0 border-b border-grim dark:border-aliexpress text-sm ${SHADOW} ${ROUNDED} ${PADDING} ${BG_TRANSPARENT_BACKDROP}`}
+                  className={`cursor-pointer border-0 border-b border-grim text-sm dark:border-aliexpress ${SHADOW} ${ROUNDED} ${PADDING} ${BG_TRANSPARENT_BACKDROP}`}
                 >
                   <span className="block truncate pr-4">
                     {selectedDevise.exchange}
                   </span>
-                  <span className="absolute inset-y-0 bottom-1 right-1 flex items-center pointer-events-none">
-                    <ChevronUpDownIcon className="w-5 h-5" aria-hidden="true" />
+                  <span className="pointer-events-none absolute inset-y-0 bottom-1 right-1 flex items-center">
+                    <ChevronUpDownIcon className="h-5 w-5" aria-hidden="true" />
                   </span>
                 </Listbox.Button>
                 <Transition
@@ -143,7 +139,7 @@ const ConvertCurrency = () => {
                   leaveTo="opacity-0"
                 >
                   <Listbox.Options
-                    className={`absolute py-1 mt-1 overflow-auto text-base max-h-60 sm:text-sm ${SHADOW} ${ROUNDED} ${BG_TRANSPARENT_BACKDROP}`}
+                    className={`absolute mt-1 max-h-60 overflow-auto py-1 text-base sm:text-sm ${SHADOW} ${ROUNDED} ${BG_TRANSPARENT_BACKDROP}`}
                   >
                     {currenciesQuery.data.currencies.map(
                       (currency) =>
@@ -153,10 +149,10 @@ const ConvertCurrency = () => {
                             className={({ selected }) =>
                               `${
                                 selected
-                                  ? "font-extrabold bg-aliexpress text-white"
+                                  ? "bg-aliexpress font-extrabold text-white"
                                   : ""
                               }
-                          cursor-pointer hover:bg-black/5 dark:hover:bg-black/50 select-none relative py-1 pl-8 pr-2`
+                          relative cursor-pointer select-none py-1 pl-8 pr-2 hover:bg-black/5 dark:hover:bg-black/50`
                             }
                             value={currency.exchange}
                           >
@@ -171,10 +167,10 @@ const ConvertCurrency = () => {
                                 </span>
                                 {selected ? (
                                   <span
-                                    className={`text-white absolute inset-y-0 left-0 flex items-center pl-2`}
+                                    className={`absolute inset-y-0 left-0 flex items-center pl-2 text-white`}
                                   >
                                     <CheckIcon
-                                      className="w-5 h-5"
+                                      className="h-5 w-5"
                                       aria-hidden="true"
                                     />
                                   </span>
@@ -182,7 +178,7 @@ const ConvertCurrency = () => {
                               </>
                             )}
                           </Listbox.Option>
-                        )
+                        ),
                     )}
                   </Listbox.Options>
                 </Transition>

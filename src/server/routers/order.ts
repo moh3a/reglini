@@ -34,7 +34,7 @@ export const orderRouter = router({
     .input(
       z.object({
         order_id: z.string(),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       const user = await ctx.db.user.findFirst({
@@ -49,7 +49,7 @@ export const orderRouter = router({
       });
       if (user) {
         const result = await ctx.aliexpress.ds.getOrder(
-          parseInt(input.order_id)
+          parseInt(input.order_id),
         );
         if (
           result.ok &&
@@ -74,7 +74,7 @@ export const orderRouter = router({
     .input(
       z.object({
         order_id: z.string(),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       try {
@@ -97,7 +97,7 @@ export const orderRouter = router({
       z.object({
         shippingAddress: z.custom<ZAE_ShippingAddres>(),
         products: z.custom<Omit<Product, "orderId">[]>(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const user = await ctx.db.user.findUnique({
@@ -106,15 +106,15 @@ export const orderRouter = router({
       if (user) {
         try {
           const product_items: AE_Product_Item[] = input.products.map(
-            (product) => ({
-              logistics_service_name: product.carrierId,
+            (product: NonNullable<Omit<Product, "orderId">>) => ({
+              logistics_service_name: product.carrierId ?? undefined,
               order_memo:
                 product.orderMemo ??
                 "Please do not put invoices or any other document inside the package. Instead send them to this email address support@reglini-dz.com. Thank you very much.",
-              product_count: product.quantity,
-              product_id: parseInt(product.productId),
+              product_count: product.quantity ?? 1,
+              product_id: product.productId ? parseInt(product.productId) : 0,
               sku_attr: product.sku ?? undefined,
-            })
+            }),
           );
           const logistics_address: AE_Logistics_Address = {
             address: input.shippingAddress.addressLine1,
@@ -129,7 +129,7 @@ export const orderRouter = router({
           };
           const result = await ctx.aliexpress.ds.createOrder(
             logistics_address,
-            product_items
+            product_items,
           );
 
           if (
@@ -142,18 +142,24 @@ export const orderRouter = router({
             if (data.is_success) {
               for (const order_id of data.order_list) {
                 const order = await ctx.aliexpress.ds.getOrder(order_id);
-                const products: Omit<Product, "orderId" | "id" | "properties">[] =
-                  [];
-                if (order.ok && input.products.length === 1 && input.products[0]) {
+                const products: Omit<
+                  Product,
+                  "orderId" | "id" | "properties"
+                >[] = [];
+                if (
+                  order.ok &&
+                  input.products.length === 1 &&
+                  input.products[0]
+                ) {
                   products.push(input.products[0]);
                 } else if (order.ok && input.products.length > 1) {
                   order.data.aliexpress_trade_ds_order_get_response.result.child_order_list.forEach(
                     (o) => {
                       const prdct = input.products.find(
-                        (p) => p.productId === o.product_id.toString()
+                        (p) => p.productId === o.product_id.toString(),
                       );
                       if (prdct) products.push(prdct);
-                    }
+                    },
                   );
                 }
                 await ctx.db.order.create({
@@ -208,7 +214,7 @@ export const orderRouter = router({
         order_id: z.string(),
         method: z.enum(["CCP", "CIB"]),
         receipt_url: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const data = {
@@ -288,7 +294,7 @@ export const orderRouter = router({
         package_pic: z.string().optional(),
         rating: z.number().min(1).max(5).optional(),
         feedback: z.string().optional(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       if (input.rating ?? input.feedback) {

@@ -12,14 +12,14 @@ const LiveRate = () => {
   return (
     <div>
       {currencies.isLoading && (
-        <div className="w-full flex justify-center items-center">
+        <div className="flex w-full items-center justify-center">
           <Loading size="large" />
         </div>
       )}
-      {currencies.data && currencies.data.currencies && (
+      {currencies?.data?.currencies && (
         <>
-          <div className="py-8 lg:py-16 px-2 flex flex-col items-center">
-            <h1 className="text-center text-xl lg:text-4xl font-bold">
+          <div className="flex flex-col items-center px-2 py-8 lg:py-16">
+            <h1 className="text-center text-xl font-bold lg:text-4xl">
               {t.rich("intro", {
                 market: t("parallel"),
                 highlight: (chunks) => (
@@ -27,13 +27,13 @@ const LiveRate = () => {
                 ),
               })}
             </h1>
-            <div className="text-xs lg:text-sm text-center">
+            <div className="text-center text-xs lg:text-sm">
               {t("desc", { market: t("parallel") })}
             </div>
-            <h2 className="text-lg lg:text-xl font-semibold underline font-mono">
+            <h2 className="font-mono text-lg font-semibold underline lg:text-xl">
               {t("purchase")}
             </h2>
-            <div className="flex justify-around select-none">
+            <div className="flex select-none justify-around">
               {currencies.data.currencies.map(
                 (currency) =>
                   currency && (
@@ -42,13 +42,13 @@ const LiveRate = () => {
                       currency={currency}
                       market="parallel_purchase"
                     />
-                  )
+                  ),
               )}
             </div>
-            <h2 className="text-lg lg:text-xl font-semibold underline font-mono">
+            <h2 className="font-mono text-lg font-semibold underline lg:text-xl">
               {t("sale")}
             </h2>
-            <div className="flex flex-wrap flex-center select-none">
+            <div className="flex-center flex select-none flex-wrap">
               {currencies.data.currencies.map(
                 (currency) =>
                   currency && (
@@ -57,12 +57,12 @@ const LiveRate = () => {
                       currency={currency}
                       market="parallel_sale"
                     />
-                  )
+                  ),
               )}
             </div>
           </div>
-          <div className="py-8 lg:py-16 px-2 flex flex-col items-center">
-            <h1 className="text-center text-xl lg:text-4xl font-bold">
+          <div className="flex flex-col items-center px-2 py-8 lg:py-16">
+            <h1 className="text-center text-xl font-bold lg:text-4xl">
               {t.rich("intro", {
                 market: t("official"),
                 highlight: (chunks) => (
@@ -70,10 +70,10 @@ const LiveRate = () => {
                 ),
               })}
             </h1>
-            <div className="text-xs lg:text-sm text-center">
+            <div className="text-center text-xs lg:text-sm">
               {t("desc", { market: t("official") })}
             </div>
-            <div className="flex flex-wrap flex-center select-none">
+            <div className="flex-center flex select-none flex-wrap">
               {currencies.data.currencies.map(
                 (currency) =>
                   currency && (
@@ -82,7 +82,7 @@ const LiveRate = () => {
                       currency={currency}
                       market="official_rate"
                     />
-                  )
+                  ),
               )}
             </div>
           </div>

@@ -31,12 +31,12 @@ const AccountBadge = () => {
           variant="outline"
           icon={
             <ArrowLeftOnRectangleIcon
-              className="w-5 h-5 inline rtl:md:ml-1 ltr:md:mr-1"
+              className="inline h-5 w-5 ltr:md:mr-1 rtl:md:ml-1"
               aria-hidden="true"
             />
           }
         >
-          <span className="hidden md:inline relative top-0.5 text-sm ">
+          <span className="relative top-0.5 hidden text-sm md:inline ">
             {t("title")}
           </span>
         </Button>
@@ -48,13 +48,13 @@ const AccountBadge = () => {
     <Menu as="div" className="relative top-0.5 inline-block ltr:ml-2 rtl:mr-2">
       <Menu.Button as={Fragment}>
         <div
-          className={`cursor-pointer flex justify-center items-center ${SHADOW} w-8 h-8 rounded-full truncate`}
+          className={`flex cursor-pointer items-center justify-center ${SHADOW} h-8 w-8 truncate rounded-full`}
         >
           {status === "authenticated" ? (
             <img
-              src={session?.user?.image!}
-              alt={session?.user?.name!}
-              className="w-8 h-8 rounded-full"
+              src={session?.user?.image as string | undefined}
+              alt={session?.user?.name as string | undefined}
+              className="h-8 w-8 rounded-full"
             />
           ) : (
             <Loading size="large" />
@@ -73,14 +73,14 @@ const AccountBadge = () => {
           leaveTo="transform opacity-0 scale-95"
         >
           <Menu.Items
-            className={`ltr:origin-top-right rtl:origin-top-left absolute z-100 ltr:right-0 rtl:left-0 mt-2 w-56 ${BG_TRANSPARENT_BACKDROP} ${SHADOW} ${PADDING} ${ROUNDED} `}
+            className={`absolute z-100 mt-2 w-56 ltr:right-0 ltr:origin-top-right rtl:left-0 rtl:origin-top-left ${BG_TRANSPARENT_BACKDROP} ${SHADOW} ${PADDING} ${ROUNDED} `}
           >
             <Menu.Item>
               <Link href={"/account"}>
                 <Button
                   icon={
                     <Cog6ToothIcon
-                      className="inline h-5 w-5 mx-2"
+                      className="mx-2 inline h-5 w-5"
                       aria-hidden="true"
                     />
                   }
@@ -95,7 +95,7 @@ const AccountBadge = () => {
                 <Button
                   icon={
                     <HeartIcon
-                      className="inline h-5 w-5 mx-2"
+                      className="mx-2 inline h-5 w-5"
                       aria-hidden="true"
                     />
                   }
@@ -110,7 +110,7 @@ const AccountBadge = () => {
                 <Button
                   icon={
                     <Square3Stack3DIcon
-                      className="inline h-5 w-5 mx-2"
+                      className="mx-2 inline h-5 w-5"
                       aria-hidden="true"
                     />
                   }
@@ -125,11 +125,11 @@ const AccountBadge = () => {
                 <Button
                   icon={
                     <PowerIcon
-                      className="inline h-5 w-5 mx-2"
+                      className="mx-2 inline h-5 w-5"
                       aria-hidden="true"
                     />
                   }
-                  onClick={() => signOut()}
+                  onClick={() => void signOut()}
                   variant="outline"
                 >
                   {t("signOut")}

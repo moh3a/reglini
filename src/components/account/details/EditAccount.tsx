@@ -1,4 +1,4 @@
-import { FormEvent, HTMLInputTypeAttribute, useState } from "react";
+import { type FormEvent, type HTMLInputTypeAttribute, useState } from "react";
 import {
   CloudArrowDownIcon,
   PencilIcon,
@@ -13,25 +13,31 @@ import type { IMessage } from "~/types/index";
 interface EditAccountProps {
   title: string;
   field: "name" | "realName" | "phoneNumber" | "picture";
-  value: any;
+  value: string;
   type: HTMLInputTypeAttribute;
-  editHandler?: (args?: any) => void;
+  editHandler?: (args?: unknown) => void;
 }
 
-const Edit = ({ title, field, value, type, editHandler }: EditAccountProps) => {
+export const Edit = ({
+  title,
+  field,
+  value,
+  type,
+  editHandler,
+}: EditAccountProps) => {
   const [edit, setEdit] = useState(false);
   const [state, setState] = useState(value);
   const [message, setMessage] = useState<IMessage>();
   const editMutation = api.account.edit.useMutation();
   const utils = api.useContext();
 
-  const submitHandler = async (event: FormEvent) => {
+  const submitHandler = (event: FormEvent): void => {
     event.preventDefault();
     if (editHandler) {
       editHandler();
     } else {
       if (state !== value) {
-        await editMutation.mutateAsync(
+        editMutation.mutate(
           { field, value: state },
           {
             onSettled(data, error) {
@@ -39,15 +45,15 @@ const Edit = ({ title, field, value, type, editHandler }: EditAccountProps) => {
               if (data) {
                 if (data.success) {
                   setMessage({ type: "success", text: data.message });
-                  utils.account.profile.invalidate();
+                  void utils.account.profile.invalidate();
                 } else setMessage({ type: "error", text: data.error });
               }
               setTimeout(
                 () => setMessage({ type: undefined, text: undefined }),
-                3000
+                3000,
               );
             },
-          }
+          },
         );
       }
     }
@@ -61,7 +67,7 @@ const Edit = ({ title, field, value, type, editHandler }: EditAccountProps) => {
         <form onSubmit={submitHandler}>
           <div>
             <label
-              className="block font-bold font-mono text-sm"
+              className="block font-mono text-sm font-bold"
               htmlFor={field}
             >
               {title}
@@ -74,7 +80,7 @@ const Edit = ({ title, field, value, type, editHandler }: EditAccountProps) => {
             <Button
               variant="outline"
               icon={
-                <XMarkIcon className="inline h-5 w-5 mr-2" aria-hidden="true" />
+                <XMarkIcon className="mr-2 inline h-5 w-5" aria-hidden="true" />
               }
               onClick={() => setEdit(false)}
             >
@@ -86,7 +92,7 @@ const Edit = ({ title, field, value, type, editHandler }: EditAccountProps) => {
               variant="outline"
               icon={
                 <CloudArrowDownIcon
-                  className="inline h-5 w-5 mr-2"
+                  className="mr-2 inline h-5 w-5"
                   aria-hidden="true"
                 />
               }
@@ -102,7 +108,7 @@ const Edit = ({ title, field, value, type, editHandler }: EditAccountProps) => {
           <Button
             variant="outline"
             icon={
-              <PencilIcon className="inline h-5 w-5 mr-2" aria-hidden="true" />
+              <PencilIcon className="mr-2 inline h-5 w-5" aria-hidden="true" />
             }
             onClick={() => setEdit(true)}
           >
@@ -113,5 +119,3 @@ const Edit = ({ title, field, value, type, editHandler }: EditAccountProps) => {
     </>
   );
 };
-
-export default Edit;

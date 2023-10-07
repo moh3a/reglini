@@ -16,7 +16,7 @@ const Login = ({ csrfToken }: { csrfToken: string }) => {
     if (!email) return setError("Email cannot be blank.");
     const isValid =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        email
+        email,
       );
     if (!isValid) return setError("You should enter a valid email.");
     await emailExistsMutation.mutateAsync(
@@ -32,7 +32,7 @@ const Login = ({ csrfToken }: { csrfToken: string }) => {
             } else return setError("You should be logged in.");
           }
         },
-      }
+      },
     );
   };
   const t = useTranslations("AuthPage.login");
@@ -65,7 +65,7 @@ const Login = ({ csrfToken }: { csrfToken: string }) => {
               setError("");
               setEmail(e.target.value);
             }}
-            onBlur={() => checkEmail()}
+            onBlur={() => void checkEmail()}
           />
           {error && <p className="text-danger">{error}</p>}
         </div>
@@ -90,14 +90,14 @@ const Login = ({ csrfToken }: { csrfToken: string }) => {
             {t("title")}
           </Button>
         ) : (
-          <p className="text-center text-danger cursor-pointer">
+          <p className="cursor-pointer text-center text-danger">
             {t("correctIt")}
           </p>
         )}
       </form>
 
       <ForgotPasswordModal />
-      <div className="mt-2 mb-8 text-center">
+      <div className="mb-8 mt-2 text-center">
         {t("dontHaveAccount")}{" "}
         <Link href="/auth/register">
           <Button variant="outline" tabIndex={4}>

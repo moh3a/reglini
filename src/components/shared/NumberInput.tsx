@@ -1,4 +1,4 @@
-import {
+import type {
   ChangeEvent,
   Dispatch,
   KeyboardEventHandler,
@@ -22,7 +22,7 @@ interface NumberInputProps {
   tabIndex?: number;
   className?: string;
   required?: boolean;
-  width?: any;
+  width?: string | number;
   min?: number;
   max?: number;
   step?: number;
@@ -78,8 +78,8 @@ export const NumberInput = ({
       placeholder={placeholder}
       className={className ? className : TEXT_INPUT}
       tabIndex={tabIndex}
-      size={size || undefined}
-      maxLength={size || undefined}
+      size={size ?? undefined}
+      maxLength={size ?? undefined}
     />
   );
 };

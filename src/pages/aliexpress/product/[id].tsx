@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { GetServerSideProps } from "next";
+import type { GetServerSideProps } from "next";
 
 import { ProductDetails } from "~/components/aliexpress";
 
@@ -19,7 +19,8 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
 };
 
 import Layout from "~/components/layout/Layout";
-AliexpressProductPage.getLayout = function getLayout(page: any) {
+import type { ReactElement } from "react";
+AliexpressProductPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 

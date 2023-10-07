@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { GetStaticProps } from "next";
+import { useEffect, type ReactElement } from "react";
+import type { GetStaticProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
@@ -34,7 +34,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 };
 
 import Layout from "~/components/layout/Layout";
-AllOrdersPage.getLayout = function getLayout(page: any) {
+AllOrdersPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 

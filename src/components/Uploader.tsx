@@ -1,6 +1,6 @@
 import { BG_TRANSPARENT_BACKDROP } from "~/config/design";
 import { FolderOpenIcon } from "@heroicons/react/24/outline";
-import { ChangeEvent, useRef } from "react";
+import { type ChangeEvent, useRef } from "react";
 
 interface FileUploadProps {
   onChange: (formData: FormData) => void;
@@ -33,7 +33,7 @@ const FileUpload = ({ onChange, uploadFileName }: FileUploadProps) => {
   return (
     <form ref={formRef}>
       <button
-        className={`${BG_TRANSPARENT_BACKDROP} p-2 font-bold rounded-full`}
+        className={`${BG_TRANSPARENT_BACKDROP} rounded-full p-2 font-bold`}
         type="button"
         onClick={onClickHandler}
       >

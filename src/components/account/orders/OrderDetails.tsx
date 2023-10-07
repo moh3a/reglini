@@ -35,18 +35,18 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
         if (data && !data.success)
           setMessage({ type: "error", text: data.error });
       },
-    }
+    },
   );
   const detailsQuery = api.order.details.useQuery({ order_id: id });
 
-  const cancelOrderHandler = async () => {
+  const cancelOrderHandler = () => {
     if (orderQuery.data?.result?.order_status === "PLACE_ORDER_SUCCESS") {
       setInfo("confirm_cancel");
       setIsOpen(true);
     }
   };
 
-  const paymentHandler = async () => {
+  const paymentHandler = () => {
     if (
       orderQuery.data?.result?.order_status === "PLACE_ORDER_SUCCESS" &&
       !detailsQuery.data?.order?.payment?.receipt
@@ -56,19 +56,14 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
     }
   };
 
-  const getTracking = async () => {
-    if (
-      orderQuery &&
-      orderQuery.data &&
-      orderQuery.data.result &&
-      orderQuery.data.result.logistics_info_list
-    ) {
+  const getTracking = () => {
+    if (orderQuery?.data?.result?.logistics_info_list) {
       setInfo("tracking");
       setIsOpen(true);
     }
   };
 
-  const confirmReceptionHandler = async () => {
+  const confirmReceptionHandler = () => {
     if (
       orderQuery.data?.result?.order_status === "WAIT_BUYER_ACCEPT_GOODS" &&
       !detailsQuery.data?.order?.received?.wasReceived
@@ -80,46 +75,46 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
   const t = useTranslations("AccountPage.orders");
 
   return (
-    <div className="px-4 mx-auto max-w-xl">
+    <div className="mx-auto max-w-xl px-4">
       {orderQuery.isLoading && (
-        <div className="w-full flex justify-center items-center">
+        <div className="flex w-full items-center justify-center">
           <Loading size="medium" />
         </div>
       )}
       {message?.type && <Banner type={message?.type} message={message?.text} />}
-      {orderQuery.data && orderQuery.data.result && (
+      {orderQuery.data?.result && (
         <div>
           <div>
             <h2 className="mt-2">
               <span
-                className={`font-semibold text-xl font-mono ${TEXT_GRADIENT} `}
+                className={`font-mono text-xl font-semibold ${TEXT_GRADIENT} `}
               >
                 {t("orderInfo")}
               </span>
             </h2>
             <dl className={`m-auto truncate ${PADDING} ${SHADOW} ${ROUNDED} `}>
-              <div className="p-1 sm:px-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+              <div className="p-1 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3 sm:py-4">
                 <dt className="text-sm font-bold lg:flex lg:items-center">
                   {t("orderId")}
                 </dt>
-                <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">{id}</dd>
+                <dd className="mt-1 text-sm sm:col-span-2 sm:mt-0">{id}</dd>
               </div>
               {orderQuery.data.result.gmt_create && (
-                <div className="p-1 sm:px-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+                <div className="p-1 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3 sm:py-4">
                   <dt className="text-sm font-bold lg:flex lg:items-center">
                     {t("orderDate")}
                   </dt>
-                  <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
+                  <dd className="mt-1 text-sm sm:col-span-2 sm:mt-0">
                     {orderQuery.data.result.gmt_create}
                   </dd>
                 </div>
               )}
-              <div className="p-1 sm:px-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+              <div className="p-1 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-3 sm:py-4">
                 <dt className="text-sm font-bold lg:flex lg:items-center">
                   {t("orderStatus.title")}
                 </dt>
-                <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
-                  <span className={"text-aliexpress font-bold uppercase"}>
+                <dd className="mt-1 text-sm sm:col-span-2 sm:mt-0">
+                  <span className={"font-bold uppercase text-aliexpress"}>
                     {orderQuery.data.result.order_status ===
                       "PLACE_ORDER_SUCCESS" &&
                       !detailsQuery.data?.order?.payment?.receipt &&
@@ -148,73 +143,70 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
             </dl>
           </div>
           {detailsQuery.isLoading && (
-            <div className="w-full flex justify-center items-center">
+            <div className="flex w-full items-center justify-center">
               <Loading size="medium" />
             </div>
           )}
-          {detailsQuery.data &&
-            detailsQuery.data.order &&
-            detailsQuery.data.order.payment &&
-            detailsQuery.data.order.payment.receipt && (
-              <>
-                <h2 className="mt-2">
-                  <span
-                    className={`font-semibold text-xl font-mono ${TEXT_GRADIENT} `}
-                  >
-                    {t("paymentInfo")}
-                  </span>
-                </h2>
-                <dl
-                  className={`m-auto truncate ${PADDING} ${SHADOW} ${ROUNDED} `}
+          {detailsQuery.data?.order?.payment?.receipt && (
+            <>
+              <h2 className="mt-2">
+                <span
+                  className={`font-mono text-xl font-semibold ${TEXT_GRADIENT} `}
                 >
-                  <div className="p-2 sm:px-4 sm:py-5 grid grid-cols-3 gap-4">
-                    <dt className="text-sm font-bold lg:flex lg:items-center">
-                      {t("paymentStatus.title")}
-                    </dt>
-                    <dd className="mt-1 text-sm sm:mt-0 sm:col-span-2">
-                      <div>
-                        {!detailsQuery.data.order.payment.isPaymentConfirmed &&
-                          !detailsQuery.data.order.payment.wasDeclined && (
-                            <span className="text-warning uppercase font-bold text-sm">
-                              {t("paymentStatus.awaitingConfirmation")}
-                            </span>
-                          )}
-                        {detailsQuery.data.order.payment.isPaymentConfirmed && (
-                          <span className="text-success uppercase font-bold text-sm">
-                            {t("paymentStatus.confirmed")}
+                  {t("paymentInfo")}
+                </span>
+              </h2>
+              <dl
+                className={`m-auto truncate ${PADDING} ${SHADOW} ${ROUNDED} `}
+              >
+                <div className="grid grid-cols-3 gap-4 p-2 sm:px-4 sm:py-5">
+                  <dt className="text-sm font-bold lg:flex lg:items-center">
+                    {t("paymentStatus.title")}
+                  </dt>
+                  <dd className="mt-1 text-sm sm:col-span-2 sm:mt-0">
+                    <div>
+                      {!detailsQuery.data.order.payment.isPaymentConfirmed &&
+                        !detailsQuery.data.order.payment.wasDeclined && (
+                          <span className="text-sm font-bold uppercase text-warning">
+                            {t("paymentStatus.awaitingConfirmation")}
                           </span>
                         )}
-                        {detailsQuery.data.order.payment.wasDeclined && (
-                          <span className="text-danger uppercase font-bold text-sm">
-                            {t("paymentStatus.declined")}
-                          </span>
-                        )}
-                      </div>
-                      <div>
-                        {t("receipt")}{" "}
-                        <Link
-                          href={detailsQuery.data.order.payment.receipt}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          <PhotoIcon
-                            className="h-6 w-6 inline text-aliexpress"
-                            aria-checked="true"
-                          />
-                        </Link>
-                      </div>
-                    </dd>
-                  </div>
-                </dl>
-              </>
-            )}
+                      {detailsQuery.data.order.payment.isPaymentConfirmed && (
+                        <span className="text-sm font-bold uppercase text-success">
+                          {t("paymentStatus.confirmed")}
+                        </span>
+                      )}
+                      {detailsQuery.data.order.payment.wasDeclined && (
+                        <span className="text-sm font-bold uppercase text-danger">
+                          {t("paymentStatus.declined")}
+                        </span>
+                      )}
+                    </div>
+                    <div>
+                      {t("receipt")}{" "}
+                      <Link
+                        href={detailsQuery.data.order.payment.receipt}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <PhotoIcon
+                          className="inline h-6 w-6 text-aliexpress"
+                          aria-checked="true"
+                        />
+                      </Link>
+                    </div>
+                  </dd>
+                </div>
+              </dl>
+            </>
+          )}
           {detailsQuery.data &&
             detailsQuery.data.order &&
             detailsQuery.data.order.products && (
               <>
                 <h2 className="mt-2">
                   <span
-                    className={`font-semibold text-xl font-mono ${TEXT_GRADIENT} `}
+                    className={`font-mono text-xl font-semibold ${TEXT_GRADIENT} `}
                   >
                     {t("productInfo")}
                   </span>
@@ -228,15 +220,15 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                       href={`/aliexpress/product/${product.productId}`}
                       target={"_blank"}
                     >
-                      <div className="py-2 grid grid-cols-5 gap-4">
-                        <dt className="flex justify-center items-center">
+                      <div className="grid grid-cols-5 gap-4 py-2">
+                        <dt className="flex items-center justify-center">
                           <img
                             src={product.imageUrl ?? "/placeholder.png"}
                             alt={product.productId}
                             className={` ${ROUNDED} w-20`}
                           />
                         </dt>
-                        <dd className="text-sm col-span-4">
+                        <dd className="col-span-4 text-sm">
                           <p className="font-bold">
                             {t("productId")}: {product.productId}
                           </p>
@@ -262,16 +254,16 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
               <>
                 <h2 className="mt-2">
                   <span
-                    className={`font-semibold text-xl font-mono ${TEXT_GRADIENT} `}
+                    className={`font-mono text-xl font-semibold ${TEXT_GRADIENT} `}
                   >
                     {t("addressInfo")}
                   </span>
                 </h2>
                 <section>
                   <div className="flex">
-                    <div className="flex justify-center items-center w-20">
+                    <div className="flex w-20 items-center justify-center">
                       <MapPinIcon
-                        className="w-5 h-5 text-aliexpress"
+                        className="h-5 w-5 text-aliexpress"
                         aria-hidden="true"
                       />
                     </div>
@@ -313,10 +305,12 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
                 setMessage={setMessage}
                 order_id={id}
                 tracking_id={
-                  orderQuery.data.result.logistics_info_list[0]?.logistics_no ?? ''
+                  orderQuery.data.result.logistics_info_list[0]?.logistics_no ??
+                  ""
                 }
                 service_name={
-                  orderQuery.data.result.logistics_info_list[0]?.logistics_service ?? ""
+                  orderQuery.data.result.logistics_info_list[0]
+                    ?.logistics_service ?? ""
                 }
               />
             )}

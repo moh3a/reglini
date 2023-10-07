@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { GetStaticProps } from "next";
+import { useEffect, type ReactElement } from "react";
+import type { GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
@@ -12,7 +12,7 @@ const AccountPage = () => {
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    if (status === "unauthenticated") router.replace("/");
+    if (status === "unauthenticated") void router.replace("/");
   }, [router, status]);
 
   return (
@@ -38,7 +38,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 };
 
 import Layout from "~/components/layout/Layout";
-AccountPage.getLayout = function getLayout(page: any) {
+AccountPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 

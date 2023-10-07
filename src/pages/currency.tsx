@@ -1,4 +1,3 @@
-import { GetStaticProps } from "next";
 import Head from "next/head";
 import { useTranslations } from "next-intl";
 
@@ -17,6 +16,7 @@ const CurrencyPage = () => {
   );
 };
 
+import type { GetStaticProps } from "next";
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
@@ -26,7 +26,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 };
 
 import Layout from "~/components/layout/Layout";
-CurrencyPage.getLayout = function getLayout(page: any) {
+import type { ReactElement } from "react";
+CurrencyPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 

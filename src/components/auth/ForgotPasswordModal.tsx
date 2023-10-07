@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { type FormEvent, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import { api } from "~/utils/api";
@@ -6,7 +6,7 @@ import { Button, TextInput, Modal, Banner } from "~/components/shared";
 import type { IMessage } from "~/types/index";
 
 export default function ForgotPasswordModal() {
-  let [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState<IMessage>();
   const forgotPasswordMutation = api.auth.forgotPasswordHandler.useMutation();
@@ -19,11 +19,11 @@ export default function ForgotPasswordModal() {
     setIsOpen(true);
   }
 
-  const forgotPasswordHandler = async (e: FormEvent) => {
+  const forgotPasswordHandler = (e: FormEvent) => {
     e.preventDefault();
     if (email) {
       try {
-        await forgotPasswordMutation.mutateAsync(
+        forgotPasswordMutation.mutate(
           { email },
           {
             onSettled(data, error) {
@@ -34,9 +34,9 @@ export default function ForgotPasswordModal() {
                 } else setMessage({ type: "error", text: data.message });
               }
             },
-          }
+          },
         );
-      } catch (error: any) {
+      } catch (error) {
         setMessage({ type: "error", text: JSON.stringify(error) });
       }
     }

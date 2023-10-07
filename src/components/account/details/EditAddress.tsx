@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 import {
   CloudArrowDownIcon,
   PencilIcon,
@@ -17,7 +17,7 @@ import { api } from "~/utils/api";
 import { useTranslations } from "next-intl";
 import type { IMessage } from "~/types/index";
 
-const EditAddress = ({
+export const EditAddress = ({
   field,
   value,
 }: {
@@ -54,11 +54,11 @@ const EditAddress = ({
 
   const utils = api.useContext();
   const addressMutation = api.account.address.useMutation();
-  const submitHandler = async (event: FormEvent) => {
+  const submitHandler = (event: FormEvent) => {
     event.preventDefault();
     if (wilaya && daira && commune && postalCode && streetName) {
       setLoading(true);
-      await addressMutation.mutateAsync(
+      addressMutation.mutate(
         {
           wilaya: wilaya.name,
           daira: daira.name,
@@ -72,15 +72,15 @@ const EditAddress = ({
             if (data) {
               if (data.success) {
                 setMessage({ type: "success", text: data.message });
-                utils.account.profile.invalidate();
+                void utils.account.profile.invalidate();
               } else setMessage({ type: "error", text: data.error });
             }
             setTimeout(
               () => setMessage({ type: undefined, text: undefined }),
-              3000
+              3000,
             );
           },
-        }
+        },
       );
       setEdit(false);
       setLoading(false);
@@ -142,7 +142,7 @@ const EditAddress = ({
             <Button
               variant="outline"
               icon={
-                <XMarkIcon className="inline h-5 w-5 mr-2" aria-hidden="true" />
+                <XMarkIcon className="mr-2 inline h-5 w-5" aria-hidden="true" />
               }
               onClick={() => setEdit(false)}
             >
@@ -154,7 +154,7 @@ const EditAddress = ({
               variant="outline"
               icon={
                 <CloudArrowDownIcon
-                  className="inline h-5 w-5 mr-2"
+                  className="mr-2 inline h-5 w-5"
                   aria-hidden="true"
                 />
               }
@@ -170,7 +170,7 @@ const EditAddress = ({
           <Button
             variant="outline"
             icon={
-              <PencilIcon className="inline h-5 w-5 mr-2" aria-hidden="true" />
+              <PencilIcon className="mr-2 inline h-5 w-5" aria-hidden="true" />
             }
             onClick={() => setEdit(true)}
           >
@@ -181,5 +181,3 @@ const EditAddress = ({
     </>
   );
 };
-
-export default EditAddress;

@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { type ChangeEvent, type FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
   ArrowPathRoundedSquareIcon,
@@ -94,10 +94,10 @@ const ResetPassword = ({ token }: { token: string }) => {
   ]);
 
   const resetMutation = api.auth.resetPassword.useMutation();
-  const submitHandler = async (event: FormEvent) => {
+  const submitHandler = (event: FormEvent) => {
     event.preventDefault();
     if (passwordValidation) {
-      await resetMutation.mutateAsync(
+      resetMutation.mutate(
         { token, password },
         {
           onSettled(data, error) {
@@ -106,15 +106,15 @@ const ResetPassword = ({ token }: { token: string }) => {
               if (data.success) {
                 setMessage({ type: "success", text: data.message });
 
-                router.replace("/");
+                void router.replace("/");
               } else setMessage({ type: "error", text: data.message });
             }
             setTimeout(() => {
               setMessage({ type: undefined, text: undefined });
-              signOut();
+              void signOut();
             }, 3000);
           },
-        }
+        },
       );
     }
   };
@@ -124,7 +124,7 @@ const ResetPassword = ({ token }: { token: string }) => {
     <form
       autoComplete="off"
       onSubmit={submitHandler}
-      className="max-w-lg m-auto"
+      className="m-auto max-w-lg"
     >
       <Title center={true} title="Reset your password" />
       {message?.type && <Banner type={message?.type} message={message?.text} />}
@@ -175,39 +175,39 @@ const ResetPassword = ({ token }: { token: string }) => {
           Password must contain the following fields
           <p className={checkUpperCase ? "text-success" : "text-danger"}>
             {checkUpperCase ? (
-              <CheckBadgeIcon className="h-5 w-5 inline mx-1" />
+              <CheckBadgeIcon className="mx-1 inline h-5 w-5" />
             ) : (
-              <XMarkIcon className="h-5 w-5 inline mx-1" />
+              <XMarkIcon className="mx-1 inline h-5 w-5" />
             )}
             An uppercase letter
           </p>
           <p className={checkLowerCase ? "text-success" : "text-danger"}>
             {checkLowerCase ? (
-              <CheckBadgeIcon className="h-5 w-5 inline mx-1" />
+              <CheckBadgeIcon className="mx-1 inline h-5 w-5" />
             ) : (
-              <XMarkIcon className="h-5 w-5 inline mx-1" />
+              <XMarkIcon className="mx-1 inline h-5 w-5" />
             )}
             A lowercaser letter
           </p>
           <p className={checkNumber ? "text-success" : "text-danger"}>
             {checkNumber ? (
-              <CheckBadgeIcon className="h-5 w-5 inline mx-1" />
+              <CheckBadgeIcon className="mx-1 inline h-5 w-5" />
             ) : (
-              <XMarkIcon className="h-5 w-5 inline mx-1" />
+              <XMarkIcon className="mx-1 inline h-5 w-5" />
             )}
             A number
           </p>
           <p className={checkLength ? "text-success" : "text-danger"}>
             {checkLength ? (
-              <CheckBadgeIcon className="h-5 w-5 inline mx-1" />
+              <CheckBadgeIcon className="mx-1 inline h-5 w-5" />
             ) : (
-              <XMarkIcon className="h-5 w-5 inline mx-1" />
+              <XMarkIcon className="mx-1 inline h-5 w-5" />
             )}
             Minimum 8 characters
           </p>
         </div>
       )}
-      <div className="my-3 flex justify-center items-center">
+      <div className="my-3 flex items-center justify-center">
         <Button
           type="submit"
           variant="solid"
@@ -215,7 +215,7 @@ const ResetPassword = ({ token }: { token: string }) => {
           icon={
             <ArrowPathRoundedSquareIcon
               aria-hidden="true"
-              className="h-6 w-6 inline mr-1"
+              className="mr-1 inline h-6 w-6"
             />
           }
         >

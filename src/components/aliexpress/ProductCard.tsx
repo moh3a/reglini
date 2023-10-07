@@ -1,19 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { HeartIcon } from "@heroicons/react/24/solid";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 
-import type { ZAE_Search } from "~/types/zapiex";
+import type { ZAE_SearchItem } from "~/types/zapiex";
 import type { IMessage } from "~/types/index";
 import { GetPrice } from "~/utils/index";
 import { useFinance } from "~/utils/store";
 import { api } from "~/utils/api";
 
 interface ProductCardProps {
-  product: ZAE_Search["items"][0];
+  product: ZAE_SearchItem;
   setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
 }
 
@@ -24,7 +24,7 @@ export const ProductCard = ({ product, setMessage }: ProductCardProps) => {
   const { status } = useSession();
   const wishlistMutation = api.wishlist.add.useMutation();
 
-  const wishlistHandler = async (product: any) => {
+  const wishlistHandler = async (product: ZAE_SearchItem) => {
     if (status === "unauthenticated") {
       setTimeout(() => {
         setMessage({ type: undefined, text: undefined });
@@ -43,7 +43,7 @@ export const ProductCard = ({ product, setMessage }: ProductCardProps) => {
           price: GetPrice(
             euro ?? 0,
             commission ?? 0,
-            product.productMinPrice.value
+            product.productMinPrice.value,
           ),
           imageUrl: product.imageUrl,
         },
@@ -56,7 +56,7 @@ export const ProductCard = ({ product, setMessage }: ProductCardProps) => {
               else setMessage({ type: "success", text: data.message });
             }
           },
-        }
+        },
       );
     }
   };
@@ -71,11 +71,11 @@ export const ProductCard = ({ product, setMessage }: ProductCardProps) => {
           key={product.productId}
           className="group"
         >
-          <div className="w-full aspect-w-1 aspect-h-1 bg-gray-200 rounded-lg overflow-hidden">
+          <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200">
             <Link href={`/aliexpress/product/${product.productId}`}>
-              <div className="flex justify-center items-center overflow-hidden bg-gray-200 cursor-pointer">
+              <div className="flex cursor-pointer items-center justify-center overflow-hidden bg-gray-200">
                 <img
-                  className="object-center object-cover hover:opacity-75 rounded-lg shadow-lg"
+                  className="rounded-lg object-cover object-center shadow-lg hover:opacity-75"
                   src={product.imageUrl}
                   alt={product.productId}
                 />
@@ -84,7 +84,7 @@ export const ProductCard = ({ product, setMessage }: ProductCardProps) => {
           </div>
           <div className="flex justify-between">
             <div>
-              <h1 className="mt-2 text-sm h-5 text-ellipsis overflow-hidden">
+              <h1 className="mt-2 h-5 overflow-hidden text-ellipsis text-sm">
                 {product.title}
               </h1>
 
@@ -96,18 +96,18 @@ export const ProductCard = ({ product, setMessage }: ProductCardProps) => {
                     product.shippingMinPrice
                       ? product.productMinPrice.value +
                           product.shippingMinPrice.value
-                      : product.productMinPrice.value
+                      : product.productMinPrice.value,
                   ),
                 })}
               </p>
             </div>
             <div>
               <button
-                onClick={() => wishlistHandler(product)}
-                className={`group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                onClick={() => void wishlistHandler(product)}
+                className={`group flex w-full items-center rounded-md px-2 py-2 text-sm`}
               >
                 <HeartIcon
-                  className="text-black/50 dark:text-black/70 dark:hover:text-aliexpress hover:text-aliexpress w-5 h-5 inline"
+                  className="inline h-5 w-5 text-black/50 hover:text-aliexpress dark:text-black/70 dark:hover:text-aliexpress"
                   aria-hidden="true"
                 />
               </button>

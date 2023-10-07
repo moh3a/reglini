@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { GetServerSideProps } from "next";
+import { useEffect, type ReactElement } from "react";
+import type { GetServerSideProps } from "next";
 import { getCsrfToken, getProviders, useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -9,11 +9,7 @@ import { APP_NAME } from "~/config/constants";
 import LoginProviders from "~/components/auth/LoginProviders";
 import Register from "~/components/auth/Register";
 import { Title } from "~/components/shared";
-
-interface AuthProps {
-  csrfToken: any;
-  providers: any;
-}
+import type { AuthProps } from "~/types";
 
 const RegisterPage = ({ csrfToken, providers }: AuthProps) => {
   const { status } = useSession();
@@ -21,7 +17,7 @@ const RegisterPage = ({ csrfToken, providers }: AuthProps) => {
   const t = useTranslations("AuthPage.register");
 
   useEffect(() => {
-    if (status === "authenticated") router.replace("/");
+    if (status === "authenticated") void router.replace("/");
   }, [router, status]);
 
   return (
@@ -33,9 +29,9 @@ const RegisterPage = ({ csrfToken, providers }: AuthProps) => {
         <section className="mx-auto max-w-lg px-6">
           <Title center={true} title={t("title")} />
           <Register csrfToken={csrfToken} />
-          <div className="flex items-center justify-between my-4">
+          <div className="my-4 flex items-center justify-between">
             <span className="w-1/5 border-b border-darkTransparent lg:w-1/5"></span>
-            <div className="text-xs text-center select-none uppercase">
+            <div className="select-none text-center text-xs uppercase">
               {t("socialMedia")}
             </div>
             <span className="w-1/5 border-b border-darkTransparent lg:w-1/5"></span>
@@ -61,7 +57,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 import Layout from "~/components/layout/Layout";
-RegisterPage.getLayout = function getLayout(page: any) {
+RegisterPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 

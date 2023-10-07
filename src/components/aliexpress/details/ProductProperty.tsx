@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import {
   CheckCircleIcon,
   ExclamationCircleIcon,
@@ -35,13 +35,13 @@ export const ProductProperty = ({
   const unselectProperty = () => {
     setSelectedProperty("");
     setSelectedProperties((properties) =>
-      properties.filter((p) => p.name !== property.name)
+      properties.filter((p) => p.name !== property.name),
     );
   };
 
   const selectHandler = (value: string) => {
     const isPropertySelected = selectedProperties.find(
-      (p) => p.name === property.name && p.value === value
+      (p) => p.name === property.name && p.value === value,
     );
     if (isPropertySelected) unselectProperty();
     else selectProperty(value);
@@ -52,12 +52,12 @@ export const ProductProperty = ({
       <div>
         {selectedProperty ? (
           <CheckCircleIcon
-            className="h-5 w-5 inline text-success mr-1"
+            className="mr-1 inline h-5 w-5 text-success"
             aria-hidden="true"
           />
         ) : (
           <ExclamationCircleIcon
-            className="h-5 w-5 inline text-danger mr-1"
+            className="mr-1 inline h-5 w-5 text-danger"
             aria-hidden="true"
           />
         )}
@@ -72,7 +72,7 @@ export const ProductProperty = ({
               selectedProperty === value.name
                 ? "border-aliexpress"
                 : "border-gray-300"
-            } ml-2 p-1 border-2 text-center hover:border-aliexpress focus:outline-none cursor-pointer ${ROUNDED}`}
+            } ml-2 cursor-pointer border-2 p-1 text-center hover:border-aliexpress focus:outline-none ${ROUNDED}`}
             onClick={() => selectHandler(value.name)}
           >
             {value.hasImage ? (

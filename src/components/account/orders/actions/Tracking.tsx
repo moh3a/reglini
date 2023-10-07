@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 
@@ -36,10 +36,10 @@ const Tracking = ({
         }
         setTimeout(
           () => setMessage({ type: undefined, text: undefined }),
-          3000
+          3000,
         );
       },
-    }
+    },
   );
 
   const t = useTranslations("AccountPage.orders.track");
@@ -51,24 +51,22 @@ const Tracking = ({
       </h2>
       <h3 className="mb-4">{t("shippedBy", { service: service_name })}</h3>
       {trackingQuery.isLoading && (
-        <div className="w-full flex justify-center items-center">
+        <div className="flex w-full items-center justify-center">
           <Loading size="medium" />
         </div>
       )}
-      {trackingQuery.data &&
-        trackingQuery.data.result &&
-        trackingQuery.data.result.details.map((event) => (
-          <p key={event.event_date} className="font-semibold">
-            {event.event_date}
-            {" - "}
-            {event.event_desc}
-          </p>
-        ))}
-      <div className="flex justify-end my-4">
+      {trackingQuery.data?.result?.details?.map((event) => (
+        <p key={event.event_date} className="font-semibold">
+          {event.event_date}
+          {" - "}
+          {event.event_desc}
+        </p>
+      ))}
+      <div className="my-4 flex justify-end">
         <Button
           variant="outline"
           icon={
-            <XMarkIcon className="inline h-5 w-5 mr-2" aria-hidden="true" />
+            <XMarkIcon className="mr-2 inline h-5 w-5" aria-hidden="true" />
           }
           onClick={() => setIsOpen(false)}
           type="button"

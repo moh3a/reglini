@@ -1,45 +1,53 @@
 import nc from "next-connect";
-import { NextApiRequest, NextApiResponse } from "next";
-
+import type { NextApiResponse } from "next";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import { z } from "zod";
 import multer from "multer";
 import { v2 as cloudinary } from "cloudinary";
+
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
+import type { ExtendedNextApiRequest } from "~/pages/api/uploads";
 
 const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
+  cloudinary,
+  params: () => ({
     folder: "tmp",
-  },
+  }),
 });
 const upload = multer({ storage: storage });
 
+const imageUploadBodySchema = z.object({
+  public_id: z.string().optional(),
+  folder: z.string().optional(),
+});
+
 const handler = nc({
-  onError(error, req: NextApiRequest, res: NextApiResponse) {
+  onError(_, req: ExtendedNextApiRequest, res: NextApiResponse) {
     res.status(501).json({
       success: false,
-      message: "unknown_server_error",
-      error,
+      message: API_RESPONSE_MESSAGES.ERROR_OCCURED,
     });
   },
-  onNoMatch(req, res) {
+  onNoMatch(_, res) {
     res.status(405).json({
       success: false,
-      message: "method_not_allowed",
+      message: API_RESPONSE_MESSAGES.NOT_FOUND,
     });
   },
 });
 
 handler.use(upload.single("file"));
 
-handler.post(async (req: any, res) => {
-  const { folder, public_id } = req.body;
+handler.post(async (req, res) => {
   if (req.file) {
+    const { public_id, folder } = imageUploadBodySchema.parse(req.body);
+
     const image = await cloudinary.uploader.upload(req.file.path, {
       public_id,
       folder,
     });
-    if (image && image.secure_url) {
+
+    if (image?.secure_url) {
       res.status(200).json({
         success: true,
         message: "Image téléchargé avec succées.",

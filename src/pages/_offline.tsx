@@ -9,8 +9,8 @@ const OfflinePage = () => {
       <Head>
         <title>{APP_NAME}</title>
       </Head>
-      <div className="flex-col text-center mt-28">
-        <div className="text-6xl font-extrabold select-none">
+      <div className="mt-28 flex-col text-center">
+        <div className="select-none text-6xl font-extrabold">
           <span className={TEXT_GRADIENT}>Uh oh... you are offline!</span> 😐
         </div>
       </div>
@@ -27,7 +27,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 };
 
 import Layout from "../components/layout/Layout";
-OfflinePage.getLayout = function getLayout(page: any) {
+import type { ReactElement } from "react";
+OfflinePage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 

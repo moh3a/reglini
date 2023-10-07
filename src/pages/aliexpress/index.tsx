@@ -1,4 +1,4 @@
-import { GetStaticProps } from "next";
+import type { GetStaticProps } from "next";
 import Head from "next/head";
 
 import { APP_NAME } from "~/config/constants";
@@ -27,7 +27,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
 import Layout from "~/components/layout/Layout";
 import { useTranslations } from "next-intl";
-AliexpressPage.getLayout = function getLayout(page: any) {
+import type { ReactElement } from "react";
+AliexpressPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 

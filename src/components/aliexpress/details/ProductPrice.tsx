@@ -4,7 +4,7 @@ import { PADDING, ROUNDED, SHADOW } from "~/config/design";
 import type { ZAE_Product } from "~/types/zapiex";
 import { GetPrice } from "~/utils/index";
 import { useFinance } from "~/utils/store";
-import { SelectedVariation } from "~/types/index";
+import type { SelectedVariation } from "~/types/index";
 
 interface ProductPriceProps {
   product: ZAE_Product;
@@ -18,31 +18,29 @@ export const ProductPrice = ({
   const { euro, commission } = useFinance();
   const t = useTranslations("AliexpressPage");
   return (
-    <div className="flex justify-center mt-2 title-font font-medium text-xl">
-      {selectedVariation &&
-      selectedVariation.sku &&
-      selectedVariation.price.app ? (
+    <div className="title-font mt-2 flex justify-center text-xl font-medium">
+      {selectedVariation?.sku && selectedVariation.price.app ? (
         <>
           {selectedVariation.price.app?.hasDiscount ? (
             <div
-              className={`bg-aliexpress hover:bg-red-500 text-center font-bold text-white ${PADDING} ${ROUNDED} ${SHADOW}`}
+              className={`bg-aliexpress text-center font-bold text-white hover:bg-red-500 ${PADDING} ${ROUNDED} ${SHADOW}`}
             >
               <div>
                 {t("price", {
                   price: GetPrice(
                     euro ?? 0,
                     commission ?? 0,
-                    selectedVariation.price.app.discountedPrice.value
+                    selectedVariation.price.app.discountedPrice.value,
                   ),
                 })}
               </div>
               <div className="text-xs lg:text-sm">
-                <span className="line-through mr-4">
+                <span className="mr-4 line-through">
                   {t("price", {
                     price: GetPrice(
                       euro ?? 0,
                       commission ?? 0,
-                      selectedVariation.price.app.originalPrice.value
+                      selectedVariation.price.app.originalPrice.value,
                     ),
                   })}
                 </span>{" "}
@@ -55,7 +53,7 @@ export const ProductPrice = ({
                 price: GetPrice(
                   euro ?? 0,
                   commission ?? 0,
-                  selectedVariation.price.app?.originalPrice.value
+                  selectedVariation.price.app?.originalPrice.value,
                 ),
               })}
             </>
@@ -65,24 +63,24 @@ export const ProductPrice = ({
         <>
           {product.price.app.hasDiscount ? (
             <div
-              className={`bg-aliexpress hover:bg-red-500 text-center font-bold text-white ${PADDING} ${ROUNDED} ${SHADOW}`}
+              className={`bg-aliexpress text-center font-bold text-white hover:bg-red-500 ${PADDING} ${ROUNDED} ${SHADOW}`}
             >
               <div>
                 {t("price", {
                   price: GetPrice(
                     euro ?? 0,
                     commission ?? 0,
-                    product.price.app.discountedPrice.value
+                    product.price.app.discountedPrice.value,
                   ),
                 })}
               </div>
               <div className="text-xs lg:text-sm">
-                <span className="line-through mr-4">
+                <span className="mr-4 line-through">
                   {t("price", {
                     price: GetPrice(
                       euro ?? 0,
                       commission ?? 0,
-                      product.price.app.originalPrice.value
+                      product.price.app.originalPrice.value,
                     ),
                   })}
                 </span>{" "}
@@ -95,7 +93,7 @@ export const ProductPrice = ({
                 price: GetPrice(
                   euro ?? 0,
                   commission ?? 0,
-                  product.price.app.originalPrice.value
+                  product.price.app.originalPrice.value,
                 ),
               })}
             </>
@@ -107,14 +105,14 @@ export const ProductPrice = ({
           <>
             {product.priceSummary.app.hasDiscount ? (
               <div
-                className={`bg-aliexpress hover:bg-red-500 text-center font-bold text-white ${PADDING} ${ROUNDED} ${SHADOW}`}
+                className={`bg-aliexpress text-center font-bold text-white hover:bg-red-500 ${PADDING} ${ROUNDED} ${SHADOW}`}
               >
                 <div>
                   {t("price", {
                     price: GetPrice(
                       euro ?? 0,
                       commission ?? 0,
-                      product.priceSummary.app.discountedPrice.min.value
+                      product.priceSummary.app.discountedPrice.min.value,
                     ),
                   })}{" "}
                   -{" "}
@@ -122,17 +120,17 @@ export const ProductPrice = ({
                     price: GetPrice(
                       euro ?? 0,
                       commission ?? 0,
-                      product.priceSummary.app.discountedPrice.max.value
+                      product.priceSummary.app.discountedPrice.max.value,
                     ),
                   })}
                 </div>
                 <div className="text-xs lg:text-sm">
-                  <span className="line-through mr-4">
+                  <span className="mr-4 line-through">
                     {t("price", {
                       price: GetPrice(
                         euro ?? 0,
                         commission ?? 0,
-                        product.priceSummary.app.originalPrice.min.value
+                        product.priceSummary.app.originalPrice.min.value,
                       ),
                     })}{" "}
                     -{" "}
@@ -140,7 +138,7 @@ export const ProductPrice = ({
                       price: GetPrice(
                         euro ?? 0,
                         commission ?? 0,
-                        product.priceSummary.app.originalPrice.max.value
+                        product.priceSummary.app.originalPrice.max.value,
                       ),
                     })}
                   </span>{" "}
@@ -153,7 +151,7 @@ export const ProductPrice = ({
                   price: GetPrice(
                     euro ?? 0,
                     commission ?? 0,
-                    product.priceSummary.app.originalPrice.min.value
+                    product.priceSummary.app.originalPrice.min.value,
                   ),
                 })}{" "}
                 -{" "}
@@ -161,7 +159,7 @@ export const ProductPrice = ({
                   price: GetPrice(
                     euro ?? 0,
                     commission ?? 0,
-                    product.priceSummary.app.originalPrice.max.value
+                    product.priceSummary.app.originalPrice.max.value,
                   ),
                 })}
               </>

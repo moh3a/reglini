@@ -1,4 +1,4 @@
-import { Fragment, Dispatch, SetStateAction } from "react";
+import { Fragment, type Dispatch, type SetStateAction } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
 import { useTranslations } from "next-intl";
@@ -29,24 +29,24 @@ export function SelectPost({
     { commune, wilaya },
     {
       onSettled(data) {
-        if (data && data.post) {
+        if (data?.post) {
           setPostalCode(data.post);
         }
       },
-    }
+    },
   );
   const t = useTranslations("AccountPage.details.address");
 
   return (
     <>
       {postsQuery.isLoading && (
-        <div className="w-full flex justify-center items-center">
+        <div className="flex w-full items-center justify-center">
           <Loading size="medium" />
         </div>
       )}
       {postsQuery.data?.post && (
         <div
-          className={`relative flex my-1 w-full pl-3 pr-10 py-1 ${TEXT_INPUT} `}
+          className={`relative my-1 flex w-full py-1 pl-3 pr-10 ${TEXT_INPUT} `}
         >
           <div className="flex-1 font-mono">{t("postalCode")}</div>
           <div className="flex-1 truncate">
@@ -58,15 +58,15 @@ export function SelectPost({
         <Listbox value={postalCode} onChange={setPostalCode}>
           {({ open }) => (
             <>
-              <div className="mt-1 relative">
+              <div className="relative mt-1">
                 <Listbox.Button
-                  className={`relative flex w-full pl-3 pr-10 py-1 ${TEXT_INPUT} `}
+                  className={`relative flex w-full py-1 pl-3 pr-10 ${TEXT_INPUT} `}
                 >
                   <div className="flex-1 font-mono">{t("postalCode")}</div>
                   <div className="flex-1 truncate">
                     {postalCode ? postalCode.zip_code : "Select.."}
                   </div>
-                  <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                  <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
                     <ChevronUpDownIcon
                       className="h-5 w-5 text-gray-400"
                       aria-hidden="true"
@@ -82,7 +82,7 @@ export function SelectPost({
                   leaveTo="opacity-0"
                 >
                   <Listbox.Options
-                    className={`absolute z-10 mt-1 w-full max-h-56 overflow-auto ${SHADOW} ${PADDING} ${ROUNDED} ${BG_TRANSPARENT_BACKDROP}`}
+                    className={`absolute z-10 mt-1 max-h-56 w-full overflow-auto ${SHADOW} ${PADDING} ${ROUNDED} ${BG_TRANSPARENT_BACKDROP}`}
                   >
                     {postsQuery.data?.posts?.map((post) => (
                       <Listbox.Option
@@ -90,7 +90,7 @@ export function SelectPost({
                         className={({ active }) =>
                           `${
                             active ? "text-gray-500" : ""
-                          } cursor-default select-none relative py-2 pl-3 pr-9`
+                          } relative cursor-default select-none py-2 pl-3 pr-9`
                         }
                         value={post}
                       >

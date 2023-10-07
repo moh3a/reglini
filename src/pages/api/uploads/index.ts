@@ -1,7 +1,10 @@
 import nc from "next-connect";
 import multer from "multer";
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
+import type { MulterFile } from "~/types";
+
+export type ExtendedNextApiRequest = NextApiRequest & { file?: MulterFile };
 
 const upload = multer({
   storage: multer.diskStorage({
@@ -11,24 +14,23 @@ const upload = multer({
 });
 
 const handler = nc({
-  onError(error, req: NextApiRequest, res: NextApiResponse) {
+  onError(error, req: ExtendedNextApiRequest, res: NextApiResponse) {
     res.status(501).json({
       success: false,
-      message: "unknown_server_error",
-      error,
+      message: API_RESPONSE_MESSAGES.ERROR_OCCURED,
     });
   },
   onNoMatch(req, res) {
     res.status(405).json({
       success: false,
-      message: "method_not_allowed",
+      message: API_RESPONSE_MESSAGES.NOT_FOUND,
     });
   },
 });
 
 handler.use(upload.single("file"));
 
-handler.post((req: any, res) => {
+handler.post((req, res) => {
   if (req.file) {
     res.status(200).json({
       success: true,

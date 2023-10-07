@@ -1,10 +1,10 @@
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import type { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { TEXT_INPUT } from "~/config/design";
 
 interface InputProps {
   id?: string;
   name?: string;
-  type?: "text" | "url" | "email" | string;
+  type?: "text" | "url" | "email";
   value?: string;
   setValue?: Dispatch<SetStateAction<string>>;
   size?: number;
@@ -18,7 +18,7 @@ interface InputProps {
   className?: string;
   required?: boolean;
   autocomplete?: boolean;
-  width?: any;
+  width?: string | number;
 }
 
 export const TextInput = ({
@@ -62,8 +62,8 @@ export const TextInput = ({
       placeholder={placeholder}
       className={className ? className : TEXT_INPUT}
       tabIndex={tabIndex}
-      size={size || undefined}
-      maxLength={size || undefined}
+      size={size ?? undefined}
+      maxLength={size ?? undefined}
       autoComplete={autocomplete ? "on" : "off"}
     />
   );

@@ -4,8 +4,9 @@ import { useTranslations } from "next-intl";
 
 import { useInstallPWA } from "~/utils/store";
 import { Button } from "~/components/shared";
+import { install_pwa_handler } from "~/utils";
 
-const InstallPWASection = () => {
+export const InstallPWASection = () => {
   const t = useTranslations("IndexPage.installHero");
   const { set_prompt, set_can_install, can_install, prompt } = useInstallPWA();
 
@@ -16,28 +17,29 @@ const InstallPWASection = () => {
         e.preventDefault();
         // Stash the event so it can be triggered later.
         set_can_install(true);
-        set_prompt(e);
+        set_prompt(e as BeforeInstallPromptEvent);
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const installHandler = async () => {
-    prompt.prompt();
-    await prompt.userChoice;
-    set_can_install(false);
-    set_prompt(undefined);
+  const installHandler = () => {
+    if (prompt)
+      install_pwa_handler(prompt, () => {
+        set_can_install(false);
+        set_prompt(undefined);
+      });
   };
 
   return (
     <>
       {can_install && (
-        <div className="flex justify-between mx-auto max-w-xl px-3 py-14 lg:py-32">
+        <div className="mx-auto flex max-w-xl justify-between px-3 py-14 lg:py-32">
           <div>
             {t.rich("title", {
-              logo: (chunks) => (
+              logo: () => (
                 <img
-                  className="inline mx-1"
+                  className="mx-1 inline"
                   src="/icon-192x192.png"
                   alt="reglini logo"
                   height={20}
@@ -56,5 +58,3 @@ const InstallPWASection = () => {
     </>
   );
 };
-
-export default InstallPWASection;

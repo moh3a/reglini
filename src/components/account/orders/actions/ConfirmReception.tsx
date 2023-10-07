@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import {
-  ChangeEvent,
-  Dispatch,
-  FormEvent,
-  SetStateAction,
+  type ChangeEvent,
+  type Dispatch,
+  type FormEvent,
+  type SetStateAction,
   useRef,
   useState,
 } from "react";
@@ -12,7 +12,7 @@ import {
   CloudArrowDownIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { type AxiosRequestConfig } from "axios";
 import { useTranslations } from "next-intl";
 
 import {
@@ -22,9 +22,10 @@ import {
   TEXT_GRADIENT,
   TEXT_INPUT,
 } from "~/config/design";
+import { API_RESPONSE_MESSAGES } from "~/config/constants";
 import { Button, Loading } from "~/components/shared";
 import { api } from "~/utils/api";
-import type { IMessage } from "~/types/index";
+import type { ImageUploadApiResponse, IMessage } from "~/types/index";
 
 interface ConfirmReceptionProps {
   order_id: string;
@@ -41,11 +42,11 @@ const ConfirmReception = ({
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  const [image, setImage] = useState<any>();
+  const [image, setImage] = useState<File>();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const onChangeHandler = async (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
+  const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event?.target?.files?.[0]) {
       const i = event.target.files[0];
       setImage(i);
       setValue(URL.createObjectURL(i));
@@ -56,9 +57,9 @@ const ConfirmReception = ({
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const receivedMutation = api.order.received.useMutation();
   const utils = api.useContext();
-  const submitHandler = async (event: FormEvent) => {
+
+  const submitHandler = (event: FormEvent): void => {
     event.preventDefault();
-    let image_resp: any;
     if (image) {
       const formData = new FormData();
       formData.append("file", image);
@@ -70,35 +71,40 @@ const ConfirmReception = ({
           setProgress(Math.round((event.loaded * 100) / (event.total ?? 1)));
         },
       };
-      const { data } = await axios.post("/api/uploads/image", formData, config);
-      image_resp = data;
-    }
-    setProgress(0);
-    setLoading(true);
-    await receivedMutation.mutateAsync(
-      {
-        order_id,
-        package_pic: image_resp && image_resp.url ? image_resp.url : undefined,
-        rating,
-        feedback: feedbackMessage,
-      },
-      {
-        onSettled(data, error) {
-          if (error) setMessage({ type: "error", text: error.message });
-          if (data) {
-            if (data.success) {
-              setMessage({ type: "success", text: data.message });
-              utils.order.details.invalidate();
-            } else setMessage({ type: "error", text: data.error });
+      axios
+        .post<ImageUploadApiResponse>("/api/uploads/image", formData, config)
+        .then((response) => {
+          if (response?.data.success && response.data.url) {
+            setProgress(0);
+            setLoading(true);
+            receivedMutation.mutate(
+              {
+                order_id,
+                package_pic: response.data.url,
+                rating,
+                feedback: feedbackMessage,
+              },
+              {
+                onSettled(data, error) {
+                  if (error) setMessage({ type: "error", text: error.message });
+                  if (data) {
+                    if (data.success) {
+                      setMessage({ type: "success", text: data.message });
+                      void utils.order.details.invalidate();
+                    } else setMessage({ type: "error", text: data.error });
+                  }
+                  setIsOpen(false);
+                  setTimeout(() => {
+                    setMessage({ type: undefined, text: undefined });
+                  }, 3000);
+                },
+              },
+            );
+            setLoading(false);
           }
-          setIsOpen(false);
-          setTimeout(() => {
-            setMessage({ type: undefined, text: undefined });
-          }, 3000);
-        },
-      }
-    );
-    setLoading(false);
+        })
+        .catch(() => console.error(API_RESPONSE_MESSAGES.ERROR_OCCURED));
+    }
   };
 
   const t = useTranslations("AccountPage");
@@ -114,10 +120,10 @@ const ConfirmReception = ({
         )}
         {progress !== 0 && (
           <div
-            className={` ${BG_TRANSPARENT_BACKDROP} mx-auto max-w-md rounded-full h-2.5 mt-4 `}
+            className={` ${BG_TRANSPARENT_BACKDROP} mx-auto mt-4 h-2.5 max-w-md rounded-full `}
           >
             <div
-              className="bg-aliexpress h-2.5 rounded-full"
+              className="h-2.5 rounded-full bg-aliexpress"
               style={{ width: progress + "%" }}
             />
           </div>
@@ -144,7 +150,7 @@ const ConfirmReception = ({
             type="button"
             icon={
               <ArrowDownTrayIcon
-                className="h-6 w-6 inline mr-1"
+                className="mr-1 inline h-6 w-6"
                 aria-hidden="true"
               />
             }
@@ -177,7 +183,7 @@ const ConfirmReception = ({
                 <svg
                   key={star}
                   onClick={() => setRating(star)}
-                  className={`w-4 h-4 cursor-pointer fill-current ${
+                  className={`h-4 w-4 cursor-pointer fill-current ${
                     rating >= star ? "text-yellow-400" : "text-gray-400"
                   }  hover:text-yellow-500`}
                   xmlns="http://www.w3.org/2000/svg"
@@ -198,11 +204,11 @@ const ConfirmReception = ({
             />
           </div>
         </div>
-        <div className="flex justify-end mt-2 space-x-2">
+        <div className="mt-2 flex justify-end space-x-2">
           <Button
             variant="outline"
             icon={
-              <XMarkIcon className="inline h-5 w-5 mr-2" aria-hidden="true" />
+              <XMarkIcon className="mr-2 inline h-5 w-5" aria-hidden="true" />
             }
             onClick={() => setIsOpen(false)}
             type="button"
@@ -213,7 +219,7 @@ const ConfirmReception = ({
             variant="outline"
             icon={
               <CloudArrowDownIcon
-                className="inline h-5 w-5 mr-2"
+                className="mr-2 inline h-5 w-5"
                 aria-hidden="true"
               />
             }

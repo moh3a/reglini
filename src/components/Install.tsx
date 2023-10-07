@@ -1,10 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect } from "react";
 import { useTranslations } from "next-intl";
-
-import { useInstallPWA } from "~/utils/store";
-import { Button } from "~/components/shared";
 import { CloudArrowDownIcon } from "@heroicons/react/24/outline";
+
+import { Button } from "~/components/shared";
+import { install_pwa_handler } from "~/utils";
+import { useInstallPWA } from "~/utils/store";
 
 const Install = () => {
   const t = useTranslations("Common");
@@ -17,17 +18,18 @@ const Install = () => {
         e.preventDefault();
         // Stash the event so it can be triggered later.
         set_can_install(true);
-        set_prompt(e);
+        set_prompt(e as BeforeInstallPromptEvent);
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const installHandler = async () => {
-    prompt.prompt();
-    await prompt.userChoice;
-    set_can_install(false);
-    set_prompt(undefined);
+  const installHandler = () => {
+    if (prompt)
+      install_pwa_handler(prompt, () => {
+        set_can_install(false);
+        set_prompt(undefined);
+      });
   };
 
   return (
@@ -35,7 +37,7 @@ const Install = () => {
       {can_install && (
         <Button
           variant="outline"
-          icon={<CloudArrowDownIcon className="h-5 w-5 inline mx-1" />}
+          icon={<CloudArrowDownIcon className="mx-1 inline h-5 w-5" />}
           onClick={installHandler}
         >
           {t("install")}

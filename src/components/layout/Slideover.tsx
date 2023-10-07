@@ -1,4 +1,4 @@
-import { Dispatch, Fragment, SetStateAction } from "react";
+import { type Dispatch, Fragment, type SetStateAction } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
@@ -42,12 +42,12 @@ export default function Slideover({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 transition-opacity bg-opacity-50 backdrop-blur-md" />
+          <div className="fixed inset-0 bg-opacity-50 backdrop-blur-md transition-opacity" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="pointer-events-none fixed inset-y-0 ltr:left-0 rtl:right-0 flex max-w-full ltr:pr-32 rtl:pl-32">
+            <div className="pointer-events-none fixed inset-y-0 flex max-w-full ltr:left-0 ltr:pr-32 rtl:right-0 rtl:pl-32">
               <Transition.Child
                 as={Fragment}
                 enter="transform transition ease-in-out duration-500 sm:duration-700"
@@ -67,7 +67,7 @@ export default function Slideover({
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                   >
-                    <div className="absolute top-0 ltr:right-0 rtl:left-0 ltr:-mr-8 rtl:-ml-8 flex pt-4 ltr:pl-2 rtl:pr-2 rtl:sm:-ml-10 ltr:sm:-mr-10 ltr:sm:pl-4 rtl:sm:pr-4">
+                    <div className="absolute top-0 flex pt-4 ltr:right-0 ltr:-mr-8 ltr:pl-2 rtl:left-0 rtl:-ml-8 rtl:pr-2 ltr:sm:-mr-10 ltr:sm:pl-4 rtl:sm:-ml-10 rtl:sm:pr-4">
                       <button
                         type="button"
                         className={`text-contentDark hover:text-primary `}
@@ -78,8 +78,8 @@ export default function Slideover({
                       </button>
                     </div>
                   </Transition.Child>
-                  <div className="flex h-full flex-col bg-white dark:bg-grim py-6 shadow-xl">
-                    <div className="relative h-full mt-6 flex-1 px-4 sm:px-6">
+                  <div className="flex h-full flex-col bg-white py-6 shadow-xl dark:bg-grim">
+                    <div className="relative mt-6 h-full flex-1 px-4 sm:px-6">
                       {/* Replace with your content */}
                       <div className="px-6">
                         <div className="mb-10">
@@ -138,7 +138,7 @@ export default function Slideover({
                                       aria-hidden="true"
                                     />
                                   }
-                                  onClick={() => signOut()}
+                                  onClick={() => void signOut()}
                                   variant="outline"
                                 >
                                   {t("badge.signOut")}
@@ -181,15 +181,15 @@ export default function Slideover({
                           )}
                         </div>
                         <div className="my-20">
-                          <h2 className="mt-8 font-mono underline font-bold text-lg px-4 sm:px-6">
+                          <h2 className="mt-8 px-4 font-mono text-lg font-bold underline sm:px-6">
                             Navigation
                           </h2>
 
-                          <nav className="flex-col my-4 space-y-2">
+                          <nav className="my-4 flex-col space-y-2">
                             <div
                               className={`mx-4 font-bold ${
                                 router.asPath === "/aliexpress"
-                                  ? `py-1 px-3 ltr:rounded-r-full rtl:rounded-l-full ${BG_GRADIENT} text-white`
+                                  ? `px-3 py-1 ltr:rounded-r-full rtl:rounded-l-full ${BG_GRADIENT} text-white`
                                   : ""
                               }`}
                             >
@@ -200,7 +200,7 @@ export default function Slideover({
                             <div
                               className={`mx-4 font-bold ${
                                 router.asPath === "/currency"
-                                  ? `py-1 px-3 ltr:rounded-r-full rtl:rounded-l-full ${BG_GRADIENT} text-white`
+                                  ? `px-3 py-1 ltr:rounded-r-full rtl:rounded-l-full ${BG_GRADIENT} text-white`
                                   : ""
                               }`}
                             >
@@ -211,7 +211,7 @@ export default function Slideover({
                             <div
                               className={`mx-4 font-bold ${
                                 router.asPath === "/support"
-                                  ? `py-1 px-3 ltr:rounded-r-full rtl:rounded-l-full ${BG_GRADIENT} text-white`
+                                  ? `px-3 py-1 ltr:rounded-r-full rtl:rounded-l-full ${BG_GRADIENT} text-white`
                                   : ""
                               }`}
                             >
@@ -222,7 +222,7 @@ export default function Slideover({
                             <div
                               className={`mx-4 font-bold ${
                                 router.asPath === "/faq"
-                                  ? `py-1 px-3 ltr:rounded-r-full rtl:rounded-l-full ${BG_GRADIENT} text-white`
+                                  ? `px-3 py-1 ltr:rounded-r-full rtl:rounded-l-full ${BG_GRADIENT} text-white`
                                   : ""
                               }`}
                             >

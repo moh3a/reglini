@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 
 import { NumberInput } from "~/components/shared";
 import type { ZAE_Product } from "~/types/zapiex";
-import { SelectedVariation } from "~/types/index";
+import type { SelectedVariation } from "~/types/index";
 
 interface ProductQuantityProps {
   product: ZAE_Product;
@@ -23,12 +23,11 @@ export const ProductQuantity = ({
   selectedVariation,
 }: ProductQuantityProps) => {
   const t = useTranslations("AliexpressPage.quantity");
-  const stock =
-    selectedVariation && selectedVariation.sku
-      ? selectedVariation.stock
-      : product.totalStock > 0
-      ? product.totalStock
-      : 1;
+  const stock = selectedVariation?.sku
+    ? selectedVariation.stock
+    : product.totalStock > 0
+    ? product.totalStock
+    : 1;
 
   return (
     <div className={`mt-4`}>
@@ -49,7 +48,7 @@ export const ProductQuantity = ({
             {stock > 0 ? (
               <>
                 <CheckCircleIcon
-                  className="h-5 w-5 inline text-success mr-1"
+                  className="mr-1 inline h-5 w-5 text-success"
                   aria-hidden="true"
                 />
                 <span>
@@ -59,7 +58,7 @@ export const ProductQuantity = ({
             ) : (
               <>
                 <ExclamationCircleIcon
-                  className="h-5 w-5 inline text-danger mr-1"
+                  className="mr-1 inline h-5 w-5 text-danger"
                   aria-hidden="true"
                 />
                 <span className="text-danger">{t("outOfStock")}</span>

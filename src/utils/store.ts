@@ -1,4 +1,4 @@
-import {create} from "zustand";
+import { create } from "zustand";
 import type {
   FinanceStore,
   InstallPWAStore,
@@ -18,7 +18,7 @@ export const useInstallPWA = create<InstallPWAStore>((set) => ({
   can_install: false,
   set_can_install: (data) => set({ can_install: data }),
   prompt: undefined,
-  set_prompt: (event) => set({ prompt: event }),
+  set_prompt: (event?: BeforeInstallPromptEvent) => set({ prompt: event }),
 }));
 
 export const useMessage = create<MessageStore>((set) => ({

@@ -14,15 +14,13 @@ const ListOrders = () => {
   return (
     <div className="mx-auto max-w-xl">
       <Title center={true} title={t("title")} />
-      <div className="px-3 my-4 space-y-4 lg:space-y-8">
+      <div className="my-4 space-y-4 px-3 lg:space-y-8">
         {ordersQuery.isLoading && (
-          <div className="w-full flex justify-center items-center">
+          <div className="flex w-full items-center justify-center">
             <Loading size="medium" />
           </div>
         )}
-        {ordersQuery.data &&
-        ordersQuery.data.orders &&
-        ordersQuery.data.orders.length > 0 ? (
+        {ordersQuery.data?.orders && ordersQuery.data?.orders.length > 0 ? (
           ordersQuery.data.orders.map((order) => (
             <Link key={order.id} href={`/account/orders/${order.id}`}>
               <dl
@@ -37,16 +35,16 @@ const ListOrders = () => {
                   order.products.map((product) => (
                     <div
                       key={product.id}
-                      className={`border-b my-4 p-2 sm:px-4 sm:py-5 grid grid-cols-5 gap-4`}
+                      className={`my-4 grid grid-cols-5 gap-4 border-b p-2 sm:px-4 sm:py-5`}
                     >
-                      <dt className="flex justify-center items-center">
+                      <dt className="flex items-center justify-center">
                         <img
                           src={product.imageUrl ?? "/placeholder.png"}
                           alt={product.productId}
                           className={` ${ROUNDED} w-20`}
                         />
                       </dt>
-                      <dd className="text-sm col-span-4">
+                      <dd className="col-span-4 text-sm">
                         <p className="h-5 overflow-hidden text-ellipsis">
                           {product.name}
                         </p>
@@ -63,24 +61,24 @@ const ListOrders = () => {
                     order.payment?.receipt &&
                     !order.payment.wasDeclined &&
                     order.payment?.isPaymentConfirmed && (
-                      <p className="text-success font-bold uppercase">
+                      <p className="font-bold uppercase text-success">
                         {t("status.paid")}
                       </p>
                     )}
                   {!order.cancelled &&
                     !order.payment?.receipt &&
                     !order.payment?.isPaymentConfirmed && (
-                      <p className="text-warning font-bold uppercase">
+                      <p className="font-bold uppercase text-warning">
                         {t("status.awaiting")}
                       </p>
                     )}
                   {!order.cancelled && order.payment?.wasDeclined && (
-                    <p className="text-danger font-bold uppercase">
+                    <p className="font-bold uppercase text-danger">
                       {t("status.declined")}
                     </p>
                   )}
                   {order.cancelled && (
-                    <p className="text-danger font-bold uppercase">
+                    <p className="font-bold uppercase text-danger">
                       {t("status.cancelled")}
                     </p>
                   )}
@@ -89,7 +87,7 @@ const ListOrders = () => {
             </Link>
           ))
         ) : (
-          <div className="font-mono text-center">{t("empty")}</div>
+          <div className="text-center font-mono">{t("empty")}</div>
         )}
       </div>
     </div>

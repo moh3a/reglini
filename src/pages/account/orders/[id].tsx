@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { GetServerSideProps } from "next";
+import { useEffect, type ReactElement } from "react";
+import type { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
@@ -13,7 +13,7 @@ const OrderDetailsPage = () => {
   const { status } = useSession();
 
   useEffect(() => {
-    if (status === "unauthenticated") router.replace("/");
+    if (status === "unauthenticated") void router.replace("/");
   }, [router, status]);
 
   return (
@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
 };
 
 import Layout from "~/components/layout/Layout";
-OrderDetailsPage.getLayout = function getLayout(page: any) {
+OrderDetailsPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 

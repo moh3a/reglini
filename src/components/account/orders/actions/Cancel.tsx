@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
@@ -17,8 +17,8 @@ const Cancel = ({
 }) => {
   const router = useRouter();
   const cancelMutation = api.order.cancel.useMutation();
-  const cancelHandler = async () => {
-    await cancelMutation.mutateAsync(
+  const cancelHandler = () => {
+    cancelMutation.mutate(
       { order_id: orderId },
       {
         onSettled(data, error) {
@@ -31,17 +31,17 @@ const Cancel = ({
           setIsOpen(false);
           setTimeout(() => {
             setMessage({ type: undefined, text: undefined });
-            router.push("/account/orders");
+            void router.push("/account/orders");
           }, 3000);
         },
-      }
+      },
     );
   };
 
   const t = useTranslations("AccountPage.orders.cancel");
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col items-center justify-center">
       <p>{t("question")}</p>
       <div className="flex space-x-4">
         <Button variant="outline" onClick={cancelHandler}>

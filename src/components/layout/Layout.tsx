@@ -15,7 +15,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
     if (!commission)
       await commissionMutation.mutateAsync(undefined, {
         onSettled(data) {
-          if (data && data.commission) {
+          if (data?.commission) {
             set_commission(data.commission);
           }
         },
@@ -23,7 +23,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
     if (!euro || !usd)
       await currenciesMutation.mutateAsync(undefined, {
         onSettled(data) {
-          if (data && data.currencies) {
+          if (data?.currencies) {
             set_currency("EUR", data.currencies?.eur?.parallel_sale ?? 0);
             set_currency("USD", data.currencies?.usd?.parallel_sale ?? 0);
           }
@@ -33,7 +33,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
   }, [commission, euro, usd]);
 
   useEffect(() => {
-    fetchFinance();
+    void fetchFinance();
   }, [fetchFinance]);
 
   return (

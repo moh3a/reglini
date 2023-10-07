@@ -34,7 +34,7 @@ export const BuyProduct = ({
         commission ?? 0,
         selectedVariation.price.app.hasDiscount
           ? selectedVariation.price.app.discountedPrice.value
-          : selectedVariation.price.app.originalPrice.value
+          : selectedVariation.price.app.originalPrice.value,
       );
       const originalPrice = selectedVariation.price.app.hasDiscount
         ? selectedVariation.price.app.discountedPrice.value
@@ -42,7 +42,7 @@ export const BuyProduct = ({
       const shippingPrice = GetPrice(
         euro ?? 0,
         commission ?? 0,
-        selectedShipping.price.value
+        selectedShipping.price.value,
       );
       if (status === "unauthenticated") {
         setTimeout(() => {
@@ -78,9 +78,9 @@ export const BuyProduct = ({
                 totalPrice:
                   price * (selectedVariation.quantity ?? 1) + shippingPrice,
               },
-            ])
+            ]),
           );
-          router.push("/account/orders/new");
+          void router.push("/account/orders/new");
         }
       }
     }
@@ -92,7 +92,7 @@ export const BuyProduct = ({
       disabled={!selectedVariation || !selectedShipping}
       icon={
         <CursorArrowRaysIcon
-          className="h-5 w-5 inline mr-1"
+          className="mr-1 inline h-5 w-5"
           aria-hidden="true"
         />
       }

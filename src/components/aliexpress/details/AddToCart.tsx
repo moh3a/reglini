@@ -35,7 +35,7 @@ export const AddToCart = ({
         commission ?? 0,
         selectedVariation.price.app.hasDiscount
           ? selectedVariation.price.app.discountedPrice.value
-          : selectedVariation.price.app.originalPrice.value
+          : selectedVariation.price.app.originalPrice.value,
       );
       const originalPrice = selectedVariation.price.app.hasDiscount
         ? selectedVariation.price.app.discountedPrice.value
@@ -43,7 +43,7 @@ export const AddToCart = ({
       const shippingPrice = GetPrice(
         euro ?? 0,
         commission ?? 0,
-        selectedShipping.price.value
+        selectedShipping.price.value,
       );
 
       if (status === "unauthenticated") {
@@ -85,11 +85,11 @@ export const AddToCart = ({
                     setMessage({ type: "error", text: data.error });
                   else {
                     setMessage({ type: "success", text: data.message });
-                    utils.cart.invalidate();
+                    void utils.cart.invalidate();
                   }
                 }
               },
-            }
+            },
           );
         }
       }
@@ -101,9 +101,9 @@ export const AddToCart = ({
     <Button
       disabled={!selectedVariation || !selectedShipping}
       icon={
-        <ShoppingBagIcon className="h-5 w-5 inline mr-1" aria-hidden="true" />
+        <ShoppingBagIcon className="mr-1 inline h-5 w-5" aria-hidden="true" />
       }
-      onClick={() => cartHandler()}
+      onClick={() => void cartHandler()}
       variant="outline"
       type="button"
     >

@@ -10,7 +10,7 @@ import type {
   API_AE_DS_SHIPPING_ARGUMENTS,
   API_AE_DS_TRACKING_ARGUMENTS,
 } from "~/types/ae/pinky";
-import type { AE_Logistics_Address } from "~/types/ae";
+import type { AE_Logistics_Address, AE_Product_Item } from "~/types/ae";
 import { shuffle } from "..";
 import { env } from "~/env.mjs";
 
@@ -68,7 +68,7 @@ export const AE_DS_getTrackingInfo = async ({
 
 export const AE_DS_createOrder = async (
   logistics_address: AE_Logistics_Address,
-  product_items: any[], // AE_Product_Item[]
+  product_items: AE_Product_Item[],
 ) =>
   await ds_client.createOrder({
     logistics_address,

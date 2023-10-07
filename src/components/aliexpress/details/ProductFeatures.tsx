@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
-import { useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW } from "~/config/design";
-import type { ZAE_Product } from "~/types/zapiex";
+import type { ZAE_Product, ZAE_ProductAttribute } from "~/types/zapiex";
 import { StoreInfo } from "~/components/aliexpress/details";
 
-const Item = ({ title, children }: any) => {
+const Item = ({ title, children }: { title: string; children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className={`my-2 ${PADDING} ${ROUNDED} ${SHADOW}`}>
@@ -14,17 +14,17 @@ const Item = ({ title, children }: any) => {
         type="button"
         aria-label="Open item"
         title="Open item"
-        className="flex items-center justify-between w-full p-2 md:p-4 focus:outline-none"
+        className="flex w-full items-center justify-between p-2 focus:outline-none md:p-4"
         onClick={() => setIsOpen(!isOpen)}
       >
         <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
           {title}
         </h1>
-        <div className="flex items-center justify-center w-6 h-6 border rounded-full">
+        <div className="flex h-6 w-6 items-center justify-center rounded-full border">
           <svg
             viewBox="0 0 24 24"
             className={`w-3 transition-transform duration-200 ${
-              isOpen ? "transform rotate-180" : ""
+              isOpen ? "rotate-180 transform" : ""
             }`}
           >
             <polyline
@@ -40,7 +40,7 @@ const Item = ({ title, children }: any) => {
         </div>
       </button>
       {isOpen && (
-        <div className="p-2 md:p-4 pt-0">
+        <div className="p-2 pt-0 md:p-4">
           <div>{children}</div>
         </div>
       )}
@@ -54,10 +54,11 @@ export function ProductFeatures({ product }: { product: ZAE_Product }) {
   ]);
 
   useEffect(() => {
-    let att: any[] = [];
+    const att: (Omit<ZAE_ProductAttribute, "value"> & { value: string[] })[] =
+      [];
     if (product.hasAttributes) {
-      product.attributes.map((attribute: any) => {
-        const index = att.findIndex((x: any) => x.id === attribute.id);
+      product.attributes.map((attribute) => {
+        const index = att.findIndex((x) => x.id === attribute.id);
         if (index === -1) {
           att.push({
             id: attribute.id,
@@ -65,7 +66,7 @@ export function ProductFeatures({ product }: { product: ZAE_Product }) {
             value: [attribute.value.name],
           });
         } else {
-          att[index].value.push(attribute.value.name);
+          att[index]?.value.push(attribute.value.name);
         }
       });
       setAttributes(att);
@@ -75,26 +76,25 @@ export function ProductFeatures({ product }: { product: ZAE_Product }) {
 
   return (
     <div>
-      <div className="max-w-3xl mx-auto py-10 px-4">
+      <div className="mx-auto max-w-3xl px-4 py-10">
         <div>
           <Item title={t("productSpecs")}>
             <dl className="my-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
-              {attributes &&
-                attributes.map((attribute) => {
-                  return (
-                    <div
-                      key={attribute.id}
-                      className="border-t border-gray-200 pt-4"
-                    >
-                      <dt className="font-medium ">{attribute.name}</dt>
-                      <dd className="mt-2 text-sm text-gray-600 dark:text-white">
-                        {attribute.value.map((va) => (
-                          <p key={va}>{va}</p>
-                        ))}
-                      </dd>
-                    </div>
-                  );
-                })}
+              {attributes?.map((attribute) => {
+                return (
+                  <div
+                    key={attribute.id}
+                    className="border-t border-gray-200 pt-4"
+                  >
+                    <dt className="font-medium ">{attribute.name}</dt>
+                    <dd className="mt-2 text-sm text-gray-600 dark:text-white">
+                      {attribute.value.map((va) => (
+                        <p key={va}>{va}</p>
+                      ))}
+                    </dd>
+                  </div>
+                );
+              })}
             </dl>
           </Item>
 

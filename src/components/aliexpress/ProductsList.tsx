@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import { Modal, Pagination } from "~/components/shared";
-import {
-  ProductCard,
-  SkeletonProductsColumn,
-  SkeletonProductsList,
-} from "~/components/aliexpress";
+import { ProductCard, SkeletonProductsList } from "~/components/aliexpress";
 import type { IMessage } from "~/types/index";
 import { api } from "~/utils/api";
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
@@ -40,11 +36,11 @@ export const ProductsList = () => {
         if (data && !data.success)
           setMessage({ type: "error", text: data.error });
       },
-    }
+    },
   );
 
   return (
-    <div className="my-8 mx-2">
+    <div className="mx-2 my-8">
       <Modal
         type={message?.type}
         title={message?.type?.toUpperCase()}
@@ -58,12 +54,10 @@ export const ProductsList = () => {
 
       {searchProducts.isLoading && <SkeletonProductsList />}
       {searchProducts.isFetched &&
-      searchProducts.data &&
-      searchProducts.data.data &&
-      searchProducts.data.data.items &&
+      searchProducts?.data?.data?.items &&
       searchProducts.data.data.items.length > 0 ? (
         <>
-          <div className="grid grid-cols-2 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
             {searchProducts.data.data.items.map((product) => (
               <ProductCard
                 product={product}
@@ -81,7 +75,7 @@ export const ProductsList = () => {
           )}
         </>
       ) : (
-        <div className="flex justify-center items-center text-xl font-mono">
+        <div className="flex items-center justify-center font-mono text-xl">
           No results!
         </div>
       )}

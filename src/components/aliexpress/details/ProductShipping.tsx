@@ -1,4 +1,10 @@
-import { Fragment, useState, useEffect, Dispatch, SetStateAction } from "react";
+import {
+  Fragment,
+  useState,
+  useEffect,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
 import { useTranslations } from "next-intl";
@@ -32,9 +38,9 @@ export const ProductShipping = ({
   const [selected, setSelected] = useState<
     ZAE_ProductShippingCarrier | undefined
   >(
-    shipping && shipping.carriers && shipping.carriers.length > 0
+    shipping?.carriers && shipping.carriers.length > 0
       ? shipping.carriers[0]
-      : undefined
+      : undefined,
   );
   useEffect(() => {
     if (selected) setSelectedShipping(selected);
@@ -44,7 +50,7 @@ export const ProductShipping = ({
     <div className={`z-10 mt-4`}>
       {shipping && shipping.isAvailableForSelectedCountries ? (
         <>
-          <p className={`text-success font-mono text-center uppercase`}>
+          <p className={`text-center font-mono uppercase text-success`}>
             {t("shipping.shippingAvailable")}
           </p>
           <p>{t("shipping.carriers")}:</p>
@@ -55,9 +61,9 @@ export const ProductShipping = ({
                   <span className="block truncate">
                     {selected ? selected.company.name : ""}
                   </span>
-                  <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                  <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                     <ChevronUpDownIcon
-                      className="w-5 h-5 text-gray-400"
+                      className="h-5 w-5 text-gray-400"
                       aria-hidden="true"
                     />
                   </span>
@@ -69,80 +75,79 @@ export const ProductShipping = ({
                   leaveTo="opacity-0"
                 >
                   <Listbox.Options
-                    className={`absolute w-full py-1 mt-1 ${BG_TRANSPARENT_BACKDROP} ${ROUNDED} ${SHADOW} max-h-60 overflow-auto focus:outline-none text-sm z-100`}
+                    className={`absolute mt-1 w-full py-1 ${BG_TRANSPARENT_BACKDROP} ${ROUNDED} ${SHADOW} z-100 max-h-60 overflow-auto text-sm focus:outline-none`}
                   >
-                    {shipping.carriers &&
-                      shipping.carriers.map((carrier, carrierIdx) => (
-                        <Listbox.Option
-                          key={carrierIdx}
-                          className={({ active }) =>
-                            `${active ? "font-extrabold" : ""}
-                          select-none relative py-2 pl-10 pr-4`
-                          }
-                          value={carrier}
-                        >
-                          {({ selected, active }) => (
-                            <div
-                              className={selected ? "font-bold" : "font-normal"}
-                            >
-                              <div className="flex justify-between">
-                                <div
-                                  className={`${
-                                    active && "font-extrabold"
-                                  } truncate`}
-                                >
-                                  {carrier.company.name}
-                                </div>
-                                {selected && (
-                                  <div className={`text-success`}>
-                                    <CheckIcon
-                                      className="w-5 h-5"
-                                      aria-hidden="true"
-                                    />
-                                  </div>
-                                )}
+                    {shipping.carriers?.map((carrier, carrierIdx) => (
+                      <Listbox.Option
+                        key={carrierIdx}
+                        className={({ active }) =>
+                          `${active ? "font-extrabold" : ""}
+                          relative select-none py-2 pl-10 pr-4`
+                        }
+                        value={carrier}
+                      >
+                        {({ selected, active }) => (
+                          <div
+                            className={selected ? "font-bold" : "font-normal"}
+                          >
+                            <div className="flex justify-between">
+                              <div
+                                className={`${
+                                  active && "font-extrabold"
+                                } truncate`}
+                              >
+                                {carrier.company.name}
                               </div>
-                              <div className="flex justify-between text-xs">
-                                {carrier.estimatedDeliveryDate ? (
-                                  <div>
-                                    {t("shipping.deliveredIn", {
-                                      time: carrier.estimatedDeliveryDate,
-                                    })}
-                                  </div>
-                                ) : (
-                                  <div>carrier.estimatedDeliveryDate</div>
-                                )}
-                                <div>
-                                  {t("price", {
-                                    price: GetPrice(
-                                      euro ?? 0,
-                                      commission ?? 0,
-                                      carrier.price.value
-                                    ),
-                                  })}
+                              {selected && (
+                                <div className={`text-success`}>
+                                  <CheckIcon
+                                    className="h-5 w-5"
+                                    aria-hidden="true"
+                                  />
                                 </div>
-                              </div>
-
-                              {carrier.hasTracking ? (
-                                <span className="text-xs text-success block truncate">
-                                  Carrier has tracking
-                                </span>
-                              ) : (
-                                <span className="text-xs text-danger block truncate">
-                                  Carrier does not have tracking
-                                </span>
                               )}
                             </div>
-                          )}
-                        </Listbox.Option>
-                      ))}
+                            <div className="flex justify-between text-xs">
+                              {carrier.estimatedDeliveryDate ? (
+                                <div>
+                                  {t("shipping.deliveredIn", {
+                                    time: carrier.estimatedDeliveryDate,
+                                  })}
+                                </div>
+                              ) : (
+                                <div>carrier.estimatedDeliveryDate</div>
+                              )}
+                              <div>
+                                {t("price", {
+                                  price: GetPrice(
+                                    euro ?? 0,
+                                    commission ?? 0,
+                                    carrier.price.value,
+                                  ),
+                                })}
+                              </div>
+                            </div>
+
+                            {carrier.hasTracking ? (
+                              <span className="block truncate text-xs text-success">
+                                Carrier has tracking
+                              </span>
+                            ) : (
+                              <span className="block truncate text-xs text-danger">
+                                Carrier does not have tracking
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </Listbox.Option>
+                    ))}
                   </Listbox.Options>
                 </Transition>
               </div>
             </Listbox>
           </div>
           {selected && (
-            <div className="flex justify-between text-xs z-0">
+            <div className="z-0 flex justify-between text-xs">
               <div>
                 {t("shipping.deliveredIn", {
                   time: selected.estimatedDeliveryDate,
@@ -153,7 +158,7 @@ export const ProductShipping = ({
                   price: GetPrice(
                     euro ?? 0,
                     commission ?? 0,
-                    selected.price.value
+                    selected.price.value,
                   ),
                 })}
               </div>
@@ -161,7 +166,7 @@ export const ProductShipping = ({
           )}
         </>
       ) : (
-        <p className="text-danger text-center uppercase font-mono">
+        <p className="text-center font-mono uppercase text-danger">
           {t("shipping.shippingNotAvailable")}
         </p>
       )}

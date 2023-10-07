@@ -1,13 +1,13 @@
 import "../styles/globals.css";
 import { useEffect } from "react";
-import { NextPage } from "next";
+import type { NextPage } from "next";
 import type { AppType } from "next/dist/shared/lib/utils";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import type { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
-import { NextIntlProvider, IntlErrorCode } from "next-intl";
+import { NextIntlProvider, IntlErrorCode, type IntlError } from "next-intl";
 import nProgress from "nprogress";
 
 import { api } from "~/utils/api";
@@ -17,7 +17,6 @@ const MyApp: AppType<{
   session: Session | null;
 }> = ({ Component, pageProps: { session, ...pageProps } }) => {
   const getLayout = (Component as any).getLayout || ((page: NextPage) => page);
-
   const router = useRouter();
 
   useEffect(() => {
@@ -80,7 +79,15 @@ const MyApp: AppType<{
 
 export default api.withTRPC(MyApp);
 
-function getMessageFallback({ namespace, key, error }: any) {
+function getMessageFallback({
+  namespace,
+  key,
+  error,
+}: {
+  error: IntlError;
+  key: string;
+  namespace?: string | undefined;
+}) {
   const path = [namespace, key].filter((part) => part != null).join(".");
   if (error.code === IntlErrorCode.MISSING_MESSAGE) {
     return `${path} is not yet translated`;

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useRouter } from "next/router";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 
@@ -23,9 +23,9 @@ export const PageNumber = ({
   return (
     <a
       onClick={() =>
-        router.push({ href, query: { ...router.query, p: p?.toString() } })
+        void router.push({ href, query: { ...router.query, p: p?.toString() } })
       }
-      className={`relative cursor-pointer flex justify-center items-center w-6 h-6 mx-0.5 rounded-full ${SHADOW} text-sm font-medium`}
+      className={`relative mx-0.5 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full ${SHADOW} text-sm font-medium`}
     >
       {children}
     </a>
@@ -40,8 +40,8 @@ export const Pagination = ({
   const router = useRouter();
 
   return (
-    <div className="max-w-lg mt-2 mx-auto flex-1 flex items-center justify-center">
-      <nav className="relative z-0 items-center flex" aria-label="Pagination">
+    <div className="mx-auto mt-2 flex max-w-lg flex-1 items-center justify-center">
+      <nav className="relative z-0 flex items-center" aria-label="Pagination">
         <PageNumber
           href={router.asPath.split("?")[0]}
           p={current - 1 <= 0 ? undefined : current - 1}
@@ -49,7 +49,7 @@ export const Pagination = ({
           <span className="sr-only">Previous</span>
           <ChevronLeftIcon className="h-4 w-4" aria-hidden="true" />
         </PageNumber>
-        <p className="text-xs lg:text-sm font-mono mx-2">Page {current}</p>
+        <p className="mx-2 font-mono text-xs lg:text-sm">Page {current}</p>
         <PageNumber
           href={router.asPath.split("?")[0]}
           p={current * unitsPerPage > totalUnits ? current : current + 1}

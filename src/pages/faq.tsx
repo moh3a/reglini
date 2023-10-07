@@ -1,5 +1,5 @@
-import { type ReactNode, useState } from "react";
-import { GetStaticProps } from "next";
+import { type ReactNode, type ReactElement, useState } from "react";
+import type { GetStaticProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
@@ -17,15 +17,15 @@ const Item = ({ title, children }: { title: string; children: ReactNode }) => {
         type="button"
         aria-label="Open item"
         title="Open item"
-        className="flex items-center justify-between w-full p-4 focus:outline-none"
+        className="flex w-full items-center justify-between p-4 focus:outline-none"
         onClick={() => setIsOpen(!isOpen)}
       >
         <p className="text-lg font-bold">{title}</p>
-        <div className="flex items-center justify-center w-8 h-8 border rounded-full">
+        <div className="flex h-8 w-8 items-center justify-center rounded-full border">
           <svg
             viewBox="0 0 24 24"
             className={`w-3 transition-transform duration-200 ${
-              isOpen ? "transform rotate-180" : ""
+              isOpen ? "rotate-180 transform" : ""
             }`}
           >
             <polyline
@@ -56,14 +56,14 @@ const FAQPage = () => {
       <Head>
         <title>{`FAQ | ${APP_NAME}`}</title>
       </Head>
-      <div className="mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+      <div className="mx-auto sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
         <div className="max-w-xl sm:mx-auto lg:max-w-2xl">
-          <div className="flex flex-col mb-16 sm:text-center">
-            <div className="max-w-xl md:mx-auto sm:text-center lg:max-w-2xl">
+          <div className="mb-16 flex flex-col sm:text-center">
+            <div className="max-w-xl sm:text-center md:mx-auto lg:max-w-2xl">
               <Title center={true} title="F.A.Q." />
             </div>
           </div>
-          <div className="px-4 my-4 space-y-4">
+          <div className="my-4 space-y-4 px-4">
             <Item title={t("f1.question")}>{t("f1.answer")}</Item>
             <Item title={t("f2.question")}>{t("f2.answer")}</Item>
             <Item title={t("f3.question")}>
@@ -86,7 +86,7 @@ const FAQPage = () => {
               <div dangerouslySetInnerHTML={{ __html: t.raw("f6.answer") }} />
             </Item>
             <Item title={t("f7.question")}>{t("f7.answer")}</Item>
-            <div className="text-base text-center md:text-lg">
+            <div className="text-center text-base md:text-lg">
               {t("directToSupport.haveAnyQuestion")}{" "}
               <Link href="/support" passHref>
                 <p className="cursor-pointer text-gray-500 dark:text-gray-400">
@@ -110,7 +110,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 };
 
 import Layout from "~/components/layout/Layout";
-FAQPage.getLayout = function getLayout(page: any) {
+FAQPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 

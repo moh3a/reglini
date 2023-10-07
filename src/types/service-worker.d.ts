@@ -1,6 +1,5 @@
-// tslint:disable:file-header
 interface ExtendableEvent extends Event {
-  waitUntil(fn: Promise<any>): void;
+  waitUntil(fn: Promise<unknown>): void;
 }
 
 interface PushSubscriptionChangeEvent extends ExtendableEvent {
@@ -16,11 +15,11 @@ declare class Client {
   url: string;
   focused: boolean;
   focus(): void;
-  postMessage(message: any): void;
+  postMessage(message: unknown): void;
 }
 
 interface Clients {
-  claim(): Promise<any>;
+  claim(): Promise<unknown>;
   get(id: string): Promise<Client>;
   matchAll(options?: ClientMatchOptions): Promise<Array<Client>>;
   openWindow(url: string): Promise<void>;
@@ -54,7 +53,7 @@ interface InstallEvent extends ExtendableEvent {
   activeWorker: ServiceWorker;
 }
 
-interface ActivateEvent extends ExtendableEvent {}
+type ActivateEvent = ExtendableEvent;
 
 // Notification API
 
@@ -72,7 +71,7 @@ interface PushEvent extends ExtendableEvent {
 interface PushMessageData {
   arrayBuffer(): ArrayBuffer;
   blob(): Blob;
-  json(): any;
+  json(): unknown;
   text(): string;
 }
 
@@ -83,13 +82,21 @@ interface SyncEvent extends ExtendableEvent {
   tag: string;
 }
 
-interface CustomObject extends Object {
+interface CustomObject extends Record<string, unknown> {
   url: string;
 }
 
 interface ExtendableMessageEvent extends ExtendableEvent {
-  data: any;
+  data: { action: string };
   source: Client | CustomObject;
+}
+
+// Before Install Prompt API
+
+interface BeforeInstallPromptEvent extends Event {
+  platforms: string[];
+  userChoice: Promise<Record<string, unknown>>;
+  prompt: () => void;
 }
 
 // ServiceWorkerGlobalScope
@@ -102,24 +109,27 @@ interface ServiceWorkerGlobalScope {
 
   addEventListener(
     event: "activate",
-    fn: (event?: ExtendableEvent) => any
+    fn: (event?: ExtendableEvent) => unknown,
   ): void;
-  addEventListener(event: "appinstalled", fn: (event?: any) => any): void;
+  addEventListener(
+    event: "appinstalled",
+    fn: (event?: unknown) => unknown,
+  ): void;
   addEventListener(
     event: "message",
-    fn: (event?: ExtendableMessageEvent) => any
+    fn: (event?: ExtendableMessageEvent) => unknown,
   ): void;
-  addEventListener(event: "fetch", fn: (event?: FetchEvent) => any): void;
+  addEventListener(event: "fetch", fn: (event?: FetchEvent) => unknown): void;
   addEventListener(
     event: "install",
-    fn: (event?: ExtendableEvent) => any
+    fn: (event?: ExtendableEvent) => unknown,
   ): void;
-  addEventListener(event: "push", fn: (event?: PushEvent) => any): void;
+  addEventListener(event: "push", fn: (event?: PushEvent) => unknown): void;
   addEventListener(
     event: "notificationclick",
-    fn: (event?: NotificationEvent) => any
+    fn: (event?: NotificationEvent) => unknown,
   ): void;
-  addEventListener(event: "sync", fn: (event?: SyncEvent) => any): void;
+  addEventListener(event: "sync", fn: (event?: SyncEvent) => unknown): void;
 
   fetch(request: Request | string): Promise<Response>;
   skipWaiting(): Promise<void>;

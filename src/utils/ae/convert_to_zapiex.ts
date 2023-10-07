@@ -26,7 +26,7 @@ import type {
 import { calculate_discount, parse_locale } from "~/utils/index";
 
 export const parse_ae_product_attributes = (
-  initial_array: DS_Product_Attributes[]
+  initial_array: DS_Product_Attributes[],
 ): ZAE_ProductAttribute[] => {
   return initial_array.map((value) => ({
     id: value.attr_name_id?.toString(),
@@ -40,7 +40,7 @@ export const parse_ae_product_attributes = (
 
 export const parse_ae_product_properties = (
   init: DS_Product_SKU_Properties,
-  parsed_array: ZAE_ProductProperties[]
+  parsed_array: ZAE_ProductProperties[],
 ) => {
   const property = {
     id: (init.property_value_id_long ?? init.property_value_id)?.toString(),
@@ -53,14 +53,14 @@ export const parse_ae_product_properties = (
   };
 
   const index = parsed_array.findIndex(
-    (e) => e.id === init.sku_property_id?.toString()
+    (e) => e.id === init.sku_property_id?.toString(),
   );
 
   if (index !== -1) {
     const property_exits = parsed_array[index]?.values.find(
       (e) =>
         e.id ===
-        (init.property_value_id_long ?? init.property_value_id)?.toString()
+        (init.property_value_id_long ?? init.property_value_id)?.toString(),
     );
     if (!property_exits) parsed_array[index]?.values.push(property);
   } else {
@@ -74,7 +74,7 @@ export const parse_ae_product_properties = (
 
 export const parse_ae_product_variation_properties = (
   init: DS_Product_SKU_Properties,
-  parsed_array: ZAE_ProductVariationProperties[]
+  parsed_array: ZAE_ProductVariationProperties[],
 ) => {
   const property = {
     id: (init.property_value_id_long ?? init.property_value_id)?.toString(),
@@ -87,11 +87,11 @@ export const parse_ae_product_variation_properties = (
   };
 
   const index = parsed_array.findIndex(
-    (e) => e.id === init.sku_property_id?.toString()
+    (e) => e.id === init.sku_property_id?.toString(),
   );
 
   if (index !== -1 && parsed_array[index]) {
-    (parsed_array[index] as any).value = property;
+    parsed_array[index]!.value = property;
   } else {
     parsed_array.push({
       id: init.sku_property_id?.toString(),
@@ -104,7 +104,7 @@ export const parse_ae_product_variation_properties = (
 export const parse_ae_property_price = (
   sku: DS_Product_SKU_Variation,
   originalPrice: ZAE_PriceInterval,
-  discountedPrice: ZAE_PriceInterval
+  discountedPrice: ZAE_PriceInterval,
 ) => {
   if (originalPrice.max.value < parseFloat(sku.sku_price)) {
     originalPrice.max.value = parseFloat(sku.sku_price);
@@ -121,9 +121,10 @@ export const parse_ae_property_price = (
 };
 
 export const get_product_discount = (
-  variation?: DS_Product_SKU_Variation
+  variation?: DS_Product_SKU_Variation,
 ): number => {
-  if ( variation &&
+  if (
+    variation &&
     parseFloat(variation.sku_price) > parseFloat(variation.offer_sale_price)
   ) {
     return calculate_discount(variation.sku_price, variation.offer_sale_price);
@@ -132,13 +133,13 @@ export const get_product_discount = (
 
 export const get_product_price_summary = (
   price: ZAE_ProductPriceSummary,
-  variations: DS_Product_SKU_Variation[]
+  variations: DS_Product_SKU_Variation[],
 ): ZAE_ProductPriceSummary => {
-  let discountedPrice: ZAE_ProductPriceSummary["discountedPrice"] = {
+  const discountedPrice: ZAE_ProductPriceSummary["discountedPrice"] = {
     min: { value: 1000000000 },
     max: { value: 0 },
   };
-  let originalPrice: ZAE_ProductPriceSummary["originalPrice"] = {
+  const originalPrice: ZAE_ProductPriceSummary["originalPrice"] = {
     min: { value: 1000000000 },
     max: { value: 0 },
   };
@@ -174,7 +175,7 @@ export const get_product_price_summary = (
 
 export const get_product_variation_price = (
   price: ZAE_ProductPrice,
-  variation: DS_Product_SKU_Variation
+  variation: DS_Product_SKU_Variation,
 ): ZAE_ProductPrice => {
   const discount = get_product_discount(variation);
   // get original price
@@ -196,7 +197,7 @@ export const get_product_variation_price = (
     price.bulkPrice = { value: parseFloat(variation.offer_bulk_sale_price) };
     price.bulkDiscountPercentage = calculate_discount(
       variation.sku_price,
-      variation.offer_bulk_sale_price
+      variation.offer_bulk_sale_price,
     );
   }
 
@@ -207,7 +208,7 @@ export const parse_ae_product_data = (
   data: DS_Product,
   variations: ZAE_ProductVariation[],
   properties: ZAE_ProductProperties[],
-  totalStock: number
+  totalStock: number,
 ) => {
   const singlePrice: boolean[] = [];
   // VARIATIONS
@@ -215,7 +216,7 @@ export const parse_ae_product_data = (
     const imageUrl =
       variation.aeop_s_k_u_propertys?.find((sku) => sku.sku_image)?.sku_image ??
       "";
-    let variation_properties: ZAE_ProductVariationProperties[] = [];
+    const variation_properties: ZAE_ProductVariationProperties[] = [];
     if (variation.aeop_s_k_u_propertys) {
       variation.aeop_s_k_u_propertys.forEach((props) => {
         // PROPERTIES
@@ -232,7 +233,7 @@ export const parse_ae_product_data = (
       singlePrice.push(true);
     else singlePrice.push(false);
 
-    let variation_price: ZAE_ProductPrice = {
+    const variation_price: ZAE_ProductPrice = {
       hasDiscount: false,
       discountedPrice: { display: "", value: 0 },
       originalPrice: { display: "", value: 0 },
@@ -268,7 +269,7 @@ export const convert_ae_product = (
   locale: string,
   totalStock: number,
   price?: ZAE_ProductPrice,
-  priceSummary?: ZAE_ProductPriceSummary
+  priceSummary?: ZAE_ProductPriceSummary,
 ): ZAE_Product => {
   return {
     productId: data.ae_item_base_info_dto.product_id.toString(),
@@ -357,12 +358,14 @@ export const ae_product = (data: DS_Product, locale: string | undefined) => {
       data,
       variations,
       properties,
-      totalStock
+      totalStock,
     );
   }
 
   price =
-    data.ae_item_sku_info_dtos && data.ae_item_sku_info_dtos.length > 0 && hasSinglePrice
+    data.ae_item_sku_info_dtos &&
+    data.ae_item_sku_info_dtos.length > 0 &&
+    hasSinglePrice
       ? get_product_variation_price(price, data.ae_item_sku_info_dtos[0]!)
       : undefined;
   priceSummary =
@@ -383,12 +386,12 @@ export const ae_product = (data: DS_Product, locale: string | undefined) => {
     locale ?? "FR",
     0,
     price,
-    priceSummary
+    priceSummary,
   );
 };
 
 export const ae_shipping = (
-  carriers: DS_Shipping_Details[]
+  carriers: DS_Shipping_Details[],
 ): ZAE_ProductShipping => {
   if (carriers.length > 0) {
     return convert_ae_shipping_info(carriers);
@@ -400,7 +403,7 @@ export const ae_shipping = (
 };
 
 export const convert_ae_shipping_info = (
-  shipment_carriers: DS_Shipping_Details[]
+  shipment_carriers: DS_Shipping_Details[],
 ): ZAE_ProductShipping => {
   const carriers: ZAE_ProductShippingCarrier[] = shipment_carriers.map(
     (carrier) => ({
@@ -409,7 +412,7 @@ export const convert_ae_shipping_info = (
       hasDiscount: false,
       estimatedDeliveryDate: carrier.estimated_delivery_time,
       hasTracking: carrier.tracking_available === "true" ? true : false,
-    })
+    }),
   );
   return {
     isAvailableForSelectedCountries: true,
@@ -421,7 +424,7 @@ export const convert_ae_shipping_info = (
 };
 
 export const ae_affiliate_products = (
-  res: Affiliate_Base_Products_Cursor
+  res: Affiliate_Base_Products_Cursor,
 ): ZAE_Search => {
   const items: ZAE_SearchItem[] | undefined = res.products?.map((product) => {
     return {
@@ -436,7 +439,9 @@ export const ae_affiliate_products = (
     totalCount: res.total_record_count ?? 0,
     numberOfPages: res.total_page_no ?? 0,
     resultsPerPage: res.current_record_count ?? 0,
-    currency: res.products && res.products[0] ? res.products[0].target_sale_price_currency : "USD",
+    currency: res?.products?.[0]
+      ? res.products[0].target_sale_price_currency
+      : "USD",
     items: items ?? [],
   };
 };

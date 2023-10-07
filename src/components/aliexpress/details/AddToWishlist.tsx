@@ -38,7 +38,7 @@ export const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
           price: GetPrice(
             euro ?? 0,
             commission ?? 0,
-            product.price.app.originalPrice.value
+            product.price.app.originalPrice.value,
           ),
           imageUrl: product.productImages[0] ?? "",
         },
@@ -51,7 +51,7 @@ export const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
               else setMessage({ type: "success", text: data.message });
             }
           },
-        }
+        },
       );
     }
   };
@@ -59,8 +59,8 @@ export const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
 
   return (
     <Button
-      icon={<HeartIcon className="h-5 w-5 inline mr-1" aria-hidden="true" />}
-      onClick={() => wishlistHandler()}
+      icon={<HeartIcon className="mr-1 inline h-5 w-5" aria-hidden="true" />}
+      onClick={() => void wishlistHandler()}
       variant="outline"
       type="button"
     >

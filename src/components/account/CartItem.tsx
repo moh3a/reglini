@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { ChangeEvent, useState } from "react";
+import { type ChangeEvent, useState } from "react";
 import Link from "next/link";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
@@ -17,9 +17,9 @@ const CartItem = ({ item }: { item: Omit<Product, "orderId"> | Cart }) => {
 
   const utils = api.useContext();
   const deleteItemMutation = api.cart.delete.useMutation();
-  const deleteHanlder = async () => {
+  const deleteHanlder = (): void => {
     if (item.id) {
-      await deleteItemMutation.mutateAsync(
+      deleteItemMutation.mutate(
         { id: item.id },
         {
           onSettled(data, error) {
@@ -27,22 +27,22 @@ const CartItem = ({ item }: { item: Omit<Product, "orderId"> | Cart }) => {
             if (data) {
               if (data.success) {
                 setMessage({ type: "success", text: data.message });
-                utils.cart.invalidate();
+                void utils.cart.invalidate();
               } else setMessage({ type: "error", text: data.error });
             }
             setTimeout(
               () => setMessage({ type: undefined, text: undefined }),
-              3000
+              3000,
             );
           },
-        }
+        },
       );
     }
   };
 
   const quantityUpdateMutation = api.cart.updateQuantity.useMutation();
-  const quantityHandler = async (event: ChangeEvent<HTMLInputElement>) => {
-    await quantityUpdateMutation.mutateAsync(
+  const quantityHandler = (event: ChangeEvent<HTMLInputElement>): void => {
+    quantityUpdateMutation.mutate(
       { id: item.id, quantity: parseInt(event.target.value ?? 1) },
       {
         onSettled(data, error) {
@@ -50,25 +50,25 @@ const CartItem = ({ item }: { item: Omit<Product, "orderId"> | Cart }) => {
           if (data) {
             if (data.success) {
               setMessage({ type: "success", text: data.message });
-              utils.cart.invalidate();
+              void utils.cart.invalidate();
             } else setMessage({ type: "error", text: data.error });
           }
           setTimeout(
             () => setMessage({ type: undefined, text: undefined }),
-            3000
+            3000,
           );
         },
-      }
+      },
     );
   };
 
   return (
     <>
       {message?.type && <Banner type={message?.type} message={message?.text} />}
-      <li className={`py-6 flex`}>
-        <div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
+      <li className={`flex py-6`}>
+        <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
           <img
-            className="w-full h-full object-center object-cover"
+            className="h-full w-full object-cover object-center"
             src={item.imageUrl ? item.imageUrl : "/placeholder.png"}
             alt={item.name ? item.name : ""}
           />
@@ -86,21 +86,21 @@ const CartItem = ({ item }: { item: Omit<Product, "orderId"> | Cart }) => {
                 {item.name}
               </Link>
             </h1>
-            <p className={`text-aliexpress font-bold font-mono`}>
+            <p className={`font-mono font-bold text-aliexpress`}>
               {t("price", { price: item.price })}
             </p>
           </div>
 
           <ItemProperties product={item} />
 
-          <div className={`text-xs my-2`}>
+          <div className={`my-2 text-xs`}>
             <p>
               {t("shippingCarrier")}:{" "}
               <span className="px-2 font-bold">{item.carrierId}</span>
             </p>
             <p>
               {t("shippingPrice")}:
-              <span className={`px-2 font-bold font-mono`}>
+              <span className={`px-2 font-mono font-bold`}>
                 {t("price", { price: item.shippingPrice })}
               </span>
             </p>
@@ -118,7 +118,7 @@ const CartItem = ({ item }: { item: Omit<Product, "orderId"> | Cart }) => {
             <Button variant="outline" onClick={deleteHanlder}>
               <span className="sr-only">delete item</span>
               <TrashIcon
-                className="h-6 w-6 inline text-aliexpress"
+                className="inline h-6 w-6 text-aliexpress"
                 aria-hidden="true"
               />
             </Button>

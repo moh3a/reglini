@@ -1,5 +1,10 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Dispatch, Fragment, ReactNode, SetStateAction } from "react";
+import {
+  type Dispatch,
+  Fragment,
+  type ReactNode,
+  type SetStateAction,
+} from "react";
 
 interface ModalProps {
   type?: "error" | "warning" | "success";
@@ -49,11 +54,11 @@ export function Modal({
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel
-                className={`w-full max-w-md lg:max-w-6xl transform rounded-2xl ${
+                className={`w-full max-w-md transform rounded-2xl lg:max-w-6xl ${
                   !type && "bg-white dark:bg-grim"
-                } ${type === "error" && "text-white bg-danger"} ${
-                  type === "warning" && "text-white bg-warning"
-                } ${type === "success" && "text-white bg-success"} ${
+                } ${type === "error" && "bg-danger text-white"} ${
+                  type === "warning" && "bg-warning text-white"
+                } ${type === "success" && "bg-success text-white"} ${
                   transparent
                     ? "bg-opacity-50 backdrop-blur-sm"
                     : "bg-opacity-95"

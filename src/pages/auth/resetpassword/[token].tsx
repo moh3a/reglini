@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next";
+import type { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { useTranslations } from "next-intl";
@@ -20,8 +20,8 @@ const ResetPasswordPage = () => {
       {token ? (
         <ResetPassword token={token.toString()} />
       ) : (
-        <div className="flex-col text-center mt-28">
-          <div className="text-6xl font-extrabold select-none">
+        <div className="mt-28 flex-col text-center">
+          <div className="select-none text-6xl font-extrabold">
             <span className={TEXT_GRADIENT}>No Token</span> 😵
           </div>
         </div>
@@ -39,7 +39,8 @@ export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
 };
 
 import Layout from "~/components/layout/Layout";
-ResetPasswordPage.getLayout = function getLayout(page: any) {
+import type { ReactElement } from "react";
+ResetPasswordPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 

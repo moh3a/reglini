@@ -1,5 +1,10 @@
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/outline";
-import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import {
+  type ChangeEvent,
+  type Dispatch,
+  type SetStateAction,
+  useState,
+} from "react";
 import { TEXT_INPUT } from "~/config/design";
 
 interface PasswordProps {
@@ -16,7 +21,7 @@ interface PasswordProps {
   required?: boolean;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onKeyUp?: () => void;
-  width?: any;
+  width?: string | number;
 }
 
 export const PasswordInput = ({
@@ -67,9 +72,9 @@ export const PasswordInput = ({
         onClick={() => setHidden(!hidden)}
       >
         {hidden ? (
-          <EyeSlashIcon className={`h-5 w-5 inline`} />
+          <EyeSlashIcon className={`inline h-5 w-5`} />
         ) : (
-          <EyeIcon className={`h-5 w-5 inline`} />
+          <EyeIcon className={`inline h-5 w-5`} />
         )}
       </div>
     </div>

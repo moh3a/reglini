@@ -1,4 +1,4 @@
-import { FormEvent, Fragment, useState } from "react";
+import { type FormEvent, Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { HomeIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
@@ -16,7 +16,7 @@ import { Button, Title } from "~/components/shared";
 import { api } from "~/utils/api";
 
 const DeleteAccount = () => {
-  let [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const deleteMutation = api.account.delete.useMutation();
 
@@ -28,12 +28,12 @@ const DeleteAccount = () => {
     setIsOpen(true);
   }
 
-  const deleteAccountHandler = async (e: FormEvent) => {
+  const deleteAccountHandler = (e: FormEvent): void => {
     e.preventDefault();
-    await deleteMutation.mutateAsync(undefined, {
-      onSettled(data) {
-        signOut();
-        router.push(`/auth/login?error=account_deleted`);
+    deleteMutation.mutate(undefined, {
+      onSettled() {
+        void signOut();
+        void router.push(`/auth/login?error=account_deleted`);
       },
     });
   };
@@ -41,15 +41,15 @@ const DeleteAccount = () => {
 
   return (
     <>
-      <div className="text-center mx-8 lg:mx-32 my-60">
-        <p className="mb-4 font-bold font-mono text-xl text-center">
+      <div className="mx-8 my-60 text-center lg:mx-32">
+        <p className="mb-4 text-center font-mono text-xl font-bold">
           {t("prompt")}
         </p>
         <Button
           onClick={openModal}
           variant="outline"
           icon={
-            <TrashIcon className="h-5 w-5 mr-1 inline" aria-hidden="true" />
+            <TrashIcon className="mr-1 inline h-5 w-5" aria-hidden="true" />
           }
         >
           {t("delete")}
@@ -59,7 +59,7 @@ const DeleteAccount = () => {
           <Button
             variant="outline"
             icon={
-              <HomeIcon className="h-5 w-5 mr-1 inline" aria-hidden="true" />
+              <HomeIcon className="mr-1 inline h-5 w-5" aria-hidden="true" />
             }
           >
             {t("goHome")}
@@ -101,7 +101,7 @@ const DeleteAccount = () => {
               leaveTo="opacity-0 scale-95"
             >
               <div
-                className={`inline-block w-full max-w-xl p-6 my-8 overflow-hidden text-center align-middle transition-all transform ${BG_TRANSPARENT_BACKDROP} ${SHADOW} ${PADDING} ${ROUNDED}`}
+                className={`my-8 inline-block w-full max-w-xl transform overflow-hidden p-6 text-center align-middle transition-all ${BG_TRANSPARENT_BACKDROP} ${SHADOW} ${PADDING} ${ROUNDED}`}
               >
                 <form onSubmit={deleteAccountHandler} className="py-5">
                   <Dialog.Title as="h2">
@@ -117,7 +117,7 @@ const DeleteAccount = () => {
                       variant="solid"
                       icon={
                         <TrashIcon
-                          className="h-5 w-5 mr-1 inline"
+                          className="mr-1 inline h-5 w-5"
                           aria-hidden="true"
                         />
                       }

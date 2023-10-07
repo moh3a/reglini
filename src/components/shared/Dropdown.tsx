@@ -1,4 +1,4 @@
-import { Fragment, ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
@@ -12,8 +12,8 @@ export const Dropdown = ({ parent, items }: DropdownProps) => {
     <Menu as="div" className="relative z-100">
       {parent ?? (
         <div>
-          <Menu.Button className="h-6 w-6 cursor-pointer relative top-2">
-            <EllipsisVerticalIcon className="w-6 h-6" aria-hidden="true" />
+          <Menu.Button className="relative top-2 h-6 w-6 cursor-pointer">
+            <EllipsisVerticalIcon className="h-6 w-6" aria-hidden="true" />
           </Menu.Button>
         </div>
       )}
@@ -27,7 +27,7 @@ export const Dropdown = ({ parent, items }: DropdownProps) => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-1 w-40 md:w-52 mt-2 bg-gray-100 dark:bg-grim divide-y divide-gray-100 rounded-lg shadow-md">
+        <Menu.Items className="absolute right-1 mt-2 w-40 divide-y divide-gray-100 rounded-lg bg-gray-100 shadow-md dark:bg-grim md:w-52">
           {items.map((item, index) => (
             <div key={index} className="p-1">
               <Menu.Item>{item}</Menu.Item>

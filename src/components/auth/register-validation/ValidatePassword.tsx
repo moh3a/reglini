@@ -1,10 +1,20 @@
-import { useState, useEffect } from "react";
+import {
+  useState,
+  useEffect,
+  type Dispatch,
+  type SetStateAction,
+  type ChangeEvent,
+} from "react";
 import { CheckBadgeIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 
 import { PasswordInput } from "~/components/shared";
 
-const ValidatePassword = ({ setPasswordValidation }: any) => {
+const ValidatePassword = ({
+  setPasswordValidation,
+}: {
+  setPasswordValidation: Dispatch<SetStateAction<boolean>>;
+}) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmed, setConfirmed] = useState(false);
@@ -45,7 +55,7 @@ const ValidatePassword = ({ setPasswordValidation }: any) => {
     setPasswordValidation,
   ]);
 
-  const changePassword = (e: any) => {
+  const changePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword("");
     setConfirmed(false);
     setPassword(e.target.value);
@@ -71,7 +81,7 @@ const ValidatePassword = ({ setPasswordValidation }: any) => {
     }
   };
 
-  const changeConfirmedPassword = (e: any) => {
+  const changeConfirmedPassword = (e: ChangeEvent<HTMLInputElement>) => {
     setConfirmPassword(e.target.value);
     if (password === e.target.value && confirmPassword.length > 1) {
       setConfirmed(true);
@@ -130,33 +140,33 @@ const ValidatePassword = ({ setPasswordValidation }: any) => {
           Password must contain the following fields
           <p className={checkUpperCase ? "text-success" : "text-danger"}>
             {checkUpperCase ? (
-              <CheckBadgeIcon className="h-5 w-5 inline mx-1" />
+              <CheckBadgeIcon className="mx-1 inline h-5 w-5" />
             ) : (
-              <XMarkIcon className="h-5 w-5 inline mx-1" />
+              <XMarkIcon className="mx-1 inline h-5 w-5" />
             )}
             An uppercase letter
           </p>
           <p className={checkLowerCase ? "text-success" : "text-danger"}>
             {checkLowerCase ? (
-              <CheckBadgeIcon className="h-5 w-5 inline mx-1" />
+              <CheckBadgeIcon className="mx-1 inline h-5 w-5" />
             ) : (
-              <XMarkIcon className="h-5 w-5 inline mx-1" />
+              <XMarkIcon className="mx-1 inline h-5 w-5" />
             )}
             A lowercaser letter
           </p>
           <p className={checkNumber ? "text-success" : "text-danger"}>
             {checkNumber ? (
-              <CheckBadgeIcon className="h-5 w-5 inline mx-1" />
+              <CheckBadgeIcon className="mx-1 inline h-5 w-5" />
             ) : (
-              <XMarkIcon className="h-5 w-5 inline mx-1" />
+              <XMarkIcon className="mx-1 inline h-5 w-5" />
             )}
             A number
           </p>
           <p className={checkLength ? "text-success" : "text-danger"}>
             {checkLength ? (
-              <CheckBadgeIcon className="h-5 w-5 inline mx-1" />
+              <CheckBadgeIcon className="mx-1 inline h-5 w-5" />
             ) : (
-              <XMarkIcon className="h-5 w-5 inline mx-1" />
+              <XMarkIcon className="mx-1 inline h-5 w-5" />
             )}
             Minimum 8 characters
           </p>

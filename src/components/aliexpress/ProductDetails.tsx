@@ -42,11 +42,11 @@ export const ProductDetails = ({ id }: { id: string }) => {
     },
     {
       onSettled(data) {
-        if (data && data.data) {
-          if (data.data.productImages[0])setShowImage(data.data.productImages[0]);
+        if (data?.data) {
+          if (data.data.productImages[0])
+            setShowImage(data.data.productImages[0]);
           if (
-            data.data.shipping &&
-            data.data.shipping.carriers &&
+            data.data.shipping?.carriers &&
             data.data.shipping.carriers.length > 0
           )
             setSelectedShipping(data.data.shipping?.carriers[0]);
@@ -56,7 +56,7 @@ export const ProductDetails = ({ id }: { id: string }) => {
             text: `Product details [${id}] fetch error.`,
           });
       },
-    }
+    },
   );
 
   const shipping = api.aliexpress.ds.shipping.useQuery(
@@ -78,20 +78,15 @@ export const ProductDetails = ({ id }: { id: string }) => {
               API_RESPONSE_MESSAGES.AE_DS_PRODUCT_SHIPPING_SKU_ID_REQUIRED &&
             product.data?.data?.properties[0]?.id
           ) {
-            shipping.refetch();
+            void shipping.refetch();
           } else setMessage({ type: "error", text: data.error });
         }
 
-        if (
-          data &&
-          data.data &&
-          data.data.carriers &&
-          !product.data?.data?.shipping
-        ) {
+        if (data?.data?.carriers && !product.data?.data?.shipping) {
           setSelectedShipping(data.data.carriers[0]);
         }
       },
-    }
+    },
   );
 
   const [message, setMessage] = useState<IMessage>();
@@ -105,9 +100,7 @@ export const ProductDetails = ({ id }: { id: string }) => {
     useState<SelectedVariation>();
   const setSelectedVariationCallback = useCallback(() => {
     if (
-      product.data &&
-      product.data.data &&
-      product.data.data.hasVariations &&
+      product.data?.data?.hasVariations &&
       product.data.data.variations &&
       selectedProperties
     ) {
@@ -115,7 +108,7 @@ export const ProductDetails = ({ id }: { id: string }) => {
         product.data?.data.variations,
         selectedProperties,
         quantity,
-        product.data?.data.productImages[0] ?? ""
+        product.data?.data.productImages[0] ?? "",
       ) as SelectedVariation | undefined;
       setSelectedVariation(selected);
     }
@@ -130,45 +123,43 @@ export const ProductDetails = ({ id }: { id: string }) => {
     <>
       <Head>
         <title>{`${
-          product.data && product.data?.data
+          product.data?.data
             ? product.data?.data.title.substring(0, 30) + "..."
             : "Product"
         } | Aliexpress | ${APP_NAME}`}</title>
       </Head>
       {message?.type && <Banner type={message?.type} message={message?.text} />}
       {product.isLoading && (
-        <div className="w-full flex justify-center items-center">
+        <div className="flex w-full items-center justify-center">
           <Loading size="large" />
         </div>
       )}
-      {product.data && product.data?.data && (
+      {product.data?.data && (
         <>
           <section className="body-font">
-            <div className="container px-5 py-10 mx-auto">
-              <div className={`lg:w-4/5 mx-auto flex flex-wrap`}>
+            <div className="container mx-auto px-5 py-10">
+              <div className={`mx-auto flex flex-wrap lg:w-4/5`}>
                 <ProductImage
                   product={product.data?.data}
                   showImage={showImage}
                   setShowImage={setShowImage}
                 />
                 <div
-                  className={`lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0`}
+                  className={`mt-6 w-full lg:mt-0 lg:w-1/2 lg:py-6 lg:pl-10`}
                 >
-                  <h2 className={`text-sm font-mono tracking-widest`}>
+                  <h2 className={`font-mono text-sm tracking-widest`}>
                     {product.data?.data.attributes[0]?.value.name}
                   </h2>
-                  <h1 className="text-xl font-medium mb-1">
+                  <h1 className="mb-1 text-xl font-medium">
                     {product.data?.data.title}
                   </h1>
                   <ProductReviews product={product.data?.data} />
-                  {product.data?.data.productCategory &&
-                    product.data?.data.productCategory.name && (
-                      <p className="leading-relaxed font-mono">
-                        {t("category")}:{" "}
-                        {product.data?.data.productCategory.name}
-                      </p>
-                    )}
-                  <div className="mt-6 pb-5 mb-5">
+                  {product.data?.data?.productCategory?.name && (
+                    <p className="font-mono leading-relaxed">
+                      {t("category")}: {product.data?.data.productCategory.name}
+                    </p>
+                  )}
+                  <div className="mb-5 mt-6 pb-5">
                     {product.data?.data.properties.map((property) => (
                       <ProductProperty
                         key={property.name}

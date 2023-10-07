@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { GetStaticProps } from "next";
+import { useEffect, type ReactElement } from "react";
+import type { GetStaticProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
@@ -12,14 +12,14 @@ const DeleteAccountPage = () => {
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    if (status === "unauthenticated") router.replace("/");
+    if (status === "unauthenticated") void router.replace("/");
   }, [router, status]);
 
   return (
     <>
       <Head>
         <title>
-          {session && session.user?.name
+          {session?.user?.name
             ? `Delete ${session.user.name} | `
             : `Delete account | ` + APP_NAME}
         </title>
@@ -38,7 +38,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 };
 
 import Layout from "../../components/layout/Layout";
-DeleteAccountPage.getLayout = function getLayout(page: any) {
+DeleteAccountPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 

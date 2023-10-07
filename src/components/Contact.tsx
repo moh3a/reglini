@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { type FormEvent, useState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
@@ -16,10 +16,10 @@ const Contact = () => {
     text?: string;
   }>();
 
-  const submitHandler = async (e: FormEvent) => {
+  const submitHandler = (e: FormEvent) => {
     e.preventDefault();
     if (subject && message) {
-      await emailMutation.mutateAsync(
+      emailMutation.mutate(
         { message, subject },
         {
           onSettled(data, error) {
@@ -33,7 +33,7 @@ const Contact = () => {
             } else if (error)
               setNotification({ type: "error", text: error.message });
           },
-        }
+        },
       );
     } else {
       setNotification({
@@ -50,22 +50,22 @@ const Contact = () => {
   return (
     <>
       <Title center={true} title={t("title")} />
-      <p className="mb-4 font-bold font-mono text-sm text-center">
+      <p className="mb-4 text-center font-mono text-sm font-bold">
         {t("subtitle")}
       </p>
 
       <section
-        className={`w-full max-w-2xl px-6 py-4 mx-auto lg:mb-32 my-8 ${ROUNDED} ${SHADOW} `}
+        className={`mx-auto my-8 w-full max-w-2xl px-6 py-4 lg:mb-32 ${ROUNDED} ${SHADOW} `}
       >
         {notification?.type && (
           <Banner type={notification.type} message={notification.text} />
         )}
-        <div className="grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 md:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
           <div
-            className={`cursor-pointer flex flex-col items-center px-4 py-3 ${ROUNDED} hover:bg-purple-200 dark:hover:bg-purple-800`}
+            className={`flex cursor-pointer flex-col items-center px-4 py-3 ${ROUNDED} hover:bg-purple-200 dark:hover:bg-purple-800`}
           >
             <svg
-              className="w-5 h-5 text-purple-600"
+              className="h-5 w-5 text-purple-600"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
@@ -80,16 +80,16 @@ const Contact = () => {
             <span className="mt-2">{t("contact.address")}</span>
           </div>
           <div
-            className={`cursor-pointer flex flex-col items-center px-4 py-3 ${ROUNDED} hover:bg-green-200 dark:hover:bg-green-800`}
+            className={`flex cursor-pointer flex-col items-center px-4 py-3 ${ROUNDED} hover:bg-green-200 dark:hover:bg-green-800`}
           >
             <i className="fab fa-whatsapp text-green-500"></i>
             <span className="mt-2">{t("contact.phoneNumber")}</span>
           </div>
           <div
-            className={`cursor-pointer flex flex-col items-center px-4 py-3 ${ROUNDED} hover:bg-orange-200 dark:hover:bg-orange-800 text-xs`}
+            className={`flex cursor-pointer flex-col items-center px-4 py-3 ${ROUNDED} text-xs hover:bg-orange-200 dark:hover:bg-orange-800`}
           >
             <svg
-              className="w-5 h-5 text-orange-500"
+              className="h-5 w-5 text-orange-500"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
@@ -100,21 +100,21 @@ const Contact = () => {
             <span className="mt-2">{t("contact.email")}</span>
           </div>
         </div>
-        <p className="my-4 text-base text-center md:text-lg">
+        <p className="my-4 text-center text-base md:text-lg">
           {t("directToFaq.youHaveAQuestion")}{" "}
           <Link href="/faq" passHref>
-            <span className="underline text-gray-700 dark:text-gray-400">
+            <span className="text-gray-700 underline dark:text-gray-400">
               {t("directToFaq.checkoutAnswer")}
             </span>
           </Link>
         </p>
 
         <form className="mt-6 " onSubmit={submitHandler}>
-          <div className="items-center -mx-2 md:flex">
-            <div className="w-full mx-2">
+          <div className="-mx-2 items-center md:flex">
+            <div className="mx-2 w-full">
               <label
                 htmlFor="subject"
-                className={`block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200`}
+                className={`mb-2 block text-sm font-medium text-gray-600 dark:text-gray-200`}
               >
                 {t("form.emailSubject")}
               </label>
@@ -132,10 +132,10 @@ const Contact = () => {
             </div>
           </div>
 
-          <div className="w-full mt-4">
+          <div className="mt-4 w-full">
             <label
               htmlFor="message"
-              className={`block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200`}
+              className={`mb-2 block text-sm font-medium text-gray-600 dark:text-gray-200`}
             >
               {t("form.message")}
             </label>
@@ -150,7 +150,7 @@ const Contact = () => {
             ></textarea>
           </div>
 
-          <div className="flex justify-center mt-6">
+          <div className="mt-6 flex justify-center">
             <Button variant="solid" type="submit">
               {t("form.send")}
             </Button>

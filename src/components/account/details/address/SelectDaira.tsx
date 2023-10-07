@@ -1,4 +1,4 @@
-import { Fragment, Dispatch, SetStateAction } from "react";
+import { Fragment, type Dispatch, type SetStateAction } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
 import { useTranslations } from "next-intl";

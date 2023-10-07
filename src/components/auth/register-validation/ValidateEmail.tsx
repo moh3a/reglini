@@ -1,11 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, type SetStateAction, type Dispatch } from "react";
 import { useTranslations } from "next-intl";
 
 import { TextInput } from "~/components/shared";
 import type { IMessage } from "~/types/index";
 import { api } from "~/utils/api";
 
-const ValidateEmail = ({ setEmailValidation }: any) => {
+const ValidateEmail = ({
+  setEmailValidation,
+}: {
+  setEmailValidation: Dispatch<SetStateAction<boolean>>;
+}) => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState<IMessage>();
   const emailExistsMutation = api.auth.checkEmail.useMutation();
@@ -23,7 +27,7 @@ const ValidateEmail = ({ setEmailValidation }: any) => {
       return setMessage({ type: "error", text: "Email cannot be blank." });
     const isValid =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        email
+        email,
       );
     if (!isValid)
       return setMessage({
@@ -54,7 +58,7 @@ const ValidateEmail = ({ setEmailValidation }: any) => {
               });
           }
         },
-      }
+      },
     );
   };
   const t = useTranslations("AuthPage.register");
@@ -78,10 +82,10 @@ const ValidateEmail = ({ setEmailValidation }: any) => {
           setEmail(e.target.value);
           setMessage({ type: undefined, text: undefined });
         }}
-        onBlur={() => checkEmail()}
+        onBlur={() => void checkEmail()}
       />
 
-      {message && message.type && (
+      {message?.type && (
         <p
           className={
             message.type === "error"

@@ -1,5 +1,5 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { ChangeEvent, Dispatch, SetStateAction } from "react";
+import type { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { TEXT_INPUT } from "~/config/design";
 
 interface SearchInputProps {
@@ -17,7 +17,7 @@ interface SearchInputProps {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onKeyUp?: () => void;
   autocomplete?: boolean;
-  width?: any;
+  width?: number | string;
 }
 
 export const SearchInput = ({
@@ -66,7 +66,7 @@ export const SearchInput = ({
         type="submit"
         className="absolute -top-0.5 right-2 cursor-pointer"
       >
-        <MagnifyingGlassIcon className={`h-5 w-5 inline`} aria-hidden="true" />
+        <MagnifyingGlassIcon className={`inline h-5 w-5`} aria-hidden="true" />
       </button>
     </div>
   );

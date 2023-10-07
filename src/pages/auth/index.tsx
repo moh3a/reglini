@@ -2,10 +2,10 @@ import {
   ArrowLeftOnRectangleIcon,
   UserPlusIcon,
 } from "@heroicons/react/24/outline";
-import { GetStaticProps } from "next";
+import type { GetStaticProps } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { type ReactElement, useEffect } from "react";
 import Link from "next/link";
 
 import { Button, Logo } from "~/components/shared";
@@ -15,15 +15,15 @@ const AuthPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (status === "authenticated") router.replace("/");
+    if (status === "authenticated") void router.replace("/");
   }, [router, status]);
 
   return (
-    <div className="w-full flex justify-center items-center">
-      <div className="flex-1 flex justify-center items-center">
+    <div className="flex w-full items-center justify-center">
+      <div className="flex flex-1 items-center justify-center">
         <Logo height={200} width={200} />
       </div>
-      <div className="flex-1 flex justify-center items-center">
+      <div className="flex flex-1 items-center justify-center">
         <div>
           <div>
             <Link href="/auth/login">
@@ -31,7 +31,7 @@ const AuthPage = () => {
                 variant="outline"
                 icon={
                   <ArrowLeftOnRectangleIcon
-                    className="inline w-5 h-5 mr-1"
+                    className="mr-1 inline h-5 w-5"
                     aria-hidden="true"
                   />
                 }
@@ -46,7 +46,7 @@ const AuthPage = () => {
                 variant="outline"
                 icon={
                   <UserPlusIcon
-                    className="inline w-5 h-5 mr-1"
+                    className="mr-1 inline h-5 w-5"
                     aria-hidden="true"
                   />
                 }
@@ -70,7 +70,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 };
 
 import Layout from "~/components/layout/Layout";
-AuthPage.getLayout = function getLayout(page: any) {
+AuthPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
