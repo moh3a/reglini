@@ -2,7 +2,7 @@
 
 ## Todo
 
-- Add featured promotions, hotproducts and smart match
+- Add featured promotions and hotproducts
 
 ## Quickstart
 

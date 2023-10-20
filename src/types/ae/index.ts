@@ -322,3 +322,7 @@ export interface Affiliate_Base_Products_Cursor_Response {
 export interface Affiliate_Products_Result {
   aliexpress_affiliate_product_query_response: Affiliate_Base_Products_Cursor_Response;
 }
+
+export interface Affiliate_Smart_Match_Products_Result {
+  aliexpress_affiliate_product_smartmatch_response: Affiliate_Base_Products_Cursor_Response;
+}

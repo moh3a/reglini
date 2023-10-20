@@ -2,15 +2,15 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { useTranslations } from "next-intl";
-
 import type { AE_Language } from "ae_sdk";
+
 import type { ZAE_ProductShippingCarrier } from "~/types/zapiex";
 import type {
   IMessage,
   ProductProperty as IProductProperty,
   SelectedVariation,
 } from "~/types/index";
-import { Loading, Banner } from "~/components/shared";
+import { Loading, Banner, Title } from "~/components/shared";
 import {
   AddToCart,
   AddToWishlist,
@@ -26,6 +26,8 @@ import {
 import { api } from "~/utils/api";
 import { API_RESPONSE_MESSAGES, APP_NAME } from "~/config/constants";
 import { select_product_variation } from "~/utils/index";
+import { SkeletonProductsColumn } from "./SkeletonProducts";
+import { ProductCard } from "./ProductCard";
 
 export const ProductDetails = ({ id }: { id: string }) => {
   const router = useRouter();
@@ -116,6 +118,11 @@ export const ProductDetails = ({ id }: { id: string }) => {
   useEffect(() => {
     setSelectedVariationCallback();
   }, [setSelectedVariationCallback]);
+
+  const similarProductsQuery = api.aliexpress.affiliate.smartMatch.useQuery({
+    product_id: id,
+    target_language: router.locale?.toUpperCase() as AE_Language | undefined,
+  });
 
   const t = useTranslations("AliexpressPage");
 
@@ -215,6 +222,26 @@ export const ProductDetails = ({ id }: { id: string }) => {
             </div>
           </section>
           <ProductFeatures product={product.data?.data} />
+
+          <Title title={t("similarProducts")} center={true} />
+          {similarProductsQuery.isLoading && <SkeletonProductsColumn />}
+          {similarProductsQuery.isFetched &&
+            similarProductsQuery?.data?.data?.items &&
+            similarProductsQuery.data.data.items.length > 0 && (
+              <>
+                <div className="mx-2 my-6 grid grid-flow-row-dense grid-cols-1 gap-x-5 gap-y-8 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xl:gap-x-7">
+                  {similarProductsQuery.data.data.items.map(
+                    (similarproduct) => (
+                      <ProductCard
+                        product={similarproduct}
+                        setMessage={setMessage}
+                        key={similarproduct.productId}
+                      />
+                    ),
+                  )}
+                </div>
+              </>
+            )}
         </>
       )}
     </>

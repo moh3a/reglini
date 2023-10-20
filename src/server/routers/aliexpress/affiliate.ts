@@ -1,7 +1,11 @@
 import { z } from "zod";
+import type { AE_Language } from "ae_sdk";
 
 import { router, procedure } from "~/server/trpc";
-import { api_ae_affiliate_products } from "~/utils/ae/methods";
+import {
+  api_ae_affiliate_products,
+  api_ae_affiliate_smartmatchproducts,
+} from "~/utils/ae/methods";
 
 export const aeAffiliateRouter = router({
   search: procedure
@@ -21,6 +25,20 @@ export const aeAffiliateRouter = router({
           search:
             input.search ??
             ["best", "hot", "new"][Math.floor(Math.random() * 3)],
+        }),
+    ),
+  smartMatch: procedure
+    .input(
+      z.object({
+        product_id: z.string(),
+        target_language: z.custom<AE_Language>().optional(),
+      }),
+    )
+    .query(
+      async ({ ctx, input }) =>
+        await api_ae_affiliate_smartmatchproducts({
+          method: ctx.aliexpress.affiliate.smartMatch,
+          ...input,
         }),
     ),
 });

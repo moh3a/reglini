@@ -7,6 +7,7 @@ import {
 
 import type {
   API_AE_AFFILIATE_PRODUCTS_ARGUMENTS,
+  API_AE_AFFILIATE_SMARTMATCHPRODUCTS_ARGUMENTS,
   API_AE_DS_SHIPPING_ARGUMENTS,
   API_AE_DS_TRACKING_ARGUMENTS,
 } from "~/types/ae/pinky";
@@ -141,6 +142,21 @@ export const AE_Affiliate_getCategories = async () => {
   return categories;
 };
 
+export const AE_Affiliate_smartMatchProducts = async ({
+  product_id,
+  target_language,
+}: API_AE_AFFILIATE_SMARTMATCHPRODUCTS_ARGUMENTS) =>
+  await affiliate_client.smartMatchProducts({
+    device_id: "adid",
+    country: "DZ",
+    page_no: 1,
+    product_id,
+    target_currency: "USD",
+    target_language,
+    tracking_id: "reglinidz",
+    user: "dz2960391498ltrae",
+  });
+
 export const ALIEXPRESS = {
   ds: {
     product: AE_DS_getProduct,
@@ -153,5 +169,6 @@ export const ALIEXPRESS = {
     hotproducts: AE_Affiliate_Hotproducts,
     searchProducts: AE_Affiliate_Query_Products,
     categories: AE_Affiliate_getCategories,
+    smartMatch: AE_Affiliate_smartMatchProducts,
   },
 };

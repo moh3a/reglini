@@ -1,7 +1,8 @@
-import type { Result } from "ae_sdk";
+import type { AE_Language, Result } from "ae_sdk";
 
-import type{
+import type {
   Affiliate_Products_Result,
+  Affiliate_Smart_Match_Products_Result,
   DS_Shipping_Info_Result,
   DS_Tracking_Info_Result,
 } from ".";
@@ -15,7 +16,7 @@ export interface API_AE_DS_SHIPPING_ARGUMENTS {
 export interface API_AE_DS_SHIPPING_PARAMS
   extends API_AE_DS_SHIPPING_ARGUMENTS {
   method: (
-    args: API_AE_DS_SHIPPING_ARGUMENTS
+    args: API_AE_DS_SHIPPING_ARGUMENTS,
   ) => Result<DS_Shipping_Info_Result>;
 }
 
@@ -28,7 +29,7 @@ export interface API_AE_DS_TRACKING_ARGUMENTS {
 export interface API_AE_DS_TRACKING_PARAMS
   extends API_AE_DS_TRACKING_ARGUMENTS {
   method: (
-    args: API_AE_DS_TRACKING_ARGUMENTS
+    args: API_AE_DS_TRACKING_ARGUMENTS,
   ) => Result<DS_Tracking_Info_Result>;
 }
 
@@ -43,6 +44,18 @@ export interface API_AE_AFFILIATE_PRODUCTS_ARGUMENTS {
 export interface API_AE_AFFILIATE_PRODUCTS_PARAMS
   extends API_AE_AFFILIATE_PRODUCTS_ARGUMENTS {
   method: (
-    args: API_AE_AFFILIATE_PRODUCTS_ARGUMENTS
+    args: API_AE_AFFILIATE_PRODUCTS_ARGUMENTS,
   ) => Result<Affiliate_Products_Result>;
+}
+
+export interface API_AE_AFFILIATE_SMARTMATCHPRODUCTS_ARGUMENTS {
+  product_id: string;
+  target_language?: AE_Language;
+}
+
+export interface API_AE_AFFILIATE_SMARTMATCHPRODUCTS_PARAMS
+  extends API_AE_AFFILIATE_SMARTMATCHPRODUCTS_ARGUMENTS {
+  method: (
+    args: API_AE_AFFILIATE_SMARTMATCHPRODUCTS_ARGUMENTS,
+  ) => Result<Affiliate_Smart_Match_Products_Result>;
 }

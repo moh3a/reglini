@@ -205,7 +205,8 @@
       "communication": "Communication Rating",
       "item": "Items as Described Rating",
       "speed": "Shipping Speed Rating"
-    }
+    },
+    "similarProducts": "Similar Products"
   },
   "AuthPage": {
     "forgotPassword": {

@@ -1,7 +1,11 @@
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
-import { ae_affiliate_products, ae_shipping } from "~/utils/ae/convert_to_zapiex";
+import {
+  ae_affiliate_products,
+  ae_shipping,
+} from "~/utils/ae/convert_to_zapiex";
 import type {
   API_AE_AFFILIATE_PRODUCTS_PARAMS,
+  API_AE_AFFILIATE_SMARTMATCHPRODUCTS_PARAMS,
   API_AE_DS_SHIPPING_PARAMS,
   API_AE_DS_TRACKING_PARAMS,
 } from "~/types/ae/pinky";
@@ -26,14 +30,14 @@ export const api_ae_ds_shipping = async ({
       ) {
         const shipping = ae_shipping(
           result.data.aliexpress_logistics_buyer_freight_calculate_response
-            .result.aeop_freight_calculate_result_for_buyer_d_t_o_list
+            .result.aeop_freight_calculate_result_for_buyer_d_t_o_list,
         );
         return { success: true, data: shipping };
       } else if (
         !result.data.aliexpress_logistics_buyer_freight_calculate_response
           .result.success &&
         result.data.aliexpress_logistics_buyer_freight_calculate_response.result.error_desc.includes(
-          "sku"
+          "sku",
         )
       ) {
         return {
@@ -114,11 +118,46 @@ export const api_ae_affiliate_products = async ({
 
     if (
       response.ok &&
-      response.data.aliexpress_affiliate_product_query_response.resp_result?.result
+      response.data.aliexpress_affiliate_product_query_response.resp_result
+        ?.result
     ) {
       const data = ae_affiliate_products(
         response.data.aliexpress_affiliate_product_query_response.resp_result
-          .result
+          .result,
+      );
+      return { success: true, data };
+    } else
+      return {
+        success: false,
+        error: API_RESPONSE_MESSAGES.AE_AFFILIATE_SEARCH_PRODUCTS_FAIL,
+      };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      error: API_RESPONSE_MESSAGES.AE_AFFILIATE_SEARCH_PRODUCTS_ERROR,
+    };
+  }
+};
+
+export const api_ae_affiliate_smartmatchproducts = async ({
+  method,
+  product_id,
+  target_language,
+}: API_AE_AFFILIATE_SMARTMATCHPRODUCTS_PARAMS) => {
+  try {
+    const response = await method({
+      product_id,
+      target_language,
+    });
+    if (
+      response.ok &&
+      response.data.aliexpress_affiliate_product_smartmatch_response.resp_result
+        .result
+    ) {
+      const data = ae_affiliate_products(
+        response.data.aliexpress_affiliate_product_smartmatch_response
+          .resp_result.result,
       );
       return { success: true, data };
     } else
