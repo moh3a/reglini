@@ -8,7 +8,6 @@ import { db } from "~/server/db";
 import { getServerAuthSession } from "~/server/auth";
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
 import { ALIEXPRESS } from "~/utils/ae";
-import { ZAPIEX } from "~/utils/zapiex";
 
 interface CreateContextOptions {
   session: Session | null;
@@ -19,7 +18,6 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
     session: opts.session,
     db,
     aliexpress: ALIEXPRESS,
-    zapiex: ZAPIEX,
   };
 };
 

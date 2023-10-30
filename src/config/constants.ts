@@ -28,12 +28,6 @@ export const API_RESPONSE_MESSAGES = {
     "Failed to get Aliexpress product's tracking info, Code: ADPTIF",
   AE_DS_PRODUCT_TRACKING_INFO_ERROR:
     "Failed to get Aliexpress product's tracking info, Code: ADPTIE",
-  ZAPIEX_SEARCH_PRODUCTS_FAIL:
-    "Failed to query Aliexpress products, Code: ZSPF",
-  ZAPIEX_SEARCH_PRODUCTS_ERROR:
-    "Failed to query Aliexpress products, Code: ZSPE",
-  ZAPIEX_PRODUCT_DETAILS_FAIL: "Failed to get product details, Code: ZPDF",
-  ZAPIEX_PRODUCT_DETAILS_ERROR: "Failed to get product details, Code: ZPDE",
 };
 
 export const DEFAULT_PAGE_SIZE = 18;

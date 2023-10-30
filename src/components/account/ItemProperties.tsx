@@ -1,5 +1,5 @@
 import type { Prisma, Cart, Product } from "@prisma/client";
-import type { ZAE_ProductVariationProperties } from "~/types/zapiex";
+import type { RAE_ProductVariationProperties } from "~/types/ae/rae";
 
 import { isArray } from "lodash";
 
@@ -8,10 +8,10 @@ const ItemProperties = ({
 }: {
   product: Omit<Product, "orderId"> | Cart;
 }) => (
-  <div className="flex flex-wrap items-end justify-between text-xs my-2">
+  <div className="my-2 flex flex-wrap items-end justify-between text-xs">
     {product.properties &&
       isArray(product.properties as Prisma.JsonValue) &&
-      (product.properties as unknown as ZAE_ProductVariationProperties[])?.map(
+      (product.properties as unknown as RAE_ProductVariationProperties[])?.map(
         (property) => (
           <div key={property.id} className={`hover:underline`}>
             {property.name}:
@@ -19,7 +19,7 @@ const ItemProperties = ({
               {property.value.name}
             </span>
           </div>
-        )
+        ),
       )}
   </div>
 );

@@ -33,7 +33,6 @@ export const env = createEnv({
     ALIEXPRESS_USERNAME: z.string(),
     ALIEXPRESS_PASSWORD: z.string(),
     CLOUDINARY_URL: z.string(),
-    ZAPIEX_KEY: z.string(),
     SENDGRID_API_KEY: z.string(),
     SENDGRID_SMTP_SERVICE: z.string(),
     SENDGRID_SMTP_USERNAME: z.string(),

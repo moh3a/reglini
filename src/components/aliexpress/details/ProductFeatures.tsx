@@ -3,7 +3,7 @@ import { type ReactNode, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW } from "~/config/design";
-import type { ZAE_Product, ZAE_ProductAttribute } from "~/types/zapiex";
+import type { RAE_Product, RAE_ProductAttribute } from "~/types/ae/rae";
 import { StoreInfo } from "~/components/aliexpress/details";
 
 const Item = ({ title, children }: { title: string; children: ReactNode }) => {
@@ -48,13 +48,13 @@ const Item = ({ title, children }: { title: string; children: ReactNode }) => {
   );
 };
 
-export function ProductFeatures({ product }: { product: ZAE_Product }) {
+export function ProductFeatures({ product }: { product: RAE_Product }) {
   const [attributes, setAttributes] = useState([
     { id: "", name: "", value: [""] },
   ]);
 
   useEffect(() => {
-    const att: (Omit<ZAE_ProductAttribute, "value"> & { value: string[] })[] =
+    const att: (Omit<RAE_ProductAttribute, "value"> & { value: string[] })[] =
       [];
     if (product.hasAttributes) {
       product.attributes.map((attribute) => {

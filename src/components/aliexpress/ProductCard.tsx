@@ -6,14 +6,14 @@ import { HeartIcon } from "@heroicons/react/24/solid";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 
-import type { ZAE_SearchItem } from "~/types/zapiex";
+import type { RAE_SearchItem } from "~/types/ae/rae";
 import type { IMessage } from "~/types/index";
 import { GetPrice } from "~/utils/index";
 import { useFinance } from "~/utils/store";
 import { api } from "~/utils/api";
 
 interface ProductCardProps {
-  product: ZAE_SearchItem;
+  product: RAE_SearchItem;
   setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
 }
 
@@ -24,7 +24,7 @@ export const ProductCard = ({ product, setMessage }: ProductCardProps) => {
   const { status } = useSession();
   const wishlistMutation = api.wishlist.add.useMutation();
 
-  const wishlistHandler = async (product: ZAE_SearchItem) => {
+  const wishlistHandler = async (product: RAE_SearchItem) => {
     if (status === "unauthenticated") {
       setTimeout(() => {
         setMessage({ type: undefined, text: undefined });

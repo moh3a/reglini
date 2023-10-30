@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import type { Product } from "@prisma/client";
 import type { AE_Logistics_Address, AE_Product_Item } from "~/types/ae";
-import type { ZAE_ShippingAddres } from "~/types/zapiex";
+import type { RAE_ShippingAddres } from "~/types/ae/rae";
 
 import { router, protectedProcedure } from "~/server/trpc";
 import SendEmail from "~/utils/send_email";
@@ -95,7 +95,7 @@ export const orderRouter = router({
   create: protectedProcedure
     .input(
       z.object({
-        shippingAddress: z.custom<ZAE_ShippingAddres>(),
+        shippingAddress: z.custom<RAE_ShippingAddres>(),
         products: z.custom<Omit<Product, "orderId">[]>(),
       }),
     )
@@ -258,29 +258,35 @@ export const orderRouter = router({
         select: { user: { select: { email: true } } },
       });
       if (order?.user.email === ctx.session.user.email) {
-        const result = await ctx.zapiex.cancelOrder(input.order_id);
-        if (result.success) {
-          await ctx.db.order.update({
-            where: { id: input.order_id },
-            data: {
-              cancelled: true,
-              shippingAddress: {
-                delete: true,
-              },
-              products: {
-                deleteMany: {},
-              },
+        SendEmail({
+          from: "support@reglini-dz.com",
+          to: "moh3a@reglini-dz.com",
+          subject: `Cancel order request made by ${ctx.session.user.email}`,
+          text: `
+          <h2>
+          User with email address ${ctx.session.user.email} has requested you to cancel his order.
+          </h2>
+          <p>The order with the ID ${input.order_id}.</p>
+          <p>A response should be sent to the user if it is not possible to cancel the order.</p>
+          `,
+        });
+
+        await ctx.db.order.update({
+          where: { id: input.order_id },
+          data: {
+            cancelled: true,
+            shippingAddress: {
+              delete: true,
             },
-          });
-          return {
-            success: true,
-            message: "Successfully cancelled this order.",
-          };
-        } else
-          return {
-            success: false,
-            error: API_RESPONSE_MESSAGES.ERROR_OCCURED,
-          };
+            products: {
+              deleteMany: {},
+            },
+          },
+        });
+        return {
+          success: true,
+          message: "Successfully requested this order to be cancelled.",
+        };
       }
       return {
         success: false,

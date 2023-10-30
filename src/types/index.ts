@@ -68,8 +68,8 @@ export interface ProductProperty {
   value: string;
 }
 
-import type { ZAE_ProductVariation } from "~/types/zapiex";
-export interface SelectedVariation extends ZAE_ProductVariation {
+import type { RAE_ProductVariation } from "~/types/ae/rae";
+export interface SelectedVariation extends RAE_ProductVariation {
   quantity?: number;
 }
 

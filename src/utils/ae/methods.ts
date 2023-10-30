@@ -1,8 +1,5 @@
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
-import {
-  ae_affiliate_products,
-  ae_shipping,
-} from "~/utils/ae/convert_to_zapiex";
+import { ae_affiliate_products, ae_shipping } from "~/utils/ae/convert_to_rae";
 import type {
   API_AE_AFFILIATE_PRODUCTS_PARAMS,
   API_AE_AFFILIATE_SMARTMATCHPRODUCTS_PARAMS,

@@ -10,9 +10,9 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/solid";
 import { useTranslations } from "next-intl";
 
 import type {
-  ZAE_ProductShipping,
-  ZAE_ProductShippingCarrier,
-} from "~/types/zapiex";
+  RAE_ProductShipping,
+  RAE_ProductShippingCarrier,
+} from "~/types/ae/rae";
 import {
   BG_TRANSPARENT_BACKDROP,
   ROUNDED,
@@ -23,9 +23,9 @@ import { GetPrice } from "~/utils/index";
 import { useFinance } from "~/utils/store";
 
 interface ProductShippingProps {
-  shipping?: ZAE_ProductShipping;
+  shipping?: RAE_ProductShipping;
   setSelectedShipping: Dispatch<
-    SetStateAction<ZAE_ProductShippingCarrier | undefined>
+    SetStateAction<RAE_ProductShippingCarrier | undefined>
   >;
 }
 
@@ -36,7 +36,7 @@ export const ProductShipping = ({
   const t = useTranslations("AliexpressPage");
   const { commission, euro } = useFinance();
   const [selected, setSelected] = useState<
-    ZAE_ProductShippingCarrier | undefined
+    RAE_ProductShippingCarrier | undefined
   >(
     shipping?.carriers && shipping.carriers.length > 0
       ? shipping.carriers[0]

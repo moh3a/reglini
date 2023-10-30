@@ -2,10 +2,10 @@
 import type { Dispatch, SetStateAction } from "react";
 
 import { ROUNDED, SHADOW } from "~/config/design";
-import type { ZAE_Product } from "~/types/zapiex";
+import type { RAE_Product } from "~/types/ae/rae";
 
 interface ProductImageProps {
-  product: ZAE_Product;
+  product: RAE_Product;
   showImage: string;
   setShowImage: Dispatch<SetStateAction<string>>;
 }
@@ -16,7 +16,7 @@ export const ProductImage = ({
   setShowImage,
 }: ProductImageProps) => {
   return (
-    <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+    <div className="mt-6 w-full lg:mt-0 lg:w-1/2 lg:py-6 lg:pl-10">
       <div className="mb-4">
         <img
           src={showImage}
@@ -24,13 +24,13 @@ export const ProductImage = ({
           className={ROUNDED + " " + SHADOW}
         />
       </div>
-      <div className="flex items-center flex-wrap">
+      <div className="flex flex-wrap items-center">
         {product.productImages.map((image) => {
           return (
             <div
               key={image}
               onClick={() => setShowImage(image)}
-              className={`ml-2 p-1 border-2 text-center border-gray-300 hover:border-aliexpress focus:outline-none cursor-pointer ${ROUNDED}`}
+              className={`ml-2 cursor-pointer border-2 border-gray-300 p-1 text-center hover:border-aliexpress focus:outline-none ${ROUNDED}`}
             >
               <div className="h-10 w-10">
                 <img

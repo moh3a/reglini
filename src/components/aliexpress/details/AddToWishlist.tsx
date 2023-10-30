@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { HeartIcon } from "@heroicons/react/24/solid";
 import { useTranslations } from "next-intl";
 
-import type { ZAE_Product } from "~/types/zapiex";
+import type { RAE_Product } from "~/types/ae/rae";
 import type { IMessage } from "~/types/index";
 import { Button } from "~/components/shared";
 import { api } from "~/utils/api";
@@ -11,7 +11,7 @@ import { GetPrice } from "~/utils/index";
 import { useFinance } from "~/utils/store";
 
 interface AddToWishlistProps {
-  product: ZAE_Product;
+  product: RAE_Product;
   setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
 }
 

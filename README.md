@@ -14,7 +14,3 @@
 - Then start the production server:
   - `npm run start` for the local network;
 - App uses [Postgres](https://www.postgresql.org/download/) by default, to change the datasource, go to `prisma/schema.prisma` and change the provider along with the URI in the .env file;
-
-## Issues
-
-ALMOST ALL ZAPIEX SERVICES ARE DOWN.

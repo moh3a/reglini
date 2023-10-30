@@ -1,6 +1,6 @@
 import type { Price } from "..";
 
-export interface ZAE_Product {
+export interface RAE_Product {
   productUrl: string;
   productId: string;
   statusId: string;
@@ -27,7 +27,7 @@ export interface ZAE_Product {
         id: string;
         name: string;
         level: number;
-      }
+      },
     ];
   };
   seller: {
@@ -45,28 +45,28 @@ export interface ZAE_Product {
       openingDate: string;
     };
     detailedRatings: {
-      itemAsDescribed: ZAE_SellerRatings;
-      communication: ZAE_SellerRatings;
-      shippingSpeed: ZAE_SellerRatings;
+      itemAsDescribed: RAE_SellerRatings;
+      communication: RAE_SellerRatings;
+      shippingSpeed: RAE_SellerRatings;
     };
     ratingsHistory?: {
-      total: ZAE_ProductRatings;
-      lastMonth: ZAE_ProductRatings;
-      lastThreeMonths: ZAE_ProductRatings;
-      lastSixMonths: ZAE_ProductRatings;
+      total: RAE_ProductRatings;
+      lastMonth: RAE_ProductRatings;
+      lastThreeMonths: RAE_ProductRatings;
+      lastSixMonths: RAE_ProductRatings;
     };
   };
   hasSinglePrice: boolean;
   price?: {
-    web: ZAE_ProductPrice;
-    app: ZAE_ProductPrice;
+    web: RAE_ProductPrice;
+    app: RAE_ProductPrice;
   };
   priceSummary?: {
-    web: ZAE_ProductPriceSummary;
-    app: ZAE_ProductPriceSummary;
+    web: RAE_ProductPriceSummary;
+    app: RAE_ProductPriceSummary;
   };
   hasAttributes: boolean;
-  attributes: ZAE_ProductAttribute[];
+  attributes: RAE_ProductAttribute[];
   hasReviewsRatings: boolean;
   reviewsRatings: {
     totalCount: number;
@@ -105,65 +105,65 @@ export interface ZAE_Product {
     };
   };
   hasProperties: boolean;
-  properties: ZAE_ProductProperties[];
+  properties: RAE_ProductProperties[];
   hasVariations: boolean;
-  variations: ZAE_ProductVariation[];
-  shipping?: ZAE_ProductShipping;
+  variations: RAE_ProductVariation[];
+  shipping?: RAE_ProductShipping;
   htmlDescription: string;
 }
 
-export interface ZAE_ProductShipping {
+export interface RAE_ProductShipping {
   isAvailableForSelectedCountries: boolean;
   shipFrom?: string;
   currency?: string;
-  carriers?: ZAE_ProductShippingCarrier[];
+  carriers?: RAE_ProductShippingCarrier[];
 }
 
-export interface ZAE_ProductVariation {
+export interface RAE_ProductVariation {
   sku: string;
   stock?: number;
   imageUrl: string;
   thumbnailImageUrl: string;
-  properties: ZAE_ProductVariationProperties[];
+  properties: RAE_ProductVariationProperties[];
   price: {
-    web: ZAE_ProductPrice;
-    app: ZAE_ProductPrice;
+    web: RAE_ProductPrice;
+    app: RAE_ProductPrice;
   };
 }
 
-export interface ZAE_Price {
+export interface RAE_Price {
   value: number;
   display?: string;
 }
 
-export interface ZAE_PriceInterval {
-  min: ZAE_Price;
-  max: ZAE_Price;
+export interface RAE_PriceInterval {
+  min: RAE_Price;
+  max: RAE_Price;
 }
 
-export interface ZAE_ProductPrice {
-  originalPrice: ZAE_Price;
+export interface RAE_ProductPrice {
+  originalPrice: RAE_Price;
   hasDiscount: boolean;
   discountPercentage: number;
-  discountedPrice: ZAE_Price;
+  discountedPrice: RAE_Price;
   hasBulkPrice?: boolean;
   bulkMinQuantity?: number;
   bulkDiscountPercentage?: number;
-  bulkPrice?: ZAE_Price;
+  bulkPrice?: RAE_Price;
 }
 
-export interface ZAE_ProductPriceSummary {
-  originalPrice: ZAE_PriceInterval;
+export interface RAE_ProductPriceSummary {
+  originalPrice: RAE_PriceInterval;
   hasDiscount: boolean;
   discountPercentage: number;
-  discountedPrice: ZAE_PriceInterval;
+  discountedPrice: RAE_PriceInterval;
   hasBulkPrice?: boolean;
   bulkMinQuantity?: number;
   bulkDiscountPercentage?: number;
-  bulkPrice?: ZAE_PriceInterval;
+  bulkPrice?: RAE_PriceInterval;
 }
 
-export interface ZAE_SellerRatings {
+export interface RAE_SellerRatings {
   totalCount?: number;
   rating: {
     value: number;
@@ -172,7 +172,7 @@ export interface ZAE_SellerRatings {
   otherSellersDifference?: number;
 }
 
-export interface ZAE_ProductRatings {
+export interface RAE_ProductRatings {
   positive: {
     count: number;
     percentage: number;
@@ -187,7 +187,7 @@ export interface ZAE_ProductRatings {
   };
 }
 
-export interface ZAE_ProductAttribute {
+export interface RAE_ProductAttribute {
   id: string;
   name: string;
   value: {
@@ -197,17 +197,17 @@ export interface ZAE_ProductAttribute {
   };
 }
 
-export interface ZAE_ProductShippingCarrier {
-  company: ZAE_CarrierInfo;
+export interface RAE_ProductShippingCarrier {
+  company: RAE_CarrierInfo;
   hasTracking?: boolean;
-  price: Omit<ZAE_Price, "display">;
+  price: Omit<RAE_Price, "display">;
   hasDiscount?: boolean;
   discountPercentage?: number;
   estimatedDeliveryDate?: string;
   deliveryTimeInDays?: Partial<Price>;
 }
 
-export interface ZAE_ProductPropertyDetails {
+export interface RAE_ProductPropertyDetails {
   id: string;
   name: string;
   hasImage?: boolean;
@@ -215,36 +215,36 @@ export interface ZAE_ProductPropertyDetails {
   thumbnailImageUrl?: string;
 }
 
-export interface ZAE_ProductProperties {
+export interface RAE_ProductProperties {
   id: string;
   name: string;
-  values: ZAE_ProductPropertyDetails[];
+  values: RAE_ProductPropertyDetails[];
 }
 
-export interface ZAE_ProductVariationProperties {
+export interface RAE_ProductVariationProperties {
   id?: string;
   name?: string;
-  value: ZAE_ProductPropertyDetails;
+  value: RAE_ProductPropertyDetails;
 }
 
-export interface ZAE_SearchItem {
+export interface RAE_SearchItem {
   productId: string;
   title: string;
   imageUrl: string;
   averageRating: number;
-  productMinPrice: Omit<ZAE_Price, "display">;
-  shippingMinPrice?: Omit<ZAE_Price, "display">;
+  productMinPrice: Omit<RAE_Price, "display">;
+  shippingMinPrice?: Omit<RAE_Price, "display">;
   totalOrders?: number;
 }
 
-export interface ZAE_Search {
+export interface RAE_Search {
   totalCount: number;
   numberOfPages: number;
   resultsPerPage: number;
   currency: string;
-  items: ZAE_SearchItem[];
+  items: RAE_SearchItem[];
   availableShipFromCountries?: [string];
-  refiningAttributes?: ZAE_ProductAttribute[];
+  refiningAttributes?: RAE_ProductAttribute[];
   refiningSearchCategories?: [
     {
       id: string;
@@ -254,13 +254,13 @@ export interface ZAE_Search {
         {
           id: string;
           name: string;
-        }
+        },
       ];
-    }
+    },
   ];
 }
 
-export interface ZAE_ShippingAddres {
+export interface RAE_ShippingAddres {
   name: string;
   countryCode: string;
   province: string;
@@ -272,7 +272,7 @@ export interface ZAE_ShippingAddres {
   phoneCountry: "+213";
 }
 
-export interface ZAE_OrderProductDetails {
+export interface RAE_OrderProductDetails {
   productId: string;
   title: string;
   subStatus: string;
@@ -281,18 +281,18 @@ export interface ZAE_OrderProductDetails {
   quantity: number;
   memo: string;
   price: {
-    total: ZAE_Price;
-    unit: ZAE_Price;
+    total: RAE_Price;
+    unit: RAE_Price;
   };
   hasRefund: boolean;
-  carrier: ZAE_CarrierInfo;
+  carrier: RAE_CarrierInfo;
   processingTimeInDays: number;
   deliveryTimeInDays: Price;
-  shippingPrice: ZAE_Price;
+  shippingPrice: RAE_Price;
   hasIssue: boolean;
   issueStatus: string;
   sku: string;
-  properties: ZAE_ProductAttribute[];
+  properties: RAE_ProductAttribute[];
   daysUntilBuyerProtectionStart: number;
   daysUntilBuyerProtectionEnd: number;
   canOpenDispute: boolean;
@@ -301,7 +301,7 @@ export interface ZAE_OrderProductDetails {
   canSubmitWarranty: boolean;
 }
 
-export interface ZAE_CarrierInfo {
+export interface RAE_CarrierInfo {
   id: string;
   name: string;
 }

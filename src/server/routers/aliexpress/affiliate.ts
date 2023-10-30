@@ -17,16 +17,15 @@ export const aeAffiliateRouter = router({
         page_no: z.number().optional(),
       }),
     )
-    .query(
-      async ({ ctx, input }) =>
-        await api_ae_affiliate_products({
-          method: ctx.aliexpress.affiliate.searchProducts,
-          ...input,
-          search:
-            input.search ??
-            ["best", "hot", "new"][Math.floor(Math.random() * 3)],
-        }),
-    ),
+    .query(async ({ ctx, input }) => {
+      console.log(await ctx.aliexpress.affiliate.featuredPromos());
+      return await api_ae_affiliate_products({
+        method: ctx.aliexpress.affiliate.searchProducts,
+        ...input,
+        search:
+          input.search ?? ["best", "hot", "new"][Math.floor(Math.random() * 3)],
+      });
+    }),
   smartMatch: procedure
     .input(
       z.object({

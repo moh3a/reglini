@@ -4,17 +4,17 @@ import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
 import type { IMessage, SelectedVariation } from "~/types/index";
-import type { ZAE_Product, ZAE_ProductShippingCarrier } from "~/types/zapiex";
+import type { RAE_Product, RAE_ProductShippingCarrier } from "~/types/ae/rae";
 import { Button } from "~/components/shared";
 import { api } from "~/utils/api";
 import { GetPrice } from "~/utils/index";
 import { useFinance } from "~/utils/store";
 
 interface AddToCartProps {
-  product: ZAE_Product;
+  product: RAE_Product;
   setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
   selectedVariation?: SelectedVariation;
-  selectedShipping?: ZAE_ProductShippingCarrier;
+  selectedShipping?: RAE_ProductShippingCarrier;
 }
 
 export const AddToCart = ({

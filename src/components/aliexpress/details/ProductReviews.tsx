@@ -1,10 +1,10 @@
-import type { ZAE_Product } from "~/types/zapiex";
+import type { RAE_Product } from "~/types/ae/rae";
 import { useTranslations } from "next-intl";
 
-export const ProductReviews = ({ product }: { product: ZAE_Product }) => {
+export const ProductReviews = ({ product }: { product: RAE_Product }) => {
   const t = useTranslations("AliexpressPage.reviews");
   return (
-    <div className={`flex mb-4`}>
+    <div className={`mb-4 flex`}>
       <span className={`flex items-center`}>
         {product.hasReviewsRatings && (
           <>
@@ -15,7 +15,7 @@ export const ProductReviews = ({ product }: { product: ZAE_Product }) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                className="w-4 h-4 text-aliexpress inline"
+                className="inline h-4 w-4 text-aliexpress"
                 viewBox="0 0 24 24"
               >
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>

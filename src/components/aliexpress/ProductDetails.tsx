@@ -4,7 +4,7 @@ import Head from "next/head";
 import { useTranslations } from "next-intl";
 import type { AE_Language } from "ae_sdk";
 
-import type { ZAE_ProductShippingCarrier } from "~/types/zapiex";
+import type { RAE_ProductShippingCarrier } from "~/types/ae/rae";
 import type {
   IMessage,
   ProductProperty as IProductProperty,
@@ -34,7 +34,7 @@ export const ProductDetails = ({ id }: { id: string }) => {
   const [quantity, setQuantity] = useState(1);
   const [showImage, setShowImage] = useState("/placeholder.png");
   const [selectedShipping, setSelectedShipping] = useState<
-    ZAE_ProductShippingCarrier | undefined
+    RAE_ProductShippingCarrier | undefined
   >();
 
   const product = api.aliexpress.ds.product.useQuery(

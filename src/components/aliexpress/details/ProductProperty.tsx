@@ -6,11 +6,11 @@ import {
 } from "@heroicons/react/24/outline";
 
 import { ROUNDED } from "~/config/design";
-import type { ZAE_ProductProperties } from "~/types/zapiex";
+import type { RAE_ProductProperties } from "~/types/ae/rae";
 import type { ProductProperty as IProductProperty } from "~/types/index";
 
 interface ProductPropertyProps {
-  property: ZAE_ProductProperties;
+  property: RAE_ProductProperties;
   setShowImage: Dispatch<SetStateAction<string>>;
   selectedProperties: IProductProperty[];
   setSelectedProperties: Dispatch<SetStateAction<IProductProperty[]>>;

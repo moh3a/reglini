@@ -16,15 +16,15 @@ import { shuffle } from "..";
 import { env } from "~/env.mjs";
 
 const ds_client = new DropshipperClient({
-  app_key: env.ALIEXPRESS_DS_APP_KEY ?? "",
-  app_secret: env.ALIEXPRESS_DS_APP_SECRET ?? "",
-  session: env.ALIEXPRESS_DS_ACCESS_TOKEN ?? "",
+  app_key: env.ALIEXPRESS_DS_APP_KEY,
+  app_secret: env.ALIEXPRESS_DS_APP_SECRET,
+  session: env.ALIEXPRESS_DS_ACCESS_TOKEN,
 });
 
 const affiliate_client = new AffiliateClient({
-  app_key: env.ALIEXPRESS_AFFILIATE_APP_KEY ?? "",
-  app_secret: env.ALIEXPRESS_AFFILIATE_APP_SECRET ?? "",
-  session: env.ALIEXPRESS_AFFILIATE_ACCESS_TOKEN ?? "",
+  app_key: env.ALIEXPRESS_AFFILIATE_APP_KEY,
+  app_secret: env.ALIEXPRESS_AFFILIATE_APP_SECRET,
+  session: env.ALIEXPRESS_AFFILIATE_ACCESS_TOKEN,
 });
 
 export const AE_DS_getProduct = async (
@@ -103,17 +103,17 @@ export const AE_Affiliate_Query_Products = async ({
   });
 
 // ! NOT USED
-export const AE_Affiliate_Hotproducts = async (
-  category_ids: string,
-  keywords?: string,
-  page_size?: number,
-  page_no?: number,
-  locale?: string,
-) => {
+export const AE_Affiliate_Hotproducts = async ({
+  search,
+  category_ids,
+  page_size,
+  page_no,
+  locale,
+}: API_AE_AFFILIATE_PRODUCTS_ARGUMENTS) => {
   const result = await affiliate_client.getHotProducts({
     category_ids,
     fields: "commission_rate,sale_price",
-    keywords,
+    keywords: search,
     page_no: page_no?.toString(),
     page_size: page_size?.toString(),
     platform_product_type: "ALL",
@@ -157,6 +157,9 @@ export const AE_Affiliate_smartMatchProducts = async ({
     user: "dz2960391498ltrae",
   });
 
+export const AE_Affiliate_featuredPromos = async () =>
+  await affiliate_client.featuredPromoInfo({});
+
 export const ALIEXPRESS = {
   ds: {
     product: AE_DS_getProduct,
@@ -170,5 +173,6 @@ export const ALIEXPRESS = {
     searchProducts: AE_Affiliate_Query_Products,
     categories: AE_Affiliate_getCategories,
     smartMatch: AE_Affiliate_smartMatchProducts,
+    featuredPromos: AE_Affiliate_featuredPromos,
   },
 };

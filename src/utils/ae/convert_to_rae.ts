@@ -1,6 +1,3 @@
-// mainly for converting the provided ALIEXPRESS (DS / AFFILIATE) API data
-// to one that is compatible with ZAPIEX to use both apis interchangeably
-
 import type {
   Affiliate_Base_Products_Cursor,
   DS_Product,
@@ -10,24 +7,24 @@ import type {
   DS_Shipping_Details,
 } from "~/types/ae";
 import type {
-  ZAE_PriceInterval,
-  ZAE_Product,
-  ZAE_ProductAttribute,
-  ZAE_ProductPrice,
-  ZAE_ProductPriceSummary,
-  ZAE_ProductProperties,
-  ZAE_ProductShipping,
-  ZAE_ProductShippingCarrier,
-  ZAE_ProductVariation,
-  ZAE_ProductVariationProperties,
-  ZAE_Search,
-  ZAE_SearchItem,
-} from "~/types/zapiex";
+  RAE_PriceInterval,
+  RAE_Product,
+  RAE_ProductAttribute,
+  RAE_ProductPrice,
+  RAE_ProductPriceSummary,
+  RAE_ProductProperties,
+  RAE_ProductShipping,
+  RAE_ProductShippingCarrier,
+  RAE_ProductVariation,
+  RAE_ProductVariationProperties,
+  RAE_Search,
+  RAE_SearchItem,
+} from "~/types/ae/rae";
 import { calculate_discount, parse_locale } from "~/utils/index";
 
 export const parse_ae_product_attributes = (
   initial_array: DS_Product_Attributes[],
-): ZAE_ProductAttribute[] => {
+): RAE_ProductAttribute[] => {
   return initial_array.map((value) => ({
     id: value.attr_name_id?.toString(),
     name: value.attr_name,
@@ -40,7 +37,7 @@ export const parse_ae_product_attributes = (
 
 export const parse_ae_product_properties = (
   init: DS_Product_SKU_Properties,
-  parsed_array: ZAE_ProductProperties[],
+  parsed_array: RAE_ProductProperties[],
 ) => {
   const property = {
     id: (init.property_value_id_long ?? init.property_value_id)?.toString(),
@@ -74,7 +71,7 @@ export const parse_ae_product_properties = (
 
 export const parse_ae_product_variation_properties = (
   init: DS_Product_SKU_Properties,
-  parsed_array: ZAE_ProductVariationProperties[],
+  parsed_array: RAE_ProductVariationProperties[],
 ) => {
   const property = {
     id: (init.property_value_id_long ?? init.property_value_id)?.toString(),
@@ -103,8 +100,8 @@ export const parse_ae_product_variation_properties = (
 
 export const parse_ae_property_price = (
   sku: DS_Product_SKU_Variation,
-  originalPrice: ZAE_PriceInterval,
-  discountedPrice: ZAE_PriceInterval,
+  originalPrice: RAE_PriceInterval,
+  discountedPrice: RAE_PriceInterval,
 ) => {
   if (originalPrice.max.value < parseFloat(sku.sku_price)) {
     originalPrice.max.value = parseFloat(sku.sku_price);
@@ -132,14 +129,14 @@ export const get_product_discount = (
 };
 
 export const get_product_price_summary = (
-  price: ZAE_ProductPriceSummary,
+  price: RAE_ProductPriceSummary,
   variations: DS_Product_SKU_Variation[],
-): ZAE_ProductPriceSummary => {
-  const discountedPrice: ZAE_ProductPriceSummary["discountedPrice"] = {
+): RAE_ProductPriceSummary => {
+  const discountedPrice: RAE_ProductPriceSummary["discountedPrice"] = {
     min: { value: 1000000000 },
     max: { value: 0 },
   };
-  const originalPrice: ZAE_ProductPriceSummary["originalPrice"] = {
+  const originalPrice: RAE_ProductPriceSummary["originalPrice"] = {
     min: { value: 1000000000 },
     max: { value: 0 },
   };
@@ -174,9 +171,9 @@ export const get_product_price_summary = (
 };
 
 export const get_product_variation_price = (
-  price: ZAE_ProductPrice,
+  price: RAE_ProductPrice,
   variation: DS_Product_SKU_Variation,
-): ZAE_ProductPrice => {
+): RAE_ProductPrice => {
   const discount = get_product_discount(variation);
   // get original price
   price.originalPrice.value = parseFloat(variation.sku_price);
@@ -206,8 +203,8 @@ export const get_product_variation_price = (
 
 export const parse_ae_product_data = (
   data: DS_Product,
-  variations: ZAE_ProductVariation[],
-  properties: ZAE_ProductProperties[],
+  variations: RAE_ProductVariation[],
+  properties: RAE_ProductProperties[],
 ) => {
   const singlePrice: boolean[] = [];
   // VARIATIONS
@@ -215,7 +212,7 @@ export const parse_ae_product_data = (
     const imageUrl =
       variation.aeop_s_k_u_propertys?.find((sku) => sku.sku_image)?.sku_image ??
       "";
-    const variation_properties: ZAE_ProductVariationProperties[] = [];
+    const variation_properties: RAE_ProductVariationProperties[] = [];
     if (variation.aeop_s_k_u_propertys) {
       variation.aeop_s_k_u_propertys.forEach((props) => {
         // PROPERTIES
@@ -232,7 +229,7 @@ export const parse_ae_product_data = (
       singlePrice.push(true);
     else singlePrice.push(false);
 
-    const variation_price: ZAE_ProductPrice = {
+    const variation_price: RAE_ProductPrice = {
       hasDiscount: false,
       discountedPrice: { display: "", value: 0 },
       originalPrice: { display: "", value: 0 },
@@ -259,15 +256,15 @@ export const parse_ae_product_data = (
 
 export const convert_ae_product = (
   data: DS_Product,
-  attributes: ZAE_ProductAttribute[],
-  properties: ZAE_ProductProperties[],
-  variations: ZAE_ProductVariation[],
+  attributes: RAE_ProductAttribute[],
+  properties: RAE_ProductProperties[],
+  variations: RAE_ProductVariation[],
   hasSinglePrice: boolean,
   locale: string,
   totalStock: number,
-  price?: ZAE_ProductPrice,
-  priceSummary?: ZAE_ProductPriceSummary,
-): ZAE_Product => {
+  price?: RAE_ProductPrice,
+  priceSummary?: RAE_ProductPriceSummary,
+): RAE_Product => {
   return {
     productId: data.ae_item_base_info_dto.product_id.toString(),
     productUrl: `https://www.aliexpress.com/item/${data.ae_item_base_info_dto.product_id}.html`,
@@ -332,16 +329,16 @@ export const convert_ae_product = (
 };
 
 export const ae_product = (data: DS_Product, locale: string | undefined) => {
-  let attributes: ZAE_ProductAttribute[] = [];
-  const variations: ZAE_ProductVariation[] = [];
-  const properties: ZAE_ProductProperties[] = [];
-  let price: ZAE_ProductPrice | undefined = {
+  let attributes: RAE_ProductAttribute[] = [];
+  const variations: RAE_ProductVariation[] = [];
+  const properties: RAE_ProductProperties[] = [];
+  let price: RAE_ProductPrice | undefined = {
     hasDiscount: false,
     discountPercentage: 0,
     discountedPrice: { value: 0 },
     originalPrice: { value: 0 },
   };
-  let priceSummary: ZAE_ProductPriceSummary | undefined = {
+  let priceSummary: RAE_ProductPriceSummary | undefined = {
     hasDiscount: false,
     discountPercentage: 0,
     discountedPrice: { min: { value: 0 }, max: { value: 0 } },
@@ -388,7 +385,7 @@ export const ae_product = (data: DS_Product, locale: string | undefined) => {
 
 export const ae_shipping = (
   carriers: DS_Shipping_Details[],
-): ZAE_ProductShipping => {
+): RAE_ProductShipping => {
   if (carriers.length > 0) {
     return convert_ae_shipping_info(carriers);
   } else {
@@ -400,8 +397,8 @@ export const ae_shipping = (
 
 export const convert_ae_shipping_info = (
   shipment_carriers: DS_Shipping_Details[],
-): ZAE_ProductShipping => {
-  const carriers: ZAE_ProductShippingCarrier[] = shipment_carriers.map(
+): RAE_ProductShipping => {
+  const carriers: RAE_ProductShippingCarrier[] = shipment_carriers.map(
     (carrier) => ({
       price: { value: carrier.freight.amount },
       company: { id: carrier.service_name, name: carrier.service_name },
@@ -421,8 +418,8 @@ export const convert_ae_shipping_info = (
 
 export const ae_affiliate_products = (
   res: Affiliate_Base_Products_Cursor,
-): ZAE_Search => {
-  const items: ZAE_SearchItem[] | undefined = res.products?.map((product) => {
+): RAE_Search => {
+  const items: RAE_SearchItem[] | undefined = res.products?.map((product) => {
     return {
       productId: product.product_id?.toString() ?? "",
       title: product.product_title ?? "",

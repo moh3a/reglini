@@ -1,13 +1,13 @@
 import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW } from "~/config/design";
-import type { ZAE_Product } from "~/types/zapiex";
+import type { RAE_Product } from "~/types/ae/rae";
 import { GetPrice } from "~/utils/index";
 import { useFinance } from "~/utils/store";
 import type { SelectedVariation } from "~/types/index";
 
 interface ProductPriceProps {
-  product: ZAE_Product;
+  product: RAE_Product;
   selectedVariation?: SelectedVariation;
 }
 

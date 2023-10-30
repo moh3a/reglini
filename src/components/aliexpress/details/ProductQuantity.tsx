@@ -6,11 +6,11 @@ import {
 import { useTranslations } from "next-intl";
 
 import { NumberInput } from "~/components/shared";
-import type { ZAE_Product } from "~/types/zapiex";
+import type { RAE_Product } from "~/types/ae/rae";
 import type { SelectedVariation } from "~/types/index";
 
 interface ProductQuantityProps {
-  product: ZAE_Product;
+  product: RAE_Product;
   quantity: number;
   setQuantity: Dispatch<SetStateAction<number>>;
   selectedVariation?: SelectedVariation;

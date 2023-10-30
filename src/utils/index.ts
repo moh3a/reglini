@@ -3,9 +3,9 @@ import { ACCOUNT_TYPE, AUTH_PROVIDER } from "@prisma/client";
 
 import type { ProductProperty } from "~/types/index";
 import type {
-  ZAE_ProductVariation,
-  ZAE_ProductVariationProperties,
-} from "~/types/zapiex";
+  RAE_ProductVariation,
+  RAE_ProductVariationProperties,
+} from "~/types/ae/rae";
 import type { SelectedVariation } from "~/types/index";
 
 export const USER_FROM_TRPC_CTX = (session: Session) => {
@@ -86,7 +86,7 @@ export const parse_locale = (locale?: string | null) => {
 };
 
 export const validate_product_variation_quantity = (
-  product: ZAE_ProductVariation,
+  product: RAE_ProductVariation,
   quantity: number,
 ) => {
   if (product.stock && product.stock > 0 && product.stock >= quantity)
@@ -96,7 +96,7 @@ export const validate_product_variation_quantity = (
 
 export const check_property = (
   selected_property: ProductProperty | undefined,
-  sku_properties: ZAE_ProductVariationProperties[],
+  sku_properties: RAE_ProductVariationProperties[],
   check: boolean[],
 ) => {
   const sku_index = sku_properties.findIndex(
@@ -109,7 +109,7 @@ export const check_property = (
 };
 
 export const find_selected_sku = (
-  sku: ZAE_ProductVariation,
+  sku: RAE_ProductVariation,
   variation_properties: (ProductProperty | undefined)[],
   default_image: string,
   quantity: number,
@@ -133,7 +133,7 @@ export const find_selected_sku = (
 };
 
 export const select_product_variation = (
-  product_variations: ZAE_ProductVariation[],
+  product_variations: RAE_ProductVariation[],
   variation_properties: (ProductProperty | undefined)[],
   quantity: number,
   default_image: string,
