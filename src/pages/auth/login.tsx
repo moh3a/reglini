@@ -1,4 +1,4 @@
-import { useEffect, type ReactElement } from "react";
+import { useEffect } from "react";
 import type { GetServerSideProps } from "next";
 import { getCsrfToken, getProviders, useSession } from "next-auth/react";
 import Head from "next/head";
@@ -45,9 +45,6 @@ const LoginPage = ({ csrfToken, providers }: AuthProps) => {
 
 import pick from "lodash/pick";
 import Layout from "~/components/layout/Layout";
-LoginPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
 
 LoginPage.messages = ["AuthPage.login", Layout.messages].flat();
 

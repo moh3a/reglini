@@ -15,13 +15,8 @@ const NotFound = () => {
 };
 
 import type { GetStaticProps } from "next";
-import type { ReactElement } from "react";
 import pick from "lodash/pick";
-
 import Layout from "../components/layout/Layout";
-NotFound.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
 
 NotFound.messages = Layout.messages;
 

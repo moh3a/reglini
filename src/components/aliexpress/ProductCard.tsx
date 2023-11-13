@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import type { Dispatch, SetStateAction } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { HeartIcon } from "@heroicons/react/24/solid";
@@ -7,28 +6,25 @@ import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 
 import type { RAE_SearchItem } from "~/types/ae/rae";
-import type { IMessage } from "~/types/index";
 import { GetPrice } from "~/utils/index";
-import { useFinance } from "~/utils/store";
 import { api } from "~/utils/api";
+import { useFinance, useMessage } from "~/utils/store";
 
 interface ProductCardProps {
   product: RAE_SearchItem;
-  setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
 }
 
-export const ProductCard = ({ product, setMessage }: ProductCardProps) => {
+export const ProductCard = ({ product }: ProductCardProps) => {
   const t = useTranslations("AliexpressPage");
-  const { euro, commission } = useFinance();
 
   const { status } = useSession();
+  const { setMessage } = useMessage();
+  const { commission, euro } = useFinance();
+
   const wishlistMutation = api.wishlist.add.useMutation();
 
   const wishlistHandler = async (product: RAE_SearchItem) => {
     if (status === "unauthenticated") {
-      setTimeout(() => {
-        setMessage({ type: undefined, text: undefined });
-      }, 3000);
       setMessage({
         type: "error",
         text: "You should be logged in to do this action.",
@@ -52,8 +48,8 @@ export const ProductCard = ({ product, setMessage }: ProductCardProps) => {
             if (error) setMessage({ type: "error", text: error.message });
             if (data) {
               if (!data.success)
-                setMessage({ type: "error", text: data.error });
-              else setMessage({ type: "success", text: data.message });
+                setMessage({ type: "error", text: data.error ?? "" });
+              else setMessage({ type: "success", text: data.message ?? "" });
             }
           },
         },

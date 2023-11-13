@@ -1,4 +1,3 @@
-import { type ReactElement } from "react";
 import type { GetStaticProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -32,9 +31,6 @@ const DeleteAccountPage = () => {
 
 import Layout from "~/components/layout/Layout";
 import pick from "lodash/pick";
-DeleteAccountPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
 
 DeleteAccountPage.messages = ["AccountPage.delete", Layout.messages].flat();
 

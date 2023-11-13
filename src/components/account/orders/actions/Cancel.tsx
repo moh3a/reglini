@@ -1,36 +1,48 @@
 import type { Dispatch, SetStateAction } from "react";
-import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
 import { Button } from "~/components/shared";
 import { api } from "~/utils/api";
-import type { IMessage } from "~/types/index";
+import { useMessage } from "~/utils/store";
+import { useRouter } from "next/router";
 
 const Cancel = ({
   orderId,
   setIsOpen,
-  setMessage,
 }: {
   orderId: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
 }) => {
   const router = useRouter();
+  const { setTimedMessage } = useMessage();
   const cancelMutation = api.order.cancel.useMutation();
   const cancelHandler = () => {
     cancelMutation.mutate(
       { order_id: orderId },
       {
         onSettled(data, error) {
-          if (error) setMessage({ type: "error", text: error.message });
+          if (error)
+            setTimedMessage({
+              type: "error",
+              text: error.message ?? "",
+              duration: 3000,
+            });
           if (data) {
             if (data.success) {
-              setMessage({ type: "success", text: data.message });
-            } else setMessage({ type: "error", text: data.error });
+              setTimedMessage({
+                type: "success",
+                text: data.message ?? "",
+                duration: 3000,
+              });
+            } else
+              setTimedMessage({
+                type: "error",
+                text: data.error ?? "",
+                duration: 3000,
+              });
           }
           setIsOpen(false);
           setTimeout(() => {
-            setMessage({ type: undefined, text: undefined });
             void router.push("/account/orders");
           }, 3000);
         },

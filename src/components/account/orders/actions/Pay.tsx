@@ -28,9 +28,10 @@ import {
   TEXT_GRADIENT,
 } from "~/config/design";
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
-import { Banner, Button, Loading } from "~/components/shared";
+import { Button, Loading } from "~/components/shared";
 import { api } from "~/utils/api";
-import type { IMessage, ImageUploadApiResponse } from "~/types/index";
+import type { ImageUploadApiResponse } from "~/types/index";
+import { useMessage } from "~/utils/store";
 
 interface PaymentProps {
   order_id: string;
@@ -55,7 +56,7 @@ const Pay = ({ order_id, products, setIsOpen }: PaymentProps) => {
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [message, setMessage] = useState<IMessage>();
+  const { setTimedMessage } = useMessage();
 
   const [image, setImage] = useState<File>();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -98,21 +99,36 @@ const Pay = ({ order_id, products, setIsOpen }: PaymentProps) => {
               { order_id, receipt_url: data.url, method },
               {
                 onSettled(data, error) {
-                  if (error) setMessage({ type: "error", text: error.message });
+                  if (error)
+                    setTimedMessage({
+                      type: "error",
+                      text: error.message ?? "",
+                      duration: 3000,
+                    });
                   if (data) {
                     if (data.success) {
-                      setMessage({ type: "success", text: data.message });
+                      setTimedMessage({
+                        type: "success",
+                        text: data.message ?? "",
+                        duration: 3000,
+                      });
                       void utils.order.details.invalidate();
-                    } else setMessage({ type: "error", text: data.error });
+                    } else
+                      setTimedMessage({
+                        type: "error",
+                        text: data.error ?? "",
+                        duration: 3000,
+                      });
                   }
-                  setTimeout(() => {
-                    setMessage({ type: undefined, text: undefined });
-                  }, 3000);
                 },
               },
             );
           } else {
-            setMessage({ type: "error", text: data.message });
+            setTimedMessage({
+              type: "error",
+              text: data.message ?? "",
+              duration: 3000,
+            });
           }
         })
         .catch(() => console.error(API_RESPONSE_MESSAGES.ERROR_OCCURED));
@@ -193,9 +209,6 @@ const Pay = ({ order_id, products, setIsOpen }: PaymentProps) => {
         </div>
       </div>
       <form className="my-8" onSubmit={submitHandler}>
-        {message?.type && (
-          <Banner type={message?.type} message={message?.text} />
-        )}
         {loading && (
           <span className="font-mono text-sm">
             <Loading size="small" /> loading...

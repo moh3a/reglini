@@ -1,32 +1,30 @@
-import type { Dispatch, SetStateAction } from "react";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
-import type { IMessage, SelectedVariation } from "~/types/index";
+import type { SelectedVariation } from "~/types/index";
 import type { RAE_Product, RAE_ProductShippingCarrier } from "~/types/ae/rae";
 import { Button } from "~/components/shared";
 import { api } from "~/utils/api";
 import { GetPrice } from "~/utils/index";
-import { useFinance } from "~/utils/store";
+import { useFinance, useMessage } from "~/utils/store";
 
 interface AddToCartProps {
   product: RAE_Product;
-  setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
   selectedVariation?: SelectedVariation;
   selectedShipping?: RAE_ProductShippingCarrier;
 }
 
 export const AddToCart = ({
   product,
-  setMessage,
   selectedVariation,
   selectedShipping,
 }: AddToCartProps) => {
-  const { euro, commission } = useFinance();
   const { status } = useSession();
+  const { setTimedMessage } = useMessage();
   const cartMutation = api.cart.add.useMutation();
   const utils = api.useContext();
+  const { commission, euro } = useFinance();
 
   const cartHandler = async () => {
     if (selectedVariation && selectedShipping) {
@@ -47,20 +45,19 @@ export const AddToCart = ({
       );
 
       if (status === "unauthenticated") {
-        setTimeout(() => {
-          setMessage({ type: undefined, text: undefined });
-        }, 3000);
-        setMessage({
+        setTimedMessage({
           type: "error",
           text: "You should be logged in to do this action.",
+          duration: 3000,
         });
       }
       if (status === "authenticated") {
         if (!selectedVariation.sku && !selectedVariation.price.app) {
-          setTimeout(() => {
-            setMessage({ type: undefined, text: undefined });
-          }, 3000);
-          setMessage({ type: "error", text: "Please select the properties." });
+          setTimedMessage({
+            type: "error",
+            text: "Please select the properties.",
+            duration: 3000,
+          });
         } else if (selectedVariation.sku || selectedVariation.price.app) {
           await cartMutation.mutateAsync(
             {
@@ -79,12 +76,25 @@ export const AddToCart = ({
             },
             {
               onSettled(data, error) {
-                if (error) setMessage({ type: "error", text: error.message });
+                if (error)
+                  setTimedMessage({
+                    type: "error",
+                    text: error.message ?? "",
+                    duration: 3000,
+                  });
                 if (data) {
                   if (!data.success)
-                    setMessage({ type: "error", text: data.error });
+                    setTimedMessage({
+                      type: "error",
+                      text: data.error ?? "",
+                      duration: 3000,
+                    });
                   else {
-                    setMessage({ type: "success", text: data.message });
+                    setTimedMessage({
+                      type: "success",
+                      text: data.message ?? "",
+                      duration: 3000,
+                    });
                     void utils.cart.invalidate();
                   }
                 }

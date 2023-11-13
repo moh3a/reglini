@@ -1,3 +1,7 @@
+import {
+  DEFAULT_COUNTRY_SHIPPED_TO,
+  DEFAULT_PRICE_CURRENCY,
+} from "~/config/constants";
 import type {
   Affiliate_Base_Products_Cursor,
   DS_Product,
@@ -307,7 +311,7 @@ export const convert_ae_product = (
         },
       },
     },
-    shipTo: "DZ",
+    shipTo: DEFAULT_COUNTRY_SHIPPED_TO,
     attributes,
     properties,
     variations,
@@ -434,7 +438,7 @@ export const ae_affiliate_products = (
     resultsPerPage: res.current_record_count ?? 0,
     currency: res?.products?.[0]
       ? res.products[0].target_sale_price_currency
-      : "USD",
+      : DEFAULT_PRICE_CURRENCY,
     items: items ?? [],
   };
 };

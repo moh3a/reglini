@@ -17,13 +17,8 @@ const IndexPage = () => {
 };
 
 import type { GetStaticProps } from "next";
-import type { ReactElement } from "react";
 import pick from "lodash/pick";
-
 import Layout from "~/components/layout/Layout";
-IndexPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
 
 IndexPage.messages = ["IndexPage", Layout.messages].flat();
 

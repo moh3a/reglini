@@ -25,22 +25,19 @@ import {
 import { API_RESPONSE_MESSAGES } from "~/config/constants";
 import { Button, Loading } from "~/components/shared";
 import { api } from "~/utils/api";
-import type { ImageUploadApiResponse, IMessage } from "~/types/index";
+import type { ImageUploadApiResponse } from "~/types/index";
+import { useMessage } from "~/utils/store";
 
 interface ConfirmReceptionProps {
   order_id: string;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
 }
 
-const ConfirmReception = ({
-  order_id,
-  setIsOpen,
-  setMessage,
-}: ConfirmReceptionProps) => {
+const ConfirmReception = ({ order_id, setIsOpen }: ConfirmReceptionProps) => {
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
+  const { setTimedMessage } = useMessage();
 
   const [image, setImage] = useState<File>();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -86,17 +83,28 @@ const ConfirmReception = ({
               },
               {
                 onSettled(data, error) {
-                  if (error) setMessage({ type: "error", text: error.message });
+                  if (error)
+                    setTimedMessage({
+                      type: "error",
+                      text: error.message ?? "",
+                      duration: 3000,
+                    });
                   if (data) {
                     if (data.success) {
-                      setMessage({ type: "success", text: data.message });
+                      setTimedMessage({
+                        type: "success",
+                        text: data.message ?? "",
+                        duration: 3000,
+                      });
                       void utils.order.details.invalidate();
-                    } else setMessage({ type: "error", text: data.error });
+                    } else
+                      setTimedMessage({
+                        type: "error",
+                        text: data.error ?? "",
+                        duration: 3000,
+                      });
                   }
                   setIsOpen(false);
-                  setTimeout(() => {
-                    setMessage({ type: undefined, text: undefined });
-                  }, 3000);
                 },
               },
             );

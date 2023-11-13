@@ -6,9 +6,9 @@ import {
 } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 
-import { Button, TextInput, Banner } from "~/components/shared";
+import { Button, TextInput } from "~/components/shared";
 import { api } from "~/utils/api";
-import type { IMessage } from "~/types/index";
+import { useMessage } from "~/utils/store";
 
 interface EditAccountProps {
   title: string;
@@ -27,7 +27,7 @@ export const Edit = ({
 }: EditAccountProps) => {
   const [edit, setEdit] = useState(false);
   const [state, setState] = useState(value);
-  const [message, setMessage] = useState<IMessage>();
+  const { setTimedMessage } = useMessage();
   const editMutation = api.account.edit.useMutation();
   const utils = api.useContext();
 
@@ -41,17 +41,27 @@ export const Edit = ({
           { field, value: state },
           {
             onSettled(data, error) {
-              if (error) setMessage({ type: "error", text: error.message });
+              if (error)
+                setTimedMessage({
+                  type: "error",
+                  text: error.message ?? "",
+                  duration: 3000,
+                });
               if (data) {
                 if (data.success) {
-                  setMessage({ type: "success", text: data.message });
+                  setTimedMessage({
+                    type: "success",
+                    text: data.message ?? "",
+                    duration: 3000,
+                  });
                   void utils.account.profile.invalidate();
-                } else setMessage({ type: "error", text: data.error });
+                } else
+                  setTimedMessage({
+                    type: "error",
+                    text: data.error ?? "",
+                    duration: 3000,
+                  });
               }
-              setTimeout(
-                () => setMessage({ type: undefined, text: undefined }),
-                3000,
-              );
             },
           },
         );
@@ -62,7 +72,6 @@ export const Edit = ({
 
   return (
     <>
-      {message?.type && <Banner type={message?.type} message={message?.text} />}
       {edit ? (
         <form onSubmit={submitHandler}>
           <div>

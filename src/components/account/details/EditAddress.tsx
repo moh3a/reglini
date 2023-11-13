@@ -12,10 +12,10 @@ import {
   SelectDaira,
   SelectWilaya,
 } from "~/components/account/details/address";
-import { Button, TextInput, Banner, Loading } from "~/components/shared";
+import { Button, TextInput, Loading } from "~/components/shared";
 import { api } from "~/utils/api";
 import { useTranslations } from "next-intl";
-import type { IMessage } from "~/types/index";
+import { useMessage } from "~/utils/store";
 
 export const EditAddress = ({
   field,
@@ -28,7 +28,7 @@ export const EditAddress = ({
 
   const [edit, setEdit] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<IMessage>();
+  const { setTimedMessage } = useMessage();
 
   const [wilaya, setWilaya] = useState<Wilaya>();
   const [daira, setDaira] = useState<Daira>();
@@ -68,28 +68,38 @@ export const EditAddress = ({
         },
         {
           onSettled(data, error) {
-            if (error) setMessage({ type: "error", text: error.message });
+            if (error)
+              setTimedMessage({
+                type: "error",
+                text: error.message ?? "",
+                duration: 3000,
+              });
             if (data) {
               if (data.success) {
-                setMessage({ type: "success", text: data.message });
+                setTimedMessage({
+                  type: "success",
+                  text: data.message ?? "",
+                  duration: 3000,
+                });
                 void utils.account.profile.invalidate();
-              } else setMessage({ type: "error", text: data.error });
+              } else
+                setTimedMessage({
+                  type: "error",
+                  text: data.error ?? "",
+                  duration: 3000,
+                });
             }
-            setTimeout(
-              () => setMessage({ type: undefined, text: undefined }),
-              3000,
-            );
           },
         },
       );
       setEdit(false);
       setLoading(false);
     } else {
-      setMessage({
+      setTimedMessage({
         type: "error",
         text: "Fill all required fields to submit.",
+        duration: 3000,
       });
-      setTimeout(() => setMessage({ type: undefined, text: undefined }), 3000);
     }
   };
 
@@ -97,7 +107,6 @@ export const EditAddress = ({
 
   return (
     <>
-      {message?.type && <Banner type={message?.type} message={message?.text} />}
       {loading && (
         <span className="font-mono text-sm">
           <Loading size="small" /> {t("loading")}...

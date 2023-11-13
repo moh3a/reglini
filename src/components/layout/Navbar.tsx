@@ -14,7 +14,7 @@ import Slideover from "~/components/layout/Slideover";
 import AccountBadge from "~/components/auth/AccountBadge";
 import DarkMode from "~/components/DarkMode";
 import Language from "~/components/Language";
-import Cart from "~/components/account/Cart";
+import Cart from "~/components/account/cart/Slideover";
 import { SearchButton } from "~/components/aliexpress";
 import { Button } from "~/components/shared";
 import Install from "~/components/Install";
@@ -26,34 +26,34 @@ const Navbar = () => {
 
   return (
     <div
-      className={`border-t-4 md:border-t-8 border-t-aliexpress mb-8 lg:mb-0`}
+      className={`mb-8 border-t-4 border-t-aliexpress md:border-t-8 lg:mb-0`}
     >
-      <div className="h-14 p-4 flex justify-between">
+      <div className="flex h-14 justify-between p-4">
         {/* hamburger menu icon */}
         <div
-          className="p-2 pointer-cursor flex-1 lg:hidden space-y-1.5"
+          className="pointer-cursor flex-1 space-y-1.5 p-2 lg:hidden"
           onClick={() => setSideOpen(!sideOpen)}
         >
-          <span className="block w-5 h-0.5 bg-slate-600 dark:bg-slate-300"></span>
-          <span className="block w-8 h-0.5 bg-slate-600 dark:bg-slate-300"></span>
-          <span className="block w-8 h-0.5 bg-slate-600 dark:bg-slate-300"></span>
+          <span className="block h-0.5 w-5 bg-slate-600 dark:bg-slate-300"></span>
+          <span className="block h-0.5 w-8 bg-slate-600 dark:bg-slate-300"></span>
+          <span className="block h-0.5 w-8 bg-slate-600 dark:bg-slate-300"></span>
         </div>
 
         <Slideover open={sideOpen} setOpen={setSideOpen} />
-        <div className="flex-1 flex justify-center relative bottom-2 lg:flex-none">
+        <div className="relative bottom-2 flex flex-1 justify-center lg:flex-none">
           <Link href="/" passHref>
             <span className="sr-only">{APP_NAME}</span>
             <img src="/favicon.ico" alt="reglini logo" width={40} height={40} />
           </Link>
         </div>
-        <div className="flex-1 flex items-center justify-end">
-          <div className="hidden lg:block font-mono">
+        <div className="flex flex-1 items-center justify-end">
+          <div className="hidden font-mono lg:block">
             <Install />
           </div>
           <div>
             <SearchButton />
           </div>
-          <div className="hidden lg:block relative top-1 mx-2">
+          <div className="relative top-1 mx-2 hidden lg:block">
             <DarkMode />
           </div>
           <div className="hidden lg:block">
@@ -71,7 +71,7 @@ const Navbar = () => {
       </div>
 
       {router.asPath !== "/" && (
-        <nav className="hidden lg:flex justify-center mt-4 mb-8">
+        <nav className="mb-8 mt-4 hidden justify-center lg:flex">
           <div
             className={`mx-4 font-bold hover:text-aliexpress ${
               router.asPath.includes("/aliexpress")
@@ -86,7 +86,7 @@ const Navbar = () => {
                   <img
                     src="/AliexpressIcon.svg"
                     alt="page logo"
-                    className={`inline rtl:ml-1 ltr:mr-1 ${
+                    className={`inline ltr:mr-1 rtl:ml-1 ${
                       router.asPath.includes("/aliexpress") ? "grayscale-0" : ""
                     } `}
                     height={20}
@@ -97,7 +97,7 @@ const Navbar = () => {
                 <span
                   className={`text-grim dark:text-white ${
                     router.asPath.includes("/aliexpress")
-                      ? "underline underline-offset-2 decoration-double decoration-aliexpress"
+                      ? "underline decoration-aliexpress decoration-double underline-offset-2"
                       : "hover:underline hover:decoration-aliexpress"
                   } `}
                 >
@@ -118,7 +118,7 @@ const Navbar = () => {
                 variant="outline"
                 icon={
                   <CurrencyEuroIcon
-                    className="h-5 w-5 inline rtl:ml-1 ltr:mr-1"
+                    className="inline h-5 w-5 ltr:mr-1 rtl:ml-1"
                     aria-hidden="true"
                   />
                 }
@@ -126,7 +126,7 @@ const Navbar = () => {
                 <span
                   className={`text-grim dark:text-white ${
                     router.asPath.includes("/currency")
-                      ? "underline underline-offset-2 decoration-double decoration-aliexpress"
+                      ? "underline decoration-aliexpress decoration-double underline-offset-2"
                       : "hover:underline hover:decoration-aliexpress"
                   } `}
                 >
@@ -147,7 +147,7 @@ const Navbar = () => {
                 variant="outline"
                 icon={
                   <AtSymbolIcon
-                    className="h-5 w-5 inline rtl:ml-1 ltr:mr-1"
+                    className="inline h-5 w-5 ltr:mr-1 rtl:ml-1"
                     aria-hidden="true"
                   />
                 }
@@ -155,7 +155,7 @@ const Navbar = () => {
                 <span
                   className={`text-grim dark:text-white ${
                     router.asPath.includes("/support")
-                      ? "underline underline-offset-2 decoration-double decoration-aliexpress"
+                      ? "underline decoration-aliexpress decoration-double underline-offset-2"
                       : "hover:underline hover:decoration-aliexpress"
                   } `}
                 >
@@ -176,7 +176,7 @@ const Navbar = () => {
                 variant="outline"
                 icon={
                   <QuestionMarkCircleIcon
-                    className="h-5 w-5 inline rtl:ml-1 ltr:mr-1"
+                    className="inline h-5 w-5 ltr:mr-1 rtl:ml-1"
                     aria-hidden="true"
                   />
                 }
@@ -184,7 +184,7 @@ const Navbar = () => {
                 <span
                   className={`text-grim dark:text-white ${
                     router.asPath.includes("/faq")
-                      ? "underline underline-offset-2 decoration-double decoration-aliexpress"
+                      ? "underline decoration-aliexpress decoration-double underline-offset-2"
                       : "hover:underline hover:decoration-aliexpress"
                   } `}
                 >

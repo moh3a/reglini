@@ -2,13 +2,13 @@ import { type FormEvent, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import { api } from "~/utils/api";
-import { Button, TextInput, Modal, Banner } from "~/components/shared";
-import type { IMessage } from "~/types/index";
+import { Button, TextInput, Modal } from "~/components/shared";
+import { useMessage } from "~/utils/store";
 
 export default function ForgotPasswordModal() {
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState<IMessage>();
+  const { setMessage } = useMessage();
   const forgotPasswordMutation = api.auth.forgotPasswordHandler.useMutation();
 
   function closeModal() {
@@ -30,8 +30,8 @@ export default function ForgotPasswordModal() {
               if (error) setMessage({ type: "error", text: error.message });
               else if (data) {
                 if (data.success) {
-                  setMessage({ type: "success", text: data.message });
-                } else setMessage({ type: "error", text: data.message });
+                  setMessage({ type: "success", text: data.message ?? "" });
+                } else setMessage({ type: "error", text: data.message ?? "" });
               }
             },
           },
@@ -58,9 +58,6 @@ export default function ForgotPasswordModal() {
       </div>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen} title={t("title")}>
         <form onSubmit={forgotPasswordHandler}>
-          {message?.type && (
-            <Banner message={message?.text} type={message?.type} />
-          )}
           <div className="my-2 text-sm">{t("desc")}</div>
 
           <div className="my-2">

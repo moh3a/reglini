@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Link from "next/link";
 import {
   CheckBadgeIcon,
@@ -14,17 +13,25 @@ import {
   EditAddress,
   EditProfilePicture,
 } from "~/components/account/details";
-import { Loading, Title, Button, Banner } from "~/components/shared";
-import type { IMessage } from "~/types/index";
+import { Loading, Title, Button } from "~/components/shared";
+import { useMessage } from "~/utils/store";
 
 const AccountDetails = () => {
-  const [message, setMessage] = useState<IMessage>();
+  const { setTimedMessage } = useMessage();
   const profile = api.account.profile.useQuery(undefined, {
     onSettled(data, error) {
       if (error)
-        setMessage({ type: "error", text: "Account details fetch error." });
+        setTimedMessage({
+          type: "error",
+          text: "Account details fetch error.",
+          duration: 3000,
+        });
       if (data && !data.success)
-        setMessage({ type: "error", text: data.error });
+        setTimedMessage({
+          type: "error",
+          text: data.error ?? "",
+          duration: 3000,
+        });
     },
   });
   const t = useTranslations("AccountPage.details");
@@ -35,7 +42,6 @@ const AccountDetails = () => {
       <p className="mb-4 text-center font-mono text-sm font-bold">
         {t("subtitle")}
       </p>
-      {message?.type && <Banner type={message?.type} message={message?.text} />}
       {profile.isLoading && (
         <div className="flex w-full items-center justify-center">
           <Loading size="medium" />

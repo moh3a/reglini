@@ -8,13 +8,13 @@ import {
 import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
-import { Banner, PasswordInput, Title, Button } from "~/components/shared";
+import { PasswordInput, Title, Button } from "~/components/shared";
 import { api } from "~/utils/api";
-import type { IMessage } from "~/types/index";
+import { useMessage } from "~/utils/store";
 
 const ResetPassword = ({ token }: { token: string }) => {
   const router = useRouter();
-  const [message, setMessage] = useState<IMessage>();
+  const { setMessage, resetMessage } = useMessage();
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -101,16 +101,16 @@ const ResetPassword = ({ token }: { token: string }) => {
         { token, password },
         {
           onSettled(data, error) {
-            if (error) setMessage({ type: "error", text: error.message });
+            if (error) setMessage({ type: "error", text: error.message ?? "" });
             if (data) {
               if (data.success) {
-                setMessage({ type: "success", text: data.message });
+                setMessage({ type: "success", text: data.message ?? "" });
 
                 void router.replace("/");
-              } else setMessage({ type: "error", text: data.message });
+              } else setMessage({ type: "error", text: data.message ?? "" });
             }
             setTimeout(() => {
-              setMessage({ type: undefined, text: undefined });
+              resetMessage();
               void signOut();
             }, 3000);
           },
@@ -127,7 +127,6 @@ const ResetPassword = ({ token }: { token: string }) => {
       className="m-auto max-w-lg"
     >
       <Title center={true} title="Reset your password" />
-      {message?.type && <Banner type={message?.type} message={message?.text} />}
       <div className="my-3">
         <label className="block leading-relaxed" htmlFor="password">
           {t("password")}

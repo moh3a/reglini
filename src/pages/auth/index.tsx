@@ -5,7 +5,7 @@ import {
 import type { GetStaticProps } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { type ReactElement, useEffect } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 
 import { Button, Logo } from "~/components/shared";
@@ -63,10 +63,6 @@ const AuthPage = () => {
 
 import pick from "lodash/pick";
 import Layout from "~/components/layout/Layout";
-AuthPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
-
 AuthPage.messages = ["AuthPage", Layout.messages].flat();
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {

@@ -7,6 +7,12 @@ export const env = createEnv({
 
     DATABASE_URL: z.string().url(),
     DIRECT_URL: z.string().url(),
+
+    KV_URL: z.string().url(),
+    KV_REST_API_URL: z.string().url(),
+    KV_REST_API_TOKEN: z.string().min(1),
+    KV_REST_API_READ_ONLY_TOKEN: z.string().min(1),
+
     JWT_SECRET: z.string().optional(),
 
     NODE_ENV: z

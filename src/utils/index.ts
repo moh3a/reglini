@@ -8,6 +8,8 @@ import type {
 } from "~/types/ae/rae";
 import type { SelectedVariation } from "~/types/index";
 
+export const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
+
 export const USER_FROM_TRPC_CTX = (session: Session) => {
   const email = session.user?.email ?? "";
   const account =

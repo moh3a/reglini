@@ -1,33 +1,29 @@
-import type { Dispatch, SetStateAction } from "react";
 import { useSession } from "next-auth/react";
 import { HeartIcon } from "@heroicons/react/24/solid";
 import { useTranslations } from "next-intl";
 
 import type { RAE_Product } from "~/types/ae/rae";
-import type { IMessage } from "~/types/index";
 import { Button } from "~/components/shared";
 import { api } from "~/utils/api";
 import { GetPrice } from "~/utils/index";
-import { useFinance } from "~/utils/store";
+import { useFinance, useMessage } from "~/utils/store";
 
 interface AddToWishlistProps {
   product: RAE_Product;
-  setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
 }
 
-export const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
-  const { commission, euro } = useFinance();
+export const AddToWishlist = ({ product }: AddToWishlistProps) => {
   const { status } = useSession();
+  const { setTimedMessage } = useMessage();
+  const { commission, euro } = useFinance();
   const wishlistMutation = api.wishlist.add.useMutation();
 
   const wishlistHandler = async () => {
     if (status === "unauthenticated") {
-      setTimeout(() => {
-        setMessage({ type: undefined, text: undefined });
-      }, 3000);
-      setMessage({
+      setTimedMessage({
         type: "error",
         text: "You should be logged in to do this action.",
+        duration: 3000,
       });
     }
     if (status === "authenticated" && product.price) {
@@ -44,11 +40,25 @@ export const AddToWishlist = ({ product, setMessage }: AddToWishlistProps) => {
         },
         {
           onSettled(data, error) {
-            if (error) setMessage({ type: "error", text: error.message });
+            if (error)
+              setTimedMessage({
+                type: "error",
+                text: error.message ?? "",
+                duration: 3000,
+              });
             if (data) {
               if (!data.success)
-                setMessage({ type: "error", text: data.error });
-              else setMessage({ type: "success", text: data.message });
+                setTimedMessage({
+                  type: "error",
+                  text: data.error ?? "",
+                  duration: 3000,
+                });
+              else
+                setTimedMessage({
+                  type: "success",
+                  text: data.message ?? "",
+                  duration: 3000,
+                });
             }
           },
         },

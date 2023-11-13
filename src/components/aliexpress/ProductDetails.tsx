@@ -6,11 +6,10 @@ import type { AE_Language } from "ae_sdk";
 
 import type { RAE_ProductShippingCarrier } from "~/types/ae/rae";
 import type {
-  IMessage,
   ProductProperty as IProductProperty,
   SelectedVariation,
 } from "~/types/index";
-import { Loading, Banner, Title } from "~/components/shared";
+import { Loading, Title } from "~/components/shared";
 import {
   AddToCart,
   AddToWishlist,
@@ -25,12 +24,14 @@ import {
 } from "~/components/aliexpress/details";
 import { api } from "~/utils/api";
 import { API_RESPONSE_MESSAGES, APP_NAME } from "~/config/constants";
-import { select_product_variation } from "~/utils/index";
+import { ONE_DAY_IN_SECONDS, select_product_variation } from "~/utils/index";
 import { SkeletonProductsColumn } from "./SkeletonProducts";
 import { ProductCard } from "./ProductCard";
+import { useMessage } from "~/utils/store";
 
 export const ProductDetails = ({ id }: { id: string }) => {
   const router = useRouter();
+  const { setMessage } = useMessage();
   const [quantity, setQuantity] = useState(1);
   const [showImage, setShowImage] = useState("/placeholder.png");
   const [selectedShipping, setSelectedShipping] = useState<
@@ -43,7 +44,10 @@ export const ProductDetails = ({ id }: { id: string }) => {
       locale: router.locale?.toUpperCase() as AE_Language | undefined,
     },
     {
+      cacheTime: ONE_DAY_IN_SECONDS,
+      keepPreviousData: true,
       onSettled(data) {
+        console.log(data);
         if (data?.data) {
           if (data.data.productImages[0])
             setShowImage(data.data.productImages[0]);
@@ -68,6 +72,8 @@ export const ProductDetails = ({ id }: { id: string }) => {
       sku: product.data?.data?.properties[0]?.id,
     },
     {
+      cacheTime: ONE_DAY_IN_SECONDS,
+      keepPreviousData: true,
       onSettled(data, error) {
         if (error)
           setMessage({
@@ -81,7 +87,7 @@ export const ProductDetails = ({ id }: { id: string }) => {
             product.data?.data?.properties[0]?.id
           ) {
             void shipping.refetch();
-          } else setMessage({ type: "error", text: data.error });
+          } else setMessage({ type: "error", text: data.error ?? "" });
         }
 
         if (data?.data?.carriers && !product.data?.data?.shipping) {
@@ -90,8 +96,6 @@ export const ProductDetails = ({ id }: { id: string }) => {
       },
     },
   );
-
-  const [message, setMessage] = useState<IMessage>();
 
   // an array of the selected properties
   const [selectedProperties, setSelectedProperties] = useState<
@@ -119,10 +123,13 @@ export const ProductDetails = ({ id }: { id: string }) => {
     setSelectedVariationCallback();
   }, [setSelectedVariationCallback]);
 
-  const similarProductsQuery = api.aliexpress.affiliate.smartMatch.useQuery({
-    product_id: id,
-    target_language: router.locale?.toUpperCase() as AE_Language | undefined,
-  });
+  const similarProductsQuery = api.aliexpress.affiliate.smartMatch.useQuery(
+    {
+      product_id: id,
+      target_language: router.locale?.toUpperCase() as AE_Language | undefined,
+    },
+    { cacheTime: ONE_DAY_IN_SECONDS, keepPreviousData: true },
+  );
 
   const t = useTranslations("AliexpressPage");
 
@@ -135,7 +142,6 @@ export const ProductDetails = ({ id }: { id: string }) => {
             : "Product"
         } | Aliexpress | ${APP_NAME}`}</title>
       </Head>
-      {message?.type && <Banner type={message?.type} message={message?.text} />}
       {product.isLoading && (
         <div className="flex w-full items-center justify-center">
           <Loading size="large" />
@@ -204,18 +210,13 @@ export const ProductDetails = ({ id }: { id: string }) => {
                       product={product.data?.data}
                       selectedShipping={selectedShipping}
                       selectedVariation={selectedVariation}
-                      setMessage={setMessage}
                     />
                     <AddToCart
                       product={product.data?.data}
-                      setMessage={setMessage}
                       selectedShipping={selectedShipping}
                       selectedVariation={selectedVariation}
                     />
-                    <AddToWishlist
-                      product={product.data?.data}
-                      setMessage={setMessage}
-                    />
+                    <AddToWishlist product={product.data?.data} />
                   </div>
                 </div>
               </div>
@@ -234,7 +235,6 @@ export const ProductDetails = ({ id }: { id: string }) => {
                     (similarproduct) => (
                       <ProductCard
                         product={similarproduct}
-                        setMessage={setMessage}
                         key={similarproduct.productId}
                       />
                     ),

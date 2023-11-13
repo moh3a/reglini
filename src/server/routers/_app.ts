@@ -44,7 +44,7 @@ export const appRouter = router({
         return { success: false, error: API_RESPONSE_MESSAGES.ERROR_OCCURED };
       }
     }),
-  commission: procedure.mutation(async ({ ctx }) => {
+  commission: procedure.query(async ({ ctx }) => {
     const config = await ctx.db.config.findUnique({
       where: { id: "config" },
       select: { commission: true },

@@ -5,46 +5,43 @@ import { XMarkIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/router";
 
-import CartItem from "~/components/account/CartItem";
-import { Button, Loading } from "~/components/shared";
-import { api } from "~/utils/api";
+import { Button } from "~/components/shared";
+import Items from "~/components/account/cart/Items";
+import type { Prisma } from "@prisma/client";
+import { NEW_ORDER_LOCAL_STORAGE_NAME } from "~/config/constants";
+
+export type CartItems =
+  | {
+      productId: string;
+      name: string;
+      price: number;
+      originalPrice: number | null;
+      imageUrl: string;
+      properties: Prisma.JsonValue;
+      quantity: number | null;
+      sku: string | null;
+      carrierId: string | null;
+      shippingPrice: number | null;
+      totalPrice: number | null;
+    }[]
+  | undefined;
 
 export default function Cart() {
   const t = useTranslations("Common.cart");
   const router = useRouter();
 
-  const [openCart, setOpenCart] = useState(false);
   const { status } = useSession();
+  const [openCart, setOpenCart] = useState(false);
   const [subtotal, setSubtotal] = useState(0);
-
-  const cartQuery = api.cart.get.useQuery(undefined, {
-    onSettled(data) {
-      if (data?.cart) {
-        let subs = 0;
-        data.cart.forEach((item) => {
-          if (item.price) subs += item.price * (item.quantity ?? 1);
-        });
-        setSubtotal(subs);
-      }
-    },
-  });
+  const [itemsCount, setItemsCount] = useState(0);
+  const [products, setProducts] = useState<CartItems>(undefined);
 
   const placeOrderHandler = () => {
-    if (subtotal > 0) {
-      const products = cartQuery.data?.cart?.map((product) => ({
-        productId: product.productId,
-        name: product.name,
-        price: product.price,
-        originalPrice: product.originalPrice,
-        imageUrl: product.imageUrl,
-        properties: product.properties,
-        quantity: product.quantity,
-        sku: product.sku,
-        carrierId: product.carrierId,
-        shippingPrice: product.shippingPrice,
-        totalPrice: product.totalPrice,
-      }));
-      localStorage.setItem("aeno", JSON.stringify(products));
+    if (subtotal > 0 && products?.length && products?.length > 0) {
+      localStorage.setItem(
+        NEW_ORDER_LOCAL_STORAGE_NAME,
+        JSON.stringify(products),
+      );
       void router.push("/account/orders/new?ref=cart");
     }
   };
@@ -58,7 +55,7 @@ export default function Cart() {
       >
         <span className="sr-only">items in cart, view bag</span>
         <span className="absolute right-0 top-0 h-5 w-5 rounded-full bg-aliexpress p-0.5 text-xs text-white">
-          {cartQuery?.data?.cart ? cartQuery.data?.cart.length : 0}
+          {status !== "authenticated" ? 0 : itemsCount}
         </span>
       </Button>
 
@@ -117,62 +114,54 @@ export default function Cart() {
                             role="list"
                             className="-my-6 divide-y divide-gray-200"
                           >
-                            {cartQuery.isLoading && (
-                              <div className="flex w-full items-center justify-center">
-                                <Loading size="medium" />
-                              </div>
-                            )}
                             {status === "authenticated" ? (
-                              cartQuery?.data?.cart &&
-                              cartQuery.data.cart.length > 0 ? (
-                                cartQuery.data.cart.map((item) => (
-                                  <CartItem key={item.id} item={item} />
-                                ))
-                              ) : (
-                                <li className={`flex py-6`}>{t("empty")}</li>
-                              )
+                              <Items
+                                setProducts={setProducts}
+                                setItemsCount={setItemsCount}
+                                setSubtotal={setSubtotal}
+                              />
                             ) : (
                               <li className="flex py-6">You are offline!</li>
                             )}
                           </ul>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-                      <div
-                        className={`flex justify-between font-mono text-base font-medium`}
-                      >
-                        <p>{t("subtotal")}</p>
-                        <p>{t("price", { price: subtotal })}</p>
-                      </div>
-                      <p
-                        className={`mb-5 mt-0.5 text-center font-mono text-sm`}
-                      >
-                        {t("atCheckout")}
-                      </p>
-                      <Button
-                        width="100%"
-                        variant="solid"
-                        onClick={() => {
-                          setOpenCart(false);
-                          placeOrderHandler();
-                        }}
-                      >
-                        {t("placeOrder")}
-                      </Button>
-                      <div className="mt-6 flex justify-center text-center text-sm text-gray-800 dark:text-gray-100">
-                        <p>
-                          {t("or")}{" "}
-                          <button
-                            type="button"
-                            className="font-medium text-gray-600 hover:text-gray-500 dark:text-gray-200 dark:hover:text-gray-300"
-                            onClick={() => setOpenCart(false)}
-                          >
-                            {t("continueShopping")}
-                            <span aria-hidden="true"> &rarr;</span>
-                          </button>
+                      <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
+                        <div
+                          className={`flex justify-between font-mono text-base font-medium`}
+                        >
+                          <p>{t("subtotal")}</p>
+                          <p>{t("price", { price: subtotal })}</p>
+                        </div>
+                        <p
+                          className={`mb-5 mt-0.5 text-center font-mono text-sm`}
+                        >
+                          {t("atCheckout")}
                         </p>
+                        <Button
+                          width="100%"
+                          variant="solid"
+                          onClick={() => {
+                            setOpenCart(false);
+                            placeOrderHandler();
+                          }}
+                        >
+                          {t("placeOrder")}
+                        </Button>
+                        <div className="mt-6 flex justify-center text-center text-sm text-gray-800 dark:text-gray-100">
+                          <p>
+                            {t("or")}{" "}
+                            <button
+                              type="button"
+                              className="font-medium text-gray-600 hover:text-gray-500 dark:text-gray-200 dark:hover:text-gray-300"
+                              onClick={() => setOpenCart(false)}
+                            >
+                              {t("continueShopping")}
+                              <span aria-hidden="true"> &rarr;</span>
+                            </button>
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>

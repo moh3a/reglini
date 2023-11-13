@@ -14,6 +14,12 @@ import type {
 import type { AE_Logistics_Address, AE_Product_Item } from "~/types/ae";
 import { shuffle } from "..";
 import { env } from "~/env.mjs";
+import {
+  AE_TRACKING_ID,
+  AE_USER_ID,
+  DEFAULT_COUNTRY_SHIPPED_TO,
+  DEFAULT_PRICE_CURRENCY,
+} from "~/config/constants";
 
 const ds_client = new DropshipperClient({
   app_key: env.ALIEXPRESS_DS_APP_KEY,
@@ -46,11 +52,11 @@ export const AE_DS_getShippingInfo = async ({
   sku,
 }: API_AE_DS_SHIPPING_ARGUMENTS) =>
   await ds_client.shippingInfo({
-    country_code: "DZ",
+    country_code: DEFAULT_COUNTRY_SHIPPED_TO,
     product_id,
     product_num: quantity ?? 1,
     send_goods_country_code: "CN",
-    price_currency: "USD",
+    price_currency: DEFAULT_PRICE_CURRENCY,
     sku_id: sku,
   });
 
@@ -61,7 +67,7 @@ export const AE_DS_getTrackingInfo = async ({
 }: API_AE_DS_TRACKING_ARGUMENTS) =>
   await ds_client.trackingInfo({
     origin: "ESCROW",
-    to_area: "DZ",
+    to_area: DEFAULT_COUNTRY_SHIPPED_TO,
     out_ref: order_id,
     logistics_no: tracking_id,
     service_name,
@@ -95,10 +101,10 @@ export const AE_Affiliate_Query_Products = async ({
     page_no: page_no?.toString(),
     page_size: page_size?.toString(),
     platform_product_type: "ALL",
-    target_currency: "USD",
+    target_currency: DEFAULT_PRICE_CURRENCY,
     target_language: locale?.toUpperCase() as AE_Language,
-    tracking_id: "reglinidz",
-    ship_to_country: "DZ",
+    tracking_id: AE_TRACKING_ID,
+    ship_to_country: DEFAULT_COUNTRY_SHIPPED_TO,
     sort: "LAST_VOLUME_DESC",
   });
 
@@ -117,9 +123,9 @@ export const AE_Affiliate_Hotproducts = async ({
     page_no: page_no?.toString(),
     page_size: page_size?.toString(),
     platform_product_type: "ALL",
-    target_currency: "USD",
+    target_currency: DEFAULT_PRICE_CURRENCY,
     target_language: locale?.toUpperCase() as AE_Language,
-    tracking_id: "reglinidz",
+    tracking_id: AE_TRACKING_ID,
     ship_to_country: "DZ",
   });
   return result;
@@ -148,13 +154,13 @@ export const AE_Affiliate_smartMatchProducts = async ({
 }: API_AE_AFFILIATE_SMARTMATCHPRODUCTS_ARGUMENTS) =>
   await affiliate_client.smartMatchProducts({
     device_id: "adid",
-    country: "DZ",
+    country: DEFAULT_COUNTRY_SHIPPED_TO,
     page_no: 1,
     product_id,
-    target_currency: "USD",
+    target_currency: DEFAULT_PRICE_CURRENCY,
     target_language,
-    tracking_id: "reglinidz",
-    user: "dz2960391498ltrae",
+    tracking_id: AE_TRACKING_ID,
+    user: AE_USER_ID,
   });
 
 export const AE_Affiliate_featuredPromos = async () =>

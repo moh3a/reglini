@@ -5,14 +5,14 @@ import { MapPinIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW, TEXT_GRADIENT } from "~/config/design";
-import { Button, Loading, Modal, Banner } from "~/components/shared";
+import { Button, Loading, Modal } from "~/components/shared";
 import Pay from "~/components/account/orders/actions/Pay";
 import Cancel from "~/components/account/orders/actions/Cancel";
 import Tracking from "~/components/account/orders/actions/Tracking";
 import ConfirmReception from "~/components/account/orders/actions/ConfirmReception";
 import ItemProperties from "~/components/account/ItemProperties";
 import { api } from "~/utils/api";
-import type { IMessage } from "~/types/index";
+import { useMessage } from "~/utils/store";
 
 interface OrderDetailsProps {
   id: string;
@@ -23,7 +23,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
   const [info, setInfo] = useState<
     "tracking" | "payment" | "confirm_cancel" | "confirm_receipt" | undefined
   >();
-  const [message, setMessage] = useState<IMessage>();
+  const { setMessage } = useMessage();
 
   const orderQuery = api.order.get.useQuery(
     { order_id: id },
@@ -33,7 +33,7 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
         if (error)
           setMessage({ type: "error", text: "Order details fetch error." });
         if (data && !data.success)
-          setMessage({ type: "error", text: data.error });
+          setMessage({ type: "error", text: data.error ?? "" });
       },
     },
   );
@@ -81,7 +81,6 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
           <Loading size="medium" />
         </div>
       )}
-      {message?.type && <Banner type={message?.type} message={message?.text} />}
       {orderQuery.data?.result && (
         <div>
           <div>
@@ -302,7 +301,6 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
             {info === "tracking" && (
               <Tracking
                 setIsOpen={setIsOpen}
-                setMessage={setMessage}
                 order_id={id}
                 tracking_id={
                   orderQuery.data.result.logistics_info_list[0]?.logistics_no ??
@@ -315,18 +313,10 @@ const OrderDetails = ({ id }: OrderDetailsProps) => {
               />
             )}
             {info === "confirm_cancel" && (
-              <Cancel
-                orderId={id}
-                setIsOpen={setIsOpen}
-                setMessage={setMessage}
-              />
+              <Cancel orderId={id} setIsOpen={setIsOpen} />
             )}
             {info === "confirm_receipt" && (
-              <ConfirmReception
-                order_id={id}
-                setIsOpen={setIsOpen}
-                setMessage={setMessage}
-              />
+              <ConfirmReception order_id={id} setIsOpen={setIsOpen} />
             )}
           </Modal>
           <div className="mt-4 flex justify-end space-x-2">

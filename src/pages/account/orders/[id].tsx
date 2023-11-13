@@ -1,4 +1,3 @@
-import { type ReactElement } from "react";
 import type { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -29,9 +28,6 @@ const OrderDetailsPage = () => {
 
 import Layout from "~/components/layout/Layout";
 import pick from "lodash/pick";
-OrderDetailsPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
 
 OrderDetailsPage.messages = ["AccountPage.orders", Layout.messages].flat();
 

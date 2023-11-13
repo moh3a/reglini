@@ -1,31 +1,30 @@
-import type { Dispatch, SetStateAction } from "react";
 import { CursorArrowRaysIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useTranslations } from "next-intl";
 
 import type { RAE_Product, RAE_ProductShippingCarrier } from "~/types/ae/rae";
-import type { IMessage, SelectedVariation } from "~/types/index";
+import type { SelectedVariation } from "~/types/index";
 import { Button } from "~/components/shared";
 import { GetPrice } from "~/utils/index";
-import { useFinance } from "~/utils/store";
+import { useFinance, useMessage } from "~/utils/store";
+import { NEW_ORDER_LOCAL_STORAGE_NAME } from "~/config/constants";
 
 interface BuyProductProps {
   product: RAE_Product;
-  setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
   selectedVariation?: SelectedVariation;
   selectedShipping?: RAE_ProductShippingCarrier;
 }
 
 export const BuyProduct = ({
   product,
-  setMessage,
   selectedVariation,
   selectedShipping,
 }: BuyProductProps) => {
-  const { commission, euro } = useFinance();
   const { status } = useSession();
   const router = useRouter();
+  const { setTimedMessage } = useMessage();
+  const { commission, euro } = useFinance();
 
   const buyHandler = () => {
     if (selectedVariation && selectedShipping) {
@@ -45,23 +44,22 @@ export const BuyProduct = ({
         selectedShipping.price.value,
       );
       if (status === "unauthenticated") {
-        setTimeout(() => {
-          setMessage({ type: undefined, text: undefined });
-        }, 3000);
-        setMessage({
+        setTimedMessage({
           type: "error",
           text: "You should be logged in to do this action.",
+          duration: 3000,
         });
       }
       if (status === "authenticated") {
         if (!selectedVariation.sku && !selectedVariation.price.app) {
-          setTimeout(() => {
-            setMessage({ type: undefined, text: undefined });
-          }, 3000);
-          setMessage({ type: "error", text: "Please select the properties." });
+          setTimedMessage({
+            type: "error",
+            text: "Please select the properties.",
+            duration: 3000,
+          });
         } else if (selectedVariation.sku || selectedVariation.price.app) {
           localStorage.setItem(
-            "aeno",
+            NEW_ORDER_LOCAL_STORAGE_NAME,
             JSON.stringify([
               {
                 productId: product.productId,

@@ -5,6 +5,7 @@ import superjson from "superjson";
 
 import { env } from "~/env.mjs";
 import type { AppRouter } from "~/server/routers/_app";
+import { ONE_DAY_IN_SECONDS } from ".";
 
 const getBaseUrl = () => {
   if (typeof window !== "undefined") return ""; // browser should use relative url
@@ -47,7 +48,6 @@ export const api = createTRPCNext<AppRouter>({
         status: clientErrors[0]?.data?.httpStatus ?? 500,
       };
     }
-    const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
     return {
       "Cache-Control": `s-maxage=1, stale-while-revalidate=${ONE_DAY_IN_SECONDS}`,
     };

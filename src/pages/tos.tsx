@@ -373,14 +373,8 @@ const TermsOfService = () => {
 };
 
 import type { GetStaticProps } from "next";
-import type { ReactElement } from "react";
 import pick from "lodash/pick";
-
 import Layout from "~/components/layout/Layout";
-TermsOfService.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
-
 TermsOfService.messages = Layout.messages;
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {

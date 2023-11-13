@@ -5,7 +5,12 @@
 @import url("https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300i,400i,500i,700i");
 @layer base {
   html {
-    font-family: Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+    font-family:
+      Ubuntu,
+      Cantarell,
+      Fira Sans,
+      Droid Sans,
+      Helvetica Neue,
       sans-serif;
     font-display: swap;
   }
@@ -29,45 +34,23 @@ a {
 /*
   SCROLL BAR
 */
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
   width: 12px; /* width of the entire scrollbar */
   height: 12px;
 }
 
-body::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   background: white; /* color of the tracking area */
 }
 
-body::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background-color: rgb(117, 123, 136); /* color of the scroll thumb */
   border-radius: 25px; /* roundness of the scroll thumb */
   border: 2px solid white; /* creates padding around scroll thumb */
 }
 
 @media (max-width: 1024px) {
-  body::-webkit-scrollbar {
-    width: 2px; /* width of the entire scrollbar */
-    height: 12px;
-  }
-}
-
-div::-webkit-scrollbar {
-  width: 12px; /* width of the entire scrollbar */
-  height: 12px;
-}
-
-div::-webkit-scrollbar-track {
-  background: white; /* color of the tracking area */
-}
-
-div::-webkit-scrollbar-thumb {
-  background-color: rgb(117, 123, 136); /* color of the scroll thumb */
-  border-radius: 25px; /* roundness of the scroll thumb */
-  border: 2px solid white; /* creates padding around scroll thumb */
-}
-
-@media (max-width: 1024px) {
-  div::-webkit-scrollbar {
+  *::-webkit-scrollbar {
     width: 2px; /* width of the entire scrollbar */
     height: 12px;
   }
@@ -97,7 +80,9 @@ div::-webkit-scrollbar-thumb {
   right: 0px;
   width: 100px;
   height: 100%;
-  box-shadow: 0 0 10px var(--primary-color), 0 0 5px var(--primary-color);
+  box-shadow:
+    0 0 10px var(--primary-color),
+    0 0 5px var(--primary-color);
   opacity: 1;
   -webkit-transform: rotate(3deg) translate(0px, -4px);
   -ms-transform: rotate(3deg) translate(0px, -4px);

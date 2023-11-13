@@ -86,7 +86,10 @@ export default function Slideover({
                           {session && session.user ? (
                             <nav>
                               <div>
-                                <Link href={"/account"}>
+                                <Link
+                                  href={"/account"}
+                                  onClick={() => setOpen(false)}
+                                >
                                   <Button
                                     icon={
                                       <Cog6ToothIcon
@@ -101,7 +104,10 @@ export default function Slideover({
                                 </Link>
                               </div>
                               <div>
-                                <Link href={"/account/wishlist"}>
+                                <Link
+                                  href={"/account/wishlist"}
+                                  onClick={() => setOpen(false)}
+                                >
                                   <Button
                                     icon={
                                       <HeartIcon
@@ -116,7 +122,10 @@ export default function Slideover({
                                 </Link>
                               </div>
                               <div>
-                                <Link href={"/account/orders"}>
+                                <Link
+                                  href={"/account/orders"}
+                                  onClick={() => setOpen(false)}
+                                >
                                   <Button
                                     icon={
                                       <Square3Stack3DIcon
@@ -138,7 +147,10 @@ export default function Slideover({
                                       aria-hidden="true"
                                     />
                                   }
-                                  onClick={() => void signOut()}
+                                  onClick={() => {
+                                    setOpen(false);
+                                    void signOut();
+                                  }}
                                   variant="outline"
                                 >
                                   {t("badge.signOut")}
@@ -148,7 +160,10 @@ export default function Slideover({
                           ) : (
                             <nav>
                               <div>
-                                <Link href={"/auth/login"}>
+                                <Link
+                                  href={"/auth/login"}
+                                  onClick={() => setOpen(false)}
+                                >
                                   <Button
                                     icon={
                                       <ArrowLeftOnRectangleIcon
@@ -163,7 +178,10 @@ export default function Slideover({
                                 </Link>
                               </div>
                               <div>
-                                <Link href={"/auth/register"}>
+                                <Link
+                                  href={"/auth/register"}
+                                  onClick={() => setOpen(false)}
+                                >
                                   <Button
                                     icon={
                                       <UserPlusIcon
@@ -193,7 +211,10 @@ export default function Slideover({
                                   : ""
                               }`}
                             >
-                              <Link href="/aliexpress">
+                              <Link
+                                href="/aliexpress"
+                                onClick={() => setOpen(false)}
+                              >
                                 {t("navigation.aliexpress")}
                               </Link>
                             </div>
@@ -204,7 +225,10 @@ export default function Slideover({
                                   : ""
                               }`}
                             >
-                              <Link href="/currency">
+                              <Link
+                                href="/currency"
+                                onClick={() => setOpen(false)}
+                              >
                                 {t("navigation.currency")}
                               </Link>
                             </div>
@@ -215,7 +239,10 @@ export default function Slideover({
                                   : ""
                               }`}
                             >
-                              <Link href="/support">
+                              <Link
+                                href="/support"
+                                onClick={() => setOpen(false)}
+                              >
                                 {t("navigation.support")}
                               </Link>
                             </div>
@@ -226,7 +253,9 @@ export default function Slideover({
                                   : ""
                               }`}
                             >
-                              <Link href="/faq">{t("navigation.faq")}</Link>
+                              <Link href="/faq" onClick={() => setOpen(false)}>
+                                {t("navigation.faq")}
+                              </Link>
                             </div>
                           </nav>
                         </div>
@@ -242,7 +271,6 @@ export default function Slideover({
                           </div>
                         </div>
                       </div>
-                      {/* /End replace */}
                     </div>
                   </div>
                 </Dialog.Panel>

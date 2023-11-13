@@ -1,19 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
-import { type ChangeEvent, useState } from "react";
+import { type ChangeEvent } from "react";
 import Link from "next/link";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
 
 import type { Cart, Product } from "@prisma/client";
-import type { IMessage } from "~/types/index";
 
-import { NumberInput, Button, Banner } from "~/components/shared";
+import { NumberInput, Button } from "~/components/shared";
 import ItemProperties from "~/components/account/ItemProperties";
 import { api } from "~/utils/api";
+import { useMessage } from "~/utils/store";
 
 const CartItem = ({ item }: { item: Omit<Product, "orderId"> | Cart }) => {
   const t = useTranslations("Common.cart");
-  const [message, setMessage] = useState<IMessage>();
+  const { setTimedMessage } = useMessage();
 
   const utils = api.useContext();
   const deleteItemMutation = api.cart.delete.useMutation();
@@ -23,17 +23,27 @@ const CartItem = ({ item }: { item: Omit<Product, "orderId"> | Cart }) => {
         { id: item.id },
         {
           onSettled(data, error) {
-            if (error) setMessage({ type: "error", text: error.message });
+            if (error)
+              setTimedMessage({
+                type: "error",
+                text: error.message ?? "",
+                duration: 3000,
+              });
             if (data) {
               if (data.success) {
-                setMessage({ type: "success", text: data.message });
+                setTimedMessage({
+                  type: "success",
+                  text: data.message ?? "",
+                  duration: 3000,
+                });
                 void utils.cart.invalidate();
-              } else setMessage({ type: "error", text: data.error });
+              } else
+                setTimedMessage({
+                  type: "error",
+                  text: data.error ?? "",
+                  duration: 3000,
+                });
             }
-            setTimeout(
-              () => setMessage({ type: undefined, text: undefined }),
-              3000,
-            );
           },
         },
       );
@@ -46,17 +56,27 @@ const CartItem = ({ item }: { item: Omit<Product, "orderId"> | Cart }) => {
       { id: item.id, quantity: parseInt(event.target.value ?? 1) },
       {
         onSettled(data, error) {
-          if (error) setMessage({ type: "error", text: error.message });
+          if (error)
+            setTimedMessage({
+              type: "error",
+              text: error.message ?? "",
+              duration: 3000,
+            });
           if (data) {
             if (data.success) {
-              setMessage({ type: "success", text: data.message });
+              setTimedMessage({
+                type: "success",
+                text: data.message ?? "",
+                duration: 3000,
+              });
               void utils.cart.invalidate();
-            } else setMessage({ type: "error", text: data.error });
+            } else
+              setTimedMessage({
+                type: "error",
+                text: data.error ?? "",
+                duration: 3000,
+              });
           }
-          setTimeout(
-            () => setMessage({ type: undefined, text: undefined }),
-            3000,
-          );
         },
       },
     );
@@ -64,7 +84,6 @@ const CartItem = ({ item }: { item: Omit<Product, "orderId"> | Cart }) => {
 
   return (
     <>
-      {message?.type && <Banner type={message?.type} message={message?.text} />}
       <li className={`flex py-6`}>
         <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
           <img
@@ -128,4 +147,5 @@ const CartItem = ({ item }: { item: Omit<Product, "orderId"> | Cart }) => {
     </>
   );
 };
+
 export default CartItem;

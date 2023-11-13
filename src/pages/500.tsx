@@ -15,13 +15,8 @@ const InternalError = () => {
 };
 
 import type { GetStaticProps } from "next";
-import type { ReactElement } from "react";
 import pick from "lodash/pick";
-
 import Layout from "../components/layout/Layout";
-InternalError.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
 
 InternalError.messages = Layout.messages;
 

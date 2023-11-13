@@ -31,6 +31,14 @@ export const API_RESPONSE_MESSAGES = {
 };
 
 export const DEFAULT_PAGE_SIZE = 18;
+export const DEFAULT_PRICE_CURRENCY = "EUR";
+export const DEFAULT_COUNTRY_SHIPPED_TO = "DZ";
+export const ALGERIAN_PHONE_COUNTRY_CODE = "+213";
+export const AE_USER_ID = "dz2960391498ltrae";
+export const AE_TRACKING_ID = "reglinidz";
+
+export const FINANCE_LOCAL_STORAGE_NAME = "rdzf";
+export const NEW_ORDER_LOCAL_STORAGE_NAME = "aeno";
 
 export const ORDER_CREATION_ERRORS = {
   REMOTE_CREATE_ORDER_RESULT_ERROR: "Order parameters validation failed.",

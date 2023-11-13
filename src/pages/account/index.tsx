@@ -1,4 +1,3 @@
-import { type ReactElement } from "react";
 import type { GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -32,9 +31,6 @@ const AccountPage = () => {
 
 import Layout from "~/components/layout/Layout";
 import pick from "lodash/pick";
-AccountPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
 
 AccountPage.messages = ["AccountPage.details", Layout.messages].flat();
 

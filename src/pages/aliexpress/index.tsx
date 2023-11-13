@@ -17,14 +17,9 @@ const AliexpressPage = () => {
   );
 };
 
-import type { ReactElement } from "react";
 import type { GetStaticProps } from "next";
 import pick from "lodash/pick";
-
 import Layout from "~/components/layout/Layout";
-AliexpressPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
 
 AliexpressPage.messages = ["AliexpressPage", Layout.messages].flat();
 

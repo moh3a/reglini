@@ -1,4 +1,4 @@
-import { type ReactNode, type ReactElement, useState } from "react";
+import { type ReactNode, useState } from "react";
 import type { GetStaticProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -114,11 +114,7 @@ const FAQPage = () => {
 };
 
 import pick from "lodash/pick";
-
 import Layout from "~/components/layout/Layout";
-FAQPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
 
 FAQPage.messages = ["FAQPage", Layout.messages].flat();
 

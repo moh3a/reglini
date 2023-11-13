@@ -16,17 +16,11 @@ const SupportPage = () => {
   );
 };
 
-import type { GetStaticProps } from "next";
-import type { ReactElement } from "react";
-import pick from "lodash/pick";
-
 import Layout from "~/components/layout/Layout";
-SupportPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
-
 SupportPage.messages = ["SupportPage", Layout.messages].flat();
 
+import pick from "lodash/pick";
+import type { GetStaticProps } from "next";
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {

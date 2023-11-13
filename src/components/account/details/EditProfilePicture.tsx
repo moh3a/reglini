@@ -9,9 +9,10 @@ import axios, { type AxiosRequestConfig } from "axios";
 import { useTranslations } from "next-intl";
 
 import { BG_TRANSPARENT_BACKDROP, SHADOW } from "~/config/design";
-import { Button, Banner, Loading } from "~/components/shared";
+import { Button, Loading } from "~/components/shared";
 import { api } from "~/utils/api";
-import type { IMessage, ImageUploadApiResponse } from "~/types/index";
+import type { ImageUploadApiResponse } from "~/types/index";
+import { useMessage } from "~/utils/store";
 
 /* eslint-disable @next/next/no-img-element */
 export const EditProfilePicture = ({
@@ -28,7 +29,7 @@ export const EditProfilePicture = ({
   const [newValue, setNewValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [message, setMessage] = useState<IMessage>();
+  const { setTimedMessage } = useMessage();
 
   // RANDOM STRING FOR DICEBEAR AVATAR
   const generateRandomString = (length: number) => {
@@ -64,16 +65,27 @@ export const EditProfilePicture = ({
         { field: "picture", value: newValue },
         {
           onSettled(data, error) {
-            if (error) setMessage({ type: "error", text: error.message });
+            if (error)
+              setTimedMessage({
+                type: "error",
+                text: error.message ?? "",
+                duration: 3000,
+              });
             if (data) {
               if (data.success) {
-                setMessage({ type: "success", text: data.message });
+                setTimedMessage({
+                  type: "success",
+                  text: data.message ?? "",
+                  duration: 3000,
+                });
                 void utils.account.profile.invalidate();
-              } else setMessage({ type: "error", text: data.error });
+              } else
+                setTimedMessage({
+                  type: "error",
+                  text: data.error ?? "",
+                  duration: 3000,
+                });
             }
-            setTimeout(() => {
-              setMessage({ type: undefined, text: undefined });
-            }, 3000);
           },
         },
       );
@@ -100,21 +112,36 @@ export const EditProfilePicture = ({
           { field: "picture", value: data.url },
           {
             onSettled(data, error) {
-              if (error) setMessage({ type: "error", text: error.message });
+              if (error)
+                setTimedMessage({
+                  type: "error",
+                  text: error.message ?? "",
+                  duration: 3000,
+                });
               if (data) {
                 if (data.success) {
-                  setMessage({ type: "success", text: data.message });
+                  setTimedMessage({
+                    type: "success",
+                    text: data.message ?? "",
+                    duration: 3000,
+                  });
                   void utils.account.profile.invalidate();
-                } else setMessage({ type: "error", text: data.error });
+                } else
+                  setTimedMessage({
+                    type: "error",
+                    text: data.error ?? "",
+                    duration: 3000,
+                  });
               }
-              setTimeout(() => {
-                setMessage({ type: undefined, text: undefined });
-              }, 3000);
             },
           },
         );
       } else {
-        setMessage({ type: "error", text: data.message });
+        setTimedMessage({
+          type: "error",
+          text: data.message ?? "",
+          duration: 3000,
+        });
       }
     }
     setEdit(false);
@@ -125,7 +152,6 @@ export const EditProfilePicture = ({
 
   return (
     <>
-      {message?.type && <Banner type={message?.type} message={message?.text} />}
       {loading && (
         <span className="font-mono text-sm">
           <Loading size="small" /> {t("loading")}...

@@ -1,4 +1,3 @@
-import { type ReactElement } from "react";
 import type { GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
@@ -19,9 +18,6 @@ const WishlistPage = () => {
 
 import pick from "lodash/pick";
 import Layout from "~/components/layout/Layout";
-WishlistPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
 
 WishlistPage.messages = ["AccountPage", Layout.messages].flat();
 

@@ -1,6 +1,5 @@
 import "../styles/globals.css";
-import { type ReactElement, useEffect } from "react";
-import type { NextPage } from "next";
+import { useEffect } from "react";
 import type { AppType } from "next/dist/shared/lib/utils";
 import { useRouter } from "next/router";
 import Head from "next/head";
@@ -17,6 +16,7 @@ import nProgress from "nprogress";
 
 import { api } from "~/utils/api";
 import { APP_NAME } from "~/config/constants";
+import Layout from "~/components/layout/Layout";
 
 const MyApp: AppType<{
   session: Session | null;
@@ -52,14 +52,6 @@ const MyApp: AppType<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-  const getLayout =
-    (
-      Component as unknown as ReactElement & {
-        getLayout: (page: ReactElement) => JSX.Element;
-      }
-    ).getLayout || ((page: NextPage) => page);
-
   return (
     <>
       <Head>
@@ -80,7 +72,9 @@ const MyApp: AppType<{
       >
         <ThemeProvider attribute="class">
           <SessionProvider session={session}>
-            {getLayout(<Component {...pageProps} />)}
+            <Layout {...pageProps}>
+              <Component {...pageProps} />
+            </Layout>
           </SessionProvider>
         </ThemeProvider>
       </NextIntlProvider>

@@ -7,15 +7,19 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useTranslations } from "next-intl";
+import type { Product } from "@prisma/client";
 
 import { PADDING, ROUNDED, SHADOW, TEXT_GRADIENT } from "~/config/design";
-import { Title, Loading, Button, Banner } from "~/components/shared";
+import {
+  ALGERIAN_PHONE_COUNTRY_CODE,
+  DEFAULT_COUNTRY_SHIPPED_TO,
+  NEW_ORDER_LOCAL_STORAGE_NAME,
+} from "~/config/constants";
+import { Title, Loading, Button } from "~/components/shared";
 import { Edit, EditAddress } from "~/components/account/details";
 import ItemProperties from "~/components/account/ItemProperties";
 import { api } from "~/utils/api";
-
-import type { IMessage } from "~/types/index";
-import type { Product } from "@prisma/client";
+import { useMessage } from "~/utils/store";
 
 const CreateOrder = () => {
   const t = useTranslations("AccountPage");
@@ -32,8 +36,8 @@ const CreateOrder = () => {
       typeof window !== "undefined"
         ? (
             JSON.parse(
-              localStorage.getItem("aeno")
-                ? localStorage.getItem("aeno")!
+              localStorage.getItem(NEW_ORDER_LOCAL_STORAGE_NAME)
+                ? localStorage.getItem(NEW_ORDER_LOCAL_STORAGE_NAME)!
                 : "[]",
             ) as Omit<Product, "orderId">[]
           ).map((p) => {
@@ -44,7 +48,7 @@ const CreateOrder = () => {
     [],
   );
 
-  const [message, setMessage] = useState<IMessage>();
+  const { setTimedMessage } = useMessage();
   const [valid, setValid] = useState(false);
 
   useEffect(() => {
@@ -64,11 +68,11 @@ const CreateOrder = () => {
           {
             products,
             shippingAddress: {
-              countryCode: "DZ",
+              countryCode: DEFAULT_COUNTRY_SHIPPED_TO,
               name: profile.data.user.profile?.realName,
-              phoneCountry: "+213",
+              phoneCountry: ALGERIAN_PHONE_COUNTRY_CODE,
               mobilePhone: profile.data.user.profile?.phoneNumber.replace(
-                "+213",
+                ALGERIAN_PHONE_COUNTRY_CODE,
                 "0",
               ),
               city: profile.data.user.address?.commune ?? "",
@@ -79,28 +83,39 @@ const CreateOrder = () => {
           },
           {
             onSettled(data, error) {
-              if (error) setMessage({ type: "error", text: error.message });
+              if (error)
+                setTimedMessage({
+                  type: "error",
+                  text: error.message ?? "",
+                  duration: 3000,
+                });
               if (data) {
                 if (data.success) {
                   if (ref?.toString() === "cart") {
                     emptyCartMutation.mutate();
                   }
-                  setMessage({ type: "success", text: data.message });
+                  setTimedMessage({
+                    type: "success",
+                    text: data.message ?? "",
+                    duration: 3000,
+                  });
                   void router.push("/account/orders");
-                } else setMessage({ type: "error", text: data.error });
+                } else
+                  setTimedMessage({
+                    type: "error",
+                    text: data.error ?? "",
+                    duration: 3000,
+                  });
               }
-              setTimeout(
-                () => setMessage({ type: undefined, text: undefined }),
-                3000,
-              );
             },
           },
         );
       } else {
-        setMessage({ type: "error", text: "Fill the required fields." });
-        setTimeout(() => {
-          setMessage({ type: undefined, text: undefined });
-        }, 3000);
+        setTimedMessage({
+          type: "error",
+          text: "Fill the required fields.",
+          duration: 3000,
+        });
       }
     }
   };
@@ -202,9 +217,6 @@ const CreateOrder = () => {
             </dd>
           ))}
         </div>
-        {message?.type && (
-          <Banner type={message?.type} message={message?.text} />
-        )}
         <div className="flex justify-end px-4 py-5">
           <Button
             icon={

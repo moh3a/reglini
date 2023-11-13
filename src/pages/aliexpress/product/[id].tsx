@@ -9,14 +9,9 @@ const AliexpressProductPage = () => {
   return <>{id && <ProductDetails id={id.toString()} />}</>;
 };
 
-import type { ReactElement } from "react";
 import type { GetServerSideProps } from "next";
 import pick from "lodash/pick";
-
 import Layout from "~/components/layout/Layout";
-AliexpressProductPage.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
 
 AliexpressProductPage.messages = ["AliexpressPage", Layout.messages].flat();
 

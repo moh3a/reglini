@@ -2,7 +2,11 @@ import { z } from "zod";
 import type { AE_Language } from "ae_sdk";
 
 import { router, procedure } from "~/server/trpc";
-import { API_RESPONSE_MESSAGES } from "~/config/constants";
+import {
+  API_RESPONSE_MESSAGES,
+  DEFAULT_COUNTRY_SHIPPED_TO,
+  DEFAULT_PRICE_CURRENCY,
+} from "~/config/constants";
 import { ae_product } from "~/utils/ae/convert_to_rae";
 import { api_ae_ds_shipping, api_ae_ds_tracking } from "~/utils/ae/methods";
 
@@ -15,8 +19,8 @@ export const aeDsRouter = router({
       try {
         const response = await ctx.aliexpress.ds.product(
           input.id,
-          "DZ",
-          "USD",
+          DEFAULT_COUNTRY_SHIPPED_TO,
+          DEFAULT_PRICE_CURRENCY,
           input.locale ?? "EN",
         );
 

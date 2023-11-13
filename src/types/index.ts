@@ -26,19 +26,19 @@ export interface MessageStore extends IMessage {
   resetMessage: () => void;
 }
 
-export interface EmailOptions {
-  from?: string;
-  to?: string;
-  subject: string;
-  text: string;
-}
-
 export interface FinanceStore {
   commission?: number;
   euro?: number;
   usd?: number;
   set_commission: (data: number) => void;
   set_currency: (currency: "EUR" | "USD", data: number) => void;
+}
+
+export interface EmailOptions {
+  from?: string;
+  to?: string;
+  subject: string;
+  text: string;
 }
 
 export interface InstallPWAStore {

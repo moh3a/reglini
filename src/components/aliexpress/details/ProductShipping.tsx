@@ -35,6 +35,7 @@ export const ProductShipping = ({
 }: ProductShippingProps) => {
   const t = useTranslations("AliexpressPage");
   const { commission, euro } = useFinance();
+
   const [selected, setSelected] = useState<
     RAE_ProductShippingCarrier | undefined
   >(

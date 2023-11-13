@@ -2,9 +2,9 @@ import { useTranslations } from "next-intl";
 
 import { PADDING, ROUNDED, SHADOW } from "~/config/design";
 import type { RAE_Product } from "~/types/ae/rae";
+import type { SelectedVariation } from "~/types/index";
 import { GetPrice } from "~/utils/index";
 import { useFinance } from "~/utils/store";
-import type { SelectedVariation } from "~/types/index";
 
 interface ProductPriceProps {
   product: RAE_Product;
@@ -15,8 +15,8 @@ export const ProductPrice = ({
   product,
   selectedVariation,
 }: ProductPriceProps) => {
-  const { euro, commission } = useFinance();
   const t = useTranslations("AliexpressPage");
+  const { commission, euro } = useFinance();
   return (
     <div className="title-font mt-2 flex justify-center text-xl font-medium">
       {selectedVariation?.sku && selectedVariation.price.app ? (

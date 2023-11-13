@@ -5,13 +5,13 @@ import { useTranslations } from "next-intl";
 import { api } from "~/utils/api";
 import { TEXT_GRADIENT } from "~/config/design";
 import { Loading, Button } from "~/components/shared";
-import type { IMessage } from "~/types/index";
+import { useMessage } from "~/utils/store";
+import { ONE_DAY_IN_SECONDS } from "~/utils";
 
 interface TrackingProps {
   order_id: string;
   tracking_id: string;
   service_name: string;
-  setMessage: Dispatch<SetStateAction<IMessage | undefined>>;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -19,9 +19,9 @@ const Tracking = ({
   order_id,
   service_name,
   tracking_id,
-  setMessage,
   setIsOpen,
 }: TrackingProps) => {
+  const { setTimedMessage } = useMessage();
   const trackingQuery = api.aliexpress.ds.tracking.useQuery(
     {
       order_id,
@@ -29,15 +29,23 @@ const Tracking = ({
       service_name,
     },
     {
+      cacheTime: ONE_DAY_IN_SECONDS,
+      keepPreviousData: true,
       onSettled(data, error) {
-        if (error) setMessage({ type: "error", text: error.message });
+        if (error)
+          setTimedMessage({
+            type: "error",
+            text: error.message ?? "",
+            duration: 3000,
+          });
         if (data) {
-          if (!data.success) setMessage({ type: "error", text: data.error });
+          if (!data.success)
+            setTimedMessage({
+              type: "error",
+              text: data.error ?? "",
+              duration: 3000,
+            });
         }
-        setTimeout(
-          () => setMessage({ type: undefined, text: undefined }),
-          3000,
-        );
       },
     },
   );

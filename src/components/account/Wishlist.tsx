@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import { TrashIcon } from "@heroicons/react/24/outline";
@@ -13,21 +12,15 @@ import {
   SHADOW,
 } from "~/config/design";
 import { APP_NAME } from "~/config/constants";
-import {
-  AliExpressLogo,
-  Button,
-  Loading,
-  Title,
-  Banner,
-} from "~/components/shared";
+import { AliExpressLogo, Button, Loading, Title } from "~/components/shared";
 import { api } from "~/utils/api";
-import type { IMessage } from "~/types/index";
+import { useMessage } from "~/utils/store";
 
 const Wishlist = () => {
   const { data: session } = useSession();
   const t = useTranslations("AccountPage");
 
-  const [message, setMessage] = useState<IMessage>();
+  const { setTimedMessage } = useMessage();
   const wishlist = api.wishlist.get.useQuery();
   const deleteMutation = api.wishlist.delete.useMutation();
   const utils = api.useContext();
@@ -37,16 +30,27 @@ const Wishlist = () => {
       { id },
       {
         onSettled(data, error) {
-          if (error) setMessage({ type: "error", text: error.message });
+          if (error)
+            setTimedMessage({
+              type: "error",
+              text: error.message,
+              duration: 5000,
+            });
           if (data) {
             if (data.success)
-              setMessage({ type: "success", text: data.message });
-            else setMessage({ type: "error", text: data.error });
+              setTimedMessage({
+                type: "success",
+                text: data.message ?? "",
+                duration: 5000,
+              });
+            else
+              setTimedMessage({
+                type: "error",
+                text: data.error ?? "",
+                duration: 5000,
+              });
             void utils.wishlist.invalidate();
           }
-          setTimeout(() => {
-            setMessage({ type: undefined, text: undefined });
-          }, 5000);
         },
       },
     );
@@ -72,9 +76,6 @@ const Wishlist = () => {
           <p className="text-center font-mono text-sm font-bold">
             {t("empty")}
           </p>
-        )}
-        {message?.type && (
-          <Banner type={message?.type} message={message?.text} />
         )}
         <div className="my-8 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {wishlist.data?.wishlist?.map((item) => (
