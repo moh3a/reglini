@@ -46,7 +46,7 @@ const RegisterPage = ({ csrfToken, providers }: AuthProps) => {
 import pick from "lodash/pick";
 import Layout from "~/components/layout/Layout";
 
-RegisterPage.messages = ["AuthPage.register", Layout.messages].flat();
+RegisterPage.messages = ["AuthPage", Layout.messages].flat();
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const csrfToken = await getCsrfToken(context);
