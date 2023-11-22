@@ -51,7 +51,7 @@ export const AE_DS_getShippingInfo = async ({
   quantity,
   sku,
 }: API_AE_DS_SHIPPING_ARGUMENTS) =>
-  await ds_client.shippingInfo({
+  await ds_client.freightInfo({
     country_code: DEFAULT_COUNTRY_SHIPPED_TO,
     product_id,
     product_num: quantity ?? 1,

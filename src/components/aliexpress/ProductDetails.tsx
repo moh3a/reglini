@@ -47,7 +47,6 @@ export const ProductDetails = ({ id }: { id: string }) => {
       cacheTime: ONE_DAY_IN_SECONDS,
       keepPreviousData: true,
       onSettled(data) {
-        console.log(data);
         if (data?.data) {
           if (data.data.productImages[0])
             setShowImage(data.data.productImages[0]);

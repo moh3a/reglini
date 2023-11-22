@@ -28,22 +28,6 @@ export const AddToCart = ({
 
   const cartHandler = async () => {
     if (selectedVariation && selectedShipping) {
-      const price = GetPrice(
-        euro ?? 0,
-        commission ?? 0,
-        selectedVariation.price.app.hasDiscount
-          ? selectedVariation.price.app.discountedPrice.value
-          : selectedVariation.price.app.originalPrice.value,
-      );
-      const originalPrice = selectedVariation.price.app.hasDiscount
-        ? selectedVariation.price.app.discountedPrice.value
-        : selectedVariation.price.app.originalPrice.value;
-      const shippingPrice = GetPrice(
-        euro ?? 0,
-        commission ?? 0,
-        selectedShipping.price.value,
-      );
-
       if (status === "unauthenticated") {
         setTimedMessage({
           type: "error",
@@ -59,6 +43,21 @@ export const AddToCart = ({
             duration: 3000,
           });
         } else if (selectedVariation.sku || selectedVariation.price.app) {
+          const price = GetPrice(
+            euro ?? 0,
+            commission ?? 0,
+            selectedVariation.price.app.hasDiscount
+              ? selectedVariation.price.app.discountedPrice.value
+              : selectedVariation.price.app.originalPrice.value,
+          );
+          const originalPrice = selectedVariation.price.app.hasDiscount
+            ? selectedVariation.price.app.discountedPrice.value
+            : selectedVariation.price.app.originalPrice.value;
+          const shippingPrice = GetPrice(
+            euro ?? 0,
+            commission ?? 0,
+            selectedShipping.price.value,
+          );
           await cartMutation.mutateAsync(
             {
               productId: product.productId,

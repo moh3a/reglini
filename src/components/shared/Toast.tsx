@@ -5,20 +5,17 @@ import {
   XCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import type { Dispatch, ReactNode, SetStateAction } from "react";
+import type { ReactNode,  } from "react";
 import { Button } from "./Button";
 
 interface Message {
   type?: "success" | "warning" | "error";
   children: ReactNode;
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  onClose: () => void
 }
 
-export const Toast = ({ children, type, isOpen, setIsOpen }: Message) => {
+export const Toast = ({ children, type, onClose  }: Message) => {
   return (
-    <>
-      {isOpen && (
         <div
           className={`fixed bottom-10 z-100 m-5 max-w-2xl bg-opacity-50 font-bold backdrop-blur-md ${ROUNDED} ${
             type === "success"
@@ -48,14 +45,12 @@ export const Toast = ({ children, type, isOpen, setIsOpen }: Message) => {
               <div className="flex w-full items-center">{children}</div>
             </div>
             <div className="flex basis-[5%] items-center justify-center p-1">
-              <Button variant="outline" onClick={() => setIsOpen(false)}>
+              <Button variant="outline" onClick={onClose}>
                 <span className="sr-only">Close</span>
                 <XMarkIcon className="inline h-3 w-3" />
               </Button>
             </div>
           </div>
         </div>
-      )}
-    </>
   );
 };

@@ -28,21 +28,6 @@ export const BuyProduct = ({
 
   const buyHandler = () => {
     if (selectedVariation && selectedShipping) {
-      const price = GetPrice(
-        euro ?? 0,
-        commission ?? 0,
-        selectedVariation.price.app.hasDiscount
-          ? selectedVariation.price.app.discountedPrice.value
-          : selectedVariation.price.app.originalPrice.value,
-      );
-      const originalPrice = selectedVariation.price.app.hasDiscount
-        ? selectedVariation.price.app.discountedPrice.value
-        : selectedVariation.price.app.originalPrice.value;
-      const shippingPrice = GetPrice(
-        euro ?? 0,
-        commission ?? 0,
-        selectedShipping.price.value,
-      );
       if (status === "unauthenticated") {
         setTimedMessage({
           type: "error",
@@ -58,6 +43,21 @@ export const BuyProduct = ({
             duration: 3000,
           });
         } else if (selectedVariation.sku || selectedVariation.price.app) {
+          const price = GetPrice(
+            euro ?? 0,
+            commission ?? 0,
+            selectedVariation.price.app.hasDiscount
+              ? selectedVariation.price.app.discountedPrice.value
+              : selectedVariation.price.app.originalPrice.value,
+          );
+          const originalPrice = selectedVariation.price.app.hasDiscount
+            ? selectedVariation.price.app.discountedPrice.value
+            : selectedVariation.price.app.originalPrice.value;
+          const shippingPrice = GetPrice(
+            euro ?? 0,
+            commission ?? 0,
+            selectedShipping.price.value,
+          );
           localStorage.setItem(
             NEW_ORDER_LOCAL_STORAGE_NAME,
             JSON.stringify([

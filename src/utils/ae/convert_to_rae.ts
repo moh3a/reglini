@@ -8,7 +8,7 @@ import type {
   DS_Product_Attributes,
   DS_Product_SKU_Properties,
   DS_Product_SKU_Variation,
-  DS_Shipping_Details,
+  DS_Freight_Calculation,
 } from "~/types/ae";
 import type {
   RAE_PriceInterval,
@@ -388,7 +388,7 @@ export const ae_product = (data: DS_Product, locale: string | undefined) => {
 };
 
 export const ae_shipping = (
-  carriers: DS_Shipping_Details[],
+  carriers: DS_Freight_Calculation[],
 ): RAE_ProductShipping => {
   if (carriers.length > 0) {
     return convert_ae_shipping_info(carriers);
@@ -400,15 +400,15 @@ export const ae_shipping = (
 };
 
 export const convert_ae_shipping_info = (
-  shipment_carriers: DS_Shipping_Details[],
+  shipment_carriers: DS_Freight_Calculation[],
 ): RAE_ProductShipping => {
   const carriers: RAE_ProductShippingCarrier[] = shipment_carriers.map(
     (carrier) => ({
-      price: { value: carrier.freight.amount },
-      company: { id: carrier.service_name, name: carrier.service_name },
+      price: { value: Number(carrier.freight.cent) / 100 },
+      company: { id: carrier.service_name, name: carrier.shipping_method },
       hasDiscount: false,
       estimatedDeliveryDate: carrier.estimated_delivery_time,
-      hasTracking: carrier.tracking_available === "true" ? true : false,
+      hasTracking: carrier.tracking_available ? true : false,
     }),
   );
   return {

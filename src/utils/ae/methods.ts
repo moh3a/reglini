@@ -20,20 +20,20 @@ export const api_ae_ds_shipping = async ({
 
     if (result.ok) {
       if (
-        result.data.aliexpress_logistics_buyer_freight_calculate_response.result
+        result.data.aliexpress_logistics_buyer_freight_get_response.result
           .success &&
-        result.data.aliexpress_logistics_buyer_freight_calculate_response.result
-          .aeop_freight_calculate_result_for_buyer_d_t_o_list
+        result.data.aliexpress_logistics_buyer_freight_get_response.result
+          .aeop_freight_calculate_result_for_buyer_dtolist
       ) {
         const shipping = ae_shipping(
-          result.data.aliexpress_logistics_buyer_freight_calculate_response
-            .result.aeop_freight_calculate_result_for_buyer_d_t_o_list,
+          result.data.aliexpress_logistics_buyer_freight_get_response.result
+            .aeop_freight_calculate_result_for_buyer_dtolist,
         );
         return { success: true, data: shipping };
       } else if (
-        !result.data.aliexpress_logistics_buyer_freight_calculate_response
-          .result.success &&
-        result.data.aliexpress_logistics_buyer_freight_calculate_response.result.error_desc.includes(
+        !result.data.aliexpress_logistics_buyer_freight_get_response.result
+          .success &&
+        result.data.aliexpress_logistics_buyer_freight_get_response.result.error_desc.includes(
           "sku",
         )
       ) {

@@ -183,33 +183,47 @@ export interface DS_Get_Order {
  * PRODUCT SHIPPING INFO
  */
 
-export interface DS_Freight_Info {
-  amount: number;
-  cent: number;
+export interface DS_Freight_Calculation_Arguments {
+  product_id: number;
+  product_num: number;
+  sku_id: string;
+  country_code: string;
+  province_code?: string;
+  city_code?: string;
+  send_goods_country_code?: string;
+  price?: string;
+  price_currency?: AE_Currency;
+}
+
+export interface DS_Freight_Calculation_Params {
+  aeopFreightCalculateForBuyerDTO: string;
+}
+
+export interface DS_Freight_Calculation_Info {
+  cent: string;
+  currency: Record<string, string>;
   currency_code: AE_Currency;
 }
 
-export interface DS_Shipping_Details {
-  error_code: number;
-  estimated_delivery_time: string;
-  freight: DS_Freight_Info;
+export interface DS_Freight_Calculation {
+  shipping_method: string;
   service_name: string;
+  estimated_delivery_time: string;
+  freight: DS_Freight_Calculation_Info;
   tracking_available: "true" | "false";
 }
 
-export type DS_Shipping_Info_Response =
+export type DS_Freight_Calculation_Response =
   | {
+      aeop_freight_calculate_result_for_buyer_dtolist: DS_Freight_Calculation[];
       success: true;
-      aeop_freight_calculate_result_for_buyer_d_t_o_list: DS_Shipping_Details[];
     }
-  | {
-      success: false;
-      error_desc: string;
-    };
+  | { success: false; error_desc: string };
 
-export interface DS_Shipping_Info_Result {
-  aliexpress_logistics_buyer_freight_calculate_response: {
-    result: DS_Shipping_Info_Response;
+export interface DS_Freight_Calculation_Result {
+  aliexpress_logistics_buyer_freight_get_response: {
+    result: DS_Freight_Calculation_Response;
+    request_id: string;
   };
 }
 

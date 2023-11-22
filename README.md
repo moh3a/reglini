@@ -2,6 +2,7 @@
 
 ## Todo
 
+- Not use localstorage for buying
 - Add featured promotions and hotproducts
 
 ## Quickstart

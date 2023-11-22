@@ -62,7 +62,7 @@ export const aeDsRouter = router({
           method: ctx.aliexpress.ds.shipping,
           product_id: input.id,
           quantity: input.quantity,
-          sku: input.sku,
+          sku: input.sku ?? "",
         }),
     ),
   tracking: procedure
