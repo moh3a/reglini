@@ -11,8 +11,9 @@ const AliexpressPage = () => {
       <Head>
         <title>{`${t("search")} | ${APP_NAME}`}</title>
       </Head>
-      <MainSearch />
-      <ProductsList />
+      <h1 className="text-center py-6">Currently in maintenance</h1>
+      {/* <MainSearch />
+      <ProductsList /> */}
     </>
   );
 };

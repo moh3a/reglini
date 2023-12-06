@@ -6,7 +6,8 @@ const AliexpressProductPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  return <>{id && <ProductDetails id={id.toString()} />}</>;
+  return <h1 className="text-center py-6">Currently in maintenance</h1>
+  // return <>{id && <ProductDetails id={id.toString()} />}</>;
 };
 
 import type { GetServerSideProps } from "next";

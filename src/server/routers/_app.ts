@@ -56,10 +56,10 @@ export const appRouter = router({
   auth: authRouter,
   currency: currencyRouter,
   account: accountRouter,
-  order: orderRouter,
   wishlist: wishlistRouter,
   cart: cartRouter,
   address: addressRouter,
+  order: orderRouter,
   aliexpress: aliexpressRouter,
 });
 

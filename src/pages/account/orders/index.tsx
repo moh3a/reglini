@@ -20,7 +20,8 @@ const AllOrdersPage = () => {
       <Head>
         <title>{`List all orders | ${APP_NAME}`}</title>
       </Head>
-      <ListOrders />
+      <h1 className="py-6 text-center">Currently in maintenance</h1>
+      {/* <ListOrders /> */}
     </>
   );
 };

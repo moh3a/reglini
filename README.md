@@ -2,6 +2,7 @@
 
 ## Todo
 
+- Fix serverless functions invocations
 - Not use localstorage for buying
 - Add featured promotions and hotproducts
 

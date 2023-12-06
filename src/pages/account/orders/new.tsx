@@ -20,7 +20,8 @@ const NewOrderPage = () => {
       <Head>
         <title>{`Create new order | ${APP_NAME}`}</title>
       </Head>
-      <CreateOrder />
+      <h1 className="py-6 text-center">Currently in maintenance</h1>
+      {/* <CreateOrder /> */}
     </>
   );
 };

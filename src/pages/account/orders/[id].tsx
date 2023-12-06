@@ -21,7 +21,8 @@ const OrderDetailsPage = () => {
       <Head>
         <title>{`Order ${id?.toString()} details | ${APP_NAME}`}</title>
       </Head>
-      {id && <OrderDetails id={id.toString()} />}
+      <h1 className="py-6 text-center">Currently in maintenance</h1>
+      {/* {id && <OrderDetails id={id.toString()} />} */}
     </>
   );
 };
